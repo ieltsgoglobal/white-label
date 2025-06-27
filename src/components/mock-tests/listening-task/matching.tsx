@@ -1,0 +1,103 @@
+"use client"
+
+import { useState } from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+
+export interface MatchingFeatureStatement {
+    id: number
+    text: string
+    selectedFeature?: string
+}
+
+export interface MatchingFeatureOption {
+    letter: string
+    description: string
+}
+
+export interface MatchingFeaturesQuestion {
+    questionType: "matching"
+    question: {
+        statements_title: string,
+        statements: MatchingFeatureStatement[]
+        features_title: string,
+        features: MatchingFeatureOption[]
+        question_statement: string
+    }
+}
+
+export default function Matching(props: MatchingFeaturesQuestion) {
+    const { statements, features, question_statement, statements_title, features_title } = props.question
+
+    const [questions, setQuestions] = useState(() =>
+        props.question?.statements?.map(s => ({ ...s, selectedFeature: "" })) || []
+    )
+
+    const handleAnswerChange = (id: number, value: string) => {
+        const upper = value.toUpperCase()
+        const allowed = features.map(f => f.letter)
+        const clean = upper.length && allowed.includes(upper.charAt(upper.length - 1))
+            ? upper.charAt(upper.length - 1)
+            : ""
+    }
+
+    return (
+        <div className="w-full bg-white rounded-3xl border border-gray-100 p-8">
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    Questions {statements[0].id} - {statements[statements.length - 1].id}
+                </h2>
+                <p className="text-sm font-medium text-gray-600">
+                    Choose {statements.length} answers from the box and write correct letters <span className="font-bold">A – {features[features.length - 1].letter}</span> next to questions <span className="font-bold">{statements[0].id}-{statements[statements.length - 1].id}</span>.
+                </p>
+                {question_statement && <div className="mt-4 text-base text-blue-600">{question_statement}</div>}
+            </div>
+
+            <div className="space-y-8">
+                {/* Questions */}
+                <div>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">{statements_title}</h3>
+                    <div className="space-y-6">
+                        {questions.map((q) => (
+                            <div key={q.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                                <div className="flex-1">
+                                    <p className="text-base leading-relaxed">
+                                        <span className="font-bold mr-2">{q.id}</span>
+                                        {q.text}
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <Input
+                                        onChange={(e) => handleAnswerChange(q.id, e.target.value)}
+                                        className="w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded"
+                                        placeholder=""
+                                        maxLength={1}
+                                        value={q.selectedFeature}
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+
+                {/* Feature Options */}
+                <div>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">{features_title}</h3>
+                    <Card className="border-2 border-gray-300">
+                        <CardContent className="p-6">
+                            <div className="space-y-3">
+                                {features.map((feature) => (
+                                    <div key={feature.letter} className="flex items-start gap-3">
+                                        <span className="font-bold text-lg min-w-[24px]">{feature.letter}</span>
+                                        <p className="text-base leading-relaxed">{feature.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        </div>
+    )
+}

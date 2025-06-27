@@ -1,0 +1,165 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import MultipleChoiceSingle from "./multiple-choice-single"
+import TrueFalseNotGiven from "./true-false-notgiven"
+import SentenceCompletion from "./sentence-completion"
+import YesNoNotGiven from "./yes-no-notgiven"
+import MatchHeadings from "./match-headings"
+import SummaryCompletion from "./summary-completion"
+import MatchSentenceEndings from "./match-sentence-endings"
+import MultipleChoiceMany from "./multiple-choice-many"
+import FlowChartCompletion from "./flow-chart-completion"
+import ReadingPagination from "../additional-ui/reading-pagination"
+import MatchingFeatures from "./matching-features"
+import ImageLabeling from "../listening-task/image-labeling"
+
+interface ReadingPassage {
+    title: string
+    subtitle?: string
+    paragraphs: string[]
+}
+
+export default function ReadingMain({ test_id }: { test_id: string }) {
+    const [section, setSection] = useState<any>(null)
+    const [currentSectionIndex, setCurrentSectionIndex] = useState(0) // reading sections are max 3
+    const [currentSubsetIndex, setCurrentSubsetIndex] = useState(0) // max subsets are 3 in a section
+
+    useEffect(() => {
+        const loadTestData = async () => {
+            try {
+                const module = await import(`@/app/data/tests/test-${test_id}`)
+                setSection(module.default || module)
+            } catch (error) {
+                console.error("Failed to load test data:", error)
+            }
+        }
+
+        loadTestData()
+    }, [test_id])
+
+    if (!section) {
+        return <p className="text-center text-gray-500">Loading test data...</p>
+    }
+
+
+    const renderComponent = (question: any, index: number) => {
+        switch (question.questionType) {
+            case "multiple-choice-single":
+                return <MultipleChoiceSingle key={`mcs-${index}`} {...question} />
+            case "true-false-notgiven":
+                return <TrueFalseNotGiven key={`tfn-${index}`} {...question} />
+            case "sentence-completion":
+                return <SentenceCompletion key={`sc-${index}`} {...question} />
+            case "yes-no-notgiven":
+                return <YesNoNotGiven key={`ynn-${index}`} {...question} />
+            case "match-headings":
+                return <MatchHeadings key={`mh-${index}`} {...question} />
+            case "summary-completion":
+                return <SummaryCompletion key={`sumc-${index}`} {...question} />
+            case "matching-sentence-endings":
+                return <MatchSentenceEndings key={`mse-${index}`} {...question} />
+            case "multiple-choice-many":
+                return <MultipleChoiceMany key={`mcm-${index}`} {...question} />
+            case "flow-chart-completion":
+                return <FlowChartCompletion key={`fcc-${index}`} {...question} />
+            case "matching-features":
+                return <MatchingFeatures key={`mf-${index}`} {...question} />
+
+            case "image-labeling":
+                return <ImageLabeling key={`il-${index}`} {...question} />
+            default:
+                return null
+        }
+    }
+
+    const allSections = [
+        section.reading_section_1,
+        section.reading_section_2,
+        section.reading_section_3,
+    ]
+
+    //pagination functions
+    const goToNextSubset = () => {
+        const currentSection = allSections[currentSectionIndex]
+        const isLastSubset = currentSubsetIndex === currentSection.questions.length - 1
+
+        if (isLastSubset) {
+            if (currentSectionIndex < allSections.length - 1) {
+                // Move to next section
+                setCurrentSectionIndex(prev => prev + 1)
+                setCurrentSubsetIndex(0)
+            } else {
+                console.log("End of reading sections.")
+            }
+        } else {
+            setCurrentSubsetIndex(prev => prev + 1)
+        }
+    }
+    const goToPrevSubset = () => {
+        if (currentSubsetIndex > 0) {
+            setCurrentSubsetIndex(prev => prev - 1)
+        } else if (currentSectionIndex > 0) {
+            const prevSection = allSections[currentSectionIndex - 1]
+            setCurrentSectionIndex(prev => prev - 1)
+            setCurrentSubsetIndex(prevSection.questions.length - 1)
+        }
+    }
+
+    return (
+        <>
+            <div className="min-h-screen">
+                <div className="mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        {/* Reading Passage */}
+                        <ReadingPassageDisplay
+                            title={allSections[currentSectionIndex].reading_passage.title}
+                            subtitle={allSections[currentSectionIndex].reading_passage.subtitle}
+                            passage={allSections[currentSectionIndex].reading_passage.passage}
+                        />
+
+                        {/* Questions Section */}
+                        {renderComponent(allSections[currentSectionIndex].questions[currentSubsetIndex], 0)}
+                    </div>
+                </div>
+            </div>
+            <ReadingPagination
+                onNext={goToNextSubset}
+                onPrev={goToPrevSubset}
+            />
+        </>
+    )
+}
+
+function ReadingPassageDisplay({
+    title,
+    subtitle,
+    passage,
+}: {
+    title: string
+    subtitle?: string
+    passage: string
+}) {
+    const paragraphs = passage
+        .split("\n")
+        .map(p => p.trim())
+        .filter(p => p.length > 0)
+
+    return (
+        <div className="bg-white rounded-3xl border border-gray-100 p-8">
+            <div className="text-center text-gray-700/60 mb-8">
+                <h1 className="text-xl font-bold text-gray-900 mb-1">{title}</h1>
+                {subtitle && <p className="text-sm italic text-gray-600 leading-relaxed">{subtitle}</p>}
+            </div>
+
+            <div className="space-y-8">
+                {paragraphs.map((paragraph, index) => (
+                    <div key={index} className="flex flex-col items-start text-sm">
+                        <span className="font-bold text-sm text-gray-900 my-1 min-w-[32px]">{index + 1}</span>
+                        <p className="text-gray-800 leading-relaxed text-justify whitespace-pre-line">{paragraph}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}

@@ -1,0 +1,73 @@
+"use client"
+
+import { useState, useRef, useEffect } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+
+
+// 4. Plan / Map / Diagram Labelling  
+interface MapQuestion {
+    id: number
+    location: string
+}
+
+interface MapSection {
+    type: "image-labeling"
+    mapTitle: string
+    image_url: string
+    questions: MapQuestion[]
+}
+
+export default function ImageLabeling(props: MapSection) {
+    const [mapQuestions, setMapQuestions] = useState<MapSection>(props)
+
+    const handleAnswerChange = (id: number, answer: string) => {
+        // Only allow single letters A-J
+        const cleanAnswer = answer
+            .toUpperCase()
+            .replace(/[^A-J]/g, "")
+            .slice(0, 1)
+
+    }
+
+    return (
+        <Card className="w-full">
+            <CardHeader>
+                <CardTitle>Questions {mapQuestions.questions[0].id} -  {mapQuestions.questions[mapQuestions.questions.length - 1].id}</CardTitle>
+                <p className="text-sm text-muted-foreground font-medium">Label the map. Write the correct letter, A - J, in boxes 15 - 20.</p>
+            </CardHeader>
+            <CardContent>
+                <div className="flex flex-wrap gap-8">
+                    {/* Map Section */}
+                    <div className="space-y-4">
+                        {/* Map Image */}
+                        <div className="border-2 border-gray-300 p-4 bg-white">
+                            <img
+                                src={mapQuestions.image_url}
+                                alt="Inverness Aquarium Floor Plan"
+                                className="w-full h-auto max-w-full"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Questions Section */}
+                    <div className="space-y-4">
+                        {mapQuestions.questions.map((question) => (
+                            <div key={question.id} className="flex items-center gap-4 p-3 border rounded-lg">
+                                <span className="font-semibold text-blue-600 min-w-[2rem]">{question.id}</span>
+                                <span className="flex-1 text-sm">{question.location}</span>
+                                <Input
+                                    // placeholder="A-J"
+                                    placeholder=""
+                                    onChange={(e) => handleAnswerChange(question.id, e.target.value)}
+                                    className="w-12 h-8 text-center text-sm font-bold"
+                                    maxLength={1}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
