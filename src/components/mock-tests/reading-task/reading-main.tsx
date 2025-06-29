@@ -1,29 +1,27 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import MultipleChoiceSingle from "./multiple-choice-single"
 import TrueFalseNotGiven from "./true-false-notgiven"
-import SentenceCompletion from "./sentence-completion"
 import YesNoNotGiven from "./yes-no-notgiven"
 import MatchHeadings from "./match-headings"
-import SummaryCompletion from "./summary-completion"
 import MatchSentenceEndings from "./match-sentence-endings"
-import MultipleChoiceMany from "./multiple-choice-many"
-import FlowChartCompletion from "./flow-chart-completion"
 import ReadingPagination from "../additional-ui/reading-pagination"
 import MatchingFeatures from "./matching-features"
 import ImageLabeling from "../listening-task/image-labeling"
-
-interface ReadingPassage {
-    title: string
-    subtitle?: string
-    paragraphs: string[]
-}
+import MultipleChoiceSingle from "../listening-task/multiple-choice-single"
+import MultipleChoiceMany from "../listening-task/multiple-choice-many"
+import SentenceCompletion from "../listening-task/sentence-completion"
+import NoteCompletion from "../listening-task/note-completion"
+import TableCompletion from "../listening-task/table-completion"
+import FlowChartCompletion from "../listening-task/flow-chart-completion"
+import SummaryCompletion from "../listening-task/summary-completion"
+import ShortAnswer from "../listening-task/short-answer"
+import MatchParagraphInformation from "./match-paragraph-information"
 
 export default function ReadingMain({ test_id }: { test_id: string }) {
     const [section, setSection] = useState<any>(null)
-    const [currentSectionIndex, setCurrentSectionIndex] = useState(0) // reading sections are max 3
-    const [currentSubsetIndex, setCurrentSubsetIndex] = useState(0) // max subsets are 3 in a section
+    const [currentSectionIndex, setCurrentSectionIndex] = useState(0)
+    const [currentSubsetIndex, setCurrentSubsetIndex] = useState(0)
 
     useEffect(() => {
         const loadTestData = async () => {
@@ -47,27 +45,35 @@ export default function ReadingMain({ test_id }: { test_id: string }) {
         switch (question.questionType) {
             case "multiple-choice-single":
                 return <MultipleChoiceSingle key={`mcs-${index}`} {...question} />
-            case "true-false-notgiven":
-                return <TrueFalseNotGiven key={`tfn-${index}`} {...question} />
+            case "multiple-choice-many":
+                return <MultipleChoiceMany key={`mcm-${index}`} {...question} />
             case "sentence-completion":
                 return <SentenceCompletion key={`sc-${index}`} {...question} />
+            case "note-completion":
+                return <NoteCompletion key={`nc-${index}`} {...question} />
+            case "table-completion":
+                return <TableCompletion key={`tc-${index}`} {...question} />
+            case "flow-chart-completion":
+                return <FlowChartCompletion key={`fcc-${index}`} {...question} />
+            case "summary-completion":
+                return <SummaryCompletion key={`sumc-${index}`} {...question} />
+            case "image-labeling":
+                return <ImageLabeling key={`il-${index}`} {...question} />
+            case "short-answer":
+                return <ShortAnswer key={`sa-${index}`} {...question} />
+
+            case "true-false-notgiven":
+                return <TrueFalseNotGiven key={`tfn-${index}`} {...question} />
             case "yes-no-notgiven":
                 return <YesNoNotGiven key={`ynn-${index}`} {...question} />
             case "match-headings":
                 return <MatchHeadings key={`mh-${index}`} {...question} />
-            case "summary-completion":
-                return <SummaryCompletion key={`sumc-${index}`} {...question} />
             case "matching-sentence-endings":
                 return <MatchSentenceEndings key={`mse-${index}`} {...question} />
-            case "multiple-choice-many":
-                return <MultipleChoiceMany key={`mcm-${index}`} {...question} />
-            case "flow-chart-completion":
-                return <FlowChartCompletion key={`fcc-${index}`} {...question} />
             case "matching-features":
                 return <MatchingFeatures key={`mf-${index}`} {...question} />
-
-            case "image-labeling":
-                return <ImageLabeling key={`il-${index}`} {...question} />
+            case "match-paragraph-information":
+                return <MatchParagraphInformation key={`mpi-${index}`} {...question} />
             default:
                 return null
         }

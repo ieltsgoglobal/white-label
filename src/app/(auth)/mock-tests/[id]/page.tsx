@@ -11,7 +11,7 @@ import NavigationBar from "@/components/mock-tests/additional-ui/navigation-bar"
 import WritingMain from "@/components/mock-tests/writing-task/writing-main";
 
 export default function MockTestPage() {
-    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(4);
+    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(2);
 
     const nextPhase = () => {
         if (currentPhaseIndex < phases.length - 1) {
@@ -23,9 +23,9 @@ export default function MockTestPage() {
         { id: "sound", component: () => <SoundTest onNext={nextPhase} /> },
         { id: "mic", component: () => <MicCheck onNext={nextPhase} /> },
         { id: "listening instructions", component: () => <ListeningInstructions onNext={nextPhase} /> },
-        { id: "listening task", component: () => <ListeningMain test_id="5" /> },
-        { id: "reading task", component: () => <ReadingMain test_id="2" /> },
-        { id: "writing task", component: () => <WritingMain test_id="1" /> },
+        { id: "listening task", component: () => <ListeningMain test_id="4" /> },
+        { id: "reading task", component: () => <ReadingMain test_id="4" /> },
+        { id: "writing task", component: () => <WritingMain test_id="4" /> },
     ];
 
     return (

@@ -78,7 +78,7 @@ export default function ListeningMain({ test_id }: { test_id: string }) {
     return (
         <>
             <div className="w-[95vw]">
-                <ListeningAudioPlayer
+                {/* <ListeningAudioPlayer
                     audioList={allSections.map((sec: any) => sec.audio)}
                     onAudioEnded={() => {
                         if (currentSectionIndex < allSections.length - 1) {
@@ -87,7 +87,7 @@ export default function ListeningMain({ test_id }: { test_id: string }) {
                             console.log("Test complete.")
                         }
                     }}
-                />
+                /> */}
 
                 {currentSection && (
                     <div className="flex flex-col items-center justify-center space-y-6">

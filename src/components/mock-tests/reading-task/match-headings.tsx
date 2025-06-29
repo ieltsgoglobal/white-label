@@ -33,9 +33,19 @@ export default function MatchHeadings(props: MatchHeadingsSection) {
                     Questions {section.question.id[0]} - {section.question.id[section.question.id.length - 1]}
                 </h2>
                 <p className="text-gray-700 leading-relaxed">
-                    The text has five sections, <span className="font-bold">A - E</span>. Choose the correct heading for each
-                    section from the list of headings below. Write the correct number, <span className="font-bold">{section.question.headings[0].number} - {section.question.headings[section.question.headings.length - 1].number}</span>,
-                    in boxes {section.question.id[0]} - {section.question.id[section.question.id.length - 1]}.
+                    The text has {section.question.id.length} sections,{" "}
+                    <span className="font-bold">
+                        {String.fromCharCode(65)} - {String.fromCharCode(65 + section.question.id.length - 1)}
+                    </span>
+                    . Choose the correct heading for each section from the list of headings below. Write the correct number,{" "}
+                    <span className="font-bold">
+                        {section.question.headings[0].number} - {section.question.headings[section.question.headings.length - 1].number}
+                    </span>
+                    , in boxes{" "}
+                    <span className="font-bold">
+                        {section.question.id[0]} - {section.question.id[section.question.id.length - 1]}
+                    </span>
+                    .
                 </p>
             </div>
 

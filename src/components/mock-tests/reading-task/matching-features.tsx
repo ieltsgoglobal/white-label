@@ -18,11 +18,11 @@ export interface MatchingFeatureOption {
 export interface MatchingFeaturesQuestion {
     questionType: "matching-features"
     question: {
-        statements_title: string,
+        statements_title?: string,
         statements: MatchingFeatureStatement[]
-        features_title: string,
+        features_title?: string,
         features: MatchingFeatureOption[]
-        question_statement: string
+        question_statement?: string
     }
 }
 
@@ -56,7 +56,7 @@ export default function MatchingFeatures(props: MatchingFeaturesQuestion) {
             <div className="space-y-8">
                 {/* Questions */}
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-3">{statements_title}</h3>
+                    {statements_title && <h3 className="text-lg font-semibold text-gray-800 mb-3">{statements_title}</h3>}
                     <div className="space-y-6">
                         {questions.map((q) => (
                             <div key={q.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
@@ -83,7 +83,7 @@ export default function MatchingFeatures(props: MatchingFeaturesQuestion) {
 
                 {/* Feature Options */}
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-3">{features_title}</h3>
+                    {features_title && <h3 className="text-lg font-semibold text-gray-800 mb-3">{features_title}</h3>}
                     <Card className="border-2 border-gray-300">
                         <CardContent className="p-6">
                             <div className="space-y-3">

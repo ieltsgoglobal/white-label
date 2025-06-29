@@ -46,7 +46,6 @@ export const listening_section_1 = {
             questionType: "form-completion",
             formData: {
                 title: "GREEK ISLAND HOLIDAYS",
-                address: "",
                 sections: [
                     {
                         title: "Insurance Benefits:",
@@ -89,7 +88,7 @@ export const listening_section_2 = {
     audio: "https://www.dropbox.com/scl/fi/yu6yg4l7qlcq29ndr307p/part2.mp3?rlkey=g3s4xyu9tfsfjtxbe7jjj5n92&st=bxpo8tlr&raw=1",
     questions: [
         {
-            questionType: "multiple-choice",
+            questionType: "multiple-choice-single",
             questions: [
                 {
                     id: 11,
@@ -121,9 +120,10 @@ export const listening_section_2 = {
             ]
         },
         {
-            questionType: "matching-features",
+            questionType: "matching",
             question: {
-                question: "What is currently the main area of work of each of the following people?",
+                question_statement: "What is currently the main area of work of each of the following people?",
+                statements_title: "People",
                 statements: [
                     { id: 14, text: "Simon" },
                     { id: 15, text: "Liz" },
@@ -131,6 +131,7 @@ export const listening_section_2 = {
                     { id: 17, text: "Duncan" },
                     { id: 18, text: "Judith" },
                 ],
+                features_title: "Area of work",
                 features: [
                     { letter: "A", description: "advertising" },
                     { letter: "B", description: "animal care" },
@@ -174,27 +175,33 @@ export const listening_section_3 = {
     audio: "https://www.dropbox.com/scl/fi/zibhjv7hi18psgyp4r4u6/part3.mp3?rlkey=5e6x63k6khcwlqw620m14rlcf&st=c18hr7sj&raw=1",
     questions: [
         {
-            questionType: "note-completion",
-            topic: "Study Skills Tutorial – Caroline Benning",
-            sections: [
-                {
-                    title: "Study",
-                    bulletPoints: [
-                        {
-                            id: 21,
-                            text: "Dissertation topic: the (21) _______",
-                        },
-                        {
-                            id: 22,
-                            text: "Strengths: (22) _______",
-                        },
-                        {
-                            id: 23,
-                            text: "Poor (23) _______ skills",
-                        },
-                    ],
-                },
-            ],
+            questionType: "form-completion",
+            formData: {
+                title: "Study Skills Tutorial – Caroline Benning",
+                address: "",
+                sections: [
+                    {
+                        title: "",
+                        fields: [
+                            {
+                                label: "Dissertation topic:",
+                                content: "the (21) _______",
+                                id: 21,
+                            },
+                            {
+                                label: "Strengths:",
+                                content: "-(22) _______\n - Computer Modeling",
+                                id: 22,
+                            },
+                            {
+                                label: "Weaknesses:",
+                                content: "- lack of background information\n - Poor (23) _______ skills",
+                                id: 23,
+                            },
+                        ],
+                    },
+                ],
+            },
         },
         {
             questionType: "table-completion",
@@ -225,6 +232,30 @@ export const listening_section_3 = {
                     },
                 ],
             },
+        },
+        {
+            questionType: "form-completion",
+            formData: {
+                title: "Study Skills Tutorial – Caroline Benning",
+                sections: [
+                    {
+                        title: "",
+                        fields: [
+                            {
+                                label: "Recommendations:",
+                                content: "- use a card index \n - Read all notes(29) _______",
+                                id: 29
+                            },
+
+                            {
+                                label: "Next tutorial date:",
+                                content: "(30) _______ January",
+                                id: 30
+                            }
+                        ]
+                    }
+                ]
+            }
         }
     ]
 }
@@ -233,7 +264,7 @@ export const listening_section_4 = {
     audio: "https://www.dropbox.com/scl/fi/34x2cd8sww20401skj5zh/part-4.mp3?rlkey=wwb14thanztu9wcln9f8g26i6&st=vs3bu8px&raw=1",
     questions: [
         {
-            questionType: "multiple-choice",
+            questionType: "multiple-choice-single",
             questions: [
                 {
                     id: 31,
@@ -313,7 +344,6 @@ export const listening_section_4 = {
 
 
 //https://mocktestielts.com/ielts-mock-test-reading-academic-practice-test-36/
-//sax
 export const reading_section_1 = {
     reading_passage: {
         title: "Raising the Mary Rose",
@@ -352,7 +382,6 @@ An important factor in trying to salvage the Mary Rose was that the remaining hu
         {
             questionType: "matching-features",
             question: {
-                question_statement: "Match each statement with the correct date related to the Mary Rose.",
                 statements_title: "Statements",
                 statements: [
                     { id: 5, text: "A search for the Mary Rose was launched." },
@@ -374,28 +403,23 @@ An important factor in trying to salvage the Mary Rose was that the remaining hu
         },
         {
             questionType: "image-labeling",
-            mapTitle: "Raising the hull of the Mary Rose: Stages one and two",
             image_url: "https://mocktestielts.com/wp-content/uploads/2023/08/ielts-mock-test-36.jpg",
+            instructions: "Choose NO MORE THAN TWO WORDS from the passage for each answer. Label the diagram below and attempt Raising the Mary Rose reading answers.",
             questions: [
                 {
                     id: 9,
-                    location: "________ attached to hull by wires"
                 },
                 {
                     id: 10,
-                    location: "________ to prevent hull being sucked into mud"
                 },
                 {
                     id: 11,
-                    location: "legs are placed into ________"
                 },
                 {
                     id: 12,
-                    location: "hull is lowered into ________"
                 },
                 {
                     id: 13,
-                    location: "________ used as extra protection for the hull"
                 }
             ]
         },
@@ -455,26 +479,11 @@ methods of transporting the statues needed not only a great number of people, bu
                     id: [25, 26],
                     question: "On what points do Hunt and Lipo disagree with Diamond?",
                     options: [
-                        {
-                            letter: "A",
-                            text: "the period when the moai were created"
-                        },
-                        {
-                            letter: "B",
-                            text: "how the moai were transported"
-                        },
-                        {
-                            letter: "C",
-                            text: "the impact of the moai on Rapanui society"
-                        },
-                        {
-                            letter: "D",
-                            text: "how the moai were carved"
-                        },
-                        {
-                            letter: "E",
-                            text: "the origins of the people who made the moai"
-                        }
+                        "the period when the moai were created",
+                        "how the moai were transported",
+                        "the impact of the moai on Rapanui society",
+                        "how the moai were carved",
+                        "the origins of the people who made the moai",
                     ]
                 }
             ]
@@ -554,7 +563,17 @@ The discipline of neuroaesthetics aims to bring scientific objectivity to the st
 the impact which Impressionist paintings have on our <31>. Alex Forsythe of the University of Liverpool believes many artists give their works the 
 precise degree of <32> which most appeals to the viewer’s brain. She also observes that pleasing works of art often contain certain repeated 
 <33> which occur frequently in the natural world.
-    `
+    `,
+                optionList: [
+                    { letter: "A", text: "interpretation" },
+                    { letter: "B", text: "complexity" },
+                    { letter: "C", text: "emotions" },
+                    { letter: "D", text: "movements" },
+                    { letter: "E", text: "skill" },
+                    { letter: "F", text: "layout" },
+                    { letter: "G", text: "concern" },
+                    { letter: "H", text: "images" }
+                ]
             }
         },
         {

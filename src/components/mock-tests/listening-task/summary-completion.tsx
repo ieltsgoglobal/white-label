@@ -8,6 +8,10 @@ interface SummaryQuestion {
         id: number[]
         title: string
         passageTemplate: string
+        optionList?: {
+            letter: string
+            text: string
+        }[]
     }
 }
 
@@ -20,25 +24,52 @@ export default function SummaryCompletion(props: SummaryQuestion) {
     }
 
     const renderPassage = () => {
-        const parts = summaryQuestion.question.passageTemplate.split(/(<\d+>)/g)
+        // Split on any single line break
+        const lines = summaryQuestion.question.passageTemplate.trim().split(/\n/g)
 
-        return parts.map((part, index) => {
-            const match = part.match(/^<(\d+)>$/)
-            if (match) {
-                const id = parseInt(match[1])
-                return (
-                    <span key={index} className="inline-flex items-center mx-1">
-                        <span className="font-bold mr-2">{id}</span>
-                        <Input
-                            onChange={(e) => handleAnswerChange(id, e.target.value)}
-                            className="w-32 text-center font-medium"
-                            placeholder="____"
-                        />
-                    </span>
-                )
-            }
-            return <span key={index}>{part}</span>
+        return lines.map((line, lineIndex) => {
+            const parts = line.split(/(<\d+>)/g)
+
+            return (
+                <p key={lineIndex} className="mb-4">
+                    {parts.map((part, index) => {
+                        const match = part.match(/^<(\d+)>$/)
+                        if (match) {
+                            const id = parseInt(match[1])
+                            return (
+                                <span key={index} className="inline-flex items-center mx-1">
+                                    <span className="font-bold mr-2">{id}</span>
+                                    <Input
+                                        onChange={(e) => handleAnswerChange(id, e.target.value)}
+                                        className="w-32 text-center font-medium"
+                                        placeholder="____"
+                                    />
+                                </span>
+                            )
+                        }
+                        return <span key={index}>{part}</span>
+                    })}
+                </p>
+            )
         })
+    }
+
+
+    // sentence completion- Selecting from list of words/phrases
+    const renderOptionList = () => {
+        const list = summaryQuestion.question.optionList
+        if (!list) return null
+
+        return (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 my-12 border border-black p-6 rounded-3xl">
+                {list.map((item) => (
+                    <div key={item.letter} className="text-sm font-medium text-gray-800">
+                        <span className="font-bold mr-2">{item.letter}</span>
+                        {item.text}
+                    </div>
+                ))}
+            </div>
+        )
     }
 
     return (
@@ -50,14 +81,17 @@ export default function SummaryCompletion(props: SummaryQuestion) {
                 <p className="text-sm font-medium text-blue-900">
                     Complete the summary below. Write NO MORE THAN ONE WORD from the text in each box.
                 </p>
+
+                {renderOptionList()}
+
             </div>
 
             <div className="space-y-6">
-                <div className="bg-gray-50 p-6 rounded-lg">
+                <div className="bg-gray-50 p-6 rounded-3xl">
                     <h3 className="text-xl font-bold text-center mb-6">
                         {summaryQuestion.question.title}
                     </h3>
-                    <p className="text-base leading-relaxed space-y-4">{renderPassage()}</p>
+                    <div className="text-base leading-relaxed space-y-4">{renderPassage()}</div>
                 </div>
             </div>
         </div>

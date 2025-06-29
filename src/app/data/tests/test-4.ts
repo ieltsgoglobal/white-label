@@ -1,5 +1,4 @@
-// https://practicepteonline.com/ielts-listening-test-8
-// sax
+// https://practicepteonline.com/ielts-listening-test-80
 export const listening_section_1 = {
     audio: "https://www.dropbox.com/scl/fi/hzwhq941ji9uhkde7x4f3/part1.mp3?rlkey=htu72w6e29b918xu3q6rltyps&st=9vnm9euy&raw=1",
     questions: [
@@ -10,6 +9,9 @@ export const listening_section_1 = {
                 {
                     title: "Details",
                     bulletPoints: [
+                        {
+                            text: "Number of offices in sydney - 3",
+                        },
                         {
                             id: 1,
                             text: "Booking reference number – (1) _______",
@@ -58,7 +60,6 @@ export const listening_section_1 = {
 }
 
 export const listening_section_2 = {
-    // 7 minute audio   
     audio: "https://www.dropbox.com/scl/fi/qzmju727kywxrd446nflp/t4-l2.mp4?rlkey=g0htzwcvi96ta08ximukmf97x&st=mpxdrxew&raw=1",
     questions: [
         {
@@ -84,12 +85,13 @@ export const listening_section_2 = {
         {
             questionType: "matching",
             question: {
-                question_statement: "noob",
                 statements_title: "International Finest Group – Recruitment procedures",
                 statements: [
+                    { text: "Register interest in working for International Finest Group" },
                     { id: 16, text: "Receive personal code and check" },
                     { id: 17, text: "Send in form and attach" },
                     { id: 18, text: "Receive reply and confirm" },
+                    { text: "Download application form" },
                     { id: 19, text: "Send in" },
                     { id: 20, text: "Attend" },
                 ],
@@ -140,8 +142,8 @@ export const listening_section_3 = {
         },
         {
             questionType: "image-labeling",
-            mapTitle: "Light Installation",
             image_url: "https://practicepteonline.com/wp-content/uploads/2024/09/lis-test80-1.png",
+            instructions: "Label the diagram below. Write the correct letter A-H next to questions 25-30",
             questions: [
                 {
                     id: 25,
@@ -176,6 +178,7 @@ export const listening_section_4 = {
     audio: "https://www.dropbox.com/scl/fi/usdzhokzlu9xbryetv9xk/t4-l4.mp4?rlkey=e3cx18dts91pr5xoitnuumkn0&st=ox2rxw8d&raw=1",
     questions: [
         {
+            //question 31-36 is same set of questions
             questionType: "summary-completion",
             question: {
                 id: [31, 32, 33],
@@ -218,133 +221,88 @@ export const listening_section_4 = {
     ],
 }
 
-
-//in progress
+// https://leapscholar.com/exams/ielts/practice-test/reading/neuroaesthetics-reading-answers
 export const reading_section_1 = {
     reading_passage: {
-        title: "Citicorp Center Crisis",
-        subtitle: "What would you do if a building you designed had a fatal flaw?",
+        title: "Neuroaesthetics",
+        subtitle: "",
         passage: `
-    When banking giant Citicorp purchased the city block at 601 Lexington Avenue in New York City to build its new headquarters, the Citicorp Center, there was one problem. Part of the lot was occupied by St. Peter's Evangelical Church, and the congregation had no intention of relocating. Architect Hugh Stubbins came up with a novel design that would satisfy everyone involved. The new building would have a square foundation and rest on four nine-story tall towers located, not at the corners of the square, but at the centre of each side of the square. This had never been attempted on such a scale, but it would allow the church to continue to exist under a corner of the tower. The church members agreed to the plan as long as Citicorp replaced their old, crumbling church with a new structure that was not directly connected to the tower. The company agreed and contracted structural engineering firm LeMessurier Associates to make their unique building a reality.
-    Normally, the massive weight of a skyscraper is supported at its corners, but William LeMessurier devised an ingenious system of diagonal bracing girders that would transfer the building's weight from the corners to the side columns. The completed tower would be remarkably light, even at 279 metres tall, which meant that it would sway much more than usual in the wind. To compensate for this effect, LeMessurier decided to install a tuned-mass damper at the top of the structure. This was a 372 tonne concrete block that floated on pressurised oil bearings and was operated by electronic systems. With this damper in place, LeMessurier's calculations and wind tunnel tests indicated that the building would be structurally sound in strong perpendicular winds; winds that strike only one side of a building. However, there was an unexpected flaw in his design that would be compounded by decisions made during construction.
-    The problem was first noticed by Princeton University engineering student Diane Hartley when she was writing her undergraduate thesis about the Citicorp Center. She spoke with Joel S. Weinstein, a junior engineer with LeMessurier, who provided her with architectural plans and engineering calculations for the structure. According to her calculations, the stress caused by quartering winds (winds that hit a corner of the building and so affect two sides at the same time) would be significantly stronger than perpendicular winds. Due to its innovative design, she assumed that the firm must have done similar calculations. She asked Weinstein for his calculations on the effects of quartering winds, but he never sent them. When she expressed her concerns, Weinstein assured her that the building design was safe and was actually more efficient than conventional designs. As she was still a student, Hartley deferred to his judgement, but she noted their conversation in her thesis nonetheless.
-    In May of 1978, Stubbins and LeMessurier attended a meeting about skyscrapers that they had designed in Pittsburgh that incorporated the same bracing system. U.S. Steel thought that welded joints might make the project too expensive, so its representative asked if they could substitute bolts. LeMessurier called his firm's New York City office to reassure him that the welded joints were the right way to go, but was informed that the same substitution had been made there without consulting him. Although surprised, he was not alarmed. He thought the decision was technically sound, and he couldn't expect them to contact him about every on-site decision.
-    In June, freshman engineering student Lee DeCarolis was writing his own paper about Citicorp Center and its seemingly unstable design. He spoke to LeMessurier, who assured him that the building was quite stable, and that its unique geometry and his diagonal-brace system made it particularly resistant to quartering winds. However, since the New York building code did not require those calculations, he had not done them initially. Thinking that it would make an interesting topic for his students at Harvard, LeMessurier did the calculations, and discovered that quartering winds would increase the stress in certain parts of the building by 40%. That was well within the limitations of his original design, but the original design had specified welded joints, not the bolts that had been used instead. He redid the calculations taking bolts into account, and 40% increased to 160%.
-    Then, he went to New York and learned that his team had defined the braces as trusses instead of columns. Therefore, they thought they were exempt from a safety standard, and had used fewer bolts. After running more wind tunnel tests, he determined that the weakest joint was located on the 30th floor, and its failure would cause a catastrophic collapse of the entire building. After examining historical weather records, he found that a storm capable of causing that failure occurred on average about once every 16 years, also known as a 16-year storm. That frequency was frighteningly high, and after consulting other experts and colleagues, he confronted his firm's insurance company with the grim news.
-    LeMessurier and Stubbins met with Citicorp's management and outlined the problem and a possible solution. They could weld five-centimetre-thick steel plates over weak joints like bandages. The company explained the situation to the city's Building Commission, which gave a carefully written press release stating that the structural work was 'only a prudent response to new meteorological data.' Repairs began almost immediately and progressed rapidly. Then on September 1st, Hurricane Ella was reported to be on a collision course with the city. Fortunately, the storm veered off eastward, and repairs were completed in October.
-    The aftermath of the crisis was noteworthy because it produced no villains. Everyone was honest and forthcoming, the people involved in the repairs cooperated to achieve a common goal and there was no finger-pointing or accusations of blame. The exact cost of the repairs remains undisclosed, but LeMessurier Associates and its insurers reimbursed Citicorp for an agreed two million dollars, and the courts were never involved. LeMessurier had expected to be ruined by the crisis, but due to his actions, his reputation was actually enhanced. The public was not informed about what had transpired until a thorough article was published in The New Yorker in 1995. Since then, the crisis has become a case study used in architectural ethics classes.
-    `
+Neuroaesthetics is an emerging discipline seeking to bring scientific objectivity to the study of art, and has already given us a better understanding of many masterpieces. For instance the brain's amygdala seems to be stimulated by the blurred imagery of impressionist paintings. That finding might explain why many people find these pieces so moving since the amygdala plays a crucial role in our feelings. 
+Could the same approach also shed light on abstract 20th century pieces, from Pollock's seemingly haphazard arrangements of splashed paint on canvas to Mondrian's geometrical blocks of colour? Sceptics believe that because they are famous people claim to like such works. We always have an inclination to follow the crowd. When asked to make simple perceptual decisions, for example matching a shape to its rotated image, people often choose the wrong answer if they see others choosing it. It is easy to imagine that this behaviour would have even more effect on a fuzzy concept where there is no right or wrong answer, like art appreciation.
+Angelina Hawley-Dolan, of Boston College, Massachusetts, asked volunteers to view pairs of paintings - either the doodles of chimps, infants and elephants or the creations of famous abstract artists. They then had to tell which they liked. No captions were given to one-third of the paintings, while many were labelled incorrectly. Volunteers were actually seeing an acclaimed masterpiece but they thought they were seeing a chimp's messy brush strokes. In each set of trials, even when they believed it was by an animal or a child, volunteers generally preferred the work of renowned artists. Even if they can't explain why, it seems that the viewer can sense the artist's vision in paintings.
+Artist Robert Pepperell from Cardiff University creates ambiguous works that are neither clearly representational nor entirely abstract. Pepperell and his collaborators in a study asked volunteers to tell how authoritative they felt an artwork to be, and whether they viewed anything familiar in the work. The longer they took to answer these questions, the greater their neural activity and the more highly they rated the piece under scrutiny. It looked like the brain sees these images as puzzles. The harder it is to decipher the meaning, the more rewarding the moment of recognition.
+And what about artists such as Mondrian, whose paintings are created exclusively of vertical and horizontal lines enclosing blocks of colour? Mondrian's works are deceptively simple, but eye-tracking studies confirm that they are carefully composed, and that simply rotating a piece radically changes the way we see it. With the altered versions they would flit across a piece more rapidly but with the originals, volunteers' eyes stayed longer on certain places in the image. As a result, when they later rated the work, the volunteers considered the altered versions less pleasurable.
+Oshin Vartanian of Toronto University in a similar study, asked volunteers to compare original paintings with ones which he had altered by moving objects around within the frame. Whether it was a Van Gogh still life or an abstract by Miro, he found that almost everyone preferred the original work. Vartanian also found that when the composition of the paintings changed it reduced activation in those brain areas linked with meaning and interpretation.
+Analysing the visual intricacy of different pieces of art, Alex Forsythe of the University of Liverpool, suggested that many artists use a key level of detail to please the brain. Too much detail makes it kind of a 'perceptual overload' but too little detail is boring, according to Forsythe. Appealing pieces both representational and abstract, show signs of 'fractals' - repeated motifs keep repeating in different scales, fractals are common throughout nature, for example in the branches of trees or shapes of mountain peaks. It is possible that our visual system finds it easier to process such patterns, which evolved in the great outdoors. 
+Like replaying the writer's moment of creation, the brain appears to process movement when we see a handwritten letter. Because the brain reconstructs the energetic actions the artist used as he painted it led some to wonder whether Pollock's works feel so dynamic. This may be because of our brain's 'mirror neurons', which mimic others' actions. It might even be the case that we could use neuroaesthetic studies to understand the longevity of some pieces of artwork, however the hypothesis will need to be tested thoroughly. Works best suited to our visual system may be the most likely to linger once the trends of previous generations have been forgotten while the fashions of the time might shape what is currently popular.
+These studies are probably only a taste of what is to come and is still early days for the field of neuroaesthetics. However it would be stupid to reduce art appreciation to a set of scientific laws. We shouldn't underestimate the importance of the artistic environment, the style of a particular artist, and their place in history. Abstract art offers both the freedom and a challenge to play with different interpretations. Like science in some ways, we keep decoding meaning and looking for systems so that we can view and appreciate the world in a new way. 
+        `
     },
     questions: [
         {
-            questionType: "multiple-choice-single",
-            questions: [
-                {
-                    id: 1,
-                    question: "What does the author suggest about Diane Hartley's research in the third paragraph?",
-                    options: [
-                        { label: "A", text: "Hartley was reluctant to question an architect as famous as LeMessurier." },
-                        { label: "B", text: "No one had found any issues with the Citicorp building's design before her." },
-                        { label: "C", text: "She received all of the data that she requested from LeMessurier Associates." },
-                        { label: "D", text: "Her calculations were ignored by Weinstein because she was only a student." },
-                    ],
-                },
-                {
-                    id: 2,
-                    question: "What unexpected news did LeMessurier receive at the meeting mentioned in the fourth paragraph?",
-                    options: [
-                        { label: "A", text: "The building's foundation was not strong enough to support the structure." },
-                        { label: "B", text: "The church had decided to relocate after all." },
-                        { label: "C", text: "There were problems with the building's wind resistance calculations." },
-                        { label: "D", text: "The city had rejected the building's design plans." },
-                    ],
-                },
-                {
-                    id: 3,
-                    question: "According to the author, LeMessurier had not done calculations on quartering winds because",
-                    options: [
-                        { label: "A", text: "he believed they would not affect the building significantly." },
-                        { label: "B", text: "the building codes did not require such calculations at the time." },
-                        { label: "C", text: "he was focused on perpendicular winds which seemed more dangerous." },
-                        { label: "D", text: "the technology to measure quartering winds did not exist then." },
-                    ],
-                },
-                {
-                    id: 4,
-                    question: "Why does the writer mention the joint on the 30th floor in the sixth paragraph?",
-                    options: [
-                        { label: "A", text: "To argue that the repairs may have actually been unnecessary" },
-                        { label: "B", text: "To provide an explanation of how welds are superior to bolts" },
-                        { label: "C", text: "To illustrate the worst case scenario for the building" },
-                        { label: "D", text: "To describe how the building's joints should be repaired" },
-                    ],
-                },
-            ]
+            questionType: "flow-chart-completion",
+            question: {
+                image_url: "https://websitecmscdn.s3.ap-south-1.amazonaws.com/neuroaesthetics_flow_chart_completion_4edad96d06.png",
+                id: [1, 2, 3, 4, 5, 6],
+            }
         },
         {
-            questionType: "true-false-notgiven",
-            questions: [
-                {
-                    id: 5,
-                    statement: "The site for the Citicorp Center was purchased from St. Peter's Evangelical Church.",
-                },
-                {
-                    id: 6,
-                    statement: "The congregation approved Hugh Stubbins' design on the condition that they received a new building that was separate from the skyscraper.",
-                },
-                {
-                    id: 7,
-                    statement: "Citicorp hired LeMessurier to be the structural engineer of the project on Hugh Stubbins' recommendation.",
-                },
-                {
-                    id: 8,
-                    statement: "LeMessurier created a custom support structure for the building that used slanted beams to transfer weight away from the corners.",
-                },
-                {
-                    id: 9,
-                    statement: "The building's unique support structure caused it to be much lighter than others of similar height.",
-                }
-            ]
+            questionType: "matching-features",
+            question: {
+                statements: [
+                    { id: 7, text: "Made volunteers see pairs of paintings - either the doodles of chimps, infants and elephants or the creations of famous abstract artists." },
+                    { id: 8, text: "Created ambiguous works that are neither clearly representational nor entirely abstract." },
+                    { id: 9, text: "Asked volunteers to compare original paintings with ones which he had altered by moving objects around within the frame." },
+                    { id: 10, text: "Suggested that many artists use a key level of detail to please the brain." }
+                ],
+                features: [
+                    { letter: "A", description: "Angelina Hawley-Dolan" },
+                    { letter: "B", description: "Oshin Vartanian" },
+                    { letter: "C", description: "Robert Pepperell" },
+                    { letter: "D", description: "Mondrian" },
+                    { letter: "E", description: "Alex Forsythe" }
+                ]
+            }
         },
         {
             questionType: "sentence-completion",
             questions: [
                 {
-                    id: 10,
-                    sentence: "LeMessurier studied historical (10) _____ to determine how often a storm that could cause the building to collapse might occur.",
-                    type: "sentence-completion"
-                },
-                {
                     id: 11,
-                    sentence: "The solution they proposed was to reinforce weak joints by welding steel plates over them like (11) _____.",
-                    type: "sentence-completion"
+                    sentence: "Neuroaesthetics is an emerging discipline seeking to bring scientific objectivity to the study of art and has already given us a better understanding of many (11) _____."
                 },
                 {
                     id: 12,
-                    sentence: "The official explanation for the repair work was that it was an upgrade done as a (12) _____ to new meteorological data.",
-                    type: "sentence-completion"
+                    sentence: "Mondrian's works are deceptively simple, but (12) _____ studies confirm that they are carefully composed and that simply rotating a piece radically changes the way we see it."
                 },
                 {
                     id: 13,
-                    sentence: "After the repairs were completed, Citicorp agreed that LeMessurier Associates and (13) _____ would reimburse the company.",
-                    type: "sentence-completion"
+                    sentence: "Like replaying the writer's moment of creation, the brain appears to process movement when we see a (13) _____."
+                },
+                {
+                    id: 14,
+                    sentence: "We shouldn't underestimate the importance of the (14) _____, the style of a particular artist, and their place in history."
                 }
             ]
         }
     ]
 }
-
+// https://ieltsmaterial.com/frogwatch-ielts-reading-answers
 export const reading_section_2 = {
     reading_passage: {
-        title: "Tsunami Stones",
-        subtitle: "Monuments to oceans destructive power.",
+        title: "Frogwatch",
+        subtitle: "",
         passage: `
-    Throughout human history, settlements have been established in coastal areas. The reasons for this are quite simple: the land is relatively flat and easy to build on, the sea provides food through fishing and it provides easy transportation. However, building our settlements near the ocean also comes with inherent risks. When certain conditions are met, mountainous waves can rush inland and wash away people, homes and even entire cities. Where this kind of natural disaster is particularly common or dangerous, people have sometimes provided warnings to future generations by carving messages onto stones. In Japan, carved stones called 'tsunami stones' dot hillsides along the archipelago's coast, but people do not always heed their warnings.
-    The islands of Japan lie at the convergent boundary between several tectonic plates, which make them prone to earthquakes and volcanic eruptions. When geological events such as these disturb the sea floor, they can generate massive waves called tsunamis that inundate the land. First, the water rapidly recedes from the beach as though the tide is going out very quickly, then the water returns with the full force of the ocean behind it. That is why tsunamis are sometimes referred to by the misleading term 'tidal waves.' Tsunami waves can be tens of metres high, which allows them to roll deep inland and endanger settlements far from the coast. They also tend to come in a series of waves that first flood the land and then retreat, dragging debris with them into the ocean only to bring it back on the next wave. This repeated action makes them extremely devastating and can strip away everything down to the bedrock.
-    Japan has suffered through some of the most destructive and deadly tsunamis in history. When people survive these catastrophic events, they understandably want to prevent their descendants from enduring similar experiences, but people have short memories. According to Fumiko Imamura, a professor of disaster planning at Tohoku University, 'It takes about three generations for people to forget. Those that experience the disaster themselves pass it to their children and their grandchildren, but then the memory fades.' That is why some ancestors of modern Japanese people decided to carve tsunami stones. Hundreds of tsunami stones have been found around Japan, but the majority of them are concentrated in the northeastern coastal areas.
-    The oldest existing stones were erected over 600 years ago, and some were later washed away by more powerful events. That, in itself, is a message as the stones range from one to three metres tall, and can weigh several tonnes. Each stone has an inscription, but some have been worn away over the centuries. Some of them function as monuments that provide death tolls and may even mark the victims' mass graves. Others advise people to seek higher ground after an earthquake, and a few have place names that carry clear messages. Namiwake means 'Wave's Edge' and it is located three miles from the coast marking the farthest reach of the 1611 tsunami. Nokoriya translates as 'Valley of Survivors' and it marks a location that has clearly provided a safe haven from the waves.
-    One famous tsunami stone near the small village of Aneyoshi provides unusually clear instructions. The 1.5 metre slab of stone says, 'High dwellings are the peace and harmony of our descendants. Remember the calamity of the great tsunamis. Do not build any homes below this point.' This is the only stone that specifically tells people where to build their homes. Aneyoshi was struck by two tsunamis that nearly wiped out the village completely. The first was during the 1896 Sanriku earthquake, which killed at least 22,000 people across Japan and all but two of the villagers. The village was repopulated, and had moved back down toward the shore a few years later. Then, in 1933, another earthquake birthed a tsunami that only left four villagers alive. They moved farther uphill, and carved the stone to protect the following generations. Indeed, Aneyoshi survived tsunamis in 1960 and 2011 unscathed.
-    After World War II, coastal towns and cities rapidly grew as people disregarded the warnings of the tsunami stones. For many people, the tsunami stones seemed like relics of the distant past written in archaic language that is difficult to read, so they were ignored. Residents put their faith in advanced technology to detect seismic events and warn them of approaching waves, and they built taller seawalls to protect them. Unfortunately, the 2011 Tohoku earthquake and tsunami were among the worst in Japanese history, and the waves easily swept over and shattered the sea walls. This disaster left 15,894 people dead, 6,156 injured and 2,546 missing. Some experts think that Japan needs a new version of the tsunami stones that is easier to understand. One suggestion is to preserve some of the ruined buildings from 2011 to provide permanent reminders of the destructive force of the waves.
+Frogwatch, a remarkable success story started in Western Australia, is the brainchild of Dr. Ken Aplin. His work, as the curator of reptiles and frogs in the Western Australian Museum, invoked long field trips and he wondered if a community-based frog-rmonitoring network could help him keep track of frogs. Through such a network, ordinary untrained members of the community could learn about frog habitats, observe the numbers and kinds of frogs in their local area, and report this information to the museum.
+'Launched in 1995, Frogwatch recently gained its 3221st member, and many people say that this is the best thing the museum has ever done. Each participant receives a ‘Frogwatch Kit’ - a regular newsletter, an audio tape of frog calls and identification sheets. Recently, Frogwatch membership increased dramatically when a mysterious parasitic fungus disease began attacking frogs nationwide. Although research is yet incomplete, scientists suspect the fungus originated overseas, perhaps in South America, where frogs have died in catastrophic numbers from a fungus disease genetically similar to the Australian organism.
+Researchers in Western Australia needed to know how widespread the infection was in the state’s frog populations. So Aplin sent an ‘F-file’ (frog fungus facts) alert to Frogwatch members, requesting their help. He asked them to deliver him dead or dying frogs. More than 2,000 frogs have now been examined, half from the museum’s existing collection. Aplin once thought the fungus had arrived in Western Australia in only the past year or two, but tests now suggest it has been there since the late 1980s.
+Frogwatch has proved to be Abe perfect link to the public and Aplin has become a total convert to community participation. He’s now aiming for a network of 15,000 Frogwatch members as the museum can’t afford to use professional resources to monitor frog populations. Much of the frog habitat is on private land, and without community support, monitoring the frogs would be impossible.
+Not everyone is convinced by the ‘feelgood' popularity of Frogwatch. While Aplin believes even tiny backyard ponds can help to significantly improve frog numbers, Dr. Dale Roberts isn’t so sure, A senior zoology lecturer at the University of WA, Roberts agrees the program has: tapped into the public’s enthusiasm for frogs, but he warns that strong public awareness does not amount to sound science.
+He argues that getting the public to send in pages of observations is a good thing, but giving these reports credibility may not be valid scientifically. In addition, he’s not convinced that Frogwatch’s alarmist message about the danger of fungal infection is valid either. In Western Australia, for example, there was a long summer and very, late drenching rains, that year, following two equally dry years. So, he argues, there are other things that might have precipitated the deaths. He questions what could be done about it anyway. If it’s already widespread, it may not be worth the cost and effort of doing anything about it. Even if it’s causing high death rates, he says he can still find every frog species found over the past ten years in the south-west of Australia.
+Roberts argues that Western Australia is different. Unlike most other states, species are still being discovered there; the disappearances of frog types in Queensland and New South Wales, are not occurring in Western Australia, although three south-west species are on the endangered list. Roberts believes that no amount of garden ponds in Perth will help those species, which live in isolated habitats targeted for development.
+Aplin’s response is that increasing the number of frog-friendly habitats is important for the very reason that many Western Australian frog species are found in small, highly restricted locations. He argues that pesticide-free gardens and ponds can offer a greater chance of survival to animals battling habitat disturbance, environmental pollutants, climatic variations, and now fungal disease. Aplin’s opinion is that they should use the precautionary principle in cases where they don’t yet know enough about the situation. Usually diseases sort themselves out naturally and some frog fauna will co-evolve with the fungus. Given time some balance may be restored, but in the shorter term, they are seeing negative impacts.
+The nationwide spread of the chytrid fungus is being mapped by Dr. Rick Speare, a specialist in amphibian disease at James Cook University. Speare also tests the accuracy of' Aplin’s fungus diagnoses and says Frogwatch is ‘an amazing and under-acknowledged system ... the best program in Australia for harnessing public interest in frog biology... There are a lot of eyes out there looking for dead or sick frogs, beyond the power of any biologist to collect.’
+Aplin argues that they should never underestimate the importance of' having a community base, especially when governments want to cut research funds, ‘People can protest in ways that a handful of scientists hiding in a laboratory can’t do. For just about every environmental problem, community involvement is fundamental.’ Furthermore, Frogwatch is proving to be a social phenomenon as much as anything else. It seems ordinary people know that frogs are a measure of the environment’s health.
     `
     },
     questions: [
@@ -352,162 +310,162 @@ export const reading_section_2 = {
             questionType: "yes-no-notgiven",
             questions: [
                 {
-                    id: 14,
-                    statement: "The architect’s original idea included building a new church on a different site.",
-                },
-                {
                     id: 15,
-                    statement: "Some engineers disagreed with LeMessurier’s bracing design.",
+                    statement: "Frogwatch members need a basic level of scientific training."
                 },
                 {
                     id: 16,
-                    statement: "LeMessurier believed the building could collapse in certain wind conditions.",
+                    statement: "All Frogwatch members live in Western Australia."
                 },
                 {
                     id: 17,
-                    statement: "The modifications were carried out only during the day to avoid public attention.",
+                    statement: "Frogwatch has proved that frogs are disappearing because of a fungus."
                 },
                 {
                     id: 18,
-                    statement: "Citicorp publicly acknowledged the flaw after repairs were completed.",
+                    statement: "Scientists in WA have examined about two thousand frogs collected by Frogwatch."
+                },
+                {
+                    id: 19,
+                    statement: "The frog fungus disease has been in Western Australia for more than ten years."
+                },
+                {
+                    id: 20,
+                    statement: "New species of frogs have been found in Western Australia recently."
                 }
             ]
         },
         {
-            questionType: "match-headings",
+            questionType: "matching-features",
             question: {
-                headings: [
-                    { number: "i", text: "The price of forgetting" },
-                    { number: "ii", text: "Old problems with modern solutions" },
-                    { number: "iii", text: "A case in point" },
-                    { number: "iv", text: "Biggest of waves" },
-                    { number: "v", text: "Convenience leads to catastrophe" },
-                    { number: "vi", text: "Tragedy comes twice" },
-                    { number: "vii", text: "Historic destruction" },
-                    { number: "viii", text: "Mechanism of tsunamis" },
+                question_statement: "The reading passage describes the opinions of Dr. Ken Aplin, Dr. Dale Roberts and Dr. Rick Speare in relation to strategies for frog conservation. Match one of the researchers A–C to each of the statements below. There may be more than one correct answer.",
+                statements: [
+                    {
+                        id: 21,
+                        text: "Although the involvement of large numbers of people is encouraging, this does not guarantee scientifically valid data."
+                    },
+                    {
+                        id: 22,
+                        text: "The development of frog-friendly backyards will help to conserve frog species."
+                    },
+                    {
+                        id: 23,
+                        text: "Although it is possible that frogs will adapt to fungal and other problems in the long term, we should take precautions in case this does not occur."
+                    },
+                    {
+                        id: 24,
+                        text: "As there may be many other explanations for recent frog deaths, it is not worth spending a great deal of time and money studying this fungus."
+                    },
+                    {
+                        id: 25,
+                        text: "Because of the unique geography of Western Australia, most frog species in this State are not in danger of extinction."
+                    },
+                    {
+                        id: 26,
+                        text: "Frogwatch has greater potential for frog observation than is possible by the scientific community."
+                    }
                 ],
-                id: [19, 20, 21, 22, 23],
-            },
-        },
-        {
-            questionType: "summary-completion",
-            question: {
-                id: [24, 25, 26, 27],
-                title: "Messages from the Past",
-                passageTemplate: `
-      There are many tsunami stones spread across Japan, but one of the most <23> is located near the small village of Aneyoshi.
-      While many stones act as monuments that provide warnings through death tolls, this one specifically tells people not to <24>
-      their homes below it. The village was struck by two tsunamis in 1896 and 1933. After the second disaster, the villagers <25>
-      their stone. Unfortunately, many people <26> the stones after World War II, and they relied on advanced technology and taller
-      seawalls to protect them. The Tohoku tsunami in 2011 swept over and shattered the seawalls and claimed thousands of lives.
-    `,
-            },
+                features_title: "Options",
+                features: [
+                    { letter: "A", description: "Dr. Aplin" },
+                    { letter: "B", description: "Dr. Roberts" },
+                    { letter: "C", description: "Dr. Speare" }
+                ]
+            }
         }
     ]
 }
 
+// https://takeielts.britishcouncil.org/take-ielts/prepare/free-ielts-english-practice-tests/reading-academic/section-2
 export const reading_section_3 = {
     reading_passage: {
-        title: "Tipping Point",
-        subtitle: "Even Amaricans are getting tired of tipping.",
+        title: "Fair games?",
+        subtitle: "",
         passage: `
-    The practice of giving additional money to servers at restaurants and in other service jobs is called tipping. Originating in Europe, tipping has a long history in western culture, although it is most strongly associated with the United States. Many visitors to the US find tipping to be very confusing and the most stress-inducing part of their trips. Although tipping culture has reached its most extreme form in the US, there is a growing opposition to tipping even there. This reversal is the result of many factors, and people may have reached a tipping point regarding this custom.
-    The practice of tipping dates back to Tudor England (1485 - 1603), when it consisted of a master rewarding a servant with extra money for having performed their tasks exceptionally well. By the 17th century, the burden had shifted to guests who spent the night at private homes. They were expected to give gifts of money, which were referred to as vials, to their host's servants. The custom soon spread to coffeehouses and other public establishments. The etymology of the term 'tip' is not well understood, except that it began as a slang word that may have originated from thieves cant - the special vocabulary used by criminals. The earliest known use of the word as a noun was around 1600, and it was first used as a verb in a play by George Farquhar in 1707.
-    The concept of tipping was introduced to the US from Europe in the 1850s and 1860s by affluent Americans who had travelled through Europe and wanted to seem aristocratic. Tipping was initially met with a fierce backlash from many Americans who thought it was inconsistent with their democratic, egalitarian society. Tipping was based on the obligations of the nobility and acted to establish and reinforce inferior social status. Several states even passed laws that banned tipping, but enforcing them was difficult. Restaurant owners and other proprietors initially also opposed tipping. They viewed it as customers bribing staff for extra food and drink or special treatment. This opposition to tipping spread into Europe along with the rise of labour movements, and customary tipping was abolished in most countries in the region. However, after Prohibition was instituted in the US in 1919, restaurants and hotels could no longer sell alcoholic beverages, and their revenue fell. It was at this point that business owners began to embrace tipping as a way to supplement their employees' wages.
-    Since then tipping has spread throughout the service industry to include bartenders, hair stylists, taxi drivers and food delivery drivers. Tipping culture became further entrenched in the restaurant industry in 1966 when Congress decided that workers who regularly receive a significant amount of tips could be paid much less than the federal minimum wage as long as the combined total was the same amount or more. Due to this fact, servers in many bars and restaurants rely on tips for the bulk of their income. Some restaurants instituted mandatory tipping by adding a 10 to 15% gratuity surcharge to receipts, particularly for large groups of customers. Thus, tipping culture became the status quo in the United States, with tips paid to individuals ranging from 5 to 20% of the actual charge for food or services depending on the location and the quality of service.
-    However, tipping has expanded in scope over the last five years, which has led to increasing opposition amongst the public. Analysts say that the recent expansion of tipping is due to a combination of three factors: the gig economy, technology, and the job market. In the gig economy, people work freelance or on short contracts, which provides both the employee and the employer more freedom. This business model provided an abundance of delivery drivers, which led to a massive increase in home deliveries of prepared food, groceries and nearly every other product imaginable. This in turn led to people tipping for the delivery of items they would have purchased at stores before.
-    The use of touch screens and tablets in stores and restaurants also grew during this time, along with a strong preference for credit cards over cash. On many of these devices, a tipping options menu automatically pops up during the payment process and conveniently offers tip options that can range up to 30%. The calculations presented are not always accurate, but many people still feel compelled to tip because the server is right there in front of them and other people are watching. The companies that created the software also get a percentage of each payment and tip, so there is great motivation to expand tipping as much as possible. Adding to that is the current job market, in which business owners have to compete for workers and offer them higher pay without raising prices. So, they offer them the potential for more tips.
-    However, the expansion of tipping culture may lead to its demise. With the gig economy now well-established, and inflation continuing to increase, many customers want tipping to return to the way it was before or to go away altogether. According to a survey by Bankrate, two-thirds of customers currently have a negative view of tipping, and tips paid to restaurant servers have dropped by 10% over the last year. Many states have also mandated higher minimum wages than the US federal standard for all workers including servers. With employees receiving living wages, tipping may disappear from most industries, but that means employers will have to actually pay their employees more. That may mean fewer job openings and higher prices.
-    `
+For seventeen days every four years the world is briefly arrested by the captivating, dizzying spectacle of athleticism, ambition, pride and celebration on display at the Summer Olympic Games. After the last weary spectators and competitors have returned home, however, host cities are often left awash in high debts and costly infrastructure maintenance. The staggering expenses involved in a successful Olympic bid are often assumed to be easily mitigated by tourist revenues and an increase in local employment, but more often than not host cities are short changed and their taxpayers for generations to come are left settling the debt.
+Olympic extravagances begin with the application process. Bidding alone will set most cities back about $20 million, and while officially bidding only takes two years (for cities that make the shortlist), most cities can expect to exhaust a decade working on their bid from the moment it is initiated to the announcement of voting results from International Olympic Committee members. Aside from the financial costs of the bid alone, the process ties up real estate in prized urban locations until the outcome is known. This can cost local economies millions of dollars of lost revenue from private developers who could have made use of the land, and can also mean that particular urban quarters lose their vitality due to the vacant lots. All of this can be for nothing if a bidding city does not appease the whims of IOC members – private connections and opinions on government conduct often hold sway (Chicago’s 2012 bid is thought to have been undercut by tensions over U.S. foreign policy).   
+Bidding costs do not compare, however, to the exorbitant bills that come with hosting the Olympic Games themselves. As is typical with large-scale, one-off projects, budgeting for the Olympics is a notoriously formidable task. Los Angelinos have only recently finished paying off their budget-breaking 1984 Olympics; Montreal is still in debt for its 1976 Games (to add insult to injury, Canada is the only host country to have failed to win a single gold medal during its own Olympics). The tradition of runaway expenses has persisted in recent years. London Olympics managers have admitted that their 2012 costs may increase ten times over their initial projections, leaving tax payers 20 billion pounds in the red.  
+Hosting the Olympics is often understood to be an excellent way to update a city’s sporting infrastructure. The extensive demands of Olympic sports include aquatic complexes, equestrian circuits, shooting ranges, beach volleyball courts, and, of course, an 80,000 seat athletic stadium. Yet these demands are typically only necessary to accommodate a brief influx of athletes from around the world. Despite the enthusiasm many populations initially have for the development of world-class sporting complexes in their home towns, these complexes typically fall into disuse after the Olympic fervour has waned. Even Australia, home to one of the world’s most sportive populations, has left its taxpayers footing a $32 million-a-year bill for the maintenance of vacant facilities.
+Another major concern is that when civic infrastructure developments are undertaken in preparation for hosting the Olympics, these benefits accrue to a single metropolitan centre (with the exception of some outlying areas that may get some revamped sports facilities). In countries with an expansive land mass, this means vast swathes of the population miss out entirely. Furthermore, since the International Olympic Committee favours prosperous “global” centres (the United Kingdom was told, after three failed bids from its provincial cities, that only London stood any real chance at winning), the improvement of public transport, roads and communication links tends to concentrate in places already well-equipped with world-class infrastructures. Perpetually by-passing minor cities creates a cycle of disenfranchisement: these cities never get an injection of capital, they fail to become first-rate candidates, and they are constantly passed over in favour of more secure choices.  
+Finally, there is no guarantee that an Olympics will be a popular success. The “feel good” factor that most proponents of Olympic bids extol (and that was no doubt driving the 90 to 100 per cent approval rates of Parisians and Londoners for their cities’ respective 2012 bids) can be an elusive phenomenon, and one that is tied to that nation’s standing on the medal tables. This ephemeral thrill cannot compare to the years of disruptive construction projects and security fears that go into preparing for an Olympic Games, nor the decades of debt repayment that follow (Greece’s preparation for Athens 2004 famously deterred tourists from visiting the country due to widespread unease about congestion and disruption). 
+There are feasible alternatives to the bloat, extravagance and wasteful spending that comes with a modern Olympic Games. One option is to designate a permanent host city that would be re-designed or built from scratch especially for the task. Another is to extend the duration of the Olympics so that it becomes a festival of several months. Local businesses would enjoy the extra spending and congestion would ease substantially as competitors and spectators come and go according to their specific interests. Neither the “Olympic City” nor the extended length options really get to the heart of the issue, however. Stripping away ritual and decorum in favour of concentrating on athletic rivalry would be preferable.
+Failing that, the Olympics could simply be scrapped altogether. International competition could still be maintained through world championships in each discipline. Most of these events are already held on non-Olympic years anyway – the International Association of Athletics Federations, for example, has run a biennial World Athletics Championship since 1983 after members decided that using the Olympics for their championship was no longer sufficient. Events of this nature keep world-class competition alive without requiring Olympic-sized expenses. 
+        `
     },
     questions: [
         {
             questionType: "matching-sentence-endings",
             question: {
                 starting: [
-                    { id: 28, text: "Tipping was originally met with hostility in the US" },
-                    { id: 29, text: "Laws were created that made tipping illegal," },
-                    { id: 30, text: "Congress passed legislation in 1966 that made it legal to" },
-                    { id: 31, text: "Some restaurants force large groups of customers to" },
-                    { id: 32, text: "The main benefit of the gig economy is that it" },
+                    { id: 27, text: "Bids to become a host city" },
+                    { id: 28, text: "Personal relationships and political tensions" },
+                    { id: 29, text: "Cost estimates for the Olympic Games" },
+                    { id: 30, text: "Purpose-built sporting venues" },
+                    { id: 31, text: "Urban developments associated with the Olympics" }
                 ],
                 endings: [
-                    { letter: "A", text: "but they were not effective at discouraging the behaviour." },
-                    { letter: "B", text: "make a server's entire salary consist of the tips they receive." },
-                    { letter: "C", text: "pay tipped workers significantly less than the federal minimum wage." },
-                    { letter: "D", text: "because it reminded people of being controlled by England." },
-                    { letter: "E", text: "where people thought it was undemocratic and elitist." },
-                    { letter: "F", text: "provide good tips by adding an additional surcharge to their bill." },
-                    { letter: "G", text: "allows both the employer and the employee to have more freedom." },
-                ],
+                    { letter: "A", text: "often help smaller cities to develop basic infrastructure." },
+                    { letter: "B", text: "tend to occur in areas where they are least needed." },
+                    { letter: "C", text: "require profitable companies to be put out of business." },
+                    { letter: "D", text: "are often never used again once the Games are over." },
+                    { letter: "E", text: "can take up to ten years to complete." },
+                    { letter: "F", text: "also satisfy needs of local citizens for first-rate sports facilities." },
+                    { letter: "G", text: "is usually only successful when it is from a capital city." },
+                    { letter: "H", text: "are closely related to how people feel emotionally about the Olympics." },
+                    { letter: "I", text: "are known for being very inaccurate." },
+                    { letter: "J", text: "often underlie the decisions of International Olympic Committee members." },
+                    { letter: "K", text: "are holding back efforts to reform the Olympics." }
+                ]
             }
+        },
+        {
+            questionType: "true-false-notgiven",
+            questions: [
+                {
+                    id: 32,
+                    statement: "Residents of host cities have little use for the full range of Olympic facilities."
+                },
+                {
+                    id: 33,
+                    statement: "Australians have still not paid for the construction of Olympic sports facilities."
+                },
+                {
+                    id: 34,
+                    statement: "People far beyond the host city can expect to benefit from improved infrastructure."
+                },
+                {
+                    id: 35,
+                    statement: "It is difficult for small cities to win an Olympic bid."
+                },
+                {
+                    id: 36,
+                    statement: "When a city makes an Olympic bid, a majority of its citizens usually want it to win."
+                },
+                {
+                    id: 37,
+                    statement: "Whether or not people enjoy hosting the Olympics in their city depends on how athletes from their country perform in Olympic events."
+                },
+                {
+                    id: 38,
+                    statement: "Fewer people than normal visited Greece during the run up to the Athens Olympics."
+                }
+            ]
         },
         {
             questionType: "multiple-choice-many",
             questions: [
                 {
-                    id: [33, 34],
-                    question: "In which TWO ways did technology contribute to the increase in tipping?",
-                    selectedAnswers: [],
+                    id: [26, 27],
+                    question: "Which TWO of the following does the author propose as alternatives to the current Olympics?",
                     options: [
-                        {
-                            letter: "A",
-                            text: "Touch screens use software made by companies that get a percentage of both payment and tip.",
-                        },
-                        {
-                            letter: "B",
-                            text: "People were forced to use credit cards because businesses would not accept cash.",
-                        },
-                        {
-                            letter: "C",
-                            text: "Tipping screens automatically add the tipping percentage the restaurant owner has chosen.",
-                        },
-                        {
-                            letter: "D",
-                            text: "Using technology allows customers to make perfect tip percentage calculations.",
-                        },
-                        {
-                            letter: "E",
-                            text: "The server and other customers can watch an individual choosing their tip option.",
-                        },
-                    ],
-                },
-                {
-                    id: [35, 36],
-                    question: "Which TWO factors are contributing to the decline of tipping?",
-                    selectedAnswers: [],
-                    options: [
-                        {
-                            letter: "A",
-                            text: "Servers are not willing to work for pay that comes mostly from tips anymore.",
-                        },
-                        {
-                            letter: "B",
-                            text: "The majority of people have developed a negative view of tipping.",
-                        },
-                        {
-                            letter: "C",
-                            text: "The tipping rate for servers has increased by 10% over the last year.",
-                        },
-                        {
-                            letter: "D",
-                            text: "Several states have created their own minimum wages that are much higher than the federal minimum and include servers.",
-                        },
-                        {
-                            letter: "E",
-                            text: "Restaurant owners have been raising their prices to keep up with inflation.",
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            questionType: "flow-chart-completion",
-            question: {
-                image_url:
-                    "https://toeflbank-rest-api-production.s3.amazonaws.com/content/ielts/reading_group/image/Glaciers%20-%20Flowchart_ba6efbe499cc4bbe9defdc00e207a7a2.svg",
-                id: [37, 38, 39, 40],
-            },
+                        "The Olympics should be cancelled in favour of individual competitions for each sport.",
+                        "The Olympics should focus on ceremony rather than competition.",
+                        "The Olympics should be held in the same city every time.",
+                        "The Olympics should be held over a month rather than seventeen days.",
+                        "The Olympics should be made smaller by getting rid of unnecessary and unpopular sports."
+                    ]
+                }
+            ]
         }
     ]
 }

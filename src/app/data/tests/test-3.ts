@@ -106,7 +106,7 @@ export const listening_section_2 = {
         {
             questionType: "matching",
             question: {
-                question: "What reason prevented each of the following members of the Compton Park Runners Club from joining until recently?",
+                question_statement: "What reason prevented each of the following members of the Compton Park Runners Club from joining until recently?",
                 statements_title: "Club Members",
                 statements: [
                     { id: 15, text: "Ceri" },
@@ -204,7 +204,8 @@ export const listening_section_3 = {
         {
             questionType: "matching",
             question: {
-                question: "Where does Jane’s grandfather keep each of the following types of books in his shop?",
+                question_statement: "Where does Jane’s grandfather keep each of the following types of books in his shop?",
+                statements_title: "Types of books",
                 statements: [
                     { id: 26, text: "rare books" },
                     { id: 27, text: "children’s books" },
@@ -212,6 +213,7 @@ export const listening_section_3 = {
                     { id: 29, text: "requested books" },
                     { id: 30, text: "coursebooks" },
                 ],
+                features_title: "Location of books",
                 features: [
                     { letter: "A", description: "near the entrance" },
                     { letter: "B", description: "in the attic" },
@@ -282,6 +284,7 @@ export const listening_section_4 = {
                         {
                             text: "<<subpoint>> supporting many wildlife spicies."
                         },
+                        //37 and 38 are supposed to be in one statement
                         {
                             id: 37,
                             text: "<<subpoint>> increasing the (37) _______ of recovery by attracting animals and birds",
@@ -320,296 +323,309 @@ export const listening_section_4 = {
     ],
 }
 
-
-//in progress
+// https://practicepteonline.com/ielts-reading-test-307/
 export const reading_section_1 = {
     reading_passage: {
-        title: "Citicorp Center Crisis",
-        subtitle: "What would you do if a building you designed had a fatal flaw?",
+        title: "THE BAOBAB TREE",
+        subtitle: "",
         passage: `
-    When banking giant Citicorp purchased the city block at 601 Lexington Avenue in New York City to build its new headquarters, the Citicorp Center, there was one problem. Part of the lot was occupied by St. Peter's Evangelical Church, and the congregation had no intention of relocating. Architect Hugh Stubbins came up with a novel design that would satisfy everyone involved. The new building would have a square foundation and rest on four nine-story tall towers located, not at the corners of the square, but at the centre of each side of the square. This had never been attempted on such a scale, but it would allow the church to continue to exist under a corner of the tower. The church members agreed to the plan as long as Citicorp replaced their old, crumbling church with a new structure that was not directly connected to the tower. The company agreed and contracted structural engineering firm LeMessurier Associates to make their unique building a reality.
-    Normally, the massive weight of a skyscraper is supported at its corners, but William LeMessurier devised an ingenious system of diagonal bracing girders that would transfer the building's weight from the corners to the side columns. The completed tower would be remarkably light, even at 279 metres tall, which meant that it would sway much more than usual in the wind. To compensate for this effect, LeMessurier decided to install a tuned-mass damper at the top of the structure. This was a 372 tonne concrete block that floated on pressurised oil bearings and was operated by electronic systems. With this damper in place, LeMessurier's calculations and wind tunnel tests indicated that the building would be structurally sound in strong perpendicular winds; winds that strike only one side of a building. However, there was an unexpected flaw in his design that would be compounded by decisions made during construction.
-    The problem was first noticed by Princeton University engineering student Diane Hartley when she was writing her undergraduate thesis about the Citicorp Center. She spoke with Joel S. Weinstein, a junior engineer with LeMessurier, who provided her with architectural plans and engineering calculations for the structure. According to her calculations, the stress caused by quartering winds (winds that hit a corner of the building and so affect two sides at the same time) would be significantly stronger than perpendicular winds. Due to its innovative design, she assumed that the firm must have done similar calculations. She asked Weinstein for his calculations on the effects of quartering winds, but he never sent them. When she expressed her concerns, Weinstein assured her that the building design was safe and was actually more efficient than conventional designs. As she was still a student, Hartley deferred to his judgement, but she noted their conversation in her thesis nonetheless.
-    In May of 1978, Stubbins and LeMessurier attended a meeting about skyscrapers that they had designed in Pittsburgh that incorporated the same bracing system. U.S. Steel thought that welded joints might make the project too expensive, so its representative asked if they could substitute bolts. LeMessurier called his firm's New York City office to reassure him that the welded joints were the right way to go, but was informed that the same substitution had been made there without consulting him. Although surprised, he was not alarmed. He thought the decision was technically sound, and he couldn't expect them to contact him about every on-site decision.
-    In June, freshman engineering student Lee DeCarolis was writing his own paper about Citicorp Center and its seemingly unstable design. He spoke to LeMessurier, who assured him that the building was quite stable, and that its unique geometry and his diagonal-brace system made it particularly resistant to quartering winds. However, since the New York building code did not require those calculations, he had not done them initially. Thinking that it would make an interesting topic for his students at Harvard, LeMessurier did the calculations, and discovered that quartering winds would increase the stress in certain parts of the building by 40%. That was well within the limitations of his original design, but the original design had specified welded joints, not the bolts that had been used instead. He redid the calculations taking bolts into account, and 40% increased to 160%.
-    Then, he went to New York and learned that his team had defined the braces as trusses instead of columns. Therefore, they thought they were exempt from a safety standard, and had used fewer bolts. After running more wind tunnel tests, he determined that the weakest joint was located on the 30th floor, and its failure would cause a catastrophic collapse of the entire building. After examining historical weather records, he found that a storm capable of causing that failure occurred on average about once every 16 years, also known as a 16-year storm. That frequency was frighteningly high, and after consulting other experts and colleagues, he confronted his firm's insurance company with the grim news.
-    LeMessurier and Stubbins met with Citicorp's management and outlined the problem and a possible solution. They could weld five-centimetre-thick steel plates over weak joints like bandages. The company explained the situation to the city's Building Commission, which gave a carefully written press release stating that the structural work was 'only a prudent response to new meteorological data.' Repairs began almost immediately and progressed rapidly. Then on September 1st, Hurricane Ella was reported to be on a collision course with the city. Fortunately, the storm veered off eastward, and repairs were completed in October.
-    The aftermath of the crisis was noteworthy because it produced no villains. Everyone was honest and forthcoming, the people involved in the repairs cooperated to achieve a common goal and there was no finger-pointing or accusations of blame. The exact cost of the repairs remains undisclosed, but LeMessurier Associates and its insurers reimbursed Citicorp for an agreed two million dollars, and the courts were never involved. LeMessurier had expected to be ruined by the crisis, but due to his actions, his reputation was actually enhanced. The public was not informed about what had transpired until a thorough article was published in The New Yorker in 1995. Since then, the crisis has become a case study used in architectural ethics classes.
+The baobab tree is an icon of the African continent. It can live for over a thousand years and is a vital source of food, water and shelter for indigenous peoples and wildlife alike. Given the tree’s many practical uses, it is not surprising that the baobab features so prominently in traditional African folklore.
+The baobab is a prehistoric species which predates both mankind and the splitting of the continents over 200 million years ago. It belongs to the genus Adansonia, which contains nine species. These are found in the drier parts of Africa, Madagascar, India, Sri Lanka and Australia. Of the nine species, six are native to Madagascar, two to mainland Africa and one to Australia. The African and Australian baobabs look very similar, even though they are not the same species. Baobabs grow in 32 African countries. In West Africa, the baobab’s presence is often an indication of a human settlement nearby. The tree is most frequently found in dry, hot savannahs of sub-Saharan Africa, where the climate is extremely arid and rainfall is seasonal.
+The baobab is a deciduous tree, which means that it loses its leaves during the dry season. It is a succulent, which means that during the rainy season it absorbs and stores water in its vast trunk. This water enables it to produce a nutrient-dense fruit in the dry season when all around is dry and arid. The trunk has a diameter of 10-14 metres and the tree has a height of 18-25 metres. The baobab tree is a strange looking tree that grows in low-lying areas in Africa. Its trunk is very wide and it has large white flowers that bloom at night. Its leaves are finger-like in shape. The baobab is a very versatile tree. Its leaves, bark, fruit and trunk are all useful to humans and animals.
+The baobab’s fruit is large and oval-shaped and it contains a mass of seeds. It is a rich source of vitamin C and its pulp can be used to make a refreshing drink. The pulp can also be used to treat fever, diarrhoea and malaria. The pulp can be stored until it is needed. The seeds of the fruit can be used to produce oil. This oil is used to protect the skin and it is also used in the cosmetic industry. The leaves of the baobab are also useful. They can be eaten fresh or they can be dried and stored. They are rich in iron and can be used as a medicine. The leaves can be used to treat asthma, insect bites and several other ailments. The leaves can also be used as a sauce for food. The bark of the baobab is also useful. It can be used to make cloth and rope. The bark can also be used to make musical instruments, waterproof hats and fishing lines. The bark has also been used to protect young plants from animals. The bark of the baobab is also used to treat fever. The trunk of the baobab is very wide and it can be used as a shelter. It is also used for storage and it can also be used as a source of water in dry periods. The baobab can also be used to make a variety of things such as musical instruments, handcrafts, pots to grow plants in, and many other useful items. The tree also provides shade for animals and humans. The tree is also a source of fuel and is used as a firebreak as well.
+The baobab is also known as the ‘tree of life’ because it can provide shelter, clothing, food, and water for the animal and human inhabitants of the African savannah regions. The tree is also an important source of food for many different creatures such as insects and animals. The flowers provide food for fruit bats, which play an important role in pollinating the flowers. The seeds are eaten by various mammals such as baboons, monkeys and warthogs. Elephants and eland eat the bark of the baobab tree. The flowers provide food for birds, bees and other insects. The baobab tree is home to snakes and tree frogs. The tree is also home to bush babies, which feed on the flowers. The tree is also home to birds such as the mottled spinetail, the grey-headed parrot and the mottled swift. The tree is also host to the African honey bee.
+The baobab tree is under threat because of the increasing human population. The trees are being cut down for their bark, which is used to make rope, mats and baskets. The trees are also being cut down to make way for farmland. The baobab is also under threat from climate change.
     `
     },
     questions: [
-        {
-            questionType: "multiple-choice-single",
-            questions: [
-                {
-                    id: 1,
-                    question: "What does the author suggest about Diane Hartley's research in the third paragraph?",
-                    options: [
-                        { label: "A", text: "Hartley was reluctant to question an architect as famous as LeMessurier." },
-                        { label: "B", text: "No one had found any issues with the Citicorp building's design before her." },
-                        { label: "C", text: "She received all of the data that she requested from LeMessurier Associates." },
-                        { label: "D", text: "Her calculations were ignored by Weinstein because she was only a student." },
-                    ],
-                },
-                {
-                    id: 2,
-                    question: "What unexpected news did LeMessurier receive at the meeting mentioned in the fourth paragraph?",
-                    options: [
-                        { label: "A", text: "The building's foundation was not strong enough to support the structure." },
-                        { label: "B", text: "The church had decided to relocate after all." },
-                        { label: "C", text: "There were problems with the building's wind resistance calculations." },
-                        { label: "D", text: "The city had rejected the building's design plans." },
-                    ],
-                },
-                {
-                    id: 3,
-                    question: "According to the author, LeMessurier had not done calculations on quartering winds because",
-                    options: [
-                        { label: "A", text: "he believed they would not affect the building significantly." },
-                        { label: "B", text: "the building codes did not require such calculations at the time." },
-                        { label: "C", text: "he was focused on perpendicular winds which seemed more dangerous." },
-                        { label: "D", text: "the technology to measure quartering winds did not exist then." },
-                    ],
-                },
-                {
-                    id: 4,
-                    question: "Why does the writer mention the joint on the 30th floor in the sixth paragraph?",
-                    options: [
-                        { label: "A", text: "To argue that the repairs may have actually been unnecessary" },
-                        { label: "B", text: "To provide an explanation of how welds are superior to bolts" },
-                        { label: "C", text: "To illustrate the worst case scenario for the building" },
-                        { label: "D", text: "To describe how the building's joints should be repaired" },
-                    ],
-                },
-            ]
-        },
         {
             questionType: "true-false-notgiven",
             questions: [
                 {
+                    id: 1,
+                    statement: "The baobab tree has been a part of African folklore because of its symbolic representation in ancient myths.",
+                },
+                {
+                    id: 2,
+                    statement: "Baobab trees are only found on the African continent.",
+                },
+                {
+                    id: 3,
+                    statement: "In West Africa, the presence of a baobab tree often indicates nearby human settlements.",
+                },
+                {
+                    id: 4,
+                    statement: "Baobab trees are commonly found in humid tropical rainforests.",
+                },
+                {
                     id: 5,
-                    statement: "The site for the Citicorp Center was purchased from St. Peter's Evangelical Church.",
+                    statement: "The baobab stores water in its trunk during the rainy season to survive dry periods.",
                 },
                 {
                     id: 6,
-                    statement: "The congregation approved Hugh Stubbins' design on the condition that they received a new building that was separate from the skyscraper.",
+                    statement: "The leaves of the baobab tree can be used to make a medicinal sauce.",
                 },
                 {
                     id: 7,
-                    statement: "Citicorp hired LeMessurier to be the structural engineer of the project on Hugh Stubbins' recommendation.",
-                },
-                {
-                    id: 8,
-                    statement: "LeMessurier created a custom support structure for the building that used slanted beams to transfer weight away from the corners.",
-                },
-                {
-                    id: 9,
-                    statement: "The building's unique support structure caused it to be much lighter than others of similar height.",
+                    statement: "Baobab trees are pollinated exclusively by fruit bats.",
                 }
             ]
         },
         {
-            questionType: "sentence-completion",
-            questions: [
+            questionType: "note-completion",
+            topic: "Uses of the Baobab Tree",
+            sections: [
                 {
-                    id: 10,
-                    sentence: "LeMessurier studied historical (10) _____ to determine how often a storm that could cause the building to collapse might occur.",
-                    type: "sentence-completion"
-                },
-                {
-                    id: 11,
-                    sentence: "The solution they proposed was to reinforce weak joints by welding steel plates over them like (11) _____.",
-                    type: "sentence-completion"
-                },
-                {
-                    id: 12,
-                    sentence: "The official explanation for the repair work was that it was an upgrade done as a (12) _____ to new meteorological data.",
-                    type: "sentence-completion"
-                },
-                {
-                    id: 13,
-                    sentence: "After the repairs were completed, Citicorp agreed that LeMessurier Associates and (13) _____ would reimburse the company.",
-                    type: "sentence-completion"
-                }
-            ]
-        }
-    ]
-}
-
-export const reading_section_2 = {
-    reading_passage: {
-        title: "Tsunami Stones",
-        subtitle: "Monuments to oceans destructive power.",
-        passage: `
-    Throughout human history, settlements have been established in coastal areas. The reasons for this are quite simple: the land is relatively flat and easy to build on, the sea provides food through fishing and it provides easy transportation. However, building our settlements near the ocean also comes with inherent risks. When certain conditions are met, mountainous waves can rush inland and wash away people, homes and even entire cities. Where this kind of natural disaster is particularly common or dangerous, people have sometimes provided warnings to future generations by carving messages onto stones. In Japan, carved stones called 'tsunami stones' dot hillsides along the archipelago's coast, but people do not always heed their warnings.
-    The islands of Japan lie at the convergent boundary between several tectonic plates, which make them prone to earthquakes and volcanic eruptions. When geological events such as these disturb the sea floor, they can generate massive waves called tsunamis that inundate the land. First, the water rapidly recedes from the beach as though the tide is going out very quickly, then the water returns with the full force of the ocean behind it. That is why tsunamis are sometimes referred to by the misleading term 'tidal waves.' Tsunami waves can be tens of metres high, which allows them to roll deep inland and endanger settlements far from the coast. They also tend to come in a series of waves that first flood the land and then retreat, dragging debris with them into the ocean only to bring it back on the next wave. This repeated action makes them extremely devastating and can strip away everything down to the bedrock.
-    Japan has suffered through some of the most destructive and deadly tsunamis in history. When people survive these catastrophic events, they understandably want to prevent their descendants from enduring similar experiences, but people have short memories. According to Fumiko Imamura, a professor of disaster planning at Tohoku University, 'It takes about three generations for people to forget. Those that experience the disaster themselves pass it to their children and their grandchildren, but then the memory fades.' That is why some ancestors of modern Japanese people decided to carve tsunami stones. Hundreds of tsunami stones have been found around Japan, but the majority of them are concentrated in the northeastern coastal areas.
-    The oldest existing stones were erected over 600 years ago, and some were later washed away by more powerful events. That, in itself, is a message as the stones range from one to three metres tall, and can weigh several tonnes. Each stone has an inscription, but some have been worn away over the centuries. Some of them function as monuments that provide death tolls and may even mark the victims' mass graves. Others advise people to seek higher ground after an earthquake, and a few have place names that carry clear messages. Namiwake means 'Wave's Edge' and it is located three miles from the coast marking the farthest reach of the 1611 tsunami. Nokoriya translates as 'Valley of Survivors' and it marks a location that has clearly provided a safe haven from the waves.
-    One famous tsunami stone near the small village of Aneyoshi provides unusually clear instructions. The 1.5 metre slab of stone says, 'High dwellings are the peace and harmony of our descendants. Remember the calamity of the great tsunamis. Do not build any homes below this point.' This is the only stone that specifically tells people where to build their homes. Aneyoshi was struck by two tsunamis that nearly wiped out the village completely. The first was during the 1896 Sanriku earthquake, which killed at least 22,000 people across Japan and all but two of the villagers. The village was repopulated, and had moved back down toward the shore a few years later. Then, in 1933, another earthquake birthed a tsunami that only left four villagers alive. They moved farther uphill, and carved the stone to protect the following generations. Indeed, Aneyoshi survived tsunamis in 1960 and 2011 unscathed.
-    After World War II, coastal towns and cities rapidly grew as people disregarded the warnings of the tsunami stones. For many people, the tsunami stones seemed like relics of the distant past written in archaic language that is difficult to read, so they were ignored. Residents put their faith in advanced technology to detect seismic events and warn them of approaching waves, and they built taller seawalls to protect them. Unfortunately, the 2011 Tohoku earthquake and tsunami were among the worst in Japanese history, and the waves easily swept over and shattered the sea walls. This disaster left 15,894 people dead, 6,156 injured and 2,546 missing. Some experts think that Japan needs a new version of the tsunami stones that is easier to understand. One suggestion is to preserve some of the ruined buildings from 2011 to provide permanent reminders of the destructive force of the waves.
-    `
-    },
-    questions: [
-        {
-            questionType: "yes-no-notgiven",
-            questions: [
-                {
-                    id: 14,
-                    statement: "The architect’s original idea included building a new church on a different site.",
-                },
-                {
-                    id: 15,
-                    statement: "Some engineers disagreed with LeMessurier’s bracing design.",
-                },
-                {
-                    id: 16,
-                    statement: "LeMessurier believed the building could collapse in certain wind conditions.",
-                },
-                {
-                    id: 17,
-                    statement: "The modifications were carried out only during the day to avoid public attention.",
-                },
-                {
-                    id: 18,
-                    statement: "Citicorp publicly acknowledged the flaw after repairs were completed.",
-                }
-            ]
-        },
-        {
-            questionType: "match-headings",
-            question: {
-                headings: [
-                    { number: "i", text: "The price of forgetting" },
-                    { number: "ii", text: "Old problems with modern solutions" },
-                    { number: "iii", text: "A case in point" },
-                    { number: "iv", text: "Biggest of waves" },
-                    { number: "v", text: "Convenience leads to catastrophe" },
-                    { number: "vi", text: "Tragedy comes twice" },
-                    { number: "vii", text: "Historic destruction" },
-                    { number: "viii", text: "Mechanism of tsunamis" },
-                ],
-                id: [19, 20, 21, 22, 23],
-            },
-        },
-        {
-            questionType: "summary-completion",
-            question: {
-                id: [24, 25, 26, 27],
-                title: "Messages from the Past",
-                passageTemplate: `
-      There are many tsunami stones spread across Japan, but one of the most <23> is located near the small village of Aneyoshi.
-      While many stones act as monuments that provide warnings through death tolls, this one specifically tells people not to <24>
-      their homes below it. The village was struck by two tsunamis in 1896 and 1933. After the second disaster, the villagers <25>
-      their stone. Unfortunately, many people <26> the stones after World War II, and they relied on advanced technology and taller
-      seawalls to protect them. The Tohoku tsunami in 2011 swept over and shattered the seawalls and claimed thousands of lives.
-    `,
-            },
-        }
-    ]
-}
-
-export const reading_section_3 = {
-    reading_passage: {
-        title: "Tipping Point",
-        subtitle: "Even Amaricans are getting tired of tipping.",
-        passage: `
-    The practice of giving additional money to servers at restaurants and in other service jobs is called tipping. Originating in Europe, tipping has a long history in western culture, although it is most strongly associated with the United States. Many visitors to the US find tipping to be very confusing and the most stress-inducing part of their trips. Although tipping culture has reached its most extreme form in the US, there is a growing opposition to tipping even there. This reversal is the result of many factors, and people may have reached a tipping point regarding this custom.
-    The practice of tipping dates back to Tudor England (1485 - 1603), when it consisted of a master rewarding a servant with extra money for having performed their tasks exceptionally well. By the 17th century, the burden had shifted to guests who spent the night at private homes. They were expected to give gifts of money, which were referred to as vials, to their host's servants. The custom soon spread to coffeehouses and other public establishments. The etymology of the term 'tip' is not well understood, except that it began as a slang word that may have originated from thieves cant - the special vocabulary used by criminals. The earliest known use of the word as a noun was around 1600, and it was first used as a verb in a play by George Farquhar in 1707.
-    The concept of tipping was introduced to the US from Europe in the 1850s and 1860s by affluent Americans who had travelled through Europe and wanted to seem aristocratic. Tipping was initially met with a fierce backlash from many Americans who thought it was inconsistent with their democratic, egalitarian society. Tipping was based on the obligations of the nobility and acted to establish and reinforce inferior social status. Several states even passed laws that banned tipping, but enforcing them was difficult. Restaurant owners and other proprietors initially also opposed tipping. They viewed it as customers bribing staff for extra food and drink or special treatment. This opposition to tipping spread into Europe along with the rise of labour movements, and customary tipping was abolished in most countries in the region. However, after Prohibition was instituted in the US in 1919, restaurants and hotels could no longer sell alcoholic beverages, and their revenue fell. It was at this point that business owners began to embrace tipping as a way to supplement their employees' wages.
-    Since then tipping has spread throughout the service industry to include bartenders, hair stylists, taxi drivers and food delivery drivers. Tipping culture became further entrenched in the restaurant industry in 1966 when Congress decided that workers who regularly receive a significant amount of tips could be paid much less than the federal minimum wage as long as the combined total was the same amount or more. Due to this fact, servers in many bars and restaurants rely on tips for the bulk of their income. Some restaurants instituted mandatory tipping by adding a 10 to 15% gratuity surcharge to receipts, particularly for large groups of customers. Thus, tipping culture became the status quo in the United States, with tips paid to individuals ranging from 5 to 20% of the actual charge for food or services depending on the location and the quality of service.
-    However, tipping has expanded in scope over the last five years, which has led to increasing opposition amongst the public. Analysts say that the recent expansion of tipping is due to a combination of three factors: the gig economy, technology, and the job market. In the gig economy, people work freelance or on short contracts, which provides both the employee and the employer more freedom. This business model provided an abundance of delivery drivers, which led to a massive increase in home deliveries of prepared food, groceries and nearly every other product imaginable. This in turn led to people tipping for the delivery of items they would have purchased at stores before.
-    The use of touch screens and tablets in stores and restaurants also grew during this time, along with a strong preference for credit cards over cash. On many of these devices, a tipping options menu automatically pops up during the payment process and conveniently offers tip options that can range up to 30%. The calculations presented are not always accurate, but many people still feel compelled to tip because the server is right there in front of them and other people are watching. The companies that created the software also get a percentage of each payment and tip, so there is great motivation to expand tipping as much as possible. Adding to that is the current job market, in which business owners have to compete for workers and offer them higher pay without raising prices. So, they offer them the potential for more tips.
-    However, the expansion of tipping culture may lead to its demise. With the gig economy now well-established, and inflation continuing to increase, many customers want tipping to return to the way it was before or to go away altogether. According to a survey by Bankrate, two-thirds of customers currently have a negative view of tipping, and tips paid to restaurant servers have dropped by 10% over the last year. Many states have also mandated higher minimum wages than the US federal standard for all workers including servers. With employees receiving living wages, tipping may disappear from most industries, but that means employers will have to actually pay their employees more. That may mean fewer job openings and higher prices.
-    `
-    },
-    questions: [
-        {
-            questionType: "matching-sentence-endings",
-            question: {
-                starting: [
-                    { id: 28, text: "Tipping was originally met with hostility in the US" },
-                    { id: 29, text: "Laws were created that made tipping illegal," },
-                    { id: 30, text: "Congress passed legislation in 1966 that made it legal to" },
-                    { id: 31, text: "Some restaurants force large groups of customers to" },
-                    { id: 32, text: "The main benefit of the gig economy is that it" },
-                ],
-                endings: [
-                    { letter: "A", text: "but they were not effective at discouraging the behaviour." },
-                    { letter: "B", text: "make a server's entire salary consist of the tips they receive." },
-                    { letter: "C", text: "pay tipped workers significantly less than the federal minimum wage." },
-                    { letter: "D", text: "because it reminded people of being controlled by England." },
-                    { letter: "E", text: "where people thought it was undemocratic and elitist." },
-                    { letter: "F", text: "provide good tips by adding an additional surcharge to their bill." },
-                    { letter: "G", text: "allows both the employer and the employee to have more freedom." },
-                ],
-            }
-        },
-        {
-            questionType: "multiple-choice-many",
-            questions: [
-                {
-                    id: [33, 34],
-                    question: "In which TWO ways did technology contribute to the increase in tipping?",
-                    selectedAnswers: [],
-                    options: [
+                    title: "Fruit",
+                    bulletPoints: [
                         {
-                            letter: "A",
-                            text: "Touch screens use software made by companies that get a percentage of both payment and tip.",
+                            text: "contains a lot of vitamin C",
                         },
                         {
-                            letter: "B",
-                            text: "People were forced to use credit cards because businesses would not accept cash.",
+                            text: "can be used to treat illness",
                         },
                         {
-                            letter: "C",
-                            text: "Tipping screens automatically add the tipping percentage the restaurant owner has chosen.",
+                            text: "can be stored for a long time",
                         },
                         {
-                            letter: "D",
-                            text: "Using technology allows customers to make perfect tip percentage calculations.",
-                        },
-                        {
-                            letter: "E",
-                            text: "The server and other customers can watch an individual choosing their tip option.",
+                            text: "seeds can be used to produce oil",
                         },
                     ],
                 },
                 {
-                    id: [35, 36],
-                    question: "Which TWO factors are contributing to the decline of tipping?",
-                    selectedAnswers: [],
-                    options: [
+                    title: "Leaves",
+                    bulletPoints: [
                         {
-                            letter: "A",
-                            text: "Servers are not willing to work for pay that comes mostly from tips anymore.",
+                            text: "can be used fresh or dried",
                         },
                         {
-                            letter: "B",
-                            text: "The majority of people have developed a negative view of tipping.",
+                            text: "can be used to treat illness",
                         },
                         {
-                            letter: "C",
-                            text: "The tipping rate for servers has increased by 10% over the last year.",
+                            id: 8,
+                            text: "can be used to make a (8) _______",
+                        },
+                    ],
+                },
+                {
+                    title: "Bark",
+                    bulletPoints: [
+                        {
+                            text: "can be used to make cloth and musical instruments",
                         },
                         {
-                            letter: "D",
-                            text: "Several states have created their own minimum wages that are much higher than the federal minimum and include servers.",
+                            id: 9,
+                            text: "can be used to protect (9) _______ and to treat fever",
+                        },
+                    ],
+                },
+                {
+                    title: "Trunk",
+                    bulletPoints: [
+                        {
+                            id: 10,
+                            text: "can provide (10) _______ and water",
                         },
                         {
-                            letter: "E",
-                            text: "Restaurant owners have been raising their prices to keep up with inflation.",
+                            id: 11,
+                            text: "can be used to make (11) _______",
+                        },
+                    ],
+                },
+                {
+                    title: "General",
+                    bulletPoints: [
+                        {
+                            id: 12,
+                            text: "provides (12) _______ for animals and humans",
+                        },
+                        {
+                            id: 13,
+                            text: "can be used to make (13) _______ to burn",
                         },
                     ],
                 },
             ],
         },
+    ]
+}
+
+export const reading_section_2 = {
+    reading_passage: {
+        title: "THE BIRTH OF THE 10,000-HOUR RULE",
+        subtitle: "A study on violinists in the early 1990s inspired the idea that 10,000 hours of practice is the key to success",
+        passage: `
+The so-called 10,000-hour rule can be traced back to a 1993 paper, ‘The Role of Deliberate Practice in the Acquisition of Expert Performance’, co-authored by a Swedish psychologist and a US psychological scientist. The paper is one of the most cited in its field. Its most striking claim is that the difference between expert performers and normal adults is not due to innate talent, but rather is a reflection of the amount of deliberate practice they have undergone. ‘Many characteristics once believed to reflect innate talent are actually the result of intense practice extended for a minimum of 10 years,’ the authors wrote. They concluded: ‘The maximal level of performance for individuals in a given domain is not attained automatically as a function of extended experience, but the level of performance can be increased even by highly experienced individuals as a result of deliberate efforts to improve.’
+The study looked at three groups of violinists at the Music Academy of West Berlin, in Germany. The authors set out to find out what had caused the ‘best’ violinists to be better than the merely ‘good’ ones, who were in turn better than the ‘least accomplished’ ones. All of the violinists were asked how much they had practised, alone, with a teacher, and with others, every week, ever since they had first picked up a violin. What they found was that by the age of 20, the best violinists had practised an average of 10,000 hours, the good ones had practised 8,000 hours, and the least skilled had practised 4,000 hours. The psychologists concluded that what mattered was not the time spent obtaining any old experience, but the amount of time spent on ‘deliberate practice’, which they defined as an effortful activity designed to improve individual target performance. The authors also noted that the most accomplished individuals in their study had each followed the same learning structure, and had all acquired their skills in a similar way: ‘All of the expert violinists had started playing at approximately five years of age, and had selected a music teacher who was a violinist. All of them had been admitted to a music academy by eight years of age, where they had been taught by skillful violin teachers. All of them had started solo practice at around the age of eight. All of them had been rated very highly by their violin teachers at the music academy, and had given their first public performance at around the age of eight.’
+The theory of deliberate practice was popularised by the writer Malcolm Gladwell, who argued that talent is irrelevant to performance in his book Outliers, published in 2008. ‘The striking thing about Ericsson’s study is that he and his colleagues couldn’t find any “naturals”, musicians who floated effortlessly to the top while practising a fraction of the time their peers did. Nor could they find any “grinds”, people who worked harder than everyone else, yet just didn’t have what it takes to break the top ranks,’ he wrote. ‘Their research suggests that once a musician has enough ability to get into a top music school, the thing that distinguishes one performer from another is how hard he or she works. That’s it. And what’s more, the people at the very top don’t work just harder or even much harder than everyone else. They work much, much harder.’
+But while Ericsson and his colleagues had found a correlation between the number of hours spent on deliberate practice and the level of expertise achieved, their research didn’t determine whether practice was the cause of that expertise. The idea that 10,000 hours of practice will make you an expert is appealing, not least because it suggests that anyone can achieve anything if they just work hard enough. But while practice is undeniably important, it is not the only factor that contributes to performance. In 2014, a group of psychologists led by Brooke Macnamara of Princeton University re-analysed data from all of the studies they could find on the relationship between deliberate practice and performance in various domains, including music, sports and education, and estimated that the average amount that practice contributes to mastery of these is just 12 percent. That leaves a lot of the variance in expert performance unexplained, which means factors other than practice must be involved.
+In a rejoinder, Ericsson argues that Macnamara’s analysis actually showed the opposite of what she claimed. In each of the domains she looked at, he says, practice was the single most important factor in predicting a person’s level of expertise. The problem, he argues, is that Macnamara’s analysis looked at the total number of hours of practice undertaken by the participants in the studies she reviewed, rather than the number of hours of deliberate practice. ‘The paper is important because it shows that the amount of time with relevant experience is not a good predictor of attained performance,’ he says. ‘But it does not invalidate the body of research on deliberate practice, nor its utility as the most important predictor of expertise.’
+        `
+    },
+    questions: [
         {
-            questionType: "flow-chart-completion",
+            questionType: "match-paragraph-information",
             question: {
-                image_url:
-                    "https://toeflbank-rest-api-production.s3.amazonaws.com/content/ielts/reading_group/image/Glaciers%20-%20Flowchart_ba6efbe499cc4bbe9defdc00e207a7a2.svg",
-                id: [37, 38, 39, 40],
+                information: [
+                    { id: 14, text: "Tipping was originally met with hostility in the US" },
+                    { id: 15, text: "Laws were created that made tipping illegal," },
+                    { id: 16, text: "Congress passed legislation in 1966 that made it legal to" },
+                    { id: 17, text: "Some restaurants force large groups of customers to" },
+                    { id: 18, text: "The main benefit of the gig economy is that it" },
+                ],
+                letters: [
+                    "A", "B", "C", "D", "E"
+                ],
+            }
+        },
+        {
+            questionType: "matching-features",
+            question: {
+                question_statement: "Look at the following statements the list of researchers below",
+                statements_title: "Statements",
+                statements: [
+                    { id: 19, text: "Their research involved innovative methods of measuring practice among participants.", },
+                    { id: 20, text: "They made claims about the significance of practice which were not justified.", },
+                    { id: 21, text: "They devised a sophisticated way of measuring the development of expertise.", },
+                    { id: 22, text: "Their research generated an unexpected result.", },
+                ],
+                features_title: "List of Researchers",
+                features: [
+                    { letter: "A", description: "Ericsson and colleagues", },
+                    { letter: "B", description: "Malcolm Gladwell", },
+                    { letter: "C", description: "Brooke Macnamara and colleagues", },
+                ],
             },
+        },
+        {
+            questionType: "multiple-choice-many",
+            questions: [
+                {
+                    id: [23, 24],
+                    question: "Which TWO of the following statements does the writer make about the study of violinists undertaken by Ericsson and his colleagues?",
+                    options: [
+                        "It was widely regarded as original.",
+                        "Its aims were innovative.",
+                        "It produced some unexpected findings.",
+                        "It called into question the methods of other researchers.",
+                        "Its scope was very limited."
+                    ]
+                },
+                {
+                    id: [25, 26],
+                    question: "Which TWO of the following statements does the writer make about the theory of deliberate practice?",
+                    options: [
+                        "It was developed by combining data from several studies.",
+                        "It is the only theory to attempt to calculate the number of hours required for expertise.",
+                        "It is the first theory to link the acquisition of expertise with the number of hours spent practising.",
+                        "It fails to take account of individual differences.",
+                        "It has been challenged by some researchers."
+                    ]
+                }
+            ]
+        },
+    ]
+}
+
+export const reading_section_3 = {
+    reading_passage: {
+        title: "NUCLEAR FUSION: THE KEY TO LIMITLESS CLEAN ENERGY?",
+        subtitle: "",
+        passage: `
+A In December 2022, scientists at a laboratory in California announced a major breakthrough in nuclear fusion research. For the first time ever, scientists had managed to produce a nuclear fusion reaction that generated more energy than it consumed. The result was hailed as a major step forward in the development of nuclear fusion as a new source of energy. But what is nuclear fusion, and why is it so important?
+B When we think of nuclear power, we usually think of nuclear fission, the process of splitting the nucleus of an atom into two or more smaller nuclei. This is the reaction that occurs in nuclear power stations today. However, nuclear fission has a number of disadvantages. The fuel used is radioactive, and there is always a risk of nuclear accidents, such as the one that occurred at the Chernobyl nuclear power plant in 1986. In addition, nuclear fission produces radioactive waste, which remains dangerous for thousands of years and is difficult to dispose of safely. Nuclear fusion, on the other hand, is the process of fusing two atomic nuclei together to form a single heavier nucleus. This is the process that occurs in the sun and other stars. The reaction releases a huge amount of energy, and the fuel used is not radioactive. This makes nuclear fusion a potentially limitless source of clean energy.
+C The potential benefits of nuclear fusion are enormous. It could provide a virtually limitless supply of clean energy, with none of the problems associated with nuclear fission. It could help to reduce our reliance on fossil fuels, and therefore help to combat climate change. It could also provide energy security, as the fuel used in nuclear fusion is abundant and widely available. However, there are significant challenges to be overcome before nuclear fusion can become a viable source of energy.
+D One of the biggest challenges is the high temperature and pressure required to achieve nuclear fusion. In order to fuse atomic nuclei together, they must be heated to temperatures of millions of degrees Celsius. This requires a huge amount of energy, and it is difficult to find materials that can withstand such high temperatures. In addition, the nuclei must be held together at high pressure for a long enough time to allow the fusion reaction to occur. This is difficult to achieve, as the high temperature and pressure tend to cause the nuclei to fly apart.
+E Another challenge is the cost of nuclear fusion research. The equipment and research required to achieve nuclear fusion are extremely expensive, and the cost of research and development is high. This has led to concerns that nuclear fusion may not be economically viable, and that the money spent on research could be better spent on other forms of clean energy.
+F Despite these challenges, there has been significant progress in nuclear fusion research in recent years. Scientists have developed a number of different approaches to achieving nuclear fusion, and have made significant advances in understanding the physics of the process. The recent breakthrough in California is just one example of the progress that has been made.
+G One of the most promising approaches to achieving nuclear fusion is the use of magnetic confinement. In this approach, a plasma of hydrogen nuclei is confined within a magnetic field and heated to the required temperature. The magnetic field helps to keep the nuclei close together, increasing the chances of fusion occurring. This approach has been used in a number of experimental fusion reactors, and has shown promise in achieving the conditions required for nuclear fusion.
+H Another approach is inertial confinement, in which a small pellet of hydrogen fuel is compressed and heated using lasers or other forms of energy. The compression and heating cause the nuclei to fuse together, releasing energy. This approach has also shown promise, and has been used in a number of experimental fusion reactors.
+I Despite the progress that has been made, there is still a long way to go before nuclear fusion can become a viable source of energy. Scientists need to find ways to achieve the required temperature and pressure more efficiently, and to develop materials that can withstand the extreme conditions. They also need to find ways to reduce the cost of nuclear fusion research, such as by having cheaper, more durable materials for some components like the first wall and divertors.
+J In conclusion, nuclear fusion has the potential to be a virtually limitless source of clean energy, with none of the problems associated with nuclear fission. However, there are significant challenges to be overcome before it can become a viable source of energy. Scientists need to find ways to achieve the required conditions more efficiently, and to reduce the cost of research. Despite these challenges, there has been significant progress in nuclear fusion research in recent years, and the recent breakthrough in California is just one example of this progress. With continued research and development, nuclear fusion could become a major source of energy in the future.
+        `
+    },
+    questions: [
+        {
+            questionType: "match-paragraph-information",
+            question: {
+                information: [
+                    {
+                        id: 27,
+                        text: "a description of the method used by stars to generate energy"
+                    },
+                    {
+                        id: 28,
+                        text: "a description of the process used to produce energy in nuclear power plants today"
+                    },
+                    {
+                        id: 29,
+                        text: "an explanation of the advantages of nuclear fusion over nuclear fission"
+                    },
+                    {
+                        id: 30,
+                        text: "a reference to the difficulty of achieving the conditions required for nuclear fusion"
+                    },
+                    {
+                        id: 31,
+                        text: "a reference to a nuclear fusion experiment that has been successful"
+                    },
+                    {
+                        id: 32,
+                        text: "a mention of the need to find a way of making nuclear fusion research more affordable"
+                    }
+                ],
+                letters: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+            }
+        },
+        {
+            //there are 2 separate paragpahs with 2 titles
+            questionType: "summary-completion",
+            question: {
+                id: [33, 34, 35],
+                title: "Magnetic and Inertial Confinement",
+                passageTemplate: `
+In the magnetic confinement approach, a <33> is placed inside a magnetic field and heated. This method has been employed in various experimental <34> showing potential for generating fusion energy.
+In the inertial confinement approach, a small pellet of hydrogen fuel is compressed and heated using lasers or other forms of energy. This extreme compression and heat triggers a nuclear reaction during which the <35> are fused together, releasing a significant amount of energy.
+    `,
+                optionList: [
+                    { letter: "A", text: "plasma" },
+                    { letter: "B", text: "nuclei" },
+                    { letter: "C", text: "energy" },
+                    { letter: "D", text: "reactors" },
+                    { letter: "E", text: "fusion" },
+                    { letter: "F", text: "reaction" },
+                    { letter: "G", text: "hydrogen" },
+                    { letter: "H", text: "atoms" },
+                    { letter: "I", text: "nuclear fission" },
+                    { letter: "J", text: "nuclear fusion" },
+                    { letter: "K", text: "temperature" }
+                ]
+            }
+        },
+        {
+            questionType: "true-false-notgiven",
+            questions: [
+                {
+                    id: 36,
+                    statement: "The California experiment was the first time nuclear fusion had ever been achieved."
+                },
+                {
+                    id: 37,
+                    statement: "Nuclear fusion could help to reduce the world’s dependence on fossil fuels."
+                },
+                {
+                    id: 38,
+                    statement: "The fuel used in nuclear fusion is rare and hard to find."
+                },
+                {
+                    id: 39,
+                    statement: "The high cost of nuclear fusion is solely attributed to its equipment."
+                },
+                {
+                    id: 40,
+                    statement: "The basic physics behind nuclear fusion is more advanced than scientists once thought."
+                }
+            ]
         }
     ]
 }

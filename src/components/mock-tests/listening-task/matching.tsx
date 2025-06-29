@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 
 export interface MatchingFeatureStatement {
-    id: number
+    id?: number
     text: string
     selectedFeature?: string
 }
@@ -18,11 +18,11 @@ export interface MatchingFeatureOption {
 export interface MatchingFeaturesQuestion {
     questionType: "matching"
     question: {
-        statements_title: string,
+        question_statement?: string
+        statements_title?: string,
         statements: MatchingFeatureStatement[]
-        features_title: string,
+        features_title?: string,
         features: MatchingFeatureOption[]
-        question_statement: string
     }
 }
 
@@ -56,24 +56,26 @@ export default function Matching(props: MatchingFeaturesQuestion) {
             <div className="space-y-8">
                 {/* Questions */}
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-3">{statements_title}</h3>
+                    {statements_title && <h3 className="text-lg font-semibold text-gray-800 mb-3">{statements_title}</h3>}
                     <div className="space-y-6">
                         {questions.map((q) => (
                             <div key={q.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
                                 <div className="flex-1">
                                     <p className="text-base leading-relaxed">
-                                        <span className="font-bold mr-2">{q.id}</span>
+                                        {q.id !== undefined && <span className="font-bold mr-2">{q.id}</span>}
                                         {q.text}
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <Input
-                                        onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                                        className="w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded"
-                                        placeholder=""
-                                        maxLength={1}
-                                        value={q.selectedFeature}
-                                    />
+                                    {q.id !== undefined && (
+                                        <Input
+                                            onChange={(e) => handleAnswerChange(q.id as number, e.target.value)}
+                                            className="w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded"
+                                            placeholder=""
+                                            maxLength={1}
+                                            value={q.selectedFeature}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         ))}
@@ -83,7 +85,7 @@ export default function Matching(props: MatchingFeaturesQuestion) {
 
                 {/* Feature Options */}
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-3">{features_title}</h3>
+                    {features_title && <h3 className="text-lg font-semibold text-gray-800 mb-3">{features_title}</h3>}
                     <Card className="border-2 border-gray-300">
                         <CardContent className="p-6">
                             <div className="space-y-3">

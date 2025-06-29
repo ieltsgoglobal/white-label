@@ -8,7 +8,7 @@ interface FormQuestion {
     type: "form-completion"
     formData: {
         title: string
-        address: string
+        address?: string
         sections: Array<{
             title?: string
             fields: Array<{
@@ -35,21 +35,33 @@ export default function FormCompletion(props: FormQuestion) {
             return <span className="text-sm">{field.content}</span>
         }
 
-        // Handle other fields with single blanks
+        // Handle other fields with single blanks and multiline content
         if (field.id) {
-            const parts = field.content.split(`(${field.id}) _______`)
+            const lines = field.content.split("\n")
+
             return (
-                <div className="flex items-center gap-2 text-sm flex-wrap">
-                    <span>{parts[0]}</span>
-                    <div className="flex items-center gap-1">
-                        <span className="font-semibold text-blue-600">({field.id})</span>
-                        <Input
-                            placeholder=""
-                            onChange={(e) => handleFormAnswerChange(field.id, e.target.value)}
-                            className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
-                        />
-                    </div>
-                    <span>{parts[1] || ""}</span>
+                <div className="text-sm space-y-1">
+                    {lines.map((line: string, index: number) => {
+                        const parts = line.split(`(${field.id}) _______`)
+                        if (parts.length === 2) {
+                            return (
+                                <div key={index} className="flex items-center gap-2 flex-wrap">
+                                    <span>{parts[0]}</span>
+                                    <div className="flex items-center gap-1">
+                                        <span className="font-semibold text-blue-600">({field.id})</span>
+                                        <Input
+                                            placeholder=""
+                                            onChange={(e) => handleFormAnswerChange(field.id, e.target.value)}
+                                            className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
+                                        />
+                                    </div>
+                                    <span>{parts[1] || ""}</span>
+                                </div>
+                            )
+                        }
+
+                        return <div key={index}>{line}</div>
+                    })}
                 </div>
             )
         }
@@ -102,7 +114,7 @@ export default function FormCompletion(props: FormQuestion) {
                         {/* Form Header */}
                         <div className="text-center mb-6">
                             <h2 className="text-2xl font-bold mb-2">{formQuestion.formData.title}</h2>
-                            <p className="text-sm text-gray-600">{formQuestion.formData.address}</p>
+                            {formQuestion.formData.address && <p className="text-sm text-gray-600">{formQuestion.formData.address}</p>}
                         </div>
 
                         {/* Form Sections */}

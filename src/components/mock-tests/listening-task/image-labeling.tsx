@@ -8,14 +8,14 @@ import { Input } from "@/components/ui/input"
 // 4. Plan / Map / Diagram Labelling  
 interface MapQuestion {
     id: number
-    location: string
+    location?: string
 }
 
 interface MapSection {
     type: "image-labeling"
-    mapTitle: string
     image_url: string
     questions: MapQuestion[]
+    instructions: string
 }
 
 export default function ImageLabeling(props: MapSection) {
@@ -34,7 +34,7 @@ export default function ImageLabeling(props: MapSection) {
         <Card className="w-full">
             <CardHeader>
                 <CardTitle>Questions {mapQuestions.questions[0].id} -  {mapQuestions.questions[mapQuestions.questions.length - 1].id}</CardTitle>
-                <p className="text-sm text-muted-foreground font-medium">Label the map. Write the correct letter, A - J, in boxes 15 - 20.</p>
+                <p className="text-sm text-muted-foreground font-medium">{mapQuestions.instructions}</p>
             </CardHeader>
             <CardContent>
                 <div className="flex flex-wrap gap-8">
@@ -55,13 +55,14 @@ export default function ImageLabeling(props: MapSection) {
                         {mapQuestions.questions.map((question) => (
                             <div key={question.id} className="flex items-center gap-4 p-3 border rounded-lg">
                                 <span className="font-semibold text-blue-600 min-w-[2rem]">{question.id}</span>
-                                <span className="flex-1 text-sm">{question.location}</span>
+                                {question.location && <span className="flex-1 min-w-[7rem] text-sm">{question.location}</span>}
                                 <Input
                                     // placeholder="A-J"
                                     placeholder=""
                                     onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-                                    className="w-12 h-8 text-center text-sm font-bold"
-                                    maxLength={1}
+                                    className="w-full h-8 text-center text-sm font-bold"
+                                // className="w-12 h-8 text-center text-sm font-bold"
+                                // maxLength={1}
                                 />
                             </div>
                         ))}
