@@ -1,5 +1,6 @@
 "use client"
 import { Input } from "@/components/ui/input"
+import AnswerInput from "../additional-ui/AnswerInput"
 
 interface Heading {
     number: string
@@ -69,10 +70,9 @@ export default function MatchHeadings(props: MatchHeadingsSection) {
                         <div className="flex items-center space-x-4">
                             <span className="font-bold text-lg text-gray-900 min-w-[32px]">{id}</span>
                             <span className="text-gray-800 font-medium">{getSectionLabel(index)}</span>
-                            <Input
+                            <AnswerInput
                                 className="w-20 h-10 border-2 border-blue-300 focus:border-blue-500 rounded-md px-3 text-center"
-                                onChange={(e) => handleAnswerChange(id, e.target.value)}
-                                placeholder=""
+                                questionNumber={id}
                                 maxLength={4}
                             />
                         </div>

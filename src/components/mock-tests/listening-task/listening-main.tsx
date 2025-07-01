@@ -14,10 +14,17 @@ import MultipleChoiceMany from "./multiple-choice-many"
 import FlowChartCompletion from "./flow-chart-completion"
 import SummaryCompletion from "./summary-completion"
 import SentenceCompletion from "./sentence-completion"
+import { saveCurrentMockSection, loadCurrentMockSection } from "@/lib/indexedDb"
+
 
 export default function ListeningMain({ test_id }: { test_id: string }) {
     const [section, setSection] = useState<any>(null)
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0) // 0 to 3 = 4 sections
+
+    // to tell child component that listeing section is going on
+    useEffect(() => {
+        saveCurrentMockSection("listening") // Save on mount
+    }, [])
 
     useEffect(() => {
         const loadTestData = async () => {
@@ -37,29 +44,30 @@ export default function ListeningMain({ test_id }: { test_id: string }) {
     }
 
     const renderComponent = (question: any, index: number) => {
+        const section = "listening"
         switch (question.questionType) {
             case "table-completion":
-                return <TableCompletion key={`tc-${index}`} {...question} section="reading" />
+                return <TableCompletion key={`tc-${index}`} {...question} />
             case "form-completion":
-                return <FormCompletion key={`fc-${index}`} {...question} section="reading" />
+                return <FormCompletion key={`fc-${index}`} {...question} />
             case "multiple-choice-single":
-                return <MultipleChoiceSingle key={`mcs-${index}`} {...question} section="reading" />
+                return <MultipleChoiceSingle key={`mcs-${index}`} {...question} />
             case "multiple-choice-many":
-                return <MultipleChoiceMany key={`mcm-${index}`} {...question} section="reading" />
+                return <MultipleChoiceMany key={`mcm-${index}`} {...question} />
             case "image-labeling":
-                return <ImageLabeling key={`il-${index}`} {...question} section="reading" />
+                return <ImageLabeling key={`il-${index}`} {...question} />
             case "short-answer":
-                return <ShortAnswer key={`sa-${index}`} {...question} section="reading" />
+                return <ShortAnswer key={`sa-${index}`} {...question} />
             case "note-completion":
-                return <NoteCompletion key={`nc-${index}`} {...question} section="reading" />
+                return <NoteCompletion key={`nc-${index}`} {...question} />
             case "matching":
-                return <Matching key={`m-${index}`} {...question} section="reading" />
+                return <Matching key={`m-${index}`} {...question} />
             case "summary-completion":
-                return <SummaryCompletion key={`sc-${index}`} {...question} section="reading" />
+                return <SummaryCompletion key={`sc-${index}`} {...question} />
             case "flow-chart-completion":
-                return <FlowChartCompletion key={`fcc-${index}`} {...question} section="reading" />
+                return <FlowChartCompletion key={`fcc-${index}`} {...question} />
             case "sentence-completion":
-                return <SentenceCompletion key={`sec-${index}`} {...question} section="reading" />
+                return <SentenceCompletion key={`sec-${index}`} {...question} />
             default:
                 return null
         }

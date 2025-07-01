@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
+import { updateMockAnswer } from "@/lib/mockAnswersStorage"
+import AnswerRadio from "../additional-ui/AnswerRadio"
 
 interface MCQQuestion {
     id: number
@@ -20,10 +22,6 @@ const optionLetters = ["A", "B", "C", "D", "E"]
 
 export default function MultipleChoiceSingle(props: MCQSection) {
     const [mcqQuestions, setMcqQuestions] = useState<MCQSection>(props)
-
-    const handleAnswerChange = (id: number, answer: string) => {
-        // handle logic here
-    }
 
     return (
         <Card className="w-full">
@@ -45,28 +43,7 @@ export default function MultipleChoiceSingle(props: MCQSection) {
                             </div>
 
                             <div className="ml-8">
-                                <RadioGroup
-                                    onValueChange={(value) => handleAnswerChange(question.id, value)}
-                                    className="space-y-3"
-                                >
-                                    {question.options.map((optionText, idx) => {
-                                        const letter = optionLetters[idx]
-                                        const inputId = `q${question.id}-${letter}`
-
-                                        return (
-                                            <div key={letter} className="flex items-start space-x-3">
-                                                <span className="font-semibold mr-2">{letter}</span>
-                                                <RadioGroupItem value={letter} id={inputId} className="mt-0.5" />
-                                                <Label
-                                                    htmlFor={inputId}
-                                                    className="text-sm leading-relaxed cursor-pointer flex-1"
-                                                >
-                                                    {optionText}
-                                                </Label>
-                                            </div>
-                                        )
-                                    })}
-                                </RadioGroup>
+                                <AnswerRadio question={question} optionLetters={optionLetters} />
                             </div>
 
                             {index < mcqQuestions.questions.length - 1 && <hr className="border-gray-200" />}

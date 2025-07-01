@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { AlertCircle } from "lucide-react"
+import AnswerInput from "../additional-ui/AnswerInput"
 
 interface OneWordQuestion {
     id: number
@@ -32,9 +33,8 @@ export default function ShortAnswer(props: OneWordSection) {
         return (
             <div className="flex items-center gap-2 text-sm leading-relaxed flex-wrap">
                 <span>{parts[0]}</span>
-                <Input
-                    placeholder=""
-                    onChange={(e) => handleAnswerChange(id, e.target.value)}
+                <AnswerInput
+                    questionNumber={id}
                     className="w-24 h-8 text-xs border-b-2 border-t-1 border-l-1 border-r-1 rounded-lg bg-transparent focus:bg-white px-2 text-center"
                 />
                 <span>{parts[1] || ""}</span>

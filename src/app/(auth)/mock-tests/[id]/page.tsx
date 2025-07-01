@@ -13,7 +13,7 @@ import SpeakingMain from "@/components/mock-tests/speaking-task/speaking-main";
 import { initializeMockAnswers } from "@/lib/mockAnswersStorage";
 
 export default function MockTestPage() {
-    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(4);
+    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(5);
 
     const nextPhase = () => {
         if (currentPhaseIndex < phases.length - 1) {

@@ -1,6 +1,7 @@
 "use client"
 
 import { Input } from "@/components/ui/input"
+import AnswerInput from "../additional-ui/AnswerInput"
 interface Question {
     id: number
     sentence: string
@@ -26,9 +27,9 @@ export default function SentenceCompletion(props: SentenceCompletionSection) {
         return (
             <p className="text-gray-800 leading-relaxed font-medium items-center">
                 <span>{parts[0]}</span>
-                <Input
+                <AnswerInput
+                    questionNumber={question.id}
                     className="inline-block w-40 h-9 mx-2 border-2 border-blue-300 focus:border-blue-500 rounded-md px-3"
-                    onChange={(e) => handleAnswerChange(question.id, e.target.value)}
                 />
                 <span>{parts[1]}</span>
             </p>

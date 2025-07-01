@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import AnswerInput from "../additional-ui/AnswerInput"
 
 export interface MatchingFeatureStatement {
     id: number
@@ -67,12 +68,10 @@ export default function MatchingFeatures(props: MatchingFeaturesQuestion) {
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <Input
-                                        onChange={(e) => handleAnswerChange(q.id, e.target.value)}
+                                    <AnswerInput
+                                        questionNumber={q.id}
                                         className="w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded"
-                                        placeholder=""
                                         maxLength={1}
-                                        value={q.selectedFeature}
                                     />
                                 </div>
                             </div>

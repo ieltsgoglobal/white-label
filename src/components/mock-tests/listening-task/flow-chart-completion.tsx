@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import AnswerInput from "../additional-ui/AnswerInput"
 
 interface FlowChartSection {
     questionType: "flow-chart-completion"
@@ -15,10 +16,7 @@ interface FlowChartSection {
 export default function FlowChartCompletion(props: FlowChartSection) {
     const { image_url, id } = props.question // 🔥 FIX: correct destructure
 
-    const [answers, setAnswers] = useState<Record<number, string>>({})
-
     const handleAnswerChange = (qid: number, answer: string) => {
-        setAnswers(prev => ({ ...prev, [qid]: answer }))
     }
 
     return (
@@ -48,10 +46,9 @@ export default function FlowChartCompletion(props: FlowChartSection) {
                         {id.map((qid) => (
                             <div key={qid} className="flex items-center gap-4 p-3 border rounded-lg">
                                 <span className="font-semibold text-blue-600 min-w-[2rem]">{qid}</span>
-                                <Input
+                                <AnswerInput
                                     placeholder="Answer"
-                                    value={answers[qid] || ""}
-                                    onChange={(e) => handleAnswerChange(qid, e.target.value)}
+                                    questionNumber={qid}
                                     className="flex-1 text-sm font-medium"
                                 />
                             </div>

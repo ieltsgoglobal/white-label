@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { AlertCircle } from "lucide-react"
+import AnswerInput from "../additional-ui/AnswerInput"
 
 interface NoteBulletPoint {
     id: number
@@ -25,7 +26,6 @@ interface NoteCompletionSection {
 
 export default function NoteCompletion(props: NoteCompletionSection) {
     const [noteQuestions, setNoteQuestions] = useState<NoteCompletionSection>(props)
-    const [isCompleted, setIsCompleted] = useState(false)
 
 
     const handleAnswerChange = (id: number, answer: string) => {
@@ -57,10 +57,8 @@ export default function NoteCompletion(props: NoteCompletionSection) {
             <div className={`flex items-center gap-2 text-sm leading-relaxed flex-wrap ${isSubpoint ? "ml-6" : ""}`}>
                 <span>{parts[0]}</span>
                 <span className="font-semibold text-blue-600">{id}</span>
-                <Input
-                    placeholder=""
-                    onChange={(e) => handleAnswerChange(id, e.target.value)}
-                    disabled={isCompleted}
+                <AnswerInput
+                    questionNumber={id}
                     className="w-32 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-2"
                 />
                 <span>{parts[1] || ""}</span>

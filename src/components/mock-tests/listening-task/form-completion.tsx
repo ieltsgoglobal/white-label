@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import AnswerInput from "../additional-ui/AnswerInput"
 
 interface FormQuestion {
     type: "form-completion"
@@ -49,9 +50,8 @@ export default function FormCompletion(props: FormQuestion) {
                                     <span>{parts[0]}</span>
                                     <div className="flex items-center gap-1">
                                         <span className="font-semibold text-blue-600">({field.id})</span>
-                                        <Input
-                                            placeholder=""
-                                            onChange={(e) => handleFormAnswerChange(field.id, e.target.value)}
+                                        <AnswerInput
+                                            questionNumber={field.id}
                                             className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
                                         />
                                     </div>
@@ -78,9 +78,8 @@ export default function FormCompletion(props: FormQuestion) {
                     <span>{parts[0]}</span>
                     <div className="inline-flex items-center gap-1">
                         <span className="font-semibold text-blue-600">({id})</span>
-                        <Input
-                            placeholder=""
-                            onChange={(e) => handleFormAnswerChange(id, e.target.value)}
+                        <AnswerInput
+                            questionNumber={id}
                             className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
                         />
                     </div>

@@ -1,4 +1,5 @@
 // lib/mockAnswersStorage.ts
+// localstorage
 
 const STORAGE_KEY = "mock-answers"
 

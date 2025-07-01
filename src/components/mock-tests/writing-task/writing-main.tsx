@@ -47,9 +47,26 @@ export default function WritingMain({ test_id }: { test_id: string }) {
 
     const currentQuestion = writingQuestions[activeTab - 1]
 
+
+    const submitTask1 = async () => {
+        const res = await fetch("/api/writing-evaluation", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                taskType: activeTab,
+                response,
+            }),
+        })
+
+        const data = await res.json()
+        console.log(data.result)
+    }
+
     return (
         <>
-
+            {/* question type_2 just have extra image_url */}
             <WritingQuestionDisplay
                 currentQuestion={currentQuestion}
                 response={response}
@@ -57,6 +74,9 @@ export default function WritingMain({ test_id }: { test_id: string }) {
                 wordCount={wordCount}
                 minimumWords={minimumWords}
             />
+
+            {/* fake button for testing */}
+            {/* <Button onClick={submitTask1}>Submit Task1</Button> */}
 
             <WritingPagination
                 activeTab={activeTab}

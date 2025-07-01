@@ -17,11 +17,18 @@ import FlowChartCompletion from "../listening-task/flow-chart-completion"
 import SummaryCompletion from "../listening-task/summary-completion"
 import ShortAnswer from "../listening-task/short-answer"
 import MatchParagraphInformation from "./match-paragraph-information"
+import { saveCurrentMockSection, loadCurrentMockSection } from "@/lib/indexedDb"
 
 export default function ReadingMain({ test_id }: { test_id: string }) {
     const [section, setSection] = useState<any>(null)
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0)
     const [currentSubsetIndex, setCurrentSubsetIndex] = useState(0)
+
+
+    // to tell child component that reading section is going on
+    useEffect(() => {
+        saveCurrentMockSection("reading") // Save on mount
+    }, [])
 
     useEffect(() => {
         const loadTestData = async () => {

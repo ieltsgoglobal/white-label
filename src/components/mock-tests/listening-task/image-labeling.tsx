@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import AnswerInput from "../additional-ui/AnswerInput"
 
 
 // 4. Plan / Map / Diagram Labelling  
@@ -56,13 +57,9 @@ export default function ImageLabeling(props: MapSection) {
                             <div key={question.id} className="flex items-center gap-4 p-3 border rounded-lg">
                                 <span className="font-semibold text-blue-600 min-w-[2rem]">{question.id}</span>
                                 {question.location && <span className="flex-1 min-w-[7rem] text-sm">{question.location}</span>}
-                                <Input
-                                    // placeholder="A-J"
-                                    placeholder=""
-                                    onChange={(e) => handleAnswerChange(question.id, e.target.value)}
+                                <AnswerInput
+                                    questionNumber={question.id}
                                     className="w-full h-8 text-center text-sm font-bold"
-                                // className="w-12 h-8 text-center text-sm font-bold"
-                                // maxLength={1}
                                 />
                             </div>
                         ))}

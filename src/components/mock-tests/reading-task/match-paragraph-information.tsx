@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import AnswerInput from "../additional-ui/AnswerInput"
 
 export interface MatchingSentenceStart {
     id: number
@@ -67,10 +68,9 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
                                 </p>
                             </div>
                             <div className="flex items-center gap-3">
-                                <Input
-                                    onChange={(e) => handleAnswerChange(question.id, e.target.value)}
+                                <AnswerInput
+                                    questionNumber={question.id}
                                     className={`w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded`}
-                                    placeholder=""
                                     maxLength={1}
                                 />
                             </div>

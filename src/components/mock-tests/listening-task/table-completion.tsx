@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { getFieldAnswer, updateMockAnswer } from "@/lib/mockAnswersStorage"
+import AnswerInput from "../additional-ui/AnswerInput"
 
 interface TableQuestion {
     id: number
@@ -19,13 +21,10 @@ interface TableQuestion {
     }
 }
 
+
 export default function TableCompletion(props: TableQuestion) {
     const [tableQuestion, setTableQuestion] = useState<TableQuestion>(props)
-    const [isCompleted, setIsCompleted] = useState(false)
 
-    const handleTableAnswerChange = (questionNumber: number, answer: string) => {
-        // storeAnswer(id, string)
-    }
 
     // I think 2 blanks have to be seperated by \n for them to be displayed
     const renderTableCell = (cell: any) => {
@@ -41,14 +40,7 @@ export default function TableCompletion(props: TableQuestion) {
                                 <div key={lineIndex} className="flex items-center gap-1 text-sm">
                                     <span>{parts[0]}</span>
                                     <span className="font-semibold text-blue-600">({questionNumber})</span>
-                                    <Input
-                                        placeholder=""
-                                        onChange={(e) =>
-                                            handleTableAnswerChange(questionNumber, e.target.value)
-                                        }
-                                        disabled={isCompleted}
-                                        className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
-                                    />
+                                    <AnswerInput questionNumber={questionNumber} className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1" />
                                     <span>{parts[1] || ""}</span>
                                 </div>
                             )
@@ -73,12 +65,7 @@ export default function TableCompletion(props: TableQuestion) {
                 elements.push(
                     <span key={`input-${id}`} className="inline-flex items-center mx-1">
                         <span className="font-semibold text-blue-600 mr-1">({id})</span>
-                        <Input
-                            placeholder=""
-                            onChange={(e) => handleTableAnswerChange(id, e.target.value)}
-                            disabled={isCompleted}
-                            className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
-                        />
+                        <AnswerInput questionNumber={id} className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1" />
                     </span>
                 )
                 lineContent = after

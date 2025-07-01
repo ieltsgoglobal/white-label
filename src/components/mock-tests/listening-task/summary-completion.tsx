@@ -1,6 +1,7 @@
 "use client"
 
 import { Input } from "@/components/ui/input"
+import AnswerInput from "../additional-ui/AnswerInput"
 
 interface SummaryQuestion {
     questionType: "summary-completion"
@@ -39,10 +40,10 @@ export default function SummaryCompletion(props: SummaryQuestion) {
                             return (
                                 <span key={index} className="inline-flex items-center mx-1">
                                     <span className="font-bold mr-2">{id}</span>
-                                    <Input
-                                        onChange={(e) => handleAnswerChange(id, e.target.value)}
-                                        className="w-32 text-center font-medium"
+                                    <AnswerInput
+                                        questionNumber={id}
                                         placeholder="____"
+                                        className="w-32 text-center font-medium"
                                     />
                                 </span>
                             )

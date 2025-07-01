@@ -184,7 +184,7 @@ export const listening_section_4 = {
                 id: [31, 32, 33],
                 title: "The Argus System",
                 passageTemplate: `
-      Developed by Rob Holman in North Carolina with other researchers. Research is vital for understanding <31> Matches information from under the water with information from a <32> According to S. Jeffress Williams, useful because can make observations during <33>
+      Developed by Rob Holman in North Carolina with other researchers. Research is vital for understanding <31> Matches information from under the water with information from a <32> According to S. Jeffress Williams, useful because can make observations during <33>.
     `,
             },
         },
