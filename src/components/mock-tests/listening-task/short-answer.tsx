@@ -35,7 +35,7 @@ export default function ShortAnswer(props: OneWordSection) {
                 <Input
                     placeholder=""
                     onChange={(e) => handleAnswerChange(id, e.target.value)}
-                    className="w-24 h-8 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-2 text-center"
+                    className="w-24 h-8 text-xs border-b-2 border-t-1 border-l-1 border-r-1 rounded-lg bg-transparent focus:bg-white px-2 text-center"
                 />
                 <span>{parts[1] || ""}</span>
             </div>
@@ -45,7 +45,7 @@ export default function ShortAnswer(props: OneWordSection) {
     return (
         <Card className="w-full">
             <CardHeader>
-                <CardTitle>Questions 21 - 24</CardTitle>
+                <CardTitle>Questions {oneWordQuestions.questions[0].id} - {oneWordQuestions.questions[oneWordQuestions.questions.length - 1].id}</CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">Complete the sentences below. Write ONE WORD ONLY in each box.</p>
             </CardHeader>
             <CardContent>

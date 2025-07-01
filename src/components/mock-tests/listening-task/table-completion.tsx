@@ -13,7 +13,7 @@ interface TableQuestion {
         rows: Array<{
             cells: Array<{
                 content: string
-                id?: number // question number, if blank
+                id?: number | number[]
             }>
         }>
     }
@@ -24,13 +24,14 @@ export default function TableCompletion(props: TableQuestion) {
     const [isCompleted, setIsCompleted] = useState(false)
 
     const handleTableAnswerChange = (questionNumber: number, answer: string) => {
-
+        // storeAnswer(id, string)
     }
 
+    // I think 2 blanks have to be seperated by \n for them to be displayed
     const renderTableCell = (cell: any) => {
-        const questionNumber = typeof cell.id === "number" ? cell.id : null
+        if (typeof cell.id === "number") {
+            const questionNumber = cell.id
 
-        if (questionNumber) {
             return (
                 <div className="space-y-2">
                     {cell.content.split("\n").map((line: string, lineIndex: number) => {
@@ -60,9 +61,35 @@ export default function TableCompletion(props: TableQuestion) {
                     })}
                 </div>
             )
-        }
+        } else if (Array.isArray(cell.id)) {
+            const questionNumbers: number[] = cell.id
 
-        return <div className="text-sm whitespace-pre-line">{cell.content}</div>
+            let lineContent = cell.content
+            let elements: (JSX.Element | string)[] = []
+
+            questionNumbers.forEach((id) => {
+                const [before, after = ""] = lineContent.split(`(${id})_______`)
+                elements.push(before)
+                elements.push(
+                    <span key={`input-${id}`} className="inline-flex items-center mx-1">
+                        <span className="font-semibold text-blue-600 mr-1">({id})</span>
+                        <Input
+                            placeholder=""
+                            onChange={(e) => handleTableAnswerChange(id, e.target.value)}
+                            disabled={isCompleted}
+                            className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
+                        />
+                    </span>
+                )
+                lineContent = after
+            })
+
+            elements.push(lineContent)
+
+            return <div className="text-sm flex flex-wrap items-center">{elements}</div>
+        } else {
+            return <div className="text-sm whitespace-pre-line">{cell.content}</div>
+        }
     }
 
     return (

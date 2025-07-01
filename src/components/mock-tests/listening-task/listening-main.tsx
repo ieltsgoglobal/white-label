@@ -39,27 +39,27 @@ export default function ListeningMain({ test_id }: { test_id: string }) {
     const renderComponent = (question: any, index: number) => {
         switch (question.questionType) {
             case "table-completion":
-                return <TableCompletion key={`tc-${index}`} {...question} />
+                return <TableCompletion key={`tc-${index}`} {...question} section="reading" />
             case "form-completion":
-                return <FormCompletion key={`fc-${index}`} {...question} />
+                return <FormCompletion key={`fc-${index}`} {...question} section="reading" />
             case "multiple-choice-single":
-                return <MultipleChoiceSingle key={`mcs-${index}`} {...question} />
+                return <MultipleChoiceSingle key={`mcs-${index}`} {...question} section="reading" />
             case "multiple-choice-many":
-                return <MultipleChoiceMany key={`mcm-${index}`} {...question} />
+                return <MultipleChoiceMany key={`mcm-${index}`} {...question} section="reading" />
             case "image-labeling":
-                return <ImageLabeling key={`il-${index}`} {...question} />
+                return <ImageLabeling key={`il-${index}`} {...question} section="reading" />
             case "short-answer":
-                return <ShortAnswer key={`sa-${index}`} {...question} />
+                return <ShortAnswer key={`sa-${index}`} {...question} section="reading" />
             case "note-completion":
-                return <NoteCompletion key={`nc-${index}`} {...question} />
+                return <NoteCompletion key={`nc-${index}`} {...question} section="reading" />
             case "matching":
-                return <Matching key={`m-${index}`} {...question} />
+                return <Matching key={`m-${index}`} {...question} section="reading" />
             case "summary-completion":
-                return <SummaryCompletion key={`sc-${index}`} {...question} />
+                return <SummaryCompletion key={`sc-${index}`} {...question} section="reading" />
             case "flow-chart-completion":
-                return <FlowChartCompletion key={`fcc-${index}`} {...question} />
+                return <FlowChartCompletion key={`fcc-${index}`} {...question} section="reading" />
             case "sentence-completion":
-                return <SentenceCompletion key={`sec-${index}`} {...question} />
+                return <SentenceCompletion key={`sec-${index}`} {...question} section="reading" />
             default:
                 return null
         }

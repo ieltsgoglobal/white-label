@@ -1,0 +1,65 @@
+// lib/mockAnswersStorage.ts
+
+const STORAGE_KEY = "mock-answers"
+
+type AnswerMap = Record<number, string>
+
+interface MockAnswers {
+    listening: AnswerMap
+    reading: AnswerMap
+}
+
+// populate local storage to store responses
+export function initializeMockAnswers() {
+    if (typeof window === "undefined") return // SSR safety
+
+    const existing = localStorage.getItem(STORAGE_KEY)
+    if (!existing) {
+        const emptyAnswers: AnswerMap = {}
+        for (let i = 1; i <= 40; i++) {
+            emptyAnswers[i] = ""
+        }
+
+        const initialData: MockAnswers = {
+            listening: { ...emptyAnswers },
+            reading: { ...emptyAnswers },
+        }
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData))
+    }
+}
+
+// to retrieve all data
+export function getMockAnswers(): MockAnswers | null {
+    if (typeof window === "undefined") return null
+
+    const data = localStorage.getItem(STORAGE_KEY)
+    return data ? JSON.parse(data) : null
+}
+
+
+// to store new answer
+export function updateMockAnswer(
+    section: "listening" | "reading",
+    questionNumber: number,
+    answer: string
+) {
+    if (typeof window === "undefined") return
+
+    const data = getMockAnswers()
+    if (!data) return
+
+    data[section][questionNumber] = answer
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+}
+
+// get answer for paticualar field
+export function getFieldAnswer(section: "reading" | "listening", questionNumber: number): string {
+    if (typeof window === "undefined") return "";
+
+    const data = localStorage.getItem("mock-answers");
+    if (!data) return "";
+
+    const parsed = JSON.parse(data);
+    return parsed?.[section]?.[questionNumber] || "";
+}
