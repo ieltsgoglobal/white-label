@@ -33,7 +33,7 @@ export default function AccountPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <PlaceholderContent />
+      {/* <PlaceholderContent /> */}
     </ContentLayout>
   );
 }

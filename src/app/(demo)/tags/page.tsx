@@ -33,7 +33,7 @@ export default function TagsPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <PlaceholderContent />
+      {/* <PlaceholderContent /> */}
     </ContentLayout>
   );
 }

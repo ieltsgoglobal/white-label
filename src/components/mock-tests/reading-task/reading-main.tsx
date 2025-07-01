@@ -33,8 +33,8 @@ export default function ReadingMain({ test_id }: { test_id: string }) {
     useEffect(() => {
         const loadTestData = async () => {
             try {
-                const module = await import(`@/app/data/tests/test-${test_id}`)
-                setSection(module.default || module)
+                const testDataModule = await import(`@/app/data/tests/test-${test_id}`)
+                setSection(testDataModule.default || testDataModule)
             } catch (error) {
                 console.error("Failed to load test data:", error)
             }

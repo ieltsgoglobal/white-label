@@ -20,8 +20,8 @@ export default function SpeakingMain({ test_id }: { test_id: string }) {
     useEffect(() => {
         const loadTestData = async () => {
             try {
-                const module = await import(`@/app/data/tests/test-${test_id}`)
-                const { speaking_transcripts } = module.default || module
+                const testDataModule = await import(`@/app/data/tests/test-${test_id}`)
+                const { speaking_transcripts } = testDataModule.default || testDataModule
                 setSpeakingData(speaking_transcripts)
                 console.log(speaking_transcripts)
             } catch (error) {
