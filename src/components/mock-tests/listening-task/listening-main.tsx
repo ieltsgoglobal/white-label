@@ -14,7 +14,7 @@ import MultipleChoiceMany from "./multiple-choice-many"
 import FlowChartCompletion from "./flow-chart-completion"
 import SummaryCompletion from "./summary-completion"
 import SentenceCompletion from "./sentence-completion"
-import { saveCurrentMockSection, loadCurrentMockSection } from "@/lib/indexedDb"
+import { saveCurrentMockSection, loadCurrentMockSection } from "@/lib/mock-tests/indexedDb"
 
 
 export default function ListeningMain({ test_id }: { test_id: string }) {

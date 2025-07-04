@@ -1,7 +1,7 @@
 "use client"
 
-import { loadCurrentMockSection } from "@/lib/indexedDb"
-import { getFieldAnswer, updateMockAnswer } from "@/lib/mockAnswersStorage"
+import { loadCurrentMockSection } from "@/lib/mock-tests/indexedDb"
+import { getFieldAnswer, updateMockAnswer } from "@/lib/mock-tests/mockAnswersStorage"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"

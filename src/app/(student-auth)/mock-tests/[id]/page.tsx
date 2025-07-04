@@ -10,10 +10,10 @@ import ReadingMain from "@/components/mock-tests/reading-task/reading-main";
 import NavigationBar from "@/components/mock-tests/additional-ui/navigation-bar";
 import WritingMain from "@/components/mock-tests/writing-task/writing-main";
 import SpeakingMain from "@/components/mock-tests/speaking-task/speaking-main";
-import { initializeMockAnswers } from "@/lib/mockAnswersStorage";
+import { initializeMockAnswers } from "@/lib/mock-tests/mockAnswersStorage";
 
 export default function MockTestPage() {
-    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(5);
+    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
 
     const nextPhase = () => {
         if (currentPhaseIndex < phases.length - 1) {

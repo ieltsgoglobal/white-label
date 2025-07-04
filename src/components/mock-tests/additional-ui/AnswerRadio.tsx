@@ -2,9 +2,9 @@
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { getFieldAnswer, updateMockAnswer } from "@/lib/mockAnswersStorage"
+import { getFieldAnswer, updateMockAnswer } from "@/lib/mock-tests/mockAnswersStorage"
 import { useEffect, useState } from "react"
-import { loadCurrentMockSection } from "@/lib/indexedDb"
+import { loadCurrentMockSection } from "@/lib/mock-tests/indexedDb"
 
 interface QuestionProps {
     question: {

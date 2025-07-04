@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { updateMockAnswer } from "@/lib/mockAnswersStorage"
+import { updateMockAnswer } from "@/lib/mock-tests/mockAnswersStorage"
 import AnswerRadio from "../additional-ui/AnswerRadio"
 
 interface MCQQuestion {

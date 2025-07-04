@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { getFieldAnswer, updateMockAnswer } from "@/lib/mockAnswersStorage"
+import { getFieldAnswer, updateMockAnswer } from "@/lib/mock-tests/mockAnswersStorage"
 import AnswerInput from "../additional-ui/AnswerInput"
 
 interface TableQuestion {

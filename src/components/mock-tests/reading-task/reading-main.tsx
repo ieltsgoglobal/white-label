@@ -17,7 +17,7 @@ import FlowChartCompletion from "../listening-task/flow-chart-completion"
 import SummaryCompletion from "../listening-task/summary-completion"
 import ShortAnswer from "../listening-task/short-answer"
 import MatchParagraphInformation from "./match-paragraph-information"
-import { saveCurrentMockSection, loadCurrentMockSection } from "@/lib/indexedDb"
+import { saveCurrentMockSection, loadCurrentMockSection } from "@/lib/mock-tests/indexedDb"
 
 export default function ReadingMain({ test_id }: { test_id: string }) {
     const [section, setSection] = useState<any>(null)

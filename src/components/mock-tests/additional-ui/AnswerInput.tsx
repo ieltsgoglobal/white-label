@@ -2,8 +2,8 @@
 "use client"
 
 import { Input } from "@/components/ui/input"
-import { getFieldAnswer, updateMockAnswer } from "@/lib/mockAnswersStorage"
-import { loadCurrentMockSection } from "@/lib/indexedDb"
+import { getFieldAnswer, updateMockAnswer } from "@/lib/mock-tests/mockAnswersStorage"
+import { loadCurrentMockSection } from "@/lib/mock-tests/indexedDb"
 import { useEffect, useState } from "react"
 import clsx from "clsx"
 

@@ -9,8 +9,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent } from "@/components/ui/card"
-import { User, Mail, Lock, Eye, EyeOff, PhoneForwarded, LocateIcon } from "lucide-react"
-import { registerPartner } from "@/lib/superbase/partner-functions"
+import { User, Mail, Lock, Eye, EyeOff, PhoneForwarded, LocateIcon, Building2 } from "lucide-react"
+import { registerPartner } from "@/lib/superbase/organization-table"
+import { IdCardIcon } from "@radix-ui/react-icons"
 
 export default function Component() {
     const [formData, setFormData] = useState({
@@ -18,8 +19,10 @@ export default function Component() {
         phone: "",
         address: "",
         email: "",
+        password: "",
         gst: "",
         pan: "",
+        subdomain: "",
         agreeToTerms: false,
     })
 
@@ -35,12 +38,11 @@ export default function Component() {
             phone: formData.phone,
             address: formData.address,
             email: formData.email,
+            password: formData.password,
             gst: formData.gst,
-            pan: formData.pan
+            pan: formData.pan,
+            subdomain: formData.subdomain,
         })
-
-        console.log("Service Role Key:", process.env.SUPABASE_SERVICE_ROLE_KEY)
-        console.log("Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL)
 
         if (response.error) {
             console.log(`❌ ${response.error}`)
@@ -50,8 +52,10 @@ export default function Component() {
                 phone: "",
                 address: "",
                 email: "",
+                password: "",
                 gst: "",
                 pan: "",
+                subdomain: "",
                 agreeToTerms: false,
             })
             console.log("✅ Organization registered successfully!")
@@ -71,9 +75,9 @@ export default function Component() {
             {/* Dark translucent overlay for contrast */}
             <div className="absolute inset-0 bg-black/40 z-0 w-full h-full min-h-screen" />
 
-            <div className="flex flex-col sm:flex-row justify-between items-center mt-10 sm:mt-0">
+            <div className="flex flex-col sm:flex-row justify-between items-center sm:mt-0">
                 {/* Left Side - Brand Section */}
-                <div className="flex-1 hidden lg:block">
+                <div className="flex-1 mt-10 hidden lg:block">
                     <div className="z-10 flex flex-col items-center justify-center h-full text-white px-12">
                         {/* Logo and Mascot */}
                         <div className="text-center mb-8 animate-fade-in">
@@ -101,9 +105,9 @@ export default function Component() {
                 </div>
 
                 {/* Right Side - Registration Form */}
-                <div className="flex-1 flex items-center justify-center p-8">
+                <div className="flex-1 flex items-center justify-center p-3 sm:p-8">
                     <Card className="z-10 w-full max-w-2xl shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
-                        <CardContent className="p-8">
+                        <CardContent className="p-6 sm:p-8">
                             <div className="text-center mb-8">
                                 <h2 className="text-3xl font-bold mb-2">Register</h2>
                                 <p className="text-gray-600">Create your account, it's free and only takes a minute</p>
@@ -164,23 +168,68 @@ export default function Component() {
                                     </div>
                                 </div>
 
-                                {/* Email */}
-                                <div className="space-y-2">
-                                    <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                                        Email
-                                    </Label>
-                                    <div className="relative">
-                                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
-                                        <Input
-                                            id="email"
-                                            type="email"
-                                            placeholder="Email"
-                                            value={formData.email}
-                                            onChange={(e) => handleInputChange("email", e.target.value)}
-                                            className="pl-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg"
-                                        />
+                                {/* Email and Password Fields */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    {/* Email */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                                            Email
+                                        </Label>
+                                        <div className="relative">
+                                            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
+                                            <Input
+                                                id="email"
+                                                type="email"
+                                                placeholder="Email"
+                                                value={formData.email}
+                                                onChange={(e) => handleInputChange("email", e.target.value)}
+                                                className="pl-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Password */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                                            Password
+                                        </Label>
+                                        <div className="relative">
+                                            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
+                                            <Input
+                                                id="password"
+                                                type="password"
+                                                placeholder="Password"
+                                                value={formData.password || ""}
+                                                onChange={(e) => handleInputChange("password", e.target.value)}
+                                                className="pl-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
+
+                                {/* Choose Subdomain */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="subdomain" className="text-sm font-medium text-gray-700">
+                                        Choose Your Subdomain
+                                    </Label>
+                                    <div className="flex w-full overflow-hidden border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-pink-500">
+                                        {/* Left: Subdomain input */}
+                                        <Input
+                                            id="subdomain"
+                                            type="text"
+                                            placeholder="e.g. abc-overseas"
+                                            value={formData.subdomain || ""}
+                                            onChange={(e) => handleInputChange("subdomain", e.target.value)}
+                                            className="w-1/2 px-4 py-2 text-gray-800 placeholder-gray-400 focus:outline-none"
+                                        />
+
+                                        {/* Right: Fixed domain suffix */}
+                                        <div className="w-1/2 bg-gray-100/20 flex items-center justify-center text-gray-700 text-sm font-medium">
+                                            .ieltsgoglobal.com
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 {/* gst */}
                                 <div className="space-y-2">
@@ -188,7 +237,7 @@ export default function Component() {
                                         GST Number
                                     </Label>
                                     <div className="relative">
-                                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
+                                        <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
                                         <Input
                                             id="gst"
                                             placeholder="GST Number"
@@ -206,7 +255,7 @@ export default function Component() {
                                         Pan
                                     </Label>
                                     <div className="relative">
-                                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
+                                        <IdCardIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
                                         <Input
                                             id="pan"
                                             placeholder="Pan"
@@ -216,6 +265,8 @@ export default function Component() {
                                         />
                                     </div>
                                 </div>
+
+
 
                                 {/* Terms and Conditions */}
                                 <div className="flex items-center space-x-2">
