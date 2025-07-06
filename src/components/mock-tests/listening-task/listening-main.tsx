@@ -14,10 +14,10 @@ import MultipleChoiceMany from "./multiple-choice-many"
 import FlowChartCompletion from "./flow-chart-completion"
 import SummaryCompletion from "./summary-completion"
 import SentenceCompletion from "./sentence-completion"
-import { saveCurrentMockSection, loadCurrentMockSection } from "@/lib/mock-tests/indexedDb"
+import { saveCurrentMockSection } from "@/lib/mock-tests/indexedDb"
+import NavigationBar from "../additional-ui/navigation-bar"
 
-
-export default function ListeningMain({ test_id }: { test_id: string }) {
+export default function ListeningMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
     const [section, setSection] = useState<any>(null)
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0) // 0 to 3 = 4 sections
 
@@ -26,6 +26,7 @@ export default function ListeningMain({ test_id }: { test_id: string }) {
         saveCurrentMockSection("listening") // Save on mount
     }, [])
 
+    // load question for ts file
     useEffect(() => {
         const loadTestData = async () => {
             try {
@@ -82,11 +83,12 @@ export default function ListeningMain({ test_id }: { test_id: string }) {
 
     const currentSection = allSections[currentSectionIndex]
 
-    console.log(currentSection)
     return (
-        <>
-            <div className="w-[95vw]">
-                {/* <ListeningAudioPlayer
+        <div>
+            <NavigationBar onSubmit={() => { onNext() }} />
+            <div className="mt-16">
+                <div className="w-[95vw]">
+                    {/* <ListeningAudioPlayer
                     audioList={allSections.map((sec: any) => sec.audio)}
                     onAudioEnded={() => {
                         if (currentSectionIndex < allSections.length - 1) {
@@ -97,27 +99,28 @@ export default function ListeningMain({ test_id }: { test_id: string }) {
                     }}
                 /> */}
 
-                {currentSection && (
-                    <div className="flex flex-col items-center justify-center space-y-6">
-                        {currentSection.questions.map((question: any, index: number) =>
-                            renderComponent(question, currentSectionIndex * 100 + index)
-                        )}
-                    </div>
-                )}
+                    {currentSection && (
+                        <div className="flex flex-col items-center justify-center space-y-6">
+                            {currentSection.questions.map((question: any, index: number) =>
+                                renderComponent(question, currentSectionIndex * 100 + index)
+                            )}
+                        </div>
+                    )}
 
+                </div>
+                <ListeningPagination
+                    prevSection={() => {
+                        if (currentSectionIndex > 0) {
+                            setCurrentSectionIndex(currentSectionIndex - 1)
+                        }
+                    }}
+                    nextSection={() => {
+                        if (currentSectionIndex < allSections.length - 1) {
+                            setCurrentSectionIndex(currentSectionIndex + 1)
+                        }
+                    }}
+                />
             </div>
-            <ListeningPagination
-                prevSection={() => {
-                    if (currentSectionIndex > 0) {
-                        setCurrentSectionIndex(currentSectionIndex - 1)
-                    }
-                }}
-                nextSection={() => {
-                    if (currentSectionIndex < allSections.length - 1) {
-                        setCurrentSectionIndex(currentSectionIndex + 1)
-                    }
-                }}
-            />
-        </>
+        </div>
     )
 }

@@ -74,3 +74,18 @@
       @apply bg-background text-foreground;
     }
   }
+
+
+
+
+
+
+/*
+ --------- Z SCORES ---------
+
+ 0 - normal 
+ 1 - to non modal component like navbars or hamburger icons / non popup modals
+ 2 - to popup modals
+ 3 - to priority popup modals
+
+*/

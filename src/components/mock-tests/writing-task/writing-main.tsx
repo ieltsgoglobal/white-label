@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
 import WritingQuestionDisplay from "./writingQuestionDisplay"
 import WritingPagination from "./writing-paginaiton"
+import NavigationBar from "../additional-ui/navigation-bar"
 
-export default function WritingMain({ test_id }: { test_id: string }) {
+export default function WritingMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
     const [activeTab, setActiveTab] = useState(1)
     const [responses, setResponses] = useState<{ [key: number]: string }>({
         1: "",
@@ -65,24 +66,27 @@ export default function WritingMain({ test_id }: { test_id: string }) {
     }
 
     return (
-        <>
-            {/* question type_2 just have extra image_url */}
-            <WritingQuestionDisplay
-                currentQuestion={currentQuestion}
-                response={response}
-                setResponse={setResponse}
-                wordCount={wordCount}
-                minimumWords={minimumWords}
-            />
+        <div>
+            <NavigationBar onSubmit={() => { onNext() }} />
+            <div>
+                {/* question type_2 just have extra image_url */}
+                <WritingQuestionDisplay
+                    currentQuestion={currentQuestion}
+                    response={response}
+                    setResponse={setResponse}
+                    wordCount={wordCount}
+                    minimumWords={minimumWords}
+                />
 
-            {/* fake button for testing */}
-            {/* <Button onClick={submitTask1}>Submit Task1</Button> */}
+                {/* fake button for testing */}
+                {/* <Button onClick={submitTask1}>Submit Task1</Button> */}
 
-            <WritingPagination
-                activeTab={activeTab}
-                totalTabs={writingQuestions.length}
-                setActiveTab={setActiveTab}
-            />
-        </>
+                <WritingPagination
+                    activeTab={activeTab}
+                    totalTabs={writingQuestions.length}
+                    setActiveTab={setActiveTab}
+                />
+            </div>
+        </div>
     )
 }

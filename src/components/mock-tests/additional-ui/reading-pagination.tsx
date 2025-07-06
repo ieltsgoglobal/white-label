@@ -25,7 +25,7 @@ export default function ReadingPagination({ onPrev, onNext }: { onPrev: () => vo
     )
 
     return (
-        <div className="w-full fixed bottom-0 z-50">
+        <div className="w-full fixed bottom-0 z-1">
             {/* Toggle Button */}
             <div className="flex justify-center">
                 <button

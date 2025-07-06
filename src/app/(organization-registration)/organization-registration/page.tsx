@@ -78,7 +78,7 @@ export default function Component() {
             <div className="flex flex-col sm:flex-row justify-between items-center sm:mt-0">
                 {/* Left Side - Brand Section */}
                 <div className="flex-1 mt-10 hidden lg:block">
-                    <div className="z-10 flex flex-col items-center justify-center h-full text-white px-12">
+                    <div className="z-1 flex flex-col items-center justify-center h-full text-white px-12">
                         {/* Logo and Mascot */}
                         <div className="text-center mb-8 animate-fade-in">
                             <div className="relative mb-6">
@@ -106,7 +106,7 @@ export default function Component() {
 
                 {/* Right Side - Registration Form */}
                 <div className="flex-1 flex items-center justify-center p-3 sm:p-8">
-                    <Card className="z-10 w-full max-w-2xl shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
+                    <Card className="z-1 w-full max-w-2xl shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
                         <CardContent className="p-6 sm:p-8">
                             <div className="text-center mb-8">
                                 <h2 className="text-3xl font-bold mb-2">Register</h2>

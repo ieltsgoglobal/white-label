@@ -18,8 +18,9 @@ import SummaryCompletion from "../listening-task/summary-completion"
 import ShortAnswer from "../listening-task/short-answer"
 import MatchParagraphInformation from "./match-paragraph-information"
 import { saveCurrentMockSection, loadCurrentMockSection } from "@/lib/mock-tests/indexedDb"
+import NavigationBar from "../additional-ui/navigation-bar"
 
-export default function ReadingMain({ test_id }: { test_id: string }) {
+export default function ReadingMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
     const [section, setSection] = useState<any>(null)
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0)
     const [currentSubsetIndex, setCurrentSubsetIndex] = useState(0)
@@ -30,6 +31,7 @@ export default function ReadingMain({ test_id }: { test_id: string }) {
         saveCurrentMockSection("reading") // Save on mount
     }, [])
 
+    // load test data questions
     useEffect(() => {
         const loadTestData = async () => {
             try {
@@ -46,7 +48,6 @@ export default function ReadingMain({ test_id }: { test_id: string }) {
     if (!section) {
         return <p className="text-center text-gray-500">Loading test data...</p>
     }
-
 
     const renderComponent = (question: any, index: number) => {
         switch (question.questionType) {
@@ -120,27 +121,30 @@ export default function ReadingMain({ test_id }: { test_id: string }) {
     }
 
     return (
-        <>
-            <div className="min-h-screen">
-                <div className="mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        {/* Reading Passage */}
-                        <ReadingPassageDisplay
-                            title={allSections[currentSectionIndex].reading_passage.title}
-                            subtitle={allSections[currentSectionIndex].reading_passage.subtitle}
-                            passage={allSections[currentSectionIndex].reading_passage.passage}
-                        />
+        <div>
+            <NavigationBar onSubmit={() => { onNext() }} />
+            <div>
+                <div className="min-h-screen">
+                    <div className="mx-auto">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            {/* Reading Passage */}
+                            <ReadingPassageDisplay
+                                title={allSections[currentSectionIndex].reading_passage.title}
+                                subtitle={allSections[currentSectionIndex].reading_passage.subtitle}
+                                passage={allSections[currentSectionIndex].reading_passage.passage}
+                            />
 
-                        {/* Questions Section */}
-                        {renderComponent(allSections[currentSectionIndex].questions[currentSubsetIndex], 0)}
+                            {/* Questions Section */}
+                            {renderComponent(allSections[currentSectionIndex].questions[currentSubsetIndex], 0)}
+                        </div>
                     </div>
                 </div>
+                <ReadingPagination
+                    onNext={goToNextSubset}
+                    onPrev={goToPrevSubset}
+                />
             </div>
-            <ReadingPagination
-                onNext={goToNextSubset}
-                onPrev={goToPrevSubset}
-            />
-        </>
+        </div>
     )
 }
 
