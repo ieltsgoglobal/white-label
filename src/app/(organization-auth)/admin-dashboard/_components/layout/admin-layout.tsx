@@ -31,6 +31,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import PurchaseCreditsButton from "./purchase-credits-button"
 
 
 interface AdminLayoutProps {
@@ -42,13 +43,13 @@ interface AdminLayoutProps {
 const navigation = [
     { name: "Dashboard", key: "dashboard", icon: BarChart3 },
     { name: "User Management", key: "users", icon: Users },
-    { name: "Job Management", key: "jobs", icon: Briefcase },
-    { name: "Payments & Wallet", key: "payments", icon: CreditCard },
-    { name: "Reports & Reviews", key: "reports", icon: Flag },
-    { name: "Notifications", key: "notifications", icon: Bell },
-    { name: "Blog / CMS", key: "blog", icon: FileText },
-    { name: "Admin Settings", key: "settings", icon: Settings },
-    { name: "Roles & Permissions", key: "roles", icon: Shield },
+    { name: "Transaction Management", key: "jobs", icon: Briefcase },
+    // { name: "Payments & Wallet", key: "payments", icon: CreditCard },
+    // { name: "Reports & Reviews", key: "reports", icon: Flag },
+    // { name: "Notifications", key: "notifications", icon: Bell },
+    // { name: "Blog / CMS", key: "blog", icon: FileText },
+    // { name: "Admin Settings", key: "settings", icon: Settings },
+    // { name: "Roles & Permissions", key: "roles", icon: Shield },
 ]
 
 export function AdminLayout({ children, activeTab, setActiveTab }: AdminLayoutProps) {
@@ -118,7 +119,7 @@ export function AdminLayout({ children, activeTab, setActiveTab }: AdminLayoutPr
             <div className="lg:pl-64">
                 {/* Top navigation */}
                 <div className="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white border-b border-gray-200">
-                    <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setSidebarOpen(true)}>
+                    <Button variant="ghost" size="icon" className="lg:hidden ml-3 mt-3" onClick={() => setSidebarOpen(true)}>
                         <Menu className="h-6 w-6" />
                         <span className="sr-only">Open sidebar</span>
                     </Button>
@@ -131,39 +132,42 @@ export function AdminLayout({ children, activeTab, setActiveTab }: AdminLayoutPr
                                 </div>
                             </div>
                         </div>
-                        <div className="ml-4 flex items-center md:ml-6">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                        <Avatar className="h-8 w-8">
-                                            <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Admin" />
-                                            <AvatarFallback>AD</AvatarFallback>
-                                        </Avatar>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-56" align="end" forceMount>
-                                    <DropdownMenuLabel className="font-normal">
-                                        <div className="flex flex-col space-y-1">
-                                            <p className="text-sm font-medium leading-none">Admin User</p>
-                                            <p className="text-xs leading-none text-muted-foreground">admin@extrup.com</p>
-                                        </div>
-                                    </DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                        <User className="mr-2 h-4 w-4" />
-                                        <span>Profile</span>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        <Settings className="mr-2 h-4 w-4" />
-                                        <span>Settings</span>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                        <LogOut className="mr-2 h-4 w-4" />
-                                        <span>Log out</span>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                        <div className="flex items-center justify-between gap-4">
+                            <div><PurchaseCreditsButton /></div>
+                            <div className="ml-4 flex items-center md:ml-6">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                                            <Avatar className="h-8 w-8">
+                                                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Admin" />
+                                                <AvatarFallback>AD</AvatarFallback>
+                                            </Avatar>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56" align="end" forceMount>
+                                        <DropdownMenuLabel className="font-normal">
+                                            <div className="flex flex-col space-y-1">
+                                                <p className="text-sm font-medium leading-none">Admin User</p>
+                                                <p className="text-xs leading-none text-muted-foreground">admin@extrup.com</p>
+                                            </div>
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem>
+                                            <User className="mr-2 h-4 w-4" />
+                                            <span>Profile</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Settings className="mr-2 h-4 w-4" />
+                                            <span>Settings</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem>
+                                            <LogOut className="mr-2 h-4 w-4" />
+                                            <span>Log out</span>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </div>
                         </div>
                     </div>
                 </div>

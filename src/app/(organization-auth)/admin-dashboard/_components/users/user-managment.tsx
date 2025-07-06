@@ -5,20 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Search, MoreHorizontal, Eye, Edit, Ban, CheckCircle, Users, UserCheck, UserX, PlusCircleIcon } from "lucide-react"
 import CreateUserModal from "./create-user-modal"
 import { getStudentsByOrg } from "@/lib/superbase/student-table"
+import { getPartnerId } from "@/lib/login/indexedDB"
 
 type Student = {
     id: string
@@ -38,9 +31,7 @@ type UserStats = {
 }
 
 
-
-
-export function UserManagement({ partnerSession }: { partnerSession: any }) {
+export function UserManagement() {
     const [searchTerm, setSearchTerm] = useState("")
     const [roleFilter, setRoleFilter] = useState("all")
     const [statusFilter, setStatusFilter] = useState("all")
@@ -83,8 +74,9 @@ export function UserManagement({ partnerSession }: { partnerSession: any }) {
     // fetch students initially
     useEffect(() => {
         const fetchStudents = async () => {
-            if (!partnerSession?.id) return
-            const { data, error } = await getStudentsByOrg(partnerSession.id)
+            const partnerId = await getPartnerId()
+            if (!partnerId) return
+            const { data, error } = await getStudentsByOrg(partnerId)
             if (error) {
                 console.error("Failed to fetch students:", error)
             } else {
@@ -93,7 +85,7 @@ export function UserManagement({ partnerSession }: { partnerSession: any }) {
         }
 
         fetchStudents()
-    }, [partnerSession?.id])
+    }, [])
 
 
     // calculate what to show on the 4 cards
@@ -164,11 +156,13 @@ export function UserManagement({ partnerSession }: { partnerSession: any }) {
                     <p className="text-gray-600">Manage freelancers and clients on the platform</p>
                 </div>
                 <div>
-                    <Button onClick={() => setOpen(!open)} disabled={!partnerSession}>Create New User <PlusCircleIcon className="ml-2 w-4 h-4" /></Button>
+                    {/* create new user button  */}
+                    <Button onClick={() => setOpen(!open)}>Create New User <PlusCircleIcon className="ml-2 w-4 h-4" /></Button>
                 </div>
             </div>
 
-            <CreateUserModal partnerSession={partnerSession} open={open} onClose={() => setOpen(false)} />
+            {/* create new user modal  */}
+            <CreateUserModal open={open} onClose={() => setOpen(false)} />
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

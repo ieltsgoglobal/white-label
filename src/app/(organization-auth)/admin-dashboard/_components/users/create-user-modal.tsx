@@ -1,16 +1,11 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter,
-} from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { createStudent } from "@/lib/superbase/student-table"
 import ModrenBg from "./bg-create-user-modal.jpg"
 import Image from "next/image"
+import { getPartnerId } from "@/lib/login/indexedDB"
 
 export type PartnerSession = {
     id: string
@@ -25,7 +20,7 @@ export type PartnerSession = {
 }
 
 
-export default function CreateUserModal({ open, onClose, partnerSession, }: { open: boolean, onClose: () => void, partnerSession: PartnerSession }) {
+export default function CreateUserModal({ open, onClose, }: { open: boolean, onClose: () => void }) {
     const [formData, setFormData] = useState({
         name: "",
         username: "",
@@ -40,6 +35,12 @@ export default function CreateUserModal({ open, onClose, partnerSession, }: { op
     }
 
     const handleSubmit = async () => {
+        const partnerId = await getPartnerId()
+        if (!partnerId) {
+            alert("Partner ID not found.")
+            return
+        }
+
         if (!formData.name || !formData.username || !formData.password) {
             alert("Please fill in all fields.")
             return
@@ -53,7 +54,7 @@ export default function CreateUserModal({ open, onClose, partnerSession, }: { op
                 username: formData.username,
                 password: formData.password,
                 revenue: formData.revenue,
-                orgId: partnerSession.id,
+                orgId: partnerId,
             })
 
             if ("error" in result) {

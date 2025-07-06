@@ -89,3 +89,31 @@ export async function updateStudentPassword(studentId: string, newPassword: stri
 
     return { error }
 }
+
+// Log in a student by username and password
+export async function loginStudent(username: string, password: string) {
+    if (!username || !password) {
+        return { error: "Username and password are required." }
+    }
+
+    // 1. Fetch the student by username
+    const { data, error } = await supabase
+        .from("student")
+        .select("*")
+        .eq("username", username)
+        .single()
+
+    if (error || !data) {
+        return { error: "Student not found or invalid credentials." }
+    }
+
+    // 2. Compare passwords (plain for now; hash later if needed)
+    if (data.password !== password) {
+        return { error: "Incorrect password." }
+    }
+
+    // 3. Return student data (optional: exclude password)
+    const { password: _, ...studentData } = data
+
+    return { success: true, student: studentData }
+}
