@@ -1,7 +1,10 @@
 "use client"
 import { useEffect, useRef } from "react"
+import { startRecording, stopRecordingWithMeta } from "@/lib/mock-tests/speaking/recorder"
+import { uploadAudioToS3 } from "@/lib/mock-tests/speaking/s3Uploader"
+import { updateSpeakingAnswer } from "@/lib/mock-tests/mockAnswersStorage"
 
-export default function SpeakingPart2Player({ audioUrl, onComplete, }: { audioUrl: string, onComplete: () => void }) {
+export default function SpeakingPart2Player({ audioUrl, questionId, onComplete, }: { audioUrl: string, questionId: number, onComplete: () => void }) {
     const hasRunRef = useRef(false) // Prevents the sequence from running multiple times
 
     useEffect(() => {
@@ -40,8 +43,16 @@ export default function SpeakingPart2Player({ audioUrl, onComplete, }: { audioUr
                 // 6. Play beep before user starts speaking
                 await playAudio("/mock-tests/speaking-task/speaking_beep.mp3")
 
-                // 7. Wait 2 minutes for user's response
+                // 7. Start Recording -> Wait 2 minutes for user's response -> Store Response in S3 + Store S3 url in localstorage
+                await startRecording()
                 await new Promise((res) => setTimeout(res, 120000))
+                const result = await stopRecordingWithMeta(questionId)
+                if (result) {
+                    const url = await uploadAudioToS3(result.blob, result.filename)
+                    if (url) {
+                        updateSpeakingAnswer(questionId, url)
+                    }
+                }
 
                 // 8. End message to the candidate
                 await playAudio("/mock-tests/speaking-task/part2/ty-you-may-stop-speaking.mp3")

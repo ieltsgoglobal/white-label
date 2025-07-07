@@ -1,5 +1,8 @@
 "use client"
-import { useEffect } from "react"
+import { updateSpeakingAnswer } from "@/lib/mock-tests/mockAnswersStorage"
+import { startRecording, stopRecordingWithMeta } from "@/lib/mock-tests/speaking/recorder"
+import { uploadAudioToS3 } from "@/lib/mock-tests/speaking/s3Uploader"
+import { useEffect, useState } from "react"
 
 interface SpeakingQuestion {
     id: number
@@ -25,6 +28,7 @@ export default function SpeakingPart1Player({ speakingData, onComplete }: { spea
             const part = speakingData[0]
             if (!part || part.questions.length === 0) return
 
+            // loop through all questions
             for (const question of part.questions) {
                 if (question.audioUrl) {
                     const audio = new Audio(question.audioUrl)
@@ -32,7 +36,19 @@ export default function SpeakingPart1Player({ speakingData, onComplete }: { spea
                     await new Promise<void>((resolve) => {
                         audio.addEventListener("ended", async () => {
                             await playBeep()
-                            setTimeout(resolve, 10000) // wait 10 seconds after beep
+
+                            // start recording after beep -> Record 10 seconds -> store blob in S3 + store S3 url in localstorage
+                            await startRecording()
+                            setTimeout(async () => {
+                                const result = await stopRecordingWithMeta(question.id)
+                                if (result) {
+                                    const url = await uploadAudioToS3(result.blob, result.filename)
+                                    if (url) {
+                                        updateSpeakingAnswer(question.id, url)
+                                    }
+                                }
+                                resolve()
+                            }, 10000) // wait 10 seconds after beep
                         })
 
                         audio.play().catch((err) => {

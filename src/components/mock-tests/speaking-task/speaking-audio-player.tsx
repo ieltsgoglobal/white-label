@@ -33,9 +33,10 @@ export default function SpeakingAudioPlayer({ speakingData }: { speakingData: Sp
     }
 
 
-    // direclty give url to second component
+    // direclty give url and id to second component
     const part2 = speakingData.find((p) => p.part === 2)
     const part2AudioUrl = part2?.questions[0].audioUrl
+    const part2questionId = part2?.questions[0].id
 
     return (
         <>
@@ -43,8 +44,8 @@ export default function SpeakingAudioPlayer({ speakingData }: { speakingData: Sp
                 // send full speakingData in order to map/loop it
                 <SpeakingPart1Player speakingData={speakingData} onComplete={handlePart1Complete} />
             )}
-            {currentPart === 2 && part2AudioUrl && (
-                <SpeakingPart2Player audioUrl={part2AudioUrl} onComplete={handlePart2Complete} />
+            {currentPart === 2 && part2AudioUrl && part2questionId && (
+                <SpeakingPart2Player audioUrl={part2AudioUrl} questionId={part2questionId} onComplete={handlePart2Complete} />
             )}
             {currentPart === 3 && (
                 // send full speakingData in order to map/loop it

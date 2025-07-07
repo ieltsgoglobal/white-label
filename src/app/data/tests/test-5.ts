@@ -656,7 +656,7 @@ export const speaking_transcripts = [
         part: 2,
         questions: [
             {
-                id: 13,
+                id: 10,
                 transcript: "I'd like you to describe a course you have done that you found useful.",
                 audioUrl: "https://www.dropbox.com/scl/fi/9pchhit9c4rp6m52t0cdj/part2.mp3?rlkey=rjwpgt08m2qs9861yd73wqdlt&st=v8uz82hh&raw=1"
             }
@@ -665,12 +665,12 @@ export const speaking_transcripts = [
     {
         part: 3,
         questions: [
-            { id: 14, transcript: "We've been talking about a course you have done that you found useful and I'd now like to ask you some questions related to this. First, lets consider homework. Do you think it is important that children are given homework?", audioUrl: "https://www.dropbox.com/scl/fi/gxiropomvrjyn1rh31kgq/part3_q1.mp3?rlkey=hgh37w5pkayxzm5a2yd2mjybn&st=cdky2ffm&raw=1" },
-            { id: 15, transcript: "What do you think, How much homework should they be given?", audioUrl: "https://www.dropbox.com/scl/fi/bxu0efat6950xy7qkz735/part3_q2.mp3?rlkey=unfyesp7nwkxlgjs5m7of0kh4&st=wv52s2hp&raw=1" },
-            { id: 16, transcript: "Do you think parents should help their children with their homework or should it be done alone", audioUrl: "https://www.dropbox.com/scl/fi/enlgusbjejqnwmaag91r9/part3_q3.mp3?rlkey=xcuzuw7rpqex45ebbz6td0tjp&st=d3xqgm5p&raw=1" },
-            { id: 17, transcript: "Now we'll discuss the relationship between education and work. How important is it to have a university education to get a job in your country?", audioUrl: "https://www.dropbox.com/scl/fi/iujrjqcw1csoy8jmsd0pm/part3_q4.mp3?rlkey=qzxzphbbrrvo4p02or7v104vx&st=bhz536dc&raw=1" },
-            { id: 18, transcript: "Does having a degree from another country enhance employment opportunities in your country?", audioUrl: "https://www.dropbox.com/scl/fi/splwtx3zmvry6wkkamtqf/part3_q5.mp3?rlkey=theyf2h3z10d5xexmgh9ep84k&st=84cwbuwl&raw=1" },
-            { id: 19, transcript: "What impacts do students who have studies abroad have on their country of origin when they come home?", audioUrl: "https://www.dropbox.com/scl/fi/6u80m9asxdqdykua48rom/part3_q6.mp3?rlkey=qv6r5w5bvvez25b6q4amzpsuf&st=1nhr2mxp&raw=1" }
+            { id: 11, transcript: "We've been talking about a course you have done that you found useful and I'd now like to ask you some questions related to this. First, lets consider homework. Do you think it is important that children are given homework?", audioUrl: "https://www.dropbox.com/scl/fi/gxiropomvrjyn1rh31kgq/part3_q1.mp3?rlkey=hgh37w5pkayxzm5a2yd2mjybn&st=cdky2ffm&raw=1" },
+            { id: 12, transcript: "What do you think, How much homework should they be given?", audioUrl: "https://www.dropbox.com/scl/fi/bxu0efat6950xy7qkz735/part3_q2.mp3?rlkey=unfyesp7nwkxlgjs5m7of0kh4&st=wv52s2hp&raw=1" },
+            { id: 13, transcript: "Do you think parents should help their children with their homework or should it be done alone", audioUrl: "https://www.dropbox.com/scl/fi/enlgusbjejqnwmaag91r9/part3_q3.mp3?rlkey=xcuzuw7rpqex45ebbz6td0tjp&st=d3xqgm5p&raw=1" },
+            { id: 14, transcript: "Now we'll discuss the relationship between education and work. How important is it to have a university education to get a job in your country?", audioUrl: "https://www.dropbox.com/scl/fi/iujrjqcw1csoy8jmsd0pm/part3_q4.mp3?rlkey=qzxzphbbrrvo4p02or7v104vx&st=bhz536dc&raw=1" },
+            { id: 15, transcript: "Does having a degree from another country enhance employment opportunities in your country?", audioUrl: "https://www.dropbox.com/scl/fi/splwtx3zmvry6wkkamtqf/part3_q5.mp3?rlkey=theyf2h3z10d5xexmgh9ep84k&st=84cwbuwl&raw=1" },
+            { id: 16, transcript: "What impacts do students who have studies abroad have on their country of origin when they come home?", audioUrl: "https://www.dropbox.com/scl/fi/6u80m9asxdqdykua48rom/part3_q6.mp3?rlkey=qv6r5w5bvvez25b6q4amzpsuf&st=1nhr2mxp&raw=1" }
         ]
     }
 ]

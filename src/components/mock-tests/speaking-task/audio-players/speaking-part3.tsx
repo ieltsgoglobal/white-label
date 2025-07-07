@@ -1,5 +1,8 @@
 "use client"
-import { useEffect } from "react"
+import { updateSpeakingAnswer } from "@/lib/mock-tests/mockAnswersStorage"
+import { startRecording, stopRecordingWithMeta } from "@/lib/mock-tests/speaking/recorder"
+import { uploadAudioToS3 } from "@/lib/mock-tests/speaking/s3Uploader"
+import { useEffect, useRef, useState } from "react"
 
 interface SpeakingQuestion {
     id: number
@@ -13,6 +16,7 @@ interface SpeakingPart {
 }
 
 export default function SpeakingPart3Player({ speakingData, onComplete }: { speakingData: SpeakingPart[], onComplete: () => void }) {
+    const hasPlayed = useRef(false) // ref prevents race conditions 
 
     // Beep function
     const playBeep = () => {
@@ -21,6 +25,12 @@ export default function SpeakingPart3Player({ speakingData, onComplete }: { spea
     }
 
     useEffect(() => {
+
+        // prevents audios to run multiple time at once
+        if (hasPlayed.current) return
+        hasPlayed.current = true
+
+
         const playAllAudios = async () => {
             const part = speakingData[2]
             if (!part || part.questions.length === 0) return
@@ -32,7 +42,19 @@ export default function SpeakingPart3Player({ speakingData, onComplete }: { spea
                     await new Promise<void>((resolve) => {
                         audio.addEventListener("ended", async () => {
                             await playBeep()
-                            setTimeout(resolve, 10000) // wait 10 seconds after beep
+
+                            // start recording after beep -> Record 10 seconds -> store blob in S3 + store S3 url in localstorage
+                            await startRecording()
+                            setTimeout(async () => {
+                                const result = await stopRecordingWithMeta(question.id)
+                                if (result) {
+                                    const url = await uploadAudioToS3(result.blob, result.filename)
+                                    if (url) {
+                                        updateSpeakingAnswer(question.id, url)
+                                    }
+                                }
+                                resolve()
+                            }, 10000) // wait 10 seconds after beep
                         })
 
                         audio.play().catch((err) => {
@@ -42,7 +64,6 @@ export default function SpeakingPart3Player({ speakingData, onComplete }: { spea
                     })
                 }
             }
-
             onComplete()
         }
 

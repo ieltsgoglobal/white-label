@@ -5,12 +5,18 @@ const STORAGE_KEY = "mock-answers"
 
 type AnswerMap = Record<number, string>
 
+interface SpeakingAnswer {
+    questionId: number
+    url: string
+}
+
 interface MockAnswers {
     listening: AnswerMap
     reading: AnswerMap
+    speaking: SpeakingAnswer[]
 }
 
-// populate local storage to store responses
+// populate local storage to store responses (reading | listening | speaking)
 export function initializeMockAnswers() {
     if (typeof window === "undefined") return // SSR safety
 
@@ -24,6 +30,7 @@ export function initializeMockAnswers() {
         const initialData: MockAnswers = {
             listening: { ...emptyAnswers },
             reading: { ...emptyAnswers },
+            speaking: [],
         }
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData))
@@ -39,7 +46,7 @@ export function getMockAnswers(): MockAnswers | null {
 }
 
 
-// to store new answer
+// to store new answer (reading | listening)
 export function updateMockAnswer(
     section: "listening" | "reading",
     questionNumber: number,
@@ -54,7 +61,7 @@ export function updateMockAnswer(
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
 
-// get answer for paticualar field
+// get answer for paticualar field (reading | listening)
 export function getFieldAnswer(section: "reading" | "listening", questionNumber: number): string {
     if (typeof window === "undefined") return "";
 
@@ -63,4 +70,19 @@ export function getFieldAnswer(section: "reading" | "listening", questionNumber:
 
     const parsed = JSON.parse(data);
     return parsed?.[section]?.[questionNumber] || "";
+}
+
+
+// to store speaking answer (questionId + S3 URL)
+export function updateSpeakingAnswer(questionId: number, url: string) {
+    if (typeof window === "undefined") return
+
+    const data = getMockAnswers()
+    if (!data) return
+
+    // remove any existing answer with the same questionId
+    const filtered = data.speaking.filter((entry) => entry.questionId !== questionId)
+
+    data.speaking = [...filtered, { questionId, url }]
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
