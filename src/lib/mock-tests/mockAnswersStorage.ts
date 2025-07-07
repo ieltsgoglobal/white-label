@@ -13,7 +13,7 @@ interface SpeakingAnswer {
 interface WritingAnswer {
     questionId: number
     response: string
-    evaluationResult: any
+    evaluationResult: string
 }
 
 interface MockAnswers {
@@ -95,7 +95,7 @@ export function updateSpeakingAnswer(questionId: number, url: string) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
 
-export function updateWritingAnswer(questionId: number, response: string, evaluationResult: any) {
+export function updateWritingAnswer(questionId: number, response: string, evaluationResult: string) {
     if (typeof window === "undefined") return
 
     const data = getMockAnswers()
@@ -107,4 +107,10 @@ export function updateWritingAnswer(questionId: number, response: string, evalua
     data.writing = updated
 
     localStorage.setItem("mock-answers", JSON.stringify(data))
+}
+
+export function clearMockAnswers() {
+    if (typeof window === "undefined") return
+
+    localStorage.removeItem("mock-answers")
 }

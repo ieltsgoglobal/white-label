@@ -1,29 +1,48 @@
 import { getStudentId } from "../login/indexedDB"
 import { db } from "./firebase"
 import { collection, addDoc } from "firebase/firestore"
+import { clearMockAnswers, getMockAnswers } from "@/lib/mock-tests/mockAnswersStorage"
 
 /**
  * Save listening answers at mock-tests/{studentId}/{auto-id}
  */
-export async function saveListeningAnswersFlat(listeningAnswers: Record<number, string>) {
+export async function submitAllMockAnswers() {
+    try {
+        // ✅ Get testId from the pathname: "/mock-tests/1"
+        const pathname = window?.location?.pathname || ""
+        const segments = pathname.split("/") // ["", "mock-tests", "1"]
+        const testId = segments[2] // ⛔ Add validation if needed
 
-    // ✅ Get testId from the pathname: "/mock-tests/1"
-    const pathname = window?.location?.pathname || ""
-    const segments = pathname.split("/") // ["", "mock-tests", "1"]
-    const testId = segments[2] // ⛔ Add validation if needed
+        // Get studentId from indexedDB
+        const studentId = await getStudentId()
+        if (!studentId) {
+            console.error("Missing student ID")
+            return
+        }
 
-    // Get studentId from indexedDB
-    const studentId = await getStudentId()
-    if (!studentId) {
-        console.error("Missing student ID")
-        return
+        // ✅ Get all local answers from localstorage
+        const answers = getMockAnswers()
+        if (!answers) {
+            console.error("No mock answers found in localStorage.")
+            return
+        }
+
+        // ✅ Firestore path: mock-tests/{studentId}/attempts/{auto-id}
+        const attemptsRef = collection(db, "mock-tests", studentId, "attempts")
+        await addDoc(attemptsRef, {
+            testId,
+            listening: answers.listening,
+            reading: answers.reading,
+            speaking: answers.speaking,
+            writing: answers.writing,
+            timestamp: new Date().toISOString(),
+        })
+
+        console.log("Mock test answers successfully submitted.")
+
+        //clear the localstorage mock-answers
+        clearMockAnswers()
+    } catch (error) {
+        console.error("Failed to submit mock answers:", error)
     }
-
-    const attemptsRef = collection(db, "mock-tests", studentId, "attempts")
-
-    await addDoc(attemptsRef, {
-        testId,
-        listening: listeningAnswers,
-        timestamp: new Date().toISOString(),
-    })
 }

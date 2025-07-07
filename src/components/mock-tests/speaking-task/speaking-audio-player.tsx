@@ -15,7 +15,7 @@ interface SpeakingPart {
     questions: SpeakingQuestion[]
 }
 
-export default function SpeakingAudioPlayer({ speakingData }: { speakingData: SpeakingPart[] }) {
+export default function SpeakingAudioPlayer({ speakingData, onNext }: { speakingData: SpeakingPart[], onNext: () => void }) {
     const [currentPart, setCurrentPart] = useState(1)
 
     const handlePart1Complete = () => {
@@ -30,6 +30,8 @@ export default function SpeakingAudioPlayer({ speakingData }: { speakingData: Sp
 
     const handlePart3Complete = () => {
         console.log("Part 3 finished. All parts done.")
+        // go to next section (TestEndScreen)
+        onNext()
     }
 
 

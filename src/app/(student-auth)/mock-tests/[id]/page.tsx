@@ -10,6 +10,7 @@ import ReadingMain from "@/components/mock-tests/reading-task/reading-main";
 import WritingMain from "@/components/mock-tests/writing-task/writing-main";
 import SpeakingMain from "@/components/mock-tests/speaking-task/speaking-main";
 import { initializeMockAnswers } from "@/lib/mock-tests/mockAnswersStorage";
+import TestEndScreen from "@/components/mock-tests/instructions/TestEndScreen";
 
 export default function MockTestPage() {
     const [currentPhaseIndex, setCurrentPhaseIndex] = useState(2);
@@ -33,7 +34,8 @@ export default function MockTestPage() {
         { id: "listening task", component: () => <ListeningMain test_id="5" onNext={nextPhase} /> },
         { id: "reading task", component: () => <ReadingMain test_id="5" onNext={nextPhase} /> },
         { id: "writing task", component: () => <WritingMain test_id="5" onNext={nextPhase} /> },
-        { id: "speaking task", component: () => <SpeakingMain test_id="5" /> },
+        // { id: "speaking task", component: () => <SpeakingMain test_id="5" onNext={nextPhase} /> },
+        { id: "End Test", component: () => <TestEndScreen /> },
     ];
 
     return (

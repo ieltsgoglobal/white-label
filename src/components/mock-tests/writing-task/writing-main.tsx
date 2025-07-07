@@ -89,6 +89,8 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
         onNext()
     }
 
+    if (!currentQuestion) return (<>Loading...</>)
+
     return (
         <div>
             {/* loader model while evaluating answers */}

@@ -14,7 +14,7 @@ interface SpeakingPart {
     questions: SpeakingQuestion[]
 }
 
-export default function SpeakingMain({ test_id }: { test_id: string }) {
+export default function SpeakingMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
     const [speakingData, setSpeakingData] = useState<SpeakingPart[]>([])
 
     useEffect(() => {
@@ -35,7 +35,7 @@ export default function SpeakingMain({ test_id }: { test_id: string }) {
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-screen w-full">
-                <SpeakingAudioPlayer speakingData={speakingData} />
+                <SpeakingAudioPlayer speakingData={speakingData} onNext={() => onNext()} />
                 <div className="justify-center bg-white rounded-3xl border border-gray-100 min-w-full p-8">
                     <Image
                         src="/mock-tests/speaking-task/ielts-test-taker.png"
