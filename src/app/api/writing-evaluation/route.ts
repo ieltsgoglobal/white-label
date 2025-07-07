@@ -126,6 +126,7 @@ ${response}`
 
         const content = chatCompletion.choices[0]?.message?.content
 
+        // just return the score band, eg.8.5
         return NextResponse.json({ result: content })
     } catch (err: any) {
         console.error(err)

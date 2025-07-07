@@ -10,10 +10,17 @@ interface SpeakingAnswer {
     url: string
 }
 
+interface WritingAnswer {
+    questionId: number
+    response: string
+    evaluationResult: any
+}
+
 interface MockAnswers {
     listening: AnswerMap
     reading: AnswerMap
     speaking: SpeakingAnswer[]
+    writing: WritingAnswer[]
 }
 
 // populate local storage to store responses (reading | listening | speaking)
@@ -31,6 +38,7 @@ export function initializeMockAnswers() {
             listening: { ...emptyAnswers },
             reading: { ...emptyAnswers },
             speaking: [],
+            writing: [],
         }
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData))
@@ -85,4 +93,18 @@ export function updateSpeakingAnswer(questionId: number, url: string) {
 
     data.speaking = [...filtered, { questionId, url }]
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+}
+
+export function updateWritingAnswer(questionId: number, response: string, evaluationResult: any) {
+    if (typeof window === "undefined") return
+
+    const data = getMockAnswers()
+    if (!data) return
+
+    const existing = data.writing || []
+    const filtered = existing.filter((entry) => entry.questionId !== questionId)
+    const updated = [...filtered, { questionId, response, evaluationResult }]
+    data.writing = updated
+
+    localStorage.setItem("mock-answers", JSON.stringify(data))
 }

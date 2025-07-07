@@ -1,11 +1,19 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { ChevronRight } from "lucide-react"
+import { useEffect, useState } from "react"
 import WritingQuestionDisplay from "./writingQuestionDisplay"
 import WritingPagination from "./writing-paginaiton"
 import NavigationBar from "../additional-ui/navigation-bar"
+import { updateWritingAnswer } from "@/lib/mock-tests/mockAnswersStorage"
+import EvalutaingTaskLoaderModal from "@/components/loaders/mock-tests/writing/evaluating-task-modal"
+
+export interface WritingTask {
+    id: number
+    timeLimit: string
+    wordLimit: string
+    prompt: string[]
+    image_url?: string
+}
 
 export default function WritingMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
     const [activeTab, setActiveTab] = useState(1)
@@ -13,7 +21,9 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
         1: "",
         2: ""
     })
+    const [evaluatingResponse, setEvaluatingResponse] = useState(false)
 
+    // current response (to display user answer for ongoing question)
     const response = responses[activeTab]
     const setResponse = (val: string) => {
         setResponses((prev) => ({ ...prev, [activeTab]: val }))
@@ -22,53 +32,70 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
     const wordCount = response.trim() === "" ? 0 : response.trim().split(/\s+/).length
     const minimumWords = activeTab === 1 ? 150 : 250
 
-    // Global Questions Data
-    const writingQuestions = [
-        {
-            id: 1,
-            timeLimit: "You should spend about 20 minutes on this task.",
-            wordLimit: "Write at least 150 words.",
-            prompt: [
-                "The bar chart below gives information about the sales of electric cars in China, Europe, and the United States between 2016 and 2023.",
-                "Summarise the information by selecting and reporting the main features, and make comparisons where relevant."
-            ],
-            image_url: "https://toeflbank-rest-api-production.s3.amazonaws.com/content/ielts/writing_question/image/WritingTask1_IELTS9_7000514fd16a4a62b482f06fbd37316f_ad454e7463b24b46b6124f1d8bc8f635.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIAWIENLWII7MD4MYBE%2F20250624%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20250624T070418Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEC4aDmFwLW5vcnRoZWFzdC0yIkcwRQIgHKDj20DsFU0GRsBco1caCNk%2FBqUuP6k4km4%2Fq6yAFfkCIQDvMDcsJm5aW0F4ZRWlpo3Q%2F5mb%2FHsnKmxNfUfoKkiwySqIBAgnEAIaDDQyOTc5MzE5NDUxMyIMkZgzWJ3pQIyp84UlKuUDPce9DTqvVRMI8LXzZK%2Fa8MGPzoPaNdBQ5YluDPKjuCzZtLSIAiVE2Gk5nFB4lHH2PuNBSOf%2FNd99DbHcSwuPJNzBy47T9WFtc75UmhoWLvz%2B79vLw1dhjBGVgUgobakVOkDToPNuCaKIE3yY5vadjOSdpHw7p6nkbgW5ExwiKy8ZeVI03KsPh%2Bb%2Bi6Q4Y3M2mPq%2BYrHwzRMFKF42d281%2B2Lacv6bhuu1i2lC2EX4QH6yD6MmXWmqBi22oSQy7lFh8L4I5OjrCIKoDln1m24YiKJ2%2B35jFbLUhEgy8wqTNCq9pOTR2oLlfZx0Aw0mwAfRdoyDpxk9L48o6Eh7uyJFnA983H38OH5wEBUSoJR820rceDDaNXaHZtUJHUpL3yY8CYieXaCvlxYnfzk3SbNKyijB40ELgJH%2Fj%2F0V1vEoUJDvXym8HnKBnQ7jIigR3v6y6S%2B%2Bj0xRUfFvWZ1MHOcTKWgrhmvSQMkmC%2BKdpuTsMY5lc%2BJrYLa7bZcL6QGJ%2BK58Wg1gssU8rgcYJNcw46mje6BEVmBi8ESS0i2XujBMbInnhmLXuX49ubJkUCGXXV5nQBuWVnINKQ17lSpInfMW9cB%2FSs9FPggzFU0vfz60%2Fqm%2F32qw%2BBlAt%2FL6gqqITxofZIfcabkwwoHpwgY6pQG%2FTFDzE6%2FxdtZ3vrnwrfvNIXO%2F5upKjH4ng0BgmLOMKsOAWUafdIe9k2kB3NIGHn%2ByFfvzvi2hvHBOtogk9MJinrT5IpVHMnGY3Io1J61X%2F3ihj9E%2FxxqE8D89NgVOIMeX0SdyiDAmnXJzH4MyezG7lcKlQQlQ7dGGfvAvwwhJsROHxjKC05LwSuhbORy%2B0%2Be1NHLRUFAnzoIT9F09GrmFkgVjLRc%3D&X-Amz-Signature=7f51577f5c24debfe04803f494084065ae410d7b5debf51393a78fc999ec218a"
-        },
-        {
-            id: 2,
-            timeLimit: "You should spend about 40 minutes on this task.",
-            wordLimit: "Write at least 250 words.",
-            prompt: [
-                "Movies and television shows should not be used to study history due to their lack of historical accuracy.",
-                "To what extent do you agree or disagree with this statement?",
-                "Give reasons for your answer and include any relevant examples from your own knowledge or experience."
-            ],
-        }
-    ]
-
+    // store writing questions here
+    const [writingQuestions, setWritingQuestions] = useState<WritingTask[]>([])
     const currentQuestion = writingQuestions[activeTab - 1]
 
+    // load question from .ts file
+    useEffect(() => {
+        const loadTestData = async () => {
+            try {
+                const testDataModule = await import(`@/app/data/tests/test-${test_id}`)
+                const { writingTasks } = testDataModule.default || testDataModule
+                setWritingQuestions(writingTasks)
+                console.log(writingTasks)
+            } catch (error) {
+                console.error("Failed to load test data:", error)
+            }
+        }
 
-    const submitTask1 = async () => {
-        const res = await fetch("/api/writing-evaluation", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                taskType: activeTab,
-                response,
-            }),
-        })
+        loadTestData()
+    }, [test_id])
 
-        const data = await res.json()
-        console.log(data.result)
+
+    // get evaluation result and store it in localstorage
+    const submitTask = async (questionId: number, response: string) => {
+        try {
+            const res = await fetch("/api/writing-evaluation", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    taskType: questionId,
+                    response,
+                }),
+            })
+
+            const data = await res.json()
+            updateWritingAnswer(questionId, response, data.result)
+        } catch (err) {
+            console.error(`Failed to evaluate task ${questionId}:`, err)
+        }
+    }
+
+    // after submitTask goto next section (speaking)
+    const handleSubmit = async () => {
+        setEvaluatingResponse(true)
+        // loop thorugh responses 1 and 2
+        for (const q of writingQuestions) {
+            const userResponse = responses[q.id]
+            if (!userResponse.trim()) continue
+
+            await submitTask(q.id, userResponse)
+        }
+
+        setEvaluatingResponse(false)
+        onNext()
     }
 
     return (
         <div>
-            <NavigationBar onSubmit={() => { onNext() }} />
-            <div>
+            {/* loader model while evaluating answers */}
+            <EvalutaingTaskLoaderModal visible={evaluatingResponse} />
+
+            <NavigationBar onSubmit={handleSubmit} />
+            <div className="mt-16">
                 {/* question type_2 just have extra image_url */}
                 <WritingQuestionDisplay
                     currentQuestion={currentQuestion}
@@ -77,9 +104,6 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
                     wordCount={wordCount}
                     minimumWords={minimumWords}
                 />
-
-                {/* fake button for testing */}
-                {/* <Button onClick={submitTask1}>Submit Task1</Button> */}
 
                 <WritingPagination
                     activeTab={activeTab}
