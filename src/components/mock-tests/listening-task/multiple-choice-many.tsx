@@ -33,7 +33,7 @@ export default function MultipleChoiceMany(props: MultipleChoiceManySection) {
                     Questions {props.questions[0].id[0]}–{props.questions[props.questions.length - 1].id[props.questions[props.questions.length - 1].id.length - 1]}
                 </CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">
-                    Choose {props.questions[0].id.length} letters from between A–E.
+                    Choose {props.questions[0].id.length} letters from between A - {String.fromCharCode(65 + (props.questions[0].options.length - 1))}.
                 </p>
             </CardHeader>
             <CardContent>

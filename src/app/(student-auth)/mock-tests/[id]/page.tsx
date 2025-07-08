@@ -31,10 +31,10 @@ export default function MockTestPage() {
         { id: "sound", component: () => <SoundTest onNext={nextPhase} /> },
         { id: "mic", component: () => <MicCheck onNext={nextPhase} /> },
         { id: "listening instructions", component: () => <ListeningInstructions onNext={nextPhase} /> },
-        { id: "listening task", component: () => <ListeningMain test_id="5" onNext={nextPhase} /> },
-        { id: "reading task", component: () => <ReadingMain test_id="5" onNext={nextPhase} /> },
-        { id: "writing task", component: () => <WritingMain test_id="5" onNext={nextPhase} /> },
-        // { id: "speaking task", component: () => <SpeakingMain test_id="5" onNext={nextPhase} /> },
+        { id: "listening task", component: () => <ListeningMain test_id="6" onNext={nextPhase} /> },
+        { id: "reading task", component: () => <ReadingMain test_id="6" onNext={nextPhase} /> },
+        { id: "writing task", component: () => <WritingMain test_id="6" onNext={nextPhase} /> },
+        { id: "speaking task", component: () => <SpeakingMain test_id="6" onNext={nextPhase} /> },
         { id: "End Test", component: () => <TestEndScreen /> },
     ];
 

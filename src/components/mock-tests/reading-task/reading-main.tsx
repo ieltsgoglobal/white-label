@@ -123,7 +123,7 @@ export default function ReadingMain({ test_id, onNext }: { test_id: string, onNe
     return (
         <div>
             <NavigationBar onSubmit={() => { onNext() }} />
-            <div>
+            <div className="mt-16">
                 <div className="min-h-screen">
                     <div className="mx-auto">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
