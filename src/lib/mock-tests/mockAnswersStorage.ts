@@ -67,6 +67,11 @@ export function updateMockAnswer(
 
     data[section][questionNumber] = answer
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+
+    // 🔁 Dispatch custom event
+    // Event that forces Reading & Listening Pagination to re-render to show Attempted Answers
+    // Dispatches a custom 'update-pagination' event to trigger UI re-renders (e.g., to highlight attempted questions)
+    window.dispatchEvent(new Event("update-pagination"))
 }
 
 // get answer for paticualar field (reading | listening)

@@ -1,28 +1,59 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { extractIds } from "@/lib/mock-tests/extract-ids"
+import { getMockAnswers } from "@/lib/mock-tests/mockAnswersStorage"
 
+interface SectionMeta {
+    title: string
+    range: [number, number]
+}
 
-export default function ReadingPagination({ onPrev, onNext }: { onPrev: () => void, onNext: () => void }) {
+export default function ReadingPagination({ allSections, onPrev, onNext }: { allSections: any, onPrev: () => void, onNext: () => void }) {
     const [isCollapsed, setIsCollapsed] = useState(true)
 
-    const sections = [
-        { title: "Section A", range: [1, 15] },
-        { title: "Section B", range: [16, 28] },
-        { title: "Section C", range: [29, 40] },
-    ]
+    const sectionTitles = ["Section A", "Section B", "Section C"]
+    const sections: SectionMeta[] = allSections.map((section: any, index: number) => {
+        const ids = extractIds(section)
+        return {
+            title: sectionTitles[index] || `Section ${index + 1}`,
+            range: [Math.min(...ids), Math.max(...ids)]
+        }
+    })
+
+    // 🔄 Forces re-render when a new answer is stored in localStorage
+    // Listens for the custom 'update-pagination' event dispatched from updateMockAnswer()
+    // This allows pagination UI to reflect updated attempt states (e.g., highlight attempted questions)
+    const [version, setVersion] = useState(0)
+    useEffect(() => {
+        const handleUpdate = () => {
+            setVersion(prev => prev + 1) // triggers re-render
+        }
+
+        window.addEventListener("update-pagination", handleUpdate)
+        return () => window.removeEventListener("update-pagination", handleUpdate)
+    }, [])
 
 
-    const renderPageButton = (page: number) => (
-        <button
-            key={page}
-            className={`w-8 h-8 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 border bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 hover:text-gray-800`}
-        >
-            {page}
-        </button>
-    )
+    const renderPageButton = (page: number) => {
+        // get answers from localstorage, filter out Listening Answers and then check which questions are having some kind of value, so that we can mark attempted question with bg-blue
+        const answers = getMockAnswers()
+        const isAttempted = answers?.reading?.[page]?.trim() !== ""
+
+        return (
+            <button
+                key={page}
+                className={`w-8 h-8 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 border 
+                     ${isAttempted
+                        ? "bg-blue-500 text-white border-blue-600 hover:bg-blue-600"
+                        : "bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 hover:text-gray-800"}`}
+            >
+                {page}
+            </button>
+        )
+    }
 
     return (
         <div className="w-full fixed bottom-0 left-0 right-0 z-1">

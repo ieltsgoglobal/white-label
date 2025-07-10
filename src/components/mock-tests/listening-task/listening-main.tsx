@@ -21,7 +21,7 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
     const [section, setSection] = useState<any>(null)
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0) // 0 to 3 = 4 sections
 
-    // to tell child component that listeing section is going on
+    // to tell child component that listeing section is going on though indexedDB
     useEffect(() => {
         saveCurrentMockSection("listening") // Save on mount
     }, [])
@@ -89,15 +89,15 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
             <div className="mt-16">
                 <div className="w-[95vw]">
                     {/* <ListeningAudioPlayer
-                    audioList={allSections.map((sec: any) => sec.audio)}
-                    onAudioEnded={() => {
-                        if (currentSectionIndex < allSections.length - 1) {
-                            setCurrentSectionIndex(currentSectionIndex + 1)
-                        } else {
-                            console.log("Test complete.")
-                        }
-                    }}
-                /> */}
+                        audioList={allSections.map((sec: any) => sec.audio)}
+                        onAudioEnded={() => {
+                            if (currentSectionIndex < allSections.length - 1) {
+                                setCurrentSectionIndex(currentSectionIndex + 1)
+                            } else {
+                                console.log("Test complete.")
+                            }
+                        }}
+                    /> */}
 
                     {currentSection && (
                         <div className="flex flex-col items-center justify-center space-y-6">
@@ -109,6 +109,7 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
 
                 </div>
                 <ListeningPagination
+                    allSections={allSections} //giving allSections props to calculate which (1-40)Button goes to which (SectionA,B,C,D or Part1,2,3,4)section
                     prevSection={() => {
                         if (currentSectionIndex > 0) {
                             setCurrentSectionIndex(currentSectionIndex - 1)

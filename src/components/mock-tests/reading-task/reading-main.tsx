@@ -140,6 +140,7 @@ export default function ReadingMain({ test_id, onNext }: { test_id: string, onNe
                     </div>
                 </div>
                 <ReadingPagination
+                    allSections={allSections}
                     onNext={goToNextSubset}
                     onPrev={goToPrevSubset}
                 />
