@@ -13,7 +13,8 @@ interface OneWordQuestion {
 
 interface OneWordSection {
     type: "short-answer"
-    topic: string
+    topic?: string
+    instructions?: string
     questions: OneWordQuestion[]
 }
 
@@ -46,14 +47,20 @@ export default function ShortAnswer(props: OneWordSection) {
         <Card className="w-full">
             <CardHeader>
                 <CardTitle>Questions {oneWordQuestions.questions[0].id} - {oneWordQuestions.questions[oneWordQuestions.questions.length - 1].id}</CardTitle>
-                <p className="text-sm text-muted-foreground font-medium">Complete the sentences below. Write ONE WORD ONLY in each box.</p>
+                {/* if reading instruction are there then use it or else use default listening instructions */}
+                {/* need to do this as we are using short-answer component for reading and listening but they have diffrent instructions  */}
+                <p className="text-sm text-muted-foreground font-medium">
+                    {oneWordQuestions.instructions ? `${oneWordQuestions.instructions}` : "Complete the sentences below. Write ONE WORD ONLY in each box."}
+                </p>
             </CardHeader>
             <CardContent>
                 <div className="space-y-6">
                     {/* Topic Header */}
-                    <div className="border-l-4 border-blue-500 pl-4">
-                        <h3 className="font-semibold text-lg">{oneWordQuestions.topic}</h3>
-                    </div>
+                    {oneWordQuestions.topic &&
+                        <div className="border-l-4 border-blue-500 pl-4">
+                            <h3 className="font-semibold text-lg">{oneWordQuestions.topic}</h3>
+                        </div>
+                    }
 
                     {/* Questions */}
                     <div className="space-y-6">
@@ -68,14 +75,17 @@ export default function ShortAnswer(props: OneWordSection) {
                     </div>
 
                     {/* Word Count Reminder */}
-                    <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                        <div className="flex items-center gap-2">
-                            <AlertCircle className="h-4 w-4 text-yellow-600" />
-                            <p className="text-sm font-medium text-yellow-800">
-                                Remember: Write <strong>ONE WORD ONLY</strong> in each box. No numbers or multiple words allowed.
-                            </p>
+                    {/* default instruction are for listening questions but if we change instruction for reading questions then below code doesnt make sense w.r.t new instructions */}
+                    {!oneWordQuestions.instructions &&
+                        <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <div className="flex items-center gap-2">
+                                <AlertCircle className="h-4 w-4 text-yellow-600" />
+                                <p className="text-sm font-medium text-yellow-800">
+                                    Remember: Write <strong>ONE WORD ONLY</strong> in each box. No numbers or multiple words allowed.
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </CardContent>
         </Card>
