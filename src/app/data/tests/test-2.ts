@@ -622,3 +622,159 @@ precise degree of <32> which most appeals to the viewer’s brain. She also obse
         }
     ]
 }
+
+
+// https://www.hiradenglish.com/wp-content/uploads/2021/06/Barrons-IELTS-practice-exams.pdf - ACADEMIC TEST 5 - Writing Task 1 & 2
+export const writingTasks = [
+    {
+        id: 1,
+        timeLimit: "You should spend about 20 minutes on this task.",
+        wordLimit: "Write at least 150 words.",
+        prompt: [
+            "The following diagrams show a current map of Peyton Park and a plan for proposed changes. ",
+            "Summarize the information by selecting and reporting the main features, and make comparisons where relevant."
+        ],
+        image_url: "https://www.dropbox.com/scl/fi/8xj442yf9tqogo4fmh6ev/test2-q1.png?rlkey=0st0rhgqbc303664fuuo1m4o6&st=sbz68jvb&raw=1",
+    },
+    {
+        id: 2,
+        timeLimit: "You should spend about 40 minutes on this task.",
+        wordLimit: "Write at least 250 words.",
+        prompt: [
+            "Write about the following topic",
+            "Life now is better than it was 700 years ago.",
+            "To what extent do you agree or disagree with this statement? Give reasons for your answer and include any relevant examples from your own knowledge or experience. "
+        ],
+    }
+]
+
+// https://kbtxwer.github.io/IELTS/%E5%89%91%E6%A1%A5%E9%9B%85%E6%80%9D%E5%AE%98%E6%96%B9%E7%9C%9F%E9%A2%98%E9%9B%8615.pdf  - CAMBBRIDGE 15 - TEST 4 - Speaking
+export const speaking_transcripts = [
+    {
+        part: 1,
+        questions: [
+            { id: 1, transcript: "Now, in this part of the test, I will ask you some questions about yourself. After each question, there will be a beep sound. You will have 20 seconds to speak after the beep. So, How often do you wear jewellery? Why or why not?", audioUrl: "https://www.dropbox.com/scl/fi/1ve0qz67grb2c5dbk14fz/part1_q1.mp3?rlkey=vo82jd1ayflezzotzdlzkhslp&st=8vgthd3p&raw=1" },
+            { id: 2, transcript: "What type of jewellery do you like best? Why or why not?", audioUrl: "https://www.dropbox.com/scl/fi/ddm1tt59wkwcrjqauuv9k/part1_q2.mp3?rlkey=ah1tg2p0fv626x0bbn2iltlao&st=6c8dwv3b&raw=1" },
+            { id: 3, transcript: "When do people like to give jewellery in your country!? Give reasons?", audioUrl: "https://www.dropbox.com/scl/fi/xvvhecrirzi04m5pjp5vy/part1_q3.mp3?rlkey=3hoodxorwye0se16v40dbrnry&st=jvhr80tc&raw=1" },
+            { id: 4, transcript: "Have you ever given jewellery to someone as a gift?  Why or why not?", audioUrl: "https://www.dropbox.com/scl/fi/lm56m8gnowjqqrrikwvzn/part1_q4.mp3?rlkey=gh4csjmsf83zlvbjpkgtxm9tk&st=a41o4jsw&raw=1" },
+
+            { id: 5, transcript: "I’d like to move on and ask you some questions about books. Do you enjoy reading books in your free time? Why or why not?", audioUrl: "https://www.dropbox.com/scl/fi/zfhjswcbz7n0lmmngjhod/part1_q5.mp3?rlkey=fjj8uex9ceuzisj4e3psapov8&st=hvvvnkas&raw=1" },
+            { id: 6, transcript: "What kind of books did you enjoy as a child?", audioUrl: "https://www.dropbox.com/scl/fi/tyvcgywb8bnk2y9rzo956/part1_q6.mp3?rlkey=vl1i6c3l9eaey8h3h4rucptlz&st=ddzqtd8f&raw=1" },
+            { id: 7, transcript: "Do you prefer reading physical books or e-books? Why?", audioUrl: "https://www.dropbox.com/scl/fi/zs2j7kqkk1dilzff18o77/part1_q7.mp3?rlkey=1u9vkjg69b03xw3ix9rse6acs&st=m7s5lmqj&raw=1" },
+            { id: 8, transcript: "Have your reading habits changed over the years? In what way?", audioUrl: "https://www.dropbox.com/scl/fi/rsq711ckxvd1eqflcm8ck/part1_q8.mp3?rlkey=6vk2xusohjyq6fnowy2uhaa55&st=2ueold5d&raw=1" },
+        ]
+    },
+    {
+        part: 2,
+        questions: [
+            {
+                id: 9,
+                transcript: "Describe an interesting TV programme you watched about a science topic.",
+                audioUrl: "https://www.dropbox.com/scl/fi/4jlhqjjzidmjl4q9ycfuw/part2.mp3?rlkey=kyxz0s0eq1ijab1gdvqgyruft&st=xa8vmplh&raw=1"
+            }
+        ]
+    },
+    {
+        part: 3,
+        questions: [
+            { id: 10, transcript: "You’ve just spoken about a programme you watched about science. Let’s explore this topic a bit more. How interested are most people in your country in science?", audioUrl: "https://www.dropbox.com/scl/fi/mt92qd0ok3qsxprtbxjd8/part3_q1.mp3?rlkey=oppgjs42fq1msw4endg5ka2n3&st=qyy52ob6&raw=1" },
+            { id: 11, transcript: "Why do you think children today might be better at science than their parents?", audioUrl: "https://www.dropbox.com/scl/fi/e8rf8of8fo2zel7dpfszv/part3_q2.mp3?rlkey=67gtq1a4zmcwe5jp9o7k3r7wm&st=s3g4sd5d&raw=1" },
+            { id: 12, transcript: "How do you suggest the public can learn more about scientific developments?", audioUrl: "https://www.dropbox.com/scl/fi/x81fubcg9yaz7dnu7gn1n/part3_q3.mp3?rlkey=of1usypb6wjw1np2ta2sr3jib&st=jfn608rs&raw=1" },
+
+            { id: 13, transcript: "I’d like to move on and ask you some questions about Scientific discoveries. What do you think are the most important scientific discoveries in the last 100 years?", audioUrl: "https://www.dropbox.com/scl/fi/db0ovc3bm7g9nqmkqxrjt/part3_q4.mp3?rlkey=aysn48n4pe489qnnh8h5ye2sg&st=9k2yfjc2&raw=1" },
+            { id: 14, transcript: "Do you agree or disagree that there are no more major scientific discoveries left to make?", audioUrl: "https://www.dropbox.com/scl/fi/zwhpo1s5955n5j93f7ka6/part3_q5.mp3?rlkey=yndhicvqoy9pi0ocyq1skfaws&st=zw9prez0&raw=1" },
+            { id: 15, transcript: "Who should pay for scientific research – governments or private companies?", audioUrl: "https://www.dropbox.com/scl/fi/h030gvfjinal51ikprrpa/part3_q6.mp3?rlkey=zsq5zwdinic4ea714jyz0p07p&st=1orqbbsj&raw=1" },
+
+        ]
+    }
+]
+
+
+
+export const reading_answers = {
+    1: "TRUE",
+    2: "NOT GIVEN",
+    3: "TRUE",
+    4: "FALSE",
+    5: "C",
+    6: "B",
+    7: "G",
+    8: "A",
+    9: "(lifting) frame",
+    10: "hydraulic jacks",
+    11: "stabbing guides",
+    12: "(lifting) cradle",
+    13: "air bags",
+
+    14: "ii",
+    15: "ix",
+    16: "viii",
+    17: "i",
+    18: "iv",
+    19: "vii",
+    20: "vi",
+    21: "farming",
+    22: "canoes",
+    23: "birds",
+    24: "wood",
+    25: "B",
+    26: "C",
+
+    27: "C",
+    28: "D",
+    29: "B",
+    30: "A",
+    31: "C",
+    32: "B",
+    33: "H",
+    34: "NOT GIVEN",
+    35: "YES",
+    36: "NO",
+    37: "NO",
+    38: "YES",
+    39: "NOT GIVEN",
+    40: "A"
+};
+
+export const listening_answers = {
+    1: "300",
+    2: "sunshade",
+    3: "balcony",
+    4: "forest(s)",
+    5: "319",
+    6: "10,000",
+    7: "relative",
+    8: "missed",
+    9: "item",
+    10: "Ludlow",
+    11: "C",
+    12: "A",
+    13: "C",
+    14: "E",
+    15: "H",
+    16: "F",
+    17: "C",
+    18: "G",
+    19: "120",
+    20: "5-12",
+    21: "fishing industry",
+    22: "statistics",
+    23: "note-taking",
+    24: "confidence",
+    25: "ideas",
+    26: "student support",
+    27: "places",
+    28: "general",
+    29: "3 times",
+    30: "25",
+    31: "B",
+    32: "A",
+    33: "glass",
+    34: "insulation",
+    35: "windows",
+    36: "electricity",
+    37: "floor(s)",
+    38: "waste",
+    39: "concrete",
+    40: "15 years"
+};
