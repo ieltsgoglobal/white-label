@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SpeakingPagination from "./speakingPagination";
 import Image from "next/image";
 import SpeakingAudioPlayer from "./speaking-audio-player";
+import SpeakingResponseTimer from "../additional-ui/speaking-response-timer";
 
 interface SpeakingQuestion {
     id: number
@@ -54,6 +55,7 @@ export default function SpeakingMain({ test_id, onNext }: { test_id: string, onN
                         height={200}
                         className="rounded-xl mx-auto"
                     />
+                    <SpeakingResponseTimer />
                 </div>
             </div>
 

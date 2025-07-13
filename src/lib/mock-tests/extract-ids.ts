@@ -12,7 +12,13 @@ export function extractIds(section: any): number[] {
         } else if (q.questionType === "table-completion") {
             for (const row of q.tableData.rows) {
                 for (const cell of row.cells) {
-                    if (cell.id) ids.push(cell.id)
+                    if (cell.id !== undefined) {
+                        if (Array.isArray(cell.id)) {
+                            ids.push(...cell.id); // multiple blanks handle
+                        } else {
+                            ids.push(cell.id); // single blank handle
+                        }
+                    }
                 }
             }
         } else if (
@@ -21,9 +27,9 @@ export function extractIds(section: any): number[] {
         ) {
             if (q.question?.id) {
                 if (Array.isArray(q.question.id)) {
-                    ids.push(...q.question.id)
+                    ids.push(...q.question.id) // handle id:number[]
                 } else {
-                    ids.push(q.question.id)
+                    ids.push(q.question.id) // handle id:number
                 }
             }
         } else if (q.questionType === "note-completion") {

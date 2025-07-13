@@ -1,10 +1,12 @@
 "use client"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { startRecording, stopRecordingWithMeta } from "@/lib/mock-tests/speaking/recorder"
 import { uploadAudioToS3 } from "@/lib/mock-tests/speaking/s3Uploader"
 import { updateSpeakingAnswer } from "@/lib/mock-tests/mockAnswersStorage"
+import DotPulseLoader from "@/components/loaders/mock-tests/speaking/DotPulseLoader"
 
 export default function SpeakingPart2Player({ audioUrl, questionId, onComplete, }: { audioUrl: string, questionId: number, onComplete: () => void }) {
+    const [isUploading, setIsUploading] = useState(false)
     const hasRunRef = useRef(false) // Prevents the sequence from running multiple times
 
     useEffect(() => {
@@ -23,6 +25,21 @@ export default function SpeakingPart2Player({ audioUrl, questionId, onComplete, 
             })
         }
 
+        const playBeep = () => {
+            return new Promise<void>((resolve) => {
+                const beep = new Audio("/mock-tests/speaking-task/speaking_beep.mp3")
+
+                // Resolve only when beep finishes
+                beep.addEventListener("ended", () => resolve(), { once: true })
+
+                beep.play().catch((err) => {
+                    console.error("Beep failed:", err)
+                    resolve() // resolve anyway to avoid blocking
+                })
+            })
+        }
+
+
         const runPart2Flow = async () => {
             try {
                 // 1. Play static intro
@@ -40,19 +57,25 @@ export default function SpeakingPart2Player({ audioUrl, questionId, onComplete, 
                 // 5. Notify that preparation time is over
                 await playAudio("/mock-tests/speaking-task/part2/alr-prep-time-is-over.mp3")
 
+                // ✅ Trigger the timer event (120 seconds for Part 2)
+                // check speaking-response-timer.ts
+                window.dispatchEvent(new CustomEvent("start-timer", { detail: { duration: 120 } }))
+
                 // 6. Play beep before user starts speaking
-                await playAudio("/mock-tests/speaking-task/speaking_beep.mp3")
+                await playBeep()
 
                 // 7. Start Recording -> Wait 2 minutes for user's response -> Store Response in S3 + Store S3 url in localstorage
                 await startRecording()
                 await new Promise((res) => setTimeout(res, 120000))
                 const result = await stopRecordingWithMeta(questionId)
                 if (result) {
+                    setIsUploading(true)
                     const url = await uploadAudioToS3(result.blob, result.filename)
                     if (url) {
                         updateSpeakingAnswer(questionId, url)
                     }
                 }
+                setIsUploading(false)
 
                 // 8. End message to the candidate
                 await playAudio("/mock-tests/speaking-task/part2/ty-you-may-stop-speaking.mp3")
@@ -66,5 +89,11 @@ export default function SpeakingPart2Player({ audioUrl, questionId, onComplete, 
         runPart2Flow()
     }, [audioUrl, onComplete])
 
-    return null
+    return (
+        <>
+            {isUploading && (
+                <DotPulseLoader />
+            )}
+        </>
+    )
 }

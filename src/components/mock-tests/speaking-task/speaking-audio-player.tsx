@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 import SpeakingPart1Player from "./audio-players/speaking-part1"
 import SpeakingPart2Player from "./audio-players/speaking-part2"
 import SpeakingPart3Player from "./audio-players/speaking-part3"
+import { evaluateAllSpeakingRecordings } from "@/lib/mock-tests/speaking/evaluate-speaking/process-speaking-evaluation"
+import EarthLoader from "@/components/loaders/mock-tests/speaking/EarthLoader"
 
 interface SpeakingQuestion {
     id: number
@@ -17,6 +19,7 @@ interface SpeakingPart {
 
 export default function SpeakingAudioPlayer({ speakingData, onNext }: { speakingData: SpeakingPart[], onNext: () => void }) {
     const [currentPart, setCurrentPart] = useState(1)
+    const [isEvaluating, setIsEvaluating] = useState(false)
 
     const handlePart1Complete = () => {
         console.log("Part 1 finished. Moving to Part 2.")
@@ -28,9 +31,14 @@ export default function SpeakingAudioPlayer({ speakingData, onNext }: { speaking
         setCurrentPart(3)
     }
 
-    const handlePart3Complete = () => {
+    const handlePart3Complete = async () => {
         console.log("Part 3 finished. All parts done.")
-        // go to next section (TestEndScreen)
+
+        // evaluate all s3 recordings
+        setIsEvaluating(true)
+        await evaluateAllSpeakingRecordings({ speakingData })
+        console.log("✅ All Answers Evaluated and localStorage Updated")
+        setIsEvaluating(false)
         onNext()
     }
 
@@ -42,8 +50,12 @@ export default function SpeakingAudioPlayer({ speakingData, onNext }: { speaking
 
     return (
         <>
-            {currentPart === 1 && (
+            {/* show loader when tasks are being evaluated */}
+            {isEvaluating && <EarthLoader />}
+
+            {/* {currentPart === 1 && (
                 // send full speakingData in order to map/loop it
+                // record user, store audio blob in s3 and store s3 link in localstorage, so that later can be evaluated
                 <SpeakingPart1Player speakingData={speakingData} onComplete={handlePart1Complete} />
             )}
             {currentPart === 2 && part2AudioUrl && part2questionId && (
@@ -52,7 +64,9 @@ export default function SpeakingAudioPlayer({ speakingData, onNext }: { speaking
             {currentPart === 3 && (
                 // send full speakingData in order to map/loop it
                 <SpeakingPart3Player speakingData={speakingData} onComplete={handlePart3Complete} />
-            )}
+            )} */}
+
+            <button onClickCapture={handlePart3Complete}>start</button>
         </>
     )
 }

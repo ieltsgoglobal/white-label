@@ -1,6 +1,8 @@
 // lib/mockAnswersStorage.ts
 // localstorage
 
+import { SpeakingBandBreakdown } from "./speaking/evaluate-speaking/band-summary"
+
 const STORAGE_KEY = "mock-answers"
 
 type AnswerMap = Record<number, string>
@@ -16,11 +18,19 @@ interface WritingAnswer {
     evaluationResult: string
 }
 
+interface Scores {
+    reading?: number
+    listening?: number
+    writing?: number
+    speaking?: SpeakingBandBreakdown
+}
+
 interface MockAnswers {
     listening: AnswerMap
     reading: AnswerMap
     speaking: SpeakingAnswer[]
     writing: WritingAnswer[]
+    scores?: Scores
 }
 
 // populate local storage to store responses (reading | listening | speaking)
@@ -39,6 +49,12 @@ export function initializeMockAnswers() {
             reading: { ...emptyAnswers },
             speaking: [],
             writing: [],
+            scores: {
+                listening: undefined,
+                reading: undefined,
+                writing: undefined,
+                speaking: undefined,
+            },
         }
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData))
@@ -118,4 +134,19 @@ export function clearMockAnswers() {
     if (typeof window === "undefined") return
 
     localStorage.removeItem("mock-answers")
+}
+
+// --------------- HANDLE SCORE UPDATIONS ---------------
+export function updateSpeakingScore(score: SpeakingBandBreakdown) {
+    if (typeof window === "undefined") return
+
+    const data = getMockAnswers()
+    if (!data) return
+
+    data.scores = {
+        ...data.scores,
+        speaking: score
+    }
+
+    localStorage.setItem("mock-answers", JSON.stringify(data))
 }

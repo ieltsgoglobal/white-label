@@ -68,6 +68,8 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
             })
 
             const data = await res.json()
+
+            // store answer in localStorage
             updateWritingAnswer(questionId, response, data.result)
         } catch (err) {
             console.error(`Failed to evaluate task ${questionId}:`, err)
