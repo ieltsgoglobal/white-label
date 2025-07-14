@@ -16,6 +16,7 @@ import SummaryCompletion from "./summary-completion"
 import SentenceCompletion from "./sentence-completion"
 import { saveCurrentMockSection } from "@/lib/mock-tests/indexedDb"
 import NavigationBar from "../additional-ui/navigation-bar"
+import { evaluateListening } from "@/lib/mock-tests/listening/evaluateListening"
 
 export default function ListeningMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
     const [section, setSection] = useState<any>(null)
@@ -83,9 +84,14 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
 
     const currentSection = allSections[currentSectionIndex]
 
+    const handleSubmitListening = async () => {
+        //evaluate listening score and update score in localStorage
+        await evaluateListening(test_id)
+        onNext()
+    }
     return (
         <div>
-            <NavigationBar onSubmit={() => { onNext() }} />
+            <NavigationBar onSubmit={handleSubmitListening} />
             <div className="mt-16">
                 <div className="w-[95vw]">
                     {/* <ListeningAudioPlayer

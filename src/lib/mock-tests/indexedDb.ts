@@ -1,4 +1,5 @@
 // lib/indexedDb.ts
+// used for storing, in which section we are (reading or listening)
 
 const DB_NAME = "testSessionDB"
 const DB_VERSION = 1

@@ -19,6 +19,7 @@ import ShortAnswer from "../listening-task/short-answer"
 import MatchParagraphInformation from "./match-paragraph-information"
 import { saveCurrentMockSection, loadCurrentMockSection } from "@/lib/mock-tests/indexedDb"
 import NavigationBar from "../additional-ui/navigation-bar"
+import { evaluateReading } from "@/lib/mock-tests/reading/evaluateReading"
 
 export default function ReadingMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
     const [section, setSection] = useState<any>(null)
@@ -120,9 +121,15 @@ export default function ReadingMain({ test_id, onNext }: { test_id: string, onNe
         }
     }
 
+    const handleSubmitReading = async () => {
+        //evaluate reading score and update score in localStorage
+        await evaluateReading(test_id)
+        onNext()
+    }
+
     return (
         <div>
-            <NavigationBar onSubmit={() => { onNext() }} />
+            <NavigationBar onSubmit={handleSubmitReading} />
             <div className="mt-16">
                 <div className="min-h-screen">
                     <div className="mx-auto">

@@ -150,3 +150,31 @@ export function updateSpeakingScore(score: SpeakingBandBreakdown) {
 
     localStorage.setItem("mock-answers", JSON.stringify(data))
 }
+
+export function updateListeningScore(score: number) {
+    if (typeof window === "undefined") return
+
+    const data = getMockAnswers()
+    if (!data) return
+
+    data.scores = {
+        ...data.scores,
+        listening: score
+    }
+
+    localStorage.setItem("mock-answers", JSON.stringify(data))
+}
+
+export function updateReadingScore(score: number) {
+    if (typeof window === "undefined") return
+
+    const data = getMockAnswers()
+    if (!data) return
+
+    data.scores = {
+        ...data.scores,
+        reading: score
+    }
+
+    localStorage.setItem("mock-answers", JSON.stringify(data))
+}

@@ -52,6 +52,12 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
             value={value}
             onChange={handleChange}
             className={clsx(className)}
+            style={{
+                width: value.length > 5
+                    ? `${Math.max(40 + value.length * 6.5, 40 + 8 * 10)}px`
+                    : undefined,
+                transition: "width 0.2s ease",
+            }}
             maxLength={maxLength}
         />
     )

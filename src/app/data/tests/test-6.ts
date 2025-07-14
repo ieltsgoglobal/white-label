@@ -654,7 +654,7 @@ export const reading_answers = {
     40: "F"
 };
 
-export const speaking_answers = {
+export const listening_answers = {
     1: "John Sparrow",
     2: "24th January",
     3: "Athens, Greece",

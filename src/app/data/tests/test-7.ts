@@ -743,7 +743,7 @@ export const reading_answers = {
     40: "cost-effectiveness/E"
 };
 
-export const speaking_answers = {
+export const listeing_answers = {
     1: "10 Bridge",
     2: "Writing / Writing Class",
     3: "Mrs Green",
