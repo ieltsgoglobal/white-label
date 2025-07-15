@@ -106,7 +106,7 @@ Final Band Score = Average of all 4 scores → rounded to nearest half or whole 
 
 Respond in a JSON format with the following structure:
 {
-  "Overall Score": <average score>,
+  "overall_score": <average_score>,
 }
 
 Student Response:

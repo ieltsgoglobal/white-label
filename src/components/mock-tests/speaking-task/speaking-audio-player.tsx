@@ -53,7 +53,7 @@ export default function SpeakingAudioPlayer({ speakingData, onNext }: { speaking
             {/* show loader when tasks are being evaluated */}
             {isEvaluating && <EarthLoader />}
 
-            {/* {currentPart === 1 && (
+            {currentPart === 1 && (
                 // send full speakingData in order to map/loop it
                 // record user, store audio blob in s3 and store s3 link in localstorage, so that later can be evaluated
                 <SpeakingPart1Player speakingData={speakingData} onComplete={handlePart1Complete} />
@@ -64,9 +64,7 @@ export default function SpeakingAudioPlayer({ speakingData, onNext }: { speaking
             {currentPart === 3 && (
                 // send full speakingData in order to map/loop it
                 <SpeakingPart3Player speakingData={speakingData} onComplete={handlePart3Complete} />
-            )} */}
-
-            <button onClickCapture={handlePart3Complete}>start</button>
+            )}
         </>
     )
 }

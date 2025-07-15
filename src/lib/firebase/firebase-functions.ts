@@ -35,6 +35,7 @@ export async function submitAllMockAnswers() {
             reading: answers.reading,
             speaking: answers.speaking,
             writing: answers.writing,
+            scores: answers.scores || {},
             timestamp: new Date().toISOString(),
         })
 

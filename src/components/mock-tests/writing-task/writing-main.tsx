@@ -4,8 +4,8 @@ import { useEffect, useState } from "react"
 import WritingQuestionDisplay from "./writingQuestionDisplay"
 import WritingPagination from "./writing-paginaiton"
 import NavigationBar from "../additional-ui/navigation-bar"
-import { updateWritingAnswer } from "@/lib/mock-tests/mockAnswersStorage"
 import EvalutaingTaskLoaderModal from "@/components/loaders/mock-tests/writing/evaluating-task-modal"
+import { evaluateWriting } from "@/lib/mock-tests/writing/evaluateWriting"
 
 export interface WritingTask {
     id: number
@@ -53,39 +53,12 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
     }, [test_id])
 
 
-    // get evaluation result and store it in localstorage
-    const submitTask = async (questionId: number, response: string) => {
-        try {
-            const res = await fetch("/api/writing-evaluation", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    taskType: questionId,
-                    response,
-                }),
-            })
-
-            const data = await res.json()
-
-            // store answer in localStorage
-            updateWritingAnswer(questionId, response, data.result)
-        } catch (err) {
-            console.error(`Failed to evaluate task ${questionId}:`, err)
-        }
-    }
-
     // after submitTask goto next section (speaking)
     const handleSubmit = async () => {
         setEvaluatingResponse(true)
-        // loop thorugh responses 1 and 2
-        for (const q of writingQuestions) {
-            const userResponse = responses[q.id]
-            if (!userResponse.trim()) continue
 
-            await submitTask(q.id, userResponse)
-        }
+        // evaluate both tasks and store user attempt and evalution result in localStorage
+        await evaluateWriting(writingQuestions, responses)
 
         setEvaluatingResponse(false)
         onNext()

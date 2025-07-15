@@ -15,14 +15,6 @@ interface SpeakingAnswer {
 interface WritingAnswer {
     questionId: number
     response: string
-    evaluationResult: string
-}
-
-interface Scores {
-    reading?: number
-    listening?: number
-    writing?: number
-    speaking?: SpeakingBandBreakdown
 }
 
 interface MockAnswers {
@@ -33,10 +25,24 @@ interface MockAnswers {
     scores?: Scores
 }
 
+interface WritingScore {
+    task1?: number
+    task2?: number
+    overall?: number
+}
+
+interface Scores {
+    reading?: number
+    listening?: number
+    writing?: WritingScore
+    speaking?: SpeakingBandBreakdown
+}
+
 // populate local storage to store responses (reading | listening | speaking)
 export function initializeMockAnswers() {
     if (typeof window === "undefined") return // SSR safety
 
+    // initialize empty 1 to 40 answers
     const existing = localStorage.getItem(STORAGE_KEY)
     if (!existing) {
         const emptyAnswers: AnswerMap = {}
@@ -116,7 +122,7 @@ export function updateSpeakingAnswer(questionId: number, url: string) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
 
-export function updateWritingAnswer(questionId: number, response: string, evaluationResult: string) {
+export function updateWritingAnswer(questionId: number, response: string) {
     if (typeof window === "undefined") return
 
     const data = getMockAnswers()
@@ -124,7 +130,7 @@ export function updateWritingAnswer(questionId: number, response: string, evalua
 
     const existing = data.writing || []
     const filtered = existing.filter((entry) => entry.questionId !== questionId)
-    const updated = [...filtered, { questionId, response, evaluationResult }]
+    const updated = [...filtered, { questionId, response }]
     data.writing = updated
 
     localStorage.setItem("mock-answers", JSON.stringify(data))
@@ -174,6 +180,30 @@ export function updateReadingScore(score: number) {
     data.scores = {
         ...data.scores,
         reading: score
+    }
+
+    localStorage.setItem("mock-answers", JSON.stringify(data))
+}
+
+export function updateWritingScore(
+    task1: number | null,
+    task2: number | null,
+    overall: number | undefined
+) {
+    if (typeof window === "undefined") return
+
+    const data = getMockAnswers()
+    if (!data) return
+
+    if (task1 == null || task2 == null || overall == null) return
+
+    data.scores = {
+        ...data.scores,
+        writing: {
+            task1,
+            task2,
+            overall,
+        },
     }
 
     localStorage.setItem("mock-answers", JSON.stringify(data))
