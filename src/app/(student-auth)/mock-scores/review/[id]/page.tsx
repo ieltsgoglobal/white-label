@@ -17,6 +17,15 @@ export default function ReviewPage() {
     // match the pathname-id with attempts we have to get the details of test we want to review
     const { attempts } = useMockAttempts() // use Context API to get test attempts done by user
 
+
+    // sets isReviewMode ON in indexedDB
+    useEffect(() => {
+        setReviewMode(true)
+    }, [])
+
+    // navigate through sections
+    const [section, setSection] = useState<"listening" | "reading" | "writing" | "speaking">("listening")
+
     // Find the attempt by its unique Firestore doc ID
     const attempt: MockTestAttempt | undefined = attempts.find((a) => a.id === id)
     if (!attempt) {
@@ -26,14 +35,6 @@ export default function ReviewPage() {
             </div>
         )
     }
-
-    // sets isReviewMode ON in indexedDB
-    useEffect(() => {
-        setReviewMode(true)
-    }, [])
-
-    // navigate through sections
-    const [section, setSection] = useState<"listening" | "reading" | "writing" | "speaking">("listening")
 
     return (
         <div>
