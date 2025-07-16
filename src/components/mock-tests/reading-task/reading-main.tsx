@@ -17,15 +17,23 @@ import FlowChartCompletion from "../listening-task/flow-chart-completion"
 import SummaryCompletion from "../listening-task/summary-completion"
 import ShortAnswer from "../listening-task/short-answer"
 import MatchParagraphInformation from "./match-paragraph-information"
-import { saveCurrentMockSection, loadCurrentMockSection } from "@/lib/mock-tests/indexedDb"
+import { getReviewMode, saveCurrentMockSection, loadCurrentMockSection } from "@/lib/mock-tests/indexedDb"
 import NavigationBar from "../additional-ui/navigation-bar"
 import { evaluateReading } from "@/lib/mock-tests/reading/evaluateReading"
+import ReadingPaginationStrip from "../additional-ui/review-components/reading/ReadingPaginationStrip"
 
-export default function ReadingMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
+export default function ReadingMain({ test_id, onNext }: { test_id: string, onNext?: () => void }) {
     const [section, setSection] = useState<any>(null)
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0)
     const [currentSubsetIndex, setCurrentSubsetIndex] = useState(0)
+    const [isReviewMode, setIsReviewMode] = useState(false)
 
+    // gets value of IsReviewMode ON from indexedDB
+    useEffect(() => {
+        getReviewMode().then((value) => {
+            setIsReviewMode(value)
+        })
+    }, [])
 
     // to tell child component that reading section is going on
     useEffect(() => {
@@ -124,12 +132,22 @@ export default function ReadingMain({ test_id, onNext }: { test_id: string, onNe
     const handleSubmitReading = async () => {
         //evaluate reading score and update score in localStorage
         await evaluateReading(test_id)
-        onNext()
+        onNext?.()
     }
 
     return (
         <div>
-            <NavigationBar onSubmit={handleSubmitReading} />
+            {!isReviewMode ? (
+                <NavigationBar onSubmit={handleSubmitReading} />
+            ) : (
+                // returns index and subindex for navigation
+                <ReadingPaginationStrip
+                    allSections={allSections}
+                    onJump={(sectionIndex, subsetIndex) => {
+                        setCurrentSectionIndex(sectionIndex)
+                        setCurrentSubsetIndex(subsetIndex)
+                    }} />
+            )}
             <div className="mt-16">
                 <div className="min-h-screen">
                     <div className="mx-auto">
@@ -146,11 +164,13 @@ export default function ReadingMain({ test_id, onNext }: { test_id: string, onNe
                         </div>
                     </div>
                 </div>
-                <ReadingPagination
-                    allSections={allSections}
-                    onNext={goToNextSubset}
-                    onPrev={goToPrevSubset}
-                />
+                {!isReviewMode &&
+                    <ReadingPagination
+                        allSections={allSections}
+                        onNext={goToNextSubset}
+                        onPrev={goToPrevSubset}
+                    />
+                }
             </div>
         </div>
     )

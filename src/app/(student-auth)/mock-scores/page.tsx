@@ -11,6 +11,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
+import MockScoresPage from "./_component/MockScoresPage";
 
 export default function MockScores() {
     return (
@@ -35,9 +36,9 @@ export default function MockScores() {
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
-                <PlaceholderContent>
-                    <>Get Data from Firebase usign indexed-studentId and show them in list view</>
-                </PlaceholderContent>
+                <div className="rounded-xl border shadow mt-6 p-6 bg-white">
+                    <MockScoresPage />
+                </div>
             </ContentLayout>
         </AdminPanelLayout>
     )

@@ -14,13 +14,23 @@ import MultipleChoiceMany from "./multiple-choice-many"
 import FlowChartCompletion from "./flow-chart-completion"
 import SummaryCompletion from "./summary-completion"
 import SentenceCompletion from "./sentence-completion"
-import { saveCurrentMockSection } from "@/lib/mock-tests/indexedDb"
+import { getReviewMode, saveCurrentMockSection } from "@/lib/mock-tests/indexedDb"
 import NavigationBar from "../additional-ui/navigation-bar"
 import { evaluateListening } from "@/lib/mock-tests/listening/evaluateListening"
+import ReviewSectionNavigation from "../additional-ui/review-components/listening/ReviewSectionNavigation"
 
-export default function ListeningMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
+
+export default function ListeningMain({ test_id, onNext }: { test_id: string, onNext?: () => void }) {
     const [section, setSection] = useState<any>(null)
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0) // 0 to 3 = 4 sections
+    const [isReviewMode, setIsReviewMode] = useState(false)
+
+    // gets value of IsReviewMode ON from indexedDB
+    useEffect(() => {
+        getReviewMode().then((value) => {
+            setIsReviewMode(value)
+        })
+    }, [])
 
     // to tell child component that listeing section is going on though indexedDB
     useEffect(() => {
@@ -45,6 +55,7 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
         return <p className="text-center text-gray-500">Loading test data...</p>
     }
 
+    // render appropriate quesiton type component
     const renderComponent = (question: any, index: number) => {
         const section = "listening"
         switch (question.questionType) {
@@ -75,35 +86,44 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
         }
     }
 
+    // only store data we need from while .ts file
     const allSections = [
         section.listening_section_1,
         section.listening_section_2,
         section.listening_section_3,
         section.listening_section_4,
     ].filter(Boolean)
-
     const currentSection = allSections[currentSectionIndex]
 
     const handleSubmitListening = async () => {
         //evaluate listening score and update score in localStorage
         await evaluateListening(test_id)
-        onNext()
+        onNext?.()
     }
+
     return (
         <div>
-            <NavigationBar onSubmit={handleSubmitListening} />
+            {!isReviewMode ? (
+                <NavigationBar onSubmit={handleSubmitListening} />
+            ) : (
+                <ReviewSectionNavigation />
+            )}
             <div className="mt-16">
                 <div className="w-[95vw]">
-                    {/* <ListeningAudioPlayer
-                        audioList={allSections.map((sec: any) => sec.audio)}
-                        onAudioEnded={() => {
-                            if (currentSectionIndex < allSections.length - 1) {
-                                setCurrentSectionIndex(currentSectionIndex + 1)
-                            } else {
-                                console.log("Test complete.")
-                            }
-                        }}
-                    /> */}
+
+                    {/* dont show audios like this in review mode  */}
+                    {!isReviewMode && (
+                        <ListeningAudioPlayer
+                            audioList={allSections.map((sec: any) => sec.audio)}
+                            onAudioEnded={() => {
+                                if (currentSectionIndex < allSections.length - 1) {
+                                    setCurrentSectionIndex(currentSectionIndex + 1)
+                                } else {
+                                    console.log("Test complete.")
+                                }
+                            }}
+                        />
+                    )}
 
                     {currentSection && (
                         <div className="flex flex-col items-center justify-center space-y-6">
@@ -114,19 +134,23 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
                     )}
 
                 </div>
-                <ListeningPagination
-                    allSections={allSections} //giving allSections props to calculate which (1-40)Button goes to which (SectionA,B,C,D or Part1,2,3,4)section
-                    prevSection={() => {
-                        if (currentSectionIndex > 0) {
-                            setCurrentSectionIndex(currentSectionIndex - 1)
-                        }
-                    }}
-                    nextSection={() => {
-                        if (currentSectionIndex < allSections.length - 1) {
-                            setCurrentSectionIndex(currentSectionIndex + 1)
-                        }
-                    }}
-                />
+
+                {!isReviewMode && (
+                    <ListeningPagination
+                        allSections={allSections} //giving allSections props to calculate which (1-40)Button goes to which (SectionA,B,C,D or Part1,2,3,4)section
+                        prevSection={() => {
+                            if (currentSectionIndex > 0) {
+                                setCurrentSectionIndex(currentSectionIndex - 1)
+                            }
+                        }}
+                        nextSection={() => {
+                            if (currentSectionIndex < allSections.length - 1) {
+                                setCurrentSectionIndex(currentSectionIndex + 1)
+                            }
+                        }}
+                    />
+                )}
+
             </div>
         </div>
     )

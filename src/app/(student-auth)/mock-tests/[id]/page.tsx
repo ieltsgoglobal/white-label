@@ -13,7 +13,7 @@ import { initializeMockAnswers } from "@/lib/mock-tests/mockAnswersStorage";
 import TestEndScreen from "@/components/mock-tests/instructions/TestEndScreen";
 
 export default function MockTestPage() {
-    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(2);
+    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
 
     const nextPhase = () => {
         if (currentPhaseIndex < phases.length - 1) {
@@ -31,10 +31,10 @@ export default function MockTestPage() {
         { id: "sound", component: () => <SoundTest onNext={nextPhase} /> },
         { id: "mic", component: () => <MicCheck onNext={nextPhase} /> },
         { id: "listening instructions", component: () => <ListeningInstructions onNext={nextPhase} /> },
-        { id: "listening task", component: () => <ListeningMain test_id="6" onNext={nextPhase} /> },
-        { id: "reading task", component: () => <ReadingMain test_id="6" onNext={nextPhase} /> },
-        { id: "writing task", component: () => <WritingMain test_id="2" onNext={nextPhase} /> },
-        { id: "speaking task", component: () => <SpeakingMain test_id="2" onNext={nextPhase} /> },
+        { id: "listening task", component: () => <ListeningMain test_id="7" onNext={nextPhase} /> },
+        { id: "reading task", component: () => <ReadingMain test_id="7" onNext={nextPhase} /> },
+        { id: "writing task", component: () => <WritingMain test_id="7" onNext={nextPhase} /> },
+        { id: "speaking task", component: () => <SpeakingMain test_id="7" onNext={nextPhase} /> },
         { id: "End Test", component: () => <TestEndScreen /> },
     ];
 
