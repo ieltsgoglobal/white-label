@@ -6,6 +6,8 @@ import WritingPagination from "./writing-paginaiton"
 import NavigationBar from "../additional-ui/navigation-bar"
 import EvalutaingTaskLoaderModal from "@/components/loaders/mock-tests/writing/evaluating-task-modal"
 import { evaluateWriting } from "@/lib/mock-tests/writing/evaluateWriting"
+import { getReviewMode } from "@/lib/mock-tests/indexedDb"
+import WritingReviewTaskNavigation from "../additional-ui/review-components/writing/WritingReviewTaskNavigation"
 
 export interface WritingTask {
     id: number
@@ -16,7 +18,7 @@ export interface WritingTask {
 }
 
 export default function WritingMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
-    const [activeTab, setActiveTab] = useState(1)
+    const [activeTab, setActiveTab] = useState<1 | 2>(1)
     const [responses, setResponses] = useState<{ [key: number]: string }>({
         1: "",
         2: ""
@@ -35,6 +37,17 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
     // store writing questions here
     const [writingQuestions, setWritingQuestions] = useState<WritingTask[]>([])
     const currentQuestion = writingQuestions[activeTab - 1]
+
+    // checks if ReviewMode is on through indexedDb
+    const [isReviewMode, setIsReviewMode] = useState(false)
+
+    // gets value of IsReviewMode ON from indexedDB
+    useEffect(() => {
+        getReviewMode().then((value) => {
+            setIsReviewMode(value)
+        })
+    }, [])
+
 
     // load question from .ts file
     useEffect(() => {
@@ -69,12 +82,17 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
     return (
         <div>
             {/* loader model while evaluating answers */}
-            <EvalutaingTaskLoaderModal visible={evaluatingResponse} />
+            {!isReviewMode ? (
+                <EvalutaingTaskLoaderModal visible={evaluatingResponse} />
+            ) : (
+                <WritingReviewTaskNavigation onSelect={setActiveTab} />
+            )}
 
-            <NavigationBar onSubmit={handleSubmit} />
+            {!isReviewMode && <NavigationBar onSubmit={handleSubmit} />}
             <div className="mt-16">
                 {/* question type_2 just have extra image_url */}
                 <WritingQuestionDisplay
+                    activeTab={activeTab}
                     currentQuestion={currentQuestion}
                     response={response}
                     setResponse={setResponse}
@@ -82,11 +100,13 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
                     minimumWords={minimumWords}
                 />
 
-                <WritingPagination
-                    activeTab={activeTab}
-                    totalTabs={writingQuestions.length}
-                    setActiveTab={setActiveTab}
-                />
+                {!isReviewMode &&
+                    <WritingPagination
+                        activeTab={activeTab}
+                        totalTabs={writingQuestions.length}
+                        setActiveTab={setActiveTab}
+                    />
+                }
             </div>
         </div>
     )

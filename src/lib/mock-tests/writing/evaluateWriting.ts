@@ -11,7 +11,11 @@ export async function evaluateWriting(writingQuestions: { id: number }[], respon
         const userResponse = responses[q.id]
 
         // if nothing in text then check 2nd task
-        if (!userResponse.trim()) continue
+        // push "" response in localStorage
+        if (!userResponse.trim()) {
+            updateWritingAnswer(q.id, "")
+            continue
+        }
 
         // store user answer attempt in localStorage
         updateWritingAnswer(q.id, userResponse)

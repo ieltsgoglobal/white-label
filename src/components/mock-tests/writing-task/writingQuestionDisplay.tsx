@@ -3,6 +3,7 @@
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import AnswerTextArea from "../additional-ui/AnswerTextArea"
 
 interface WritingQuestion {
     id: number
@@ -13,12 +14,14 @@ interface WritingQuestion {
 }
 
 export default function WritingQuestionDisplay({
+    activeTab,
     currentQuestion,
     response,
     setResponse,
     wordCount,
     minimumWords
 }: {
+    activeTab: 1 | 2
     currentQuestion: WritingQuestion
     response: string
     setResponse: (val: string) => void
@@ -78,12 +81,7 @@ export default function WritingQuestionDisplay({
                     <Card className="h-full">
                         <CardContent className="p-6 h-full flex flex-col">
                             <div className="flex-1">
-                                <Textarea
-                                    placeholder="Write here..."
-                                    value={response}
-                                    onChange={(e) => setResponse(e.target.value)}
-                                    className="h-full min-h-[600px] resize-none border p-6 text-base leading-relaxed focus-visible:ring-0 focus-visible:ring-offset-0"
-                                />
+                                <AnswerTextArea value={response} setResponse={setResponse} activeTab={activeTab} />
                             </div>
 
                             {/* Word Count */}

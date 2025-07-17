@@ -10,7 +10,7 @@ interface SpeakingQuestion {
     audioUrl: string
 }
 
-interface SpeakingPart {
+export interface SpeakingPart {
     part: number
     questions: SpeakingQuestion[]
 }

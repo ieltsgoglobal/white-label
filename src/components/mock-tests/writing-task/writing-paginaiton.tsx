@@ -6,7 +6,7 @@ import { ChevronRight } from "lucide-react"
 interface WritingPaginationProps {
     activeTab: number
     totalTabs: number
-    setActiveTab: (val: number) => void
+    setActiveTab: (val: 1 | 2) => void
 }
 
 export default function WritingPagination({
@@ -24,7 +24,7 @@ export default function WritingPagination({
                             key={tabIndex}
                             variant={activeTab === tabIndex ? "default" : "outline"}
                             size="sm"
-                            onClick={() => setActiveTab(tabIndex)}
+                            onClick={() => setActiveTab((tabIndex) as 1 | 2)}
                             className="rounded-full"
                         >
                             <span className="mr-2">Part {tabIndex}</span>
@@ -38,7 +38,7 @@ export default function WritingPagination({
                 size="sm"
                 onClick={() => {
                     if (activeTab < totalTabs) {
-                        setActiveTab(activeTab + 1)
+                        setActiveTab((activeTab + 1) as 1 | 2)
                     }
                 }}
                 disabled={activeTab === totalTabs}

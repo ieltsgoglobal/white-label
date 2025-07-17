@@ -11,9 +11,10 @@ import WritingMain from "@/components/mock-tests/writing-task/writing-main";
 import SpeakingMain from "@/components/mock-tests/speaking-task/speaking-main";
 import { initializeMockAnswers } from "@/lib/mock-tests/mockAnswersStorage";
 import TestEndScreen from "@/components/mock-tests/instructions/TestEndScreen";
+import { setReviewMode } from "@/lib/mock-tests/indexedDb";
 
 export default function MockTestPage() {
-    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
+    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(2);
 
     const nextPhase = () => {
         if (currentPhaseIndex < phases.length - 1) {
@@ -24,6 +25,11 @@ export default function MockTestPage() {
     // setup localstorage for answer saving
     useEffect(() => {
         initializeMockAnswers()
+    }, [])
+
+    // turn OFF isReviewMode
+    useEffect(() => {
+        setReviewMode(false)
     }, [])
 
 

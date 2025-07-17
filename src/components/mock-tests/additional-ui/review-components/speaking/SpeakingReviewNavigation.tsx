@@ -4,11 +4,11 @@ interface ReviewSectionNavigationProps {
   onSelect: (index: number) => void
 }
 
-export default function ReviewSectionNavigation({ onSelect }: ReviewSectionNavigationProps) {
-  const parts = ["Part A", "Part B", "Part C", "Part D"]
+export default function SpeakingReviewNavigation({ onSelect }: ReviewSectionNavigationProps) {
+  const parts = ["Part A", "Part B", "Part C"]
 
   return (
-    <div className="max-w-[95vw] overflow-x-auto scrollbar-hide max-h-12 mt-5 rounded-3xl px-2 py-1 bg-gradient-to-r from-slate-50 via-white to-slate-50 border-y border-slate-200">
+    <div className="w-full overflow-x-auto scrollbar-hide max-h-12 mt-5 rounded-3xl px-2 py-1 bg-gradient-to-r from-slate-50 via-white to-slate-50 border-y border-slate-200">
       <div className="h-full flex flex-col md:flex-row">
         {parts.map((part, index) => (
           <div

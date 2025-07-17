@@ -1,6 +1,3 @@
-// app/(student-auth)/mock-scores/MockAttemptContext.tsx
-"use client"
-
 import { createContext, useContext } from "react"
 import type { MockTestAttempt } from "@/types/mockTestAttempt"
 
@@ -10,12 +7,15 @@ interface MockAttemptContextType {
 
 const MockAttemptContext = createContext<MockAttemptContextType | undefined>(undefined)
 
-export function useMockAttempts() {
+// safe means is it safe to call Context API , outside the wrapper
+export function useMockAttempts(safe: boolean = true): MockAttemptContextType | undefined {
     const context = useContext(MockAttemptContext)
-    if (!context) {
+
+    if (!context && safe) {
         throw new Error("useMockAttempts must be used within MockAttemptProvider")
     }
+
     return context
 }
 
-export default MockAttemptContext
+export { MockAttemptContext }

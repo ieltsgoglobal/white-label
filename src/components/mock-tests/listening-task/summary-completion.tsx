@@ -32,7 +32,7 @@ export default function SummaryCompletion(props: SummaryQuestion) {
             const parts = line.split(/(<\d+>)/g)
 
             return (
-                <p key={lineIndex} className="mb-4">
+                <div key={lineIndex} className="mb-4">
                     {parts.map((part, index) => {
                         const match = part.match(/^<(\d+)>$/)
                         if (match) {
@@ -50,7 +50,7 @@ export default function SummaryCompletion(props: SummaryQuestion) {
                         }
                         return <span key={index}>{part}</span>
                     })}
-                </p>
+                </div>
             )
         })
     }

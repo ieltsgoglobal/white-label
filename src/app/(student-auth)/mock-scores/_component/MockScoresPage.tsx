@@ -34,7 +34,8 @@ function formatTime(timestamp: string): string {
 
 export default function MockScoresPage() {
     //Get attempts from Context API
-    const { attempts } = useMockAttempts()
+    const mockAttemptContext = useMockAttempts(true)
+    const attempts = mockAttemptContext?.attempts || []
 
     const handleReview = (testId: string) => {
         console.log(`Review test ${testId}`)
@@ -54,7 +55,7 @@ export default function MockScoresPage() {
                                 <div className="space-y-1">
                                     <CardTitle className="flex items-center gap-2">
                                         <FileText className="h-5 w-5" />
-                                        Test Attempt #{attempts.length - index}
+                                        Test ID: {test.testId}
                                     </CardTitle>
                                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                                         <div className="flex items-center gap-1">
@@ -174,7 +175,7 @@ export default function MockScoresPage() {
                                         ).toFixed(1)}
                                     </Badge>
                                 </div>
-                                <div className="text-sm text-muted-foreground">Test ID: {test.testId}</div>
+                                <div className="text-sm text-muted-foreground">Test Attempt #{attempts.length - index}</div>
                             </div>
                         </CardContent>
                     </Card>

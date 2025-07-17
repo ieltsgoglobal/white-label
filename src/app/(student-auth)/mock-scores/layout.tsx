@@ -2,7 +2,7 @@
 import { getAllMockTestAttempts } from "@/lib/firebase/firebase-functions"
 import { useEffect, useState } from "react"
 import type { MockTestAttempt } from "@/types/mockTestAttempt"
-import MockAttemptContext from "./_component/MockAttemptContext"
+import { MockAttemptContext } from "./_component/MockAttemptContext"
 
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
     const [attempts, setAttempts] = useState<MockTestAttempt[]>([])

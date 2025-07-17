@@ -25,14 +25,14 @@ export default function SentenceCompletion(props: SentenceCompletionSection) {
         const parts = question.sentence.split(/\(\d+\) _____/)
 
         return (
-            <p className="text-gray-800 leading-relaxed font-medium items-center">
+            <div className="text-gray-800 leading-relaxed font-medium items-center">
                 <span>{parts[0]}</span>
                 <AnswerInput
                     questionNumber={question.id}
                     className="inline-block w-40 h-9 mx-2 border-2 border-blue-300 focus:border-blue-500 rounded-md px-3"
                 />
                 <span>{parts[1]}</span>
-            </p>
+            </div>
         )
     }
 

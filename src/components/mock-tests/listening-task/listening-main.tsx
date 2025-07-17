@@ -106,7 +106,7 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
             {!isReviewMode ? (
                 <NavigationBar onSubmit={handleSubmitListening} />
             ) : (
-                <ReviewSectionNavigation />
+                <ReviewSectionNavigation onSelect={setCurrentSectionIndex} />
             )}
             <div className="mt-16">
                 <div className="w-[95vw]">
