@@ -24,7 +24,7 @@ export default function MultipleChoiceSingle(props: MCQSection) {
     const [mcqQuestions, setMcqQuestions] = useState<MCQSection>(props)
 
     return (
-        <Card className="w-full">
+        <Card className="w-full rounded-3xl">
             <CardHeader>
                 <CardTitle>
                     Questions {mcqQuestions.questions[0].id}–{mcqQuestions.questions[mcqQuestions.questions.length - 1].id}
@@ -46,7 +46,7 @@ export default function MultipleChoiceSingle(props: MCQSection) {
                                 <AnswerRadio question={question} optionLetters={optionLetters} />
                             </div>
 
-                            {index < mcqQuestions.questions.length - 1 && <hr className="border-gray-200" />}
+                            {index < mcqQuestions.questions.length - 1 && <hr className="border-border" />}
                         </div>
                     ))}
                 </div>

@@ -62,9 +62,9 @@ export default function SummaryCompletion(props: SummaryQuestion) {
         if (!list) return null
 
         return (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 my-12 border border-black p-6 rounded-3xl">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 my-12 border border-border p-6 rounded-3xl">
                 {list.map((item) => (
-                    <div key={item.letter} className="text-sm font-medium text-gray-800">
+                    <div key={item.letter} className="text-sm font-medium text-foreground">
                         <span className="font-bold mr-2">{item.letter}</span>
                         {item.text}
                     </div>
@@ -74,12 +74,12 @@ export default function SummaryCompletion(props: SummaryQuestion) {
     }
 
     return (
-        <div className="bg-white rounded-3xl border border-gray-100 p-8">
+        <div className="w-full bg-background rounded-3xl border border-border p-8">
             <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-foreground mb-4">
                     Questions {summaryQuestion.question.id[0]} - {summaryQuestion.question.id.at(-1)}
                 </h2>
-                <p className="text-sm font-medium text-blue-900">
+                <p className="text-sm font-medium text-foreground">
                     Complete the summary below. Write NO MORE THAN ONE WORD from the text in each box.
                 </p>
 
@@ -88,7 +88,7 @@ export default function SummaryCompletion(props: SummaryQuestion) {
             </div>
 
             <div className="space-y-6">
-                <div className="bg-gray-50 p-6 rounded-3xl">
+                <div className="bg-muted/50 p-6 rounded-3xl">
                     <h3 className="text-xl font-bold text-center mb-6">
                         {summaryQuestion.question.title}
                     </h3>

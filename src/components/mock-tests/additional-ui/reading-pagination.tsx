@@ -48,7 +48,8 @@ export default function ReadingPagination({ allSections, onPrev, onNext }: { all
                 className={`w-8 h-8 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 border 
                      ${isAttempted
                         ? "bg-blue-500 text-white border-blue-600 hover:bg-blue-600"
-                        : "bg-gray-100 text-gray-600 border-gray-200 hover:bg-gray-200 hover:text-gray-800"}`}
+                        : "bg-muted text-muted-foreground border-border hover:bg-muted/60"
+                    }`}
             >
                 {page}
             </button>
@@ -61,7 +62,7 @@ export default function ReadingPagination({ allSections, onPrev, onNext }: { all
             <div className="flex justify-center">
                 <button
                     onClick={() => setIsCollapsed(!isCollapsed)}
-                    className="group relative bg-white border border-gray-300 border-b-0 rounded-t-xl px-6 py-2 shadow-md hover:shadow-lg transition-all duration-200 hover:bg-gray-50"
+                    className="group relative bg-white border border-border border-b-0 rounded-t-xl px-6 py-2 shadow-md hover:shadow-lg transition-all duration-200 hover:bg-gray-50"
                 >
                     <div className="flex items-center space-x-2 text-sm font-medium text-gray-700 group-hover:text-gray-900">
                         {isCollapsed ? (
@@ -80,13 +81,13 @@ export default function ReadingPagination({ allSections, onPrev, onNext }: { all
             </div>
 
             {!isCollapsed && (
-                <div className="flex flex-col md:flex-row justify-between gap-4 p-4 sm:p-6 bg-white rounded-t-xl border-t border-l border-r border-gray-200">
+                <div className="flex flex-col md:flex-row justify-between gap-4 p-4 sm:p-6 bg-background rounded-t-xl border-t border-l border-r border-border">
                     {/* Sections */}
                     <div className="space-y-4 overflow-x-auto md:overflow-visible max-w-full">
                         {sections.map((section, sectionIndex) => (
                             <div key={sectionIndex} className="min-w-[300px]">
                                 <div className="flex items-start gap-3">
-                                    <h3 className="text-sm font-semibold text-gray-700 min-w-[80px]">
+                                    <h3 className="text-sm font-semibold text-muted-foreground min-w-[80px]">
                                         {section.title}
                                     </h3>
                                     <div className="flex flex-wrap gap-2">
@@ -105,7 +106,6 @@ export default function ReadingPagination({ allSections, onPrev, onNext }: { all
                             variant="outline"
                             size="sm"
                             onClick={onPrev}
-                            className="bg-white"
                         >
                             <ChevronLeft className="w-4 h-4 mr-1" />
                             Previous
@@ -114,7 +114,6 @@ export default function ReadingPagination({ allSections, onPrev, onNext }: { all
                             variant="outline"
                             size="sm"
                             onClick={onNext}
-                            className="bg-white"
                         >
                             Next
                             <ChevronRight className="w-4 h-4 ml-1" />

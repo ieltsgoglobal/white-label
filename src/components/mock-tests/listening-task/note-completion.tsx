@@ -27,13 +27,6 @@ interface NoteCompletionSection {
 export default function NoteCompletion(props: NoteCompletionSection) {
     const [noteQuestions, setNoteQuestions] = useState<NoteCompletionSection>(props)
 
-
-    const handleAnswerChange = (id: number, answer: string) => {
-        // Allow up to two words
-        const words = answer.trim().split(/\s+/)
-        const cleanAnswer = words.slice(0, 2).join(" ")
-    }
-
     const renderBulletPoint = (bulletPoint: NoteBulletPoint) => {
         // handle <<subpoint>>
         const isSubpoint = bulletPoint.text.trim().startsWith("<<subpoint>>")
@@ -56,10 +49,10 @@ export default function NoteCompletion(props: NoteCompletionSection) {
         return (
             <div className={`flex items-center gap-2 text-sm leading-relaxed flex-wrap ${isSubpoint ? "ml-6" : ""}`}>
                 <span>{parts[0]}</span>
-                <span className="font-semibold text-blue-600">{id}</span>
+                <span className="font-semibold text-blue-600">({id})</span>
                 <AnswerInput
                     questionNumber={id}
-                    className="w-32 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-2"
+                    className="w-32 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-background px-2"
                 />
                 <span>{parts[1] || ""}</span>
             </div>
@@ -67,10 +60,21 @@ export default function NoteCompletion(props: NoteCompletionSection) {
     }
 
     return (
-        <Card className="w-full">
+        <Card className="w-full rounded-3xl">
             <CardHeader>
                 <CardTitle>
-                    Questions {noteQuestions.sections[0].bulletPoints[0].id} - {noteQuestions.sections[noteQuestions.sections.length - 1].bulletPoints[noteQuestions.sections[noteQuestions.sections.length - 1].bulletPoints.length - 1].id}
+                    {(() => {
+                        const allIds = noteQuestions.sections
+                            .flatMap(section => section.bulletPoints)
+                            .map(bp => bp.id)
+                            .filter((id): id is number => typeof id === "number");
+
+                        if (allIds.length === 0) return "No Questions";
+
+                        const min = Math.min(...allIds);
+                        const max = Math.max(...allIds);
+                        return min === max ? `Question ${min}` : `Questions ${min}–${max}`;
+                    })()}
                 </CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.</p>
             </CardHeader>
@@ -85,7 +89,7 @@ export default function NoteCompletion(props: NoteCompletionSection) {
                     <div className="space-y-8">
                         {noteQuestions.sections.map((section, index) => (
                             <div key={index} className="space-y-4">
-                                <h3 className="text-base font-semibold text-gray-800">{section.title}</h3>
+                                <h3 className="text-base font-semibold">{section.title}</h3>
 
                                 <ul className="space-y-3 ml-4">
                                     {section.bulletPoints.map((bulletPoint, index) => {
@@ -109,7 +113,7 @@ export default function NoteCompletion(props: NoteCompletionSection) {
                     </div>
 
                     {/* Word Limit Reminder */}
-                    <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="mt-6 p-4 bg-blue-50 dark:bg-black border border-blue-200 dark:border-white/20 rounded-lg">
                         <div className="flex items-center gap-2">
                             <AlertCircle className="h-4 w-4 text-blue-600" />
                             <p className="text-sm font-medium text-blue-800">

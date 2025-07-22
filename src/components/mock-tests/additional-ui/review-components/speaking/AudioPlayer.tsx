@@ -92,9 +92,7 @@ export default function AudioPlayerCard({ src, question, variant }: AudioPlayerC
         <Card
             className={clsx(
                 "shadow-sm border rounded-xl",
-                isQuestion
-                    ? "bg-slate-50 border-slate-300"
-                    : "bg-white border-slate-200 dark:bg-slate-950 dark:border-slate-800"
+                "bg-muted/40 border-border"
             )}
         >
             <CardHeader className="pb-2">

@@ -51,7 +51,7 @@ export default function MockTestPage() {
     ];
 
     return (
-        <div className="p-5 bg-gray-200">
+        <div className="p-5 bg-gray-200 dark:bg-black">
             <Card className="min-h-[95vh] flex items-center justify-center bg-transparent border-none shadow-none">
                 {phases[currentPhaseIndex].component()}
             </Card>

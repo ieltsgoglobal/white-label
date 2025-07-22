@@ -16,8 +16,6 @@ interface FlowChartSection {
 export default function FlowChartCompletion(props: FlowChartSection) {
     const { image_url, id } = props.question // 🔥 FIX: correct destructure
 
-    const handleAnswerChange = (qid: number, answer: string) => {
-    }
 
     return (
         <Card className="w-full">

@@ -40,7 +40,7 @@ export default function TableCompletion(props: TableQuestion) {
                                 <div key={lineIndex} className="flex items-center gap-1 text-sm">
                                     <span>{parts[0]}</span>
                                     <span className="font-semibold text-blue-600">({questionNumber})</span>
-                                    <AnswerInput questionNumber={questionNumber} className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1" />
+                                    <AnswerInput questionNumber={questionNumber} className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-background px-1" />
                                     <span>{parts[1] || ""}</span>
                                 </div>
                             )
@@ -80,9 +80,9 @@ export default function TableCompletion(props: TableQuestion) {
     }
 
     return (
-        <div className="w-full bg-white rounded-3xl border border-gray-100 p-8">
+        <div className="w-full rounded-3xl border border-border p-8 bg-background">
             <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-foreground mb-4">
                     {(() => {
                         const allIds = tableQuestion.tableData.rows.flatMap(row =>
                             row.cells.map(cell => cell.id).filter((id): id is number => typeof id === "number")
@@ -98,11 +98,11 @@ export default function TableCompletion(props: TableQuestion) {
             <CardContent>
                 <div className="space-y-6 -mx-6">
                     <div className="overflow-x-auto">
-                        <table className="w-full min-w-full border-collapse border border-gray-300">
+                        <table className="w-full min-w-full">
                             <thead>
-                                <tr className="bg-gray-50">
+                                <tr className="bg-muted/50">
                                     {tableQuestion.tableData.headers.map((header, index) => (
-                                        <th key={index} className="border border-gray-300 p-4 text-left font-semibold text-sm">
+                                        <th key={index} className="border border-border p-4 text-left font-semibold text-sm">
                                             {header}
                                         </th>
                                     ))}
@@ -110,9 +110,9 @@ export default function TableCompletion(props: TableQuestion) {
                             </thead>
                             <tbody>
                                 {tableQuestion.tableData.rows.map((row, rowIndex) => (
-                                    <tr key={rowIndex} className="hover:bg-gray-50">
+                                    <tr key={rowIndex} className="hover:bg-muted/30">
                                         {row.cells.map((cell, cellIndex) => (
-                                            <td key={cellIndex} className="border border-gray-300 p-4 align-top">
+                                            <td key={cellIndex} className="border border-border p-4 align-top">
                                                 {renderTableCell(cell)}
                                             </td>
                                         ))}

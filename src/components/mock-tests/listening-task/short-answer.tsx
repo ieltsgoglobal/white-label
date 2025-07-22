@@ -22,11 +22,6 @@ interface OneWordSection {
 export default function ShortAnswer(props: OneWordSection) {
     const [oneWordQuestions, setOneWordQuestions] = useState<OneWordSection>(props)
 
-    const handleAnswerChange = (id: number, answer: string) => {
-        // Only allow single words (no spaces)
-        const cleanAnswer = answer.trim().replace(/\s+/g, "")
-    }
-
     const renderSentenceWithBlank = (question: OneWordQuestion) => {
         const id = question.id
         const parts = question.sentence.split(`(${id}) _______`)
@@ -36,7 +31,7 @@ export default function ShortAnswer(props: OneWordSection) {
                 <span>{parts[0]}</span>
                 <AnswerInput
                     questionNumber={id}
-                    className="w-24 h-8 text-xs border-b-2 border-t-1 border-l-1 border-r-1 rounded-lg bg-transparent focus:bg-white px-2 text-center"
+                    className="w-24 h-8 text-xs border-b-2 border-t-1 border-l-1 border-r-1 rounded-lg bg-transparent focus:bg-background px-2 text-center"
                 />
                 <span>{parts[1] || ""}</span>
             </div>
@@ -77,7 +72,7 @@ export default function ShortAnswer(props: OneWordSection) {
                     {/* Word Count Reminder */}
                     {/* default instruction are for listening questions but if we change instruction for reading questions then below code doesnt make sense w.r.t new instructions */}
                     {!oneWordQuestions.instructions &&
-                        <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <div className="mt-6 p-4 bg-yellow-50 dark:bg-black border border-yellow-200 dark:border-white/20 rounded-lg">
                             <div className="flex items-center gap-2">
                                 <AlertCircle className="h-4 w-4 text-yellow-600" />
                                 <p className="text-sm font-medium text-yellow-800">

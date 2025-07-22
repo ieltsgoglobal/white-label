@@ -15,7 +15,7 @@ export default function WritingPagination({
     setActiveTab,
 }: WritingPaginationProps) {
     return (
-        <div className="fixed bottom-0 left-0 right-0 z-1 flex justify-between items-center w-full bg-white px-6 py-4">
+        <div className="fixed bottom-0 left-0 right-0 z-1 flex justify-between items-center w-full bg-background px-6 py-4">
             <div className="flex gap-2">
                 {Array.from({ length: totalTabs }, (_, idx) => {
                     const tabIndex = idx + 1

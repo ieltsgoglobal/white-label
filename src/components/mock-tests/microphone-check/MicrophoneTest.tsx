@@ -68,10 +68,10 @@ export default function MicCheck({ onNext }: { onNext: () => void }) {
     };
 
     return (
-        <div className="w-full min-h-screen flex items-center justify-center p-4">
+        <div className="w-full min-h-screen flex items-center justify-center p-4 dark:bg-black/90">
             <Card className="w-full max-w-lg rounded-2xl shadow-lg">
                 <CardContent className="p-6 flex flex-col items-center space-y-6">
-                    <h1 className="text-3xl font-bold text-center text-gray-800">Microphone Check</h1>
+                    <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-300">Microphone Check</h1>
 
                     <Image
                         src="/mock-tests/microphone-check/microphone-check.png"
@@ -81,7 +81,7 @@ export default function MicCheck({ onNext }: { onNext: () => void }) {
                         className="rounded-xl object-contain"
                     />
 
-                    <p className="text-xl font-medium text-center text-gray-700">
+                    <p className="text-xl font-medium text-center text-gray-700 dark:text-gray-300">
                         Question: <br />
                         <span className="italic">“Briefly introduce yourself.”</span>
                     </p>

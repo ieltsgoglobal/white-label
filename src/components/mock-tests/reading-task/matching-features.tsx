@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import AnswerInput from "../additional-ui/AnswerInput"
 
 export interface MatchingFeatureStatement {
@@ -43,12 +42,12 @@ export default function MatchingFeatures(props: MatchingFeaturesQuestion) {
     }
 
     return (
-        <div className="w-full bg-white rounded-3xl border border-gray-100 p-8">
+        <div className="w-full bg-background rounded-3xl border border-border p-8">
             <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-foregorund mb-4">
                     Questions {statements[0].id} - {statements[statements.length - 1].id}
                 </h2>
-                <p className="text-sm font-medium text-gray-600">
+                <p className="text-sm font-medium text-muted-foreground">
                     Choose {statements.length} answers from the box and write correct letters <span className="font-bold">A – {features[features.length - 1].letter}</span> next to questions <span className="font-bold">{statements[0].id}-{statements[statements.length - 1].id}</span>.
                 </p>
                 {question_statement && <div className="mt-4 text-base text-blue-600">{question_statement}</div>}
@@ -57,10 +56,10 @@ export default function MatchingFeatures(props: MatchingFeaturesQuestion) {
             <div className="space-y-8">
                 {/* Questions */}
                 <div>
-                    {statements_title && <h3 className="text-lg font-semibold text-gray-800 mb-3">{statements_title}</h3>}
+                    {statements_title && <h3 className="text-lg font-semibold text-foreground mb-3">{statements_title}</h3>}
                     <div className="space-y-6">
                         {questions.map((q) => (
-                            <div key={q.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                            <div key={q.id} className="flex items-center gap-4 p-4 bg-muted-foreground/10 rounded-lg">
                                 <div className="flex-1">
                                     <p className="text-base leading-relaxed">
                                         <span className="font-bold mr-2">{q.id}</span>
@@ -70,7 +69,7 @@ export default function MatchingFeatures(props: MatchingFeaturesQuestion) {
                                 <div className="flex items-center gap-3">
                                     <AnswerInput
                                         questionNumber={q.id}
-                                        className="w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded"
+                                        className="w-12 h-12 text-center text-lg font-semibold border-2 border-border rounded"
                                         maxLength={1}
                                     />
                                 </div>
@@ -82,8 +81,8 @@ export default function MatchingFeatures(props: MatchingFeaturesQuestion) {
 
                 {/* Feature Options */}
                 <div>
-                    {features_title && <h3 className="text-lg font-semibold text-gray-800 mb-3">{features_title}</h3>}
-                    <Card className="border-2 border-gray-300">
+                    {features_title && <h3 className="text-lg font-semibold text-foreground mb-3">{features_title}</h3>}
+                    <Card className="border-2 border-border">
                         <CardContent className="p-6">
                             <div className="space-y-3">
                                 {features.map((feature) => (

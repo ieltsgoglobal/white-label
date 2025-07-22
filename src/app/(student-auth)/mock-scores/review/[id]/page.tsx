@@ -42,7 +42,7 @@ export default function ReviewPage() {
     return (
         <div>
             <TestSectionNavigation onSectionClick={setSection} activeSection={section} />
-            <div className="bg-gray-100 flex items-center justify-center pb-10">
+            <div className="bg-background flex items-center justify-center pb-10">
 
                 {section === "listening" && (<ListeningMain test_id={testId} />)}
 

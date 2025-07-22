@@ -21,13 +21,8 @@ interface MultipleChoiceManySection {
 const optionLetters = ["A", "B", "C", "D", "E", "F", "G"]
 
 export default function MultipleChoiceMany(props: MultipleChoiceManySection) {
-
-    const handleCheckboxChange = (questionKey: string, value: string, checked: boolean) => {
-
-    }
-
     return (
-        <Card className="w-full">
+        <Card className="w-full rounded-3xl">
             <CardHeader>
                 <CardTitle>
                     Questions {props.questions[0].id[0]}–{props.questions[props.questions.length - 1].id[props.questions[props.questions.length - 1].id.length - 1]}
@@ -61,7 +56,7 @@ export default function MultipleChoiceMany(props: MultipleChoiceManySection) {
 
 
                                 {index < props.questions.length - 1 && (
-                                    <hr className="border-gray-200" />
+                                    <hr className="border-border" />
                                 )}
                             </div>
                         )

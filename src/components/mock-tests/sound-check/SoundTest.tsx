@@ -33,10 +33,10 @@ export default function SoundTest({ onNext }: { onNext: () => void }) {
     }, [soundPlayed]);
 
     return (
-        <div className="w-full min-h-[95vh] flex items-center justify-center rounded-3xl p-4">
+        <div className="w-full min-h-[95vh] flex items-center justify-center rounded-3xl p-4 dark:bg-black/90">
             <Card className="w-full max-w-lg rounded-2xl shadow-lg">
                 <CardContent className="p-6 flex flex-col items-center space-y-6">
-                    <h1 className="text-3xl font-bold text-center text-gray-800">Sound Test</h1>
+                    <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-300">Sound Test</h1>
 
                     <Image
                         src="/mock-tests/sound-check/sound-check.png"

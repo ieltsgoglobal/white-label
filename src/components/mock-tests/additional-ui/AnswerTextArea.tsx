@@ -71,7 +71,7 @@ export default function AnswerTextArea({ value, setResponse, activeTab }: Answer
                 className="h-full min-h-[600px] resize-none border p-6 text-base leading-relaxed focus-visible:ring-0 focus-visible:ring-offset-0"
             />
             {isReviewMode && aiScore !== null && (
-                <div className="p-6 bg-gray-100 mt-4 rounded-md text-lg font-medium">
+                <div className="p-6 bg-muted-foreground/10 mt-4 rounded-md text-lg font-medium">
                     Score by AI for Task {activeTab}: <span className="text-blue-600">{aiScore} Band</span>
                 </div>
             )}

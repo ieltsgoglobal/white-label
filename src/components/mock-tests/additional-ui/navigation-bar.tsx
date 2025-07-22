@@ -27,7 +27,7 @@ export default function NavigationBar({ onSubmit }: { onSubmit: () => void }) {
     }
 
     return (
-        <div className="fixed top-0 left-0 right-0 z-1 bg-gray-800 text-white">
+        <div className="fixed top-0 left-0 right-0 z-1 bg-gray-800 dark:bg-black dark:border-b text-white">
             <div className="flex items-center justify-between h-16 px-6 py-3">
                 <button className="flex items-center gap-2 text-white hover:text-gray-300">
                     <ArrowLeft className="w-4 h-4" />

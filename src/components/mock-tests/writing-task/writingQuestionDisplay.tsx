@@ -31,11 +31,11 @@ export default function WritingQuestionDisplay({
     return (
         <div className="mx-auto w-full min-h-screen mb-8">
             {/* Header */}
-            <div className="mb-6 rounded-lg bg-white p-6 shadow-sm">
+            <div className="mb-6 rounded-lg bg-background border border-border p-6 shadow-sm">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <h1 className="text-2xl font-bold text-gray-900">Part {currentQuestion.id}</h1>
-                        <p className="text-gray-600">
+                        <h1 className="text-2xl font-bold text-muted-foreground">Part {currentQuestion.id}</h1>
+                        <p className="text-muted-foreground">
                             {currentQuestion.timeLimit} {currentQuestion.wordLimit}
                         </p>
                     </div>
@@ -50,7 +50,7 @@ export default function WritingQuestionDisplay({
                         <CardContent className="p-6">
                             <div className="space-y-4">
                                 {currentQuestion.prompt.map((line, idx) => (
-                                    <p key={idx} className="text-gray-800 leading-relaxed">
+                                    <p key={idx} className="text-foreground leading-relaxed">
                                         {line}
                                     </p>
                                 ))}

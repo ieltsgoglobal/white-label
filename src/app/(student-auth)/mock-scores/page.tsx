@@ -32,11 +32,11 @@ export default function MockScores() {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>Users</BreadcrumbPage>
+                            <BreadcrumbPage>Mock Scores</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
-                <div className="rounded-xl border shadow mt-6 p-6 bg-white">
+                <div className="rounded-xl border shadow mt-6 p-6 bg-background">
                     <MockScoresPage />
                 </div>
             </ContentLayout>

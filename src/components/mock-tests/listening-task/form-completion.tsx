@@ -26,10 +26,6 @@ interface FormQuestion {
 export default function FormCompletion(props: FormQuestion) {
     const [formQuestion, setFormQuestion] = useState<FormQuestion>(props)
 
-    const handleFormAnswerChange = (id: number, answer: string) => {
-
-    }
-
     // add blank for content
     const renderFormField = (field: any) => {
         if (!field.id) {
@@ -80,7 +76,7 @@ export default function FormCompletion(props: FormQuestion) {
                         <span className="font-semibold text-blue-600">({id})</span>
                         <AnswerInput
                             questionNumber={id}
-                            className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
+                            className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-background px-1"
                         />
                     </div>
                     <span>{parts[1]}</span>
@@ -92,13 +88,15 @@ export default function FormCompletion(props: FormQuestion) {
     }
 
     return (
-        <Card className="w-full">
+        <Card className="w-full rounded-3xl">
             <CardHeader>
                 <CardTitle>
                     {(() => {
-                        const allIds = formQuestion.formData.sections.flatMap(section =>
-                            section.fields.map(field => field.id)
-                        )
+                        const allIds = formQuestion.formData.sections
+                            .flatMap(section => section.fields)
+                            .map(field => field.id)
+                            .filter((id): id is number => typeof id === "number");
+
                         const minId = Math.min(...allIds)
                         const maxId = Math.max(...allIds)
                         return minId === maxId ? `Question ${minId}` : `Questions ${minId}–${maxId}`
@@ -109,11 +107,11 @@ export default function FormCompletion(props: FormQuestion) {
             <CardContent>
                 <div className="max-w-4xl mx-auto">
                     {/* Form Container */}
-                    <div className="border-2 border-gray-400 p-6 bg-white">
+                    <div className="border-2 border-border p-6 bg-background rounded-3xl">
                         {/* Form Header */}
                         <div className="text-center mb-6">
                             <h2 className="text-2xl font-bold mb-2">{formQuestion.formData.title}</h2>
-                            {formQuestion.formData.address && <p className="text-sm text-gray-600">{formQuestion.formData.address}</p>}
+                            {formQuestion.formData.address && <p className="text-sm text-muted">{formQuestion.formData.address}</p>}
                         </div>
 
                         {/* Form Sections */}

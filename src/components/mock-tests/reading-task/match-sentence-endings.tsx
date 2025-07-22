@@ -1,8 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+import { Card, CardContent } from "@/components/ui/card"
 import AnswerInput from "../additional-ui/AnswerInput"
 
 export interface MatchingSentenceStart {
@@ -50,9 +49,9 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
     }
 
     return (
-        <div className="bg-white rounded-3xl border border-gray-100 p-8">
+        <div className="bg-background rounded-3xl border border-border p-8">
             <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-foreground mb-4">
                     Questions {Math.min(...questions.map(q => q.id))} - {Math.max(...questions.map(q => q.id))}
                 </h2>
                 <p className="text-sm font-medium text-blue-900">
@@ -65,7 +64,7 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
                 {/* Questions Section */}
                 <div className="space-y-6">
                     {questions.map((question) => (
-                        <div key={question.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                        <div key={question.id} className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
                             <div className="flex-1">
                                 <p className="text-base leading-relaxed">
                                     <span className="font-bold mr-2">{question.id}</span>
@@ -75,7 +74,7 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
                             <div className="flex items-center gap-3">
                                 <AnswerInput
                                     questionNumber={question.id}
-                                    className={`w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded`}
+                                    className={`w-12 h-12 text-center text-lg font-semibold border-2 border-border rounded`}
                                     maxLength={1}
                                 />
                             </div>
@@ -84,7 +83,7 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
                 </div>
 
                 {/* Answer Options Section */}
-                <Card className="border-2 border-gray-300">
+                <Card className="border-2 border-border">
                     <CardContent className="p-6">
                         <div className="space-y-3">
                             {matchingEndingsQuestion.question.endings.map((option: MatchingSentenceEndingOption) => (

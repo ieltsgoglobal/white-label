@@ -12,7 +12,7 @@ export default function StudentLogin({ onLoginComplete }: { onLoginComplete: (re
                         <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                             <GalleryVerticalEnd className="size-4" />
                         </div>
-                        IELTS Go Global
+                        <span className="font-bold">IELTS Go Global</span>
                     </a>
                 </div>
                 <div className="flex flex-1 items-center justify-center">
@@ -25,7 +25,7 @@ export default function StudentLogin({ onLoginComplete }: { onLoginComplete: (re
                 <Image
                     src={StudentLoginHero}
                     alt="Image"
-                    className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                    className="absolute inset-0 h-full w-full object-cover dark:grayscale"
                     fill
                 />
             </div>

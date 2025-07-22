@@ -42,7 +42,7 @@ export default function ImageLabeling(props: MapSection) {
                     {/* Map Section */}
                     <div className="space-y-4">
                         {/* Map Image */}
-                        <div className="border-2 border-gray-300 p-4 bg-white">
+                        <div className="border-2 border-border p-4 bg-background">
                             <img
                                 src={mapQuestions.image_url}
                                 alt="Inverness Aquarium Floor Plan"

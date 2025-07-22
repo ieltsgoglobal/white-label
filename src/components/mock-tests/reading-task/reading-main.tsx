@@ -191,17 +191,17 @@ function ReadingPassageDisplay({
         .filter(p => p.length > 0)
 
     return (
-        <div className="bg-white rounded-3xl border border-gray-100 p-8">
-            <div className="text-center text-gray-700/60 mb-8">
-                <h1 className="text-xl font-bold text-gray-900 mb-1">{title}</h1>
-                {subtitle && <p className="text-sm italic text-gray-600 leading-relaxed">{subtitle}</p>}
+        <div className="bg-background rounded-3xl border border-border p-8">
+            <div className="text-center mb-8">
+                <h1 className="text-xl font-bold text-foreground mb-1">{title}</h1>
+                {subtitle && <p className="text-sm italic text-muted-foreground leading-relaxed">{subtitle}</p>}
             </div>
 
             <div className="space-y-8">
                 {paragraphs.map((paragraph, index) => (
                     <div key={index} className="flex flex-col items-start text-sm">
-                        <span className="font-bold text-sm text-gray-900 my-1 min-w-[32px]">{index + 1}</span>
-                        <p className="text-gray-800 leading-relaxed text-justify whitespace-pre-line">{paragraph}</p>
+                        <span className="font-bold text-sm text-foreground my-1 min-w-[32px]">{index + 1}</span>
+                        <p className="text-foreground leading-relaxed text-justify whitespace-pre-line">{paragraph}</p>
                     </div>
                 ))}
             </div>

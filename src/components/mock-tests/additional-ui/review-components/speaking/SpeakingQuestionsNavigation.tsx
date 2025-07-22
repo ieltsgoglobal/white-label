@@ -20,7 +20,7 @@ export default function SpeakingQuestionsNavigation({
     onNext,
 }: SpeakingQuestionsNavigationProps) {
     return (
-        <Card className="border-0 shadow-md">
+        <Card className="border border-border">
             <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                     <Button
