@@ -11,8 +11,9 @@ export default function TestEndScreen() {
     const handleSubmit = async () => {
         // take answers from localstorage and save them in firebase 
         await submitAllMockAnswers() // also deletes the mock-answers localStorage
-        // router.push("/mock-tests/summary")
+        router.push("/mock-scores")
     }
+
     return (
         <div className="flex flex-col items-center justify-center w-full min-h-screen bg-transparent">
             <div className="bg-white rounded-2xl shadow-lg p-10 max-w-2xl w-full text-center">

@@ -629,3 +629,155 @@ In the inertial confinement approach, a small pellet of hydrogen fuel is compres
         }
     ]
 }
+
+
+// https://practicepteonline.com/ielts-writing-test-60/
+export const writingTasks = [
+    {
+        id: 1,
+        timeLimit: "You should spend about 20 minutes on this task.",
+        wordLimit: "Write at least 150 words.",
+        prompt: [
+            "The graph below shows the total value of exports and the value of fuel, food and manufactured goods exported by one country from 2000 to 2005.",
+            "Summarize the information by selecting and reporting the main features, and make comparisons where relevant."
+        ],
+        image_url: "https://www.dropbox.com/scl/fi/0m0c8iz9ilnevay2u3pot/test1_task1.png?rlkey=gkb7jiipnzpmqzq07j3413hlq&st=b394ih57&raw=1",
+    },
+    {
+        id: 2,
+        timeLimit: "You should spend about 40 minutes on this task.",
+        wordLimit: "Write at least 250 words.",
+        prompt: [
+            "Pollution and other environmental damages are caused by a country developing and becoming richer. This problem cannot be avoided. To what extent do you agree?",
+            "Give reasons for your answer, and include any relevant examples from your own knowledge or experience."
+        ],
+    }
+]
+
+
+// CHATGPT GENERATED
+export const speaking_transcripts = [
+    {
+        part: 1,
+        questions: [
+            { id: 1, transcript: "Now, in this part of the test, I will ask you some questions about yourself. After each question, there will be a beep sound. You will have 20 seconds to speak after the beep. So, Do you enjoy spending time outdoors? Why or why not?", audioUrl: "https://www.dropbox.com/scl/fi/cbbjdzh67fkeegc8aiexc/part1_q1.mp3?rlkey=wxflor6ncb4ee5wpw8z1z8nea&st=rxbw7wgy&raw=1" },
+            { id: 2, transcript: "What kind of outdoor activities do you usually do?", audioUrl: "https://www.dropbox.com/scl/fi/c8zqkopwkh91qm5eywhjv/part1_q2.mp3?rlkey=4p9gr90j92hbolv94djphqe8n&st=scqe700v&raw=1" },
+            { id: 3, transcript: "Is there a popular outdoor space near where you live?", audioUrl: "https://www.dropbox.com/scl/fi/r30br8j3r0ho00vovc7c2/part1_q3.mp3?rlkey=ams8xmy6xn3p9ik6ki812gf6s&st=ibae7vkh&raw=1" },
+            { id: 4, transcript: "Do you think people spend enough time outdoors nowadays?", audioUrl: "https://www.dropbox.com/scl/fi/6bgsqczs4fdvn3bv93m4s/part1_q4.mp3?rlkey=5mud4z4yzp6zwj7uz0p1om261&st=v5s08wt9&raw=1" },
+
+            { id: 5, transcript: "I’d like to move on and ask you some questions about shopping. Do you enjoy shopping for clothes? Why or why not?", audioUrl: "https://www.dropbox.com/scl/fi/qt7i0m30dh0255o91tp73/part1_q5.mp3?rlkey=yb8szbqone0d0tsot1ohnoyeb&st=219otfz3&raw=1" },
+            { id: 6, transcript: "How often do you buy new clothes?", audioUrl: "https://www.dropbox.com/scl/fi/aq3pwxvazmpt4pdknlxev/part1_q6.mp3?rlkey=5gz2x8l9xvnz4c51ix49k7vgx&st=8ut44oka&raw=1" },
+            { id: 7, transcript: "Do you prefer shopping online or in physical stores? Why?", audioUrl: "https://www.dropbox.com/scl/fi/oamoc5whf6s2fx90isjqb/part1_q7.mp3?rlkey=rtjst4ft2vnrfj5dx39yq1ch1&st=6dt7lmhu&raw=1" },
+            { id: 8, transcript: "Has your shopping behavior changed in recent years?", audioUrl: "https://www.dropbox.com/scl/fi/54aa01xkbl6lq4jpv5gqs/part1_q8.mp3?rlkey=fg23tmacn0f5k4mtk8rsf64bf&st=d5kar76u&raw=1" },
+        ]
+    },
+    {
+        part: 2,
+        questions: [
+            {
+                id: 9,
+                transcript: "Describe a person who has inspired you to achieve something.",
+                audioUrl: "https://www.dropbox.com/scl/fi/w7v0ypanfebpaqmiw2itp/part2.mp3?rlkey=a9f1joxudb0pnmb64rf9sk47j&st=gelxzxp6&raw=1"
+            }
+        ]
+    },
+    {
+        part: 3,
+        questions: [
+            { id: 10, transcript: "You’ve just spoken about someone who inspired you. Let’s talk more about role models. What qualities do you think a good role model should have?", audioUrl: "https://www.dropbox.com/scl/fi/if7j1w8epkzqu952v2h10/part3_q1.mp3?rlkey=uykylwgxkg35so79nwnihwplu&st=xhpsuafh&raw=1" },
+            { id: 11, transcript: "Do you think celebrities are good role models for young people?", audioUrl: "https://www.dropbox.com/scl/fi/duipwu2odujqs9i0jglj2/part3_q2.mp3?rlkey=i9t9tcta9ammk34sqi5bslb6o&st=mx6yemtk&raw=1" },
+            { id: 12, transcript: "Are role models important in education and career development?", audioUrl: "https://www.dropbox.com/scl/fi/pymz2vlwewtwoppx2tnum/part3_q3.mp3?rlkey=1lwlewsn7p7ve8ux7g7szjubp&st=rxqw2nty&raw=1" },
+
+            { id: 13, transcript: "Let’s move on and talk about goals and motivation. Why do people set goals in life?", audioUrl: "https://www.dropbox.com/scl/fi/k1s15qhwjvkesdusssmtt/part3_q4.mp3?rlkey=rzxtow67eopo786ve3mzez2ed&st=23y2kz96&raw=1" },
+            { id: 14, transcript: "Do you think it’s better to set long-term goals or short-term goals? Why?", audioUrl: "https://www.dropbox.com/scl/fi/shq4ohzs088kxwkm57fvm/part3_q5.mp3?rlkey=9vuktjaeptm9ubjlmfchz2ar6&st=dym194eu&raw=1" },
+            { id: 15, transcript: "What challenges do people face when trying to stay motivated?", audioUrl: "https://www.dropbox.com/scl/fi/p0p0p7gueu39rabbs3276/part3_q6.mp3?rlkey=uk3md0l4u9qklubrma0eabc3v&st=mpc8yoiu&raw=1" },
+        ]
+    }
+];
+
+
+export const reading_answers = {
+    1: "False",
+    2: "False",
+    3: "True",
+    4: "False",
+    5: "True",
+    6: "True",
+    7: "False",
+    8: "Sauce",
+    9: "Plants",
+    10: "Shelter",
+    11: "Pots",
+    12: "Shade",
+    13: "Fuel",
+    14: "A",
+    15: "D",
+    16: "C",
+    17: "B",
+    18: "D",
+    19: "A",
+    20: "B",
+    21: "C",
+    22: "C",
+    23: "A, C",
+    24: "A, C",
+    25: "C, E",
+    26: "C, E",
+    27: "B",
+    28: "B",
+    29: "B",
+    30: "D",
+    31: "A",
+    32: "I",
+    33: "A",
+    34: "D",
+    35: "B",
+    36: "False",
+    37: "True",
+    38: "False",
+    39: "False",
+    40: "Not given"
+};
+
+export const listening_answers = {
+    1: "Kaeden",
+    2: "Locker(s)",
+    3: "Passport",
+    4: "Uniform",
+    5: "Third/3rd",
+    6: "0412665903",
+    7: "Yellow",
+    8: "Plastic",
+    9: "Ice",
+    10: "Gloves",
+    11: "C, E",
+    12: "C, E",
+    13: "A, D",
+    14: "A, D",
+    15: "A",
+    16: "B",
+    17: "C",
+    18: "A",
+    19: "C",
+    20: "B",
+    21: "A",
+    22: "C",
+    23: "A",
+    24: "B",
+    25: "C",
+    26: "D",
+    27: "F",
+    28: "A",
+    29: "C",
+    30: "G",
+    31: "Competition",
+    32: "Food",
+    33: "Disease",
+    34: "Agriculture",
+    35: "Maps",
+    36: "Cattle",
+    37: "Speed",
+    38: "Monkeys",
+    39: "Fishing",
+    40: "Flooding"
+};

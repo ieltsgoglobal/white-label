@@ -16,6 +16,12 @@ import { setReviewMode } from "@/lib/mock-tests/indexedDb";
 export default function MockTestPage() {
     const [currentPhaseIndex, setCurrentPhaseIndex] = useState(2);
 
+    // ✅ Get testId from the pathname: "/mock-tests/1"
+    const pathname = window?.location?.pathname || ""
+    const segments = pathname.split("/") // ["", "mock-tests", "1"]
+    const testId = segments[2] // ⛔ Add validation if needed
+    console.log(testId)
+
     const nextPhase = () => {
         if (currentPhaseIndex < phases.length - 1) {
             setCurrentPhaseIndex((prev) => prev + 1);
@@ -33,14 +39,15 @@ export default function MockTestPage() {
     }, [])
 
 
+
     const phases = [
         { id: "sound", component: () => <SoundTest onNext={nextPhase} /> },
         { id: "mic", component: () => <MicCheck onNext={nextPhase} /> },
         { id: "listening instructions", component: () => <ListeningInstructions onNext={nextPhase} /> },
-        { id: "listening task", component: () => <ListeningMain test_id="7" onNext={nextPhase} /> },
-        { id: "reading task", component: () => <ReadingMain test_id="7" onNext={nextPhase} /> },
-        { id: "writing task", component: () => <WritingMain test_id="7" onNext={nextPhase} /> },
-        { id: "speaking task", component: () => <SpeakingMain test_id="7" onNext={nextPhase} /> },
+        { id: "listening task", component: () => <ListeningMain test_id={testId} onNext={nextPhase} /> },
+        { id: "reading task", component: () => <ReadingMain test_id={testId} onNext={nextPhase} /> },
+        { id: "writing task", component: () => <WritingMain test_id={testId} onNext={nextPhase} /> },
+        { id: "speaking task", component: () => <SpeakingMain test_id={testId} onNext={nextPhase} /> },
         { id: "End Test", component: () => <TestEndScreen /> },
     ];
 

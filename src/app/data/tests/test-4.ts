@@ -376,7 +376,7 @@ Aplin argues that they should never underestimate the importance of' having a co
     ]
 }
 
-// https://takeielts.britishcouncil.org/take-ielts/prepare/free-ielts-english-practice-tests/reading-academic/section-2
+// https://takeielts.britishcouncil.org/take-ielts/prepare/free-ielts-english-practice-tests/reading-academic/section-2  - QUESTION 14 to 27 
 export const reading_section_3 = {
     reading_passage: {
         title: "Fair games?",
@@ -469,3 +469,158 @@ Failing that, the Olympics could simply be scrapped altogether. International co
         }
     ]
 }
+
+
+// https://practicepteonline.com/ielts-writing-test-103/
+export const writingTasks = [
+    {
+        id: 1,
+        timeLimit: "You should spend about 20 minutes on this task.",
+        wordLimit: "Write at least 150 words.",
+        prompt: [
+            "The diagram below shows how electricity is generated in a hydroelectric power station.",
+            "Summarise the information by selecting and reporting the main features, and make comparisons where relevant."
+        ],
+        image_url: "https://www.dropbox.com/scl/fi/wusno1giwtg7ztvryj2yh/test4_task1.png?rlkey=h6q1nkj3nvad20w42evm1ky17&st=lqfbrz67&raw=1",
+    },
+    {
+        id: 2,
+        timeLimit: "You should spend about 40 minutes on this task.",
+        wordLimit: "Write at least 250 words.",
+        prompt: [
+            "Some people say that music is a good way of bringing people of different cultures and ages together. To what extent do you agree or disagree with this opinion?",
+            "Give reasons for your answer and include any relevant examples from your own knowledge or experience."
+        ],
+    }
+]
+
+// CHATGPT GENERATED
+export const speaking_transcripts = [
+    {
+        part: 1,
+        questions: [
+            { id: 1, transcript: "Now, in this part of the test, I will ask you some questions about yourself. After each question, there will be a beep sound. You will have 20 seconds to speak after the beep. So, What time of day do you usually wake up? Why?", audioUrl: "https://www.dropbox.com/scl/fi/xpne2wgxm2e5v6a25jtha/part1_q1.mp3?rlkey=vcia4aqk2xbw78z74xn966zps&st=pd328iro&raw=1" },
+            { id: 2, transcript: "Do you enjoy mornings or evenings more? Why?", audioUrl: "https://www.dropbox.com/scl/fi/u6wx0r7nbhdah6jbsvsfb/part1_q2.mp3?rlkey=wl8m76v78eyq7vfpjdbln5vog&st=s93l2ip9&raw=1" },
+            { id: 3, transcript: "How do you usually spend your evenings?", audioUrl: "https://www.dropbox.com/scl/fi/5458fue3k788gbebsllb6/part1_q3.mp3?rlkey=t7p9xoxgbnv712a9ntssi1sk4&st=rjd2qxvb&raw=1" },
+            { id: 4, transcript: "Do you think your daily routine is healthy?", audioUrl: "https://www.dropbox.com/scl/fi/l2ngngllmh0cbudk7u7z3/part1_q4.mp3?rlkey=7u7t8ivcfdrm46cwpffl1gjmo&st=frekezre&raw=1" },
+
+            { id: 5, transcript: "I’d like to move on and ask you some questions about art. Are you interested in art?", audioUrl: "https://www.dropbox.com/scl/fi/oif6mk5rxo653v0j732ha/part1_q5.mp3?rlkey=g2f6ok62bzcvzot75augn76rc&st=m4ccx87a&raw=1" },
+            { id: 6, transcript: "Did you learn any form of art in school?", audioUrl: "https://www.dropbox.com/scl/fi/txhjwel0sqq9dpxc7piuu/part1_q6.mp3?rlkey=981ffe2x5dx8a1t2ngoppqk8g&st=c0kqp57l&raw=1" },
+            { id: 7, transcript: "Have you ever visited an art gallery or museum?", audioUrl: "https://www.dropbox.com/scl/fi/4e6s72h5utnc7n3qpotqh/part1_q7.mp3?rlkey=ssjyrg8u917hnjll16vuhdqtv&st=2uclwpns&raw=1" },
+            { id: 8, transcript: "Do you think art is important in society? Why or why not?", audioUrl: "https://www.dropbox.com/scl/fi/hl3t7t7l8feyzjb469ph1/part1_q8.mp3?rlkey=kp8zkgmm0jwtlzyq6o7b9p651&st=sgiqcz7j&raw=1" },
+        ]
+    },
+    {
+        part: 2,
+        questions: [
+            {
+                id: 9,
+                transcript: "Describe a useful skill you learned when you were a teenager.",
+                audioUrl: "https://www.dropbox.com/scl/fi/th26lqp2aj9v6vqaw3rwy/part2.mp3?rlkey=isj43ji5ljjrcultljd1idimo&st=1pbr16dr&raw=1"
+            }
+        ]
+    },
+    {
+        part: 3,
+        questions: [
+            { id: 10, transcript: "You’ve just spoken about a skill you learned. Let’s talk more about skills. What are the most important skills children should learn?", audioUrl: "https://www.dropbox.com/scl/fi/p60yl7e1z58mo90dy4cst/part3_q1.mp3?rlkey=7zvetcsvq8uboiq5r0q9x8ym0&st=7kct9bja&raw=1" },
+            { id: 11, transcript: "Do you think schools focus more on academic knowledge or practical skills?", audioUrl: "https://www.dropbox.com/scl/fi/1y56gcy0zcw2x5qa7q59r/part3_q2.mp3?rlkey=6694j6ck1vbloirqh5h4ieblg&st=2bdeov8k&raw=1" },
+            { id: 12, transcript: "Should parents play a role in teaching life skills? Why or why not?", audioUrl: "https://www.dropbox.com/scl/fi/a4rj7gx81kgc6j48jnshm/part3_q3.mp3?rlkey=yi52igfnageaq8zexnejcldy3&st=c5fzp661&raw=1" },
+
+            { id: 13, transcript: "Let’s move on and talk about learning in adulthood. Do adults still need to learn new skills?", audioUrl: "https://www.dropbox.com/scl/fi/p9oag45126argvl34sr1y/part3_q4.mp3?rlkey=9xf9n66onq87vj9103551d6te&st=inzltxkd&raw=1" },
+            { id: 14, transcript: "What challenges do adults face when trying to learn something new?", audioUrl: "" },
+            { id: 15, transcript: "How has technology changed the way people learn new skills?", audioUrl: "https://www.dropbox.com/scl/fi/ywlq0jgtknb3bj4dl46i3/part3_q6.mp3?rlkey=gru6qqtai6arof0hm4a509z5w&st=1w5q7f58&raw=1" },
+        ]
+    }
+];
+
+
+
+export const listening_answers = {
+    1: "743002",
+    2: "international",
+    3: "6.15 pm",
+    4: "30",
+    5: "echo",
+    6: "credit card",
+    7: "7",
+    8: "1000",
+    9: "luggage",
+    10: "pavement",
+    11: "A",
+    12: "C",
+    13: "B",
+    14: "C",
+    15: "A",
+    16: "F",
+    17: "A",
+    18: "G",
+    19: "E",
+    20: "D",
+    21: "B",
+    22: "D",
+    23: "A",
+    24: "E",
+    25: "F",
+    26: "H",
+    27: "C",
+    28: "D",
+    29: "B",
+    30: "A",
+    31: "beach erosion",
+    32: "(fixed) camera",
+    33: "storm",
+    34: "continent",
+    35: "geology",
+    36: "round",
+    37: "spoon",
+    38: "permanent marker",
+    39: "newspaper",
+    40: "(identification) label"
+};
+
+export const reading_answers = {
+    1: "art",
+    2: "Psychology",
+    3: "emotional influence",
+    4: "art appreciation",
+    5: "paintings",
+    6: "paintings",
+
+    7: "A",
+    8: "C",
+    9: "B",
+    10: "E",
+    11: "Masterpieces",
+    12: "Eye-tracking",
+    13: "handwritten letter",
+    14: "artistic environment",
+
+    15: "No",
+    16: "Not Given",
+    17: "No",
+    18: "No",
+    19: "Yes",
+    20: "Yes",
+    21: "B",
+    22: "A",
+    23: "A",
+    24: "B",
+    25: "B",
+    26: "C",
+
+    27: "E",
+    28: "J",
+    29: "I",
+    30: "D",
+    31: "B",
+    32: "TRUE",
+    33: "Not given",
+    34: "false",
+    35: "true",
+    36: "not given",
+    37: "true",
+    38: "true",
+    39: "A",
+    40: "C"
+};
