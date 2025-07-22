@@ -14,13 +14,12 @@ import TestEndScreen from "@/components/mock-tests/instructions/TestEndScreen";
 import { setReviewMode } from "@/lib/mock-tests/indexedDb";
 
 export default function MockTestPage() {
-    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(2);
+    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
 
-    // ✅ Get testId from the pathname: "/mock-tests/1"
+    // Get testId from the pathname
     const pathname = window?.location?.pathname || ""
-    const segments = pathname.split("/") // ["", "mock-tests", "1"]
-    const testId = segments[2] // ⛔ Add validation if needed
-    console.log(testId)
+    const segments = pathname.split("/")
+    const testId = segments[2]
 
     const nextPhase = () => {
         if (currentPhaseIndex < phases.length - 1) {

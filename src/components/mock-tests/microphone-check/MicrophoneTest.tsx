@@ -68,7 +68,7 @@ export default function MicCheck({ onNext }: { onNext: () => void }) {
     };
 
     return (
-        <div className="w-full min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 to-blue-100">
+        <div className="w-full min-h-screen flex items-center justify-center p-4">
             <Card className="w-full max-w-lg rounded-2xl shadow-lg">
                 <CardContent className="p-6 flex flex-col items-center space-y-6">
                     <h1 className="text-3xl font-bold text-center text-gray-800">Microphone Check</h1>
