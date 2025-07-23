@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react"
 
+// ✅ Cache for previously loaded audio URLs
+const audioCache = new Set<string>()
+
 export default function ListeningAudioPlayer({ audioList, onAudioEnded }: { audioList: string[], onAudioEnded: () => void }) {
     const audioRef = useRef<HTMLAudioElement | null>(null)
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -9,10 +12,19 @@ export default function ListeningAudioPlayer({ audioList, onAudioEnded }: { audi
     useEffect(() => {
         const audio = audioRef.current
         if (!audio || !audioList[currentIndex]) return
+        const currentSrc = audioList[currentIndex]
 
-        // Update audio source and prepare to play
-        audio.src = audioList[currentIndex]
-        audio.load()
+
+        // ✅ Only update src/load if not already cached
+        if (audio.src !== currentSrc) {
+            if (!audioCache.has(currentSrc)) {
+                audio.src = currentSrc
+                audio.load()
+                audioCache.add(currentSrc)
+            } else {
+                audio.src = currentSrc
+            }
+        }
 
         const handleCanPlay = () => {
             audio.play().catch((err) => {

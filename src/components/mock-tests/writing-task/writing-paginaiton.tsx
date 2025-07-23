@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface WritingPaginationProps {
     activeTab: number
@@ -20,32 +20,53 @@ export default function WritingPagination({
                 {Array.from({ length: totalTabs }, (_, idx) => {
                     const tabIndex = idx + 1
                     return (
-                        <Button
-                            key={tabIndex}
-                            variant={activeTab === tabIndex ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setActiveTab((tabIndex) as 1 | 2)}
-                            className="rounded-full"
-                        >
-                            <span className="mr-2">Part {tabIndex}</span>
-                        </Button>
+                        <div className="flex items-center justify-center gap-4 mr-6">
+                            <h3 className="text-sm font-semibold text-muted-foreground">
+                                Part
+                            </h3>
+
+                            <button
+                                key={tabIndex}
+                                onClick={() => setActiveTab((tabIndex) as 1 | 2)}
+                                className="w-8 h-8 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 border bg-muted text-muted-foreground border-border hover:bg-muted/60"
+                            >
+                                <span>{tabIndex}</span>
+                            </button>
+                        </div>
                     )
                 })}
             </div>
 
-            <Button
-                className="rounded-full"
-                size="sm"
-                onClick={() => {
-                    if (activeTab < totalTabs) {
-                        setActiveTab((activeTab + 1) as 1 | 2)
-                    }
-                }}
-                disabled={activeTab === totalTabs}
-            >
-                Next
-                <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
+
+            <div className="hidden sm:flex items-center justify-start md:justify-end gap-2 shrink-0">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                        if (activeTab > 1) {
+                            setActiveTab((activeTab - 1) as 1 | 2)
+                        }
+                    }}
+                    disabled={activeTab === 1}
+                >
+                    <ChevronLeft className="w-4 h-4 mr-1" />
+                    Previous
+                </Button>
+
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                        if (activeTab < totalTabs) {
+                            setActiveTab((activeTab + 1) as 1 | 2)
+                        }
+                    }}
+                    disabled={activeTab === totalTabs}
+                >
+                    Next
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                </Button>
+            </div>
         </div>
     )
 }

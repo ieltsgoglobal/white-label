@@ -20,7 +20,7 @@ import { evaluateListening } from "@/lib/mock-tests/listening/evaluateListening"
 import ReviewSectionNavigation from "../additional-ui/review-components/listening/ReviewSectionNavigation"
 
 
-export default function ListeningMain({ test_id, onNext }: { test_id: string, onNext?: () => void }) {
+export default function ListeningMain({ test_id, onNext }: { test_id: string, onNext: () => void }) {
     const [section, setSection] = useState<any>(null)
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0) // 0 to 3 = 4 sections
     const [isReviewMode, setIsReviewMode] = useState(false)
@@ -98,33 +98,31 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
     const handleSubmitListening = async () => {
         //evaluate listening score and update score in localStorage
         await evaluateListening(test_id)
-        onNext?.()
+        onNext()
     }
 
     return (
         <div>
-            {!isReviewMode ? (
-                <NavigationBar onSubmit={handleSubmitListening} />
-            ) : (
-                <ReviewSectionNavigation onSelect={setCurrentSectionIndex} />
-            )}
+            {/* 30 MIN TIMER */}
+            {!isReviewMode && <NavigationBar onSubmit={handleSubmitListening} />}
+
+            {isReviewMode && <ReviewSectionNavigation onSelect={setCurrentSectionIndex} />}
+
+            {/* {!isReviewMode && (
+                <ListeningAudioPlayer
+                    audioList={allSections.map((sec: any) => sec.audio)}
+                    onAudioEnded={() => {
+                        if (currentSectionIndex < allSections.length - 1) {
+                            setCurrentSectionIndex(currentSectionIndex + 1)
+                        } else {
+                            console.log("Test complete.")
+                        }
+                    }}
+                />
+            )} */}
+
             <div className="mt-16">
                 <div className="w-[95vw]">
-
-                    {/* dont show audios like this in review mode  */}
-                    {!isReviewMode && (
-                        <ListeningAudioPlayer
-                            audioList={allSections.map((sec: any) => sec.audio)}
-                            onAudioEnded={() => {
-                                if (currentSectionIndex < allSections.length - 1) {
-                                    setCurrentSectionIndex(currentSectionIndex + 1)
-                                } else {
-                                    console.log("Test complete.")
-                                }
-                            }}
-                        />
-                    )}
-
                     {currentSection && (
                         <div className="flex flex-col items-center justify-center space-y-6">
                             {currentSection.questions.map((question: any, index: number) =>
@@ -132,7 +130,6 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
                             )}
                         </div>
                     )}
-
                 </div>
 
                 {!isReviewMode && (

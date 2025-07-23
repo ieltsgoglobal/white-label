@@ -84,10 +84,10 @@ export default function ListeningPagination({ allSections, prevSection, nextSect
             {!isCollapsed && (
                 <div className="flex flex-col md:flex-row justify-between gap-4 p-4 sm:p-6 bg-background rounded-t-xl border-t border-l border-r border-border">
                     {/* Sections */}
-                    <div className="space-y-4 overflow-x-auto md:overflow-visible max-w-full">
+                    <div className="grid lg:grid-cols-2 gap-5">
                         {sections.map((section: { title: string; range: [number, number] }, sectionIndex: number) => (
-                            <div key={sectionIndex} className="min-w-[300px]">
-                                <div className="flex items-start gap-3">
+                            <div key={sectionIndex}>
+                                <div className="flex items-center gap-3">
                                     <h3 className="text-sm font-semibold text-muted-foreground min-w-[80px]">
                                         {section.title}
                                     </h3>
@@ -102,7 +102,7 @@ export default function ListeningPagination({ allSections, prevSection, nextSect
                     </div>
 
                     {/* Controls */}
-                    <div className="flex items-center justify-start md:justify-end gap-2 shrink-0">
+                    <div className="flex items-center justify-center gap-2 shrink-0">
                         <Button
                             variant="outline"
                             size="sm"

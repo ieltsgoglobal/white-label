@@ -23,16 +23,13 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
         1: "",
         2: ""
     })
-    const [evaluatingResponse, setEvaluatingResponse] = useState(false)
+    const [evaluatingResponse, setEvaluatingResponse] = useState(false) // loader
 
     // current response (to display user answer for ongoing question)
     const response = responses[activeTab]
     const setResponse = (val: string) => {
         setResponses((prev) => ({ ...prev, [activeTab]: val }))
     }
-
-    const wordCount = response.trim() === "" ? 0 : response.trim().split(/\s+/).length
-    const minimumWords = activeTab === 1 ? 150 : 250
 
     // store writing questions here
     const [writingQuestions, setWritingQuestions] = useState<WritingTask[]>([])
@@ -82,13 +79,13 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
     return (
         <div>
             {/* loader model while evaluating answers */}
-            {!isReviewMode ? (
-                <EvalutaingTaskLoaderModal visible={evaluatingResponse} />
-            ) : (
-                <WritingReviewTaskNavigation onSelect={setActiveTab} />
-            )}
+            <EvalutaingTaskLoaderModal visible={evaluatingResponse} />
 
+            {/* 30 MIN TIMER */}
             {!isReviewMode && <NavigationBar onSubmit={handleSubmit} />}
+
+            {isReviewMode && <WritingReviewTaskNavigation onSelect={setActiveTab} />}
+
             <div className="mt-16">
                 {/* question type_2 just have extra image_url */}
                 <WritingQuestionDisplay
@@ -96,8 +93,6 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
                     currentQuestion={currentQuestion}
                     response={response}
                     setResponse={setResponse}
-                    wordCount={wordCount}
-                    minimumWords={minimumWords}
                 />
 
                 {!isReviewMode &&

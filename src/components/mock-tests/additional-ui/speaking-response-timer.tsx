@@ -28,11 +28,18 @@ export default function SpeakingResponseTimer() {
         return () => window.removeEventListener("start-timer", handleStart)
     }, [])
 
+    const formatTime = (seconds: number) => {
+        const mins = Math.floor(seconds / 60)
+        const secs = seconds % 60
+        const label = seconds >= 60 ? "minutes" : "seconds"
+        return `${mins}:${secs.toString().padStart(2, "0")} ${label}`
+    }
+
     return (
         <div className="w-full text-center mt-8 text-3xl font-semibold">
 
             {/* if secondsLeft is null then show "" */}
-            {secondsLeft !== null ? `0:${secondsLeft.toString().padStart(2, "0")} seconds` : ""}
+            {secondsLeft !== null ? formatTime(secondsLeft) : ""}
         </div>
     )
 }

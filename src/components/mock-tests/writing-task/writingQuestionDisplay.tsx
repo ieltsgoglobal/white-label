@@ -18,16 +18,16 @@ export default function WritingQuestionDisplay({
     currentQuestion,
     response,
     setResponse,
-    wordCount,
-    minimumWords
 }: {
     activeTab: 1 | 2
     currentQuestion: WritingQuestion
     response: string
     setResponse: (val: string) => void
-    wordCount: number
-    minimumWords: number
 }) {
+
+    const wordCount = response.trim() === "" ? 0 : response.trim().split(/\s+/).length
+    const minimumWords = activeTab === 1 ? 150 : 250
+
     return (
         <div className="mx-auto w-full min-h-screen mb-8">
             {/* Header */}

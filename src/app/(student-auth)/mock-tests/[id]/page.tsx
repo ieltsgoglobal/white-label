@@ -13,13 +13,9 @@ import { initializeMockAnswers } from "@/lib/mock-tests/mockAnswersStorage";
 import TestEndScreen from "@/components/mock-tests/instructions/TestEndScreen";
 import { setReviewMode } from "@/lib/mock-tests/indexedDb";
 
-export default function MockTestPage() {
-    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
-
-    // Get testId from the pathname
-    const pathname = window?.location?.pathname || ""
-    const segments = pathname.split("/")
-    const testId = segments[2]
+export default function MockTestPage({ params }: { params: { id: string } }) {
+    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(2);
+    const testId = params.id
 
     const nextPhase = () => {
         if (currentPhaseIndex < phases.length - 1) {

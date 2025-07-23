@@ -30,7 +30,6 @@ async function getReadingComparison(test_id: string): Promise<ReadingComparison>
     let realAnswers: AnswerMap = {}
 
     // 1. Load user answers
-    // 1. Load user answers
     const data = getMockAnswers()
     if (data?.reading) {
         userAnswers = Object.fromEntries(

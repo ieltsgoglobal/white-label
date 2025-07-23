@@ -120,6 +120,11 @@ export function updateSpeakingAnswer(questionId: number, url: string) {
 
     data.speaking = [...filtered, { questionId, url }]
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+
+    // 🔁 Dispatch custom event
+    // Event that forces Reading & Listening Pagination to re-render to show Attempted Answers
+    // Dispatches a custom 'update-pagination' event to trigger UI re-renders (e.g., to highlight attempted questions)
+    window.dispatchEvent(new Event("update-pagination"))
 }
 
 export function updateWritingAnswer(questionId: number, response: string) {
