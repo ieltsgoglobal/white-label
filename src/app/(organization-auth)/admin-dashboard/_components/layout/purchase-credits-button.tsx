@@ -1,16 +1,19 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { getPartnerId } from "@/lib/login/indexedDB";
+import { getSessionUser } from "@/lib/auth/session/get-user";
 import { addTransactionAndCredits } from "@/lib/superbase/transaction-table";
 
 export default function PurchaseCreditsButton() {
     const handlePurchase = async () => {
 
-        const partnerId = await getPartnerId()
-        if (!partnerId) {
-            alert("Partner ID not found.")
+        const user = await getSessionUser()
+        if (!user || user.role !== "organization") {
+            console.error("Not logged in as organization")
             return
         }
+        const partnerId = user.orgId // ✅ correct key
+
+
         // Example purchase: 10 credits = ₹1000
         const usersPurchased = 10
         const amountReceived = 1000

@@ -5,7 +5,7 @@ import { useState } from "react"
 import { createStudent } from "@/lib/superbase/student-table"
 import ModrenBg from "./bg-create-user-modal.jpg"
 import Image from "next/image"
-import { getPartnerId } from "@/lib/login/indexedDB"
+import { getSessionUser } from "@/lib/auth/session/get-user"
 
 export type PartnerSession = {
     id: string
@@ -35,11 +35,12 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
     }
 
     const handleSubmit = async () => {
-        const partnerId = await getPartnerId()
-        if (!partnerId) {
-            alert("Partner ID not found.")
+        const user = await getSessionUser()
+        if (!user || user.role !== "organization") {
+            console.error("Not logged in as organization")
             return
         }
+        const partnerId = user.orgId
 
         if (!formData.name || !formData.username || !formData.password) {
             alert("Please fill in all fields.")

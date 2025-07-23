@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, MoreHorizontal, Eye, Edit, Ban, CheckCircle, Users, UserCheck, UserX, PlusCircleIcon } from "lucide-react"
 import CreateUserModal from "./create-user-modal"
 import { getStudentsByOrg } from "@/lib/superbase/student-table"
-import { getPartnerId } from "@/lib/login/indexedDB"
+import { getSessionUser } from "@/lib/auth/session/get-user"
 
 type Student = {
     id: string
@@ -74,8 +74,13 @@ export function UserManagement() {
     // fetch students initially
     useEffect(() => {
         const fetchStudents = async () => {
-            const partnerId = await getPartnerId()
-            if (!partnerId) return
+            const user = await getSessionUser()
+            if (!user || user.role !== "organization") {
+                console.error("Not logged in as organization")
+                return
+            }
+            const partnerId = user.orgId
+
             const { data, error } = await getStudentsByOrg(partnerId)
             if (error) {
                 console.error("Failed to fetch students:", error)

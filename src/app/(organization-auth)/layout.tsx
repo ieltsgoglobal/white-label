@@ -1,16 +1,14 @@
 "use client"
 
-import StudentLogin from "@/components/login/student-login/student-login"
+import PartnerLogin from "@/components/login/partner-login/admin-login"
 import { useState } from "react"
 
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     if (!isLoggedIn) {
-        return (
-            <StudentLogin onSuccess={() => { setIsLoggedIn(true) }} />
-        )
+        return <PartnerLogin onSuccess={() => setIsLoggedIn(true)} />
     }
 
-    return <>{children}</>
+    return (<>{children}</>)
 }

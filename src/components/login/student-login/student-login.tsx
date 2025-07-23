@@ -3,7 +3,7 @@ import { LoginForm } from "./login-form"
 import StudentLoginHero from "./student-login.jpg"
 import Image from "next/image"
 
-export default function StudentLogin({ onLoginComplete }: { onLoginComplete: (result: any) => void }) {
+export default function StudentLogin({ onSuccess }: { onSuccess: () => void }) {
     return (
         <div className="grid min-h-svh lg:grid-cols-2">
             <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -17,7 +17,7 @@ export default function StudentLogin({ onLoginComplete }: { onLoginComplete: (re
                 </div>
                 <div className="flex flex-1 items-center justify-center">
                     <div className="w-full max-w-xs">
-                        <LoginForm onLoginComplete={onLoginComplete} />
+                        <LoginForm onSuccess={() => { onSuccess() }} />
                     </div>
                 </div>
             </div>

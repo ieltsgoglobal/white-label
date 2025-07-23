@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
     DropdownMenu,
@@ -19,7 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, MoreHorizontal, Eye, Trash2, Flag, Briefcase, Clock, CheckCircle, Users } from "lucide-react"
 import { getAllTransactionsByOrgId } from "@/lib/superbase/transaction-table"
 import { IndianRupee, CreditCard, ListChecks } from "lucide-react"
-import { getPartnerId } from "@/lib/login/indexedDB"
+import { getSessionUser } from "@/lib/auth/session/get-user"
 
 interface Transaction {
     id: string
@@ -63,8 +62,13 @@ export function TransactionManagment() {
     // fetch all transactions
     useEffect(() => {
         const fetchTransactions = async () => {
-            const partnerId = await getPartnerId()
-            if (!partnerId) return
+            const user = await getSessionUser()
+            if (!user || user.role !== "organization") {
+                console.log(user?.role)
+                console.error("Not logged in as organization")
+                return
+            }
+            const partnerId = user.orgId
 
             const result = await getAllTransactionsByOrgId(partnerId)
 

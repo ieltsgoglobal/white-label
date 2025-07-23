@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import SpeakingPart1Player from "./audio-players/speaking-part1"
 import SpeakingPart2Player from "./audio-players/speaking-part2"
 import SpeakingPart3Player from "./audio-players/speaking-part3"

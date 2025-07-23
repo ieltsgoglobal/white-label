@@ -8,19 +8,12 @@ import {
     BarChart3,
     Users,
     Briefcase,
-    Package,
-    CreditCard,
-    Flag,
-    Bell,
-    FileText,
     Settings,
-    Shield,
     Menu,
     LogOut,
     User,
     X,
 } from "lucide-react"
-import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -44,12 +37,6 @@ const navigation = [
     { name: "Dashboard", key: "dashboard", icon: BarChart3 },
     { name: "User Management", key: "users", icon: Users },
     { name: "Transaction Management", key: "jobs", icon: Briefcase },
-    // { name: "Payments & Wallet", key: "payments", icon: CreditCard },
-    // { name: "Reports & Reviews", key: "reports", icon: Flag },
-    // { name: "Notifications", key: "notifications", icon: Bell },
-    // { name: "Blog / CMS", key: "blog", icon: FileText },
-    // { name: "Admin Settings", key: "settings", icon: Settings },
-    // { name: "Roles & Permissions", key: "roles", icon: Shield },
 ]
 
 export function AdminLayout({ children, activeTab, setActiveTab }: AdminLayoutProps) {

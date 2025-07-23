@@ -1,14 +1,15 @@
-import { getStudentId } from "../login/indexedDB"
 import { db } from "./firebase"
 import { collection, addDoc, getDocs } from "firebase/firestore"
 import { clearMockAnswers, getMockAnswers } from "@/lib/mock-tests/mockAnswersStorage"
 import { MockTestAttempt } from "@/types/mockTestAttempt"
+import { getSessionUser } from "../auth/session/get-user"
 
 /**
  * Save listening answers at mock-tests/{studentId}/{auto-id}
  */
 
 // submit reading, writing, speaking, listeing and thier scores
+
 export async function submitAllMockAnswers() {
     try {
         // ✅ Get testId from the pathname: "/mock-tests/1"
@@ -17,11 +18,13 @@ export async function submitAllMockAnswers() {
         const testId = segments[2] // ⛔ Add validation if needed
 
         // Get studentId from indexedDB
-        const studentId = await getStudentId()
-        if (!studentId) {
-            console.error("Missing student ID")
+        const user = await getSessionUser()
+        if (!user || user.role !== "student") {
+            console.error("Missing or invalid student session")
             return
         }
+        const studentId = user.studentId
+
 
         // ✅ Get all local answers from localstorage
         const answers = getMockAnswers()
@@ -55,11 +58,12 @@ export async function submitAllMockAnswers() {
 export async function getAllMockTestAttempts() {
     try {
         // Get studentId from indexedDB
-        const studentId = await getStudentId()
-        if (!studentId) {
-            console.error("Missing student ID")
-            return []
+        const user = await getSessionUser()
+        if (!user || user.role !== "student") {
+            console.error("Missing or invalid student session")
+            return
         }
+        const studentId = user.studentId
 
         // Firestore path: mock-tests/{studentId}/attempts
         const attemptsRef = collection(db, "mock-tests", studentId, "attempts")

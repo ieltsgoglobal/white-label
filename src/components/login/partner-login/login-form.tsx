@@ -4,9 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
-import { loginPartner } from '@/lib/superbase/organization-table'
 
-export function LoginForm({ className, onLoginComplete, ...props }: React.ComponentPropsWithoutRef<"form"> & { onLoginComplete?: (result: any) => void }) {
+export function LoginForm({ onSuccess }: { onSuccess: () => void }) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
@@ -18,23 +17,33 @@ export function LoginForm({ className, onLoginComplete, ...props }: React.Compon
         setError("")
         setLoading(true)
 
-        const result = await loginPartner(email, password)
-        setLoading(false)
+        try {
+            const res = await fetch("/api/auth/organization", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            })
 
-        if ("error" in result) {
-            setError(result.error || "")
-        } else {
+            const result = await res.json()
 
-            onLoginComplete?.(result)
 
-            // TODO: Save session/token if needed, then redirect
-            // e.g., router.push("/partner/dashboard")
+            if (result === true) {
+                onSuccess()
+            } else {
+                setError("Login failed.")
+            }
+        } catch (err) {
+            setError("Something went wrong.")
+        } finally {
+            setLoading(false)
         }
     }
 
 
     return (
-        <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6", className)} {...props}>
+        <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6")}>
             <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold">Login to your account</h1>
                 <p className="text-balance text-sm text-muted-foreground">

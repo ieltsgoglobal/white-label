@@ -10,8 +10,10 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
     useEffect(() => {
         async function fetchAttempts() {
             const data = await getAllMockTestAttempts()
-            setAttempts(data)
-            console.log(data)
+            if (data) {
+                setAttempts(data)
+                console.log(data)
+            }
         }
 
         fetchAttempts()

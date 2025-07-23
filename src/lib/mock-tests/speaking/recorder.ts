@@ -1,6 +1,4 @@
-import { getStudentId } from "@/lib/login/indexedDB"
-import { uploadAudioToS3 } from "./s3Uploader" // ✅ use the real uploader
-
+import { getSessionUser } from "@/lib/auth/session/get-user"
 
 let mediaRecorder: MediaRecorder | null = null
 let recordedChunks: Blob[] = []
@@ -33,12 +31,13 @@ export const stopRecordingWithMeta = async (questionId: number): Promise<{ blob:
         const segments = pathname.split("/") // ["", "mock-tests", "1"]
         const testId = segments[2] // ⛔ Add validation if needed
 
-        // Get studentId from indexedDB
-        const studentId = await getStudentId()
-        if (!studentId) {
-            console.error("Missing student ID")
+        // Get studentId from cookies
+        const user = await getSessionUser()
+        if (!user || user.role !== "student") {
+            console.error("Missing or invalid student session")
             return
         }
+        const studentId = user.studentId
 
         // using timestamp to create unique urls
         const timestamp = Date.now()
