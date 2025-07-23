@@ -14,7 +14,7 @@ import TestEndScreen from "@/components/mock-tests/instructions/TestEndScreen";
 import { setReviewMode } from "@/lib/mock-tests/indexedDb";
 
 export default function MockTestPage({ params }: { params: { id: string } }) {
-    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(2);
+    const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
     const testId = params.id
 
     const nextPhase = () => {

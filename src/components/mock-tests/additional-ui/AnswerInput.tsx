@@ -143,7 +143,7 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
                         : undefined,
                     transition: "width 0.2s ease",
                 }}
-                maxLength={maxLength}
+                maxLength={maxLength ? maxLength : 30}
                 className={clsx(
                     className,
                     isReviewMode && (isCorrect
@@ -155,7 +155,6 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
                 <div
                     className="px-3 py-2 text-sm text-green-700 bg-green-50 border border-green-400 rounded-md w-fit"
                 >
-                    Correct Answer:{" "}
                     <span className="font-medium">
                         {correctAnswers?.[questionNumber.toString()] || "N/A"}
                     </span>

@@ -108,7 +108,7 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
 
             {isReviewMode && <ReviewSectionNavigation onSelect={setCurrentSectionIndex} />}
 
-            {/* {!isReviewMode && (
+            {!isReviewMode && (
                 <ListeningAudioPlayer
                     audioList={allSections.map((sec: any) => sec.audio)}
                     onAudioEnded={() => {
@@ -119,7 +119,7 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
                         }
                     }}
                 />
-            )} */}
+            )}
 
             <div className="mt-16">
                 <div className="w-[95vw]">

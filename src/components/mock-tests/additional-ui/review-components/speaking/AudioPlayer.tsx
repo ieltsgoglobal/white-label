@@ -25,16 +25,20 @@ export default function AudioPlayerCard({ src, question, variant }: AudioPlayerC
         const audio = audioRef.current
         if (!audio) return
 
-        const handleLoadedMetadata = () => {
+        const updateStreamingState = () => {
             const duration = audio.duration
-            setIsStreaming(!isFinite(duration))
-            console.log("🎧 Metadata loaded. Duration:", duration)
+            const shouldStream = !isFinite(duration) || duration === 0
+            setIsStreaming(shouldStream)
+            console.log("🎧 Checked metadata. Duration:", duration, "isStreaming:", shouldStream)
         }
 
-        audio.addEventListener("loadedmetadata", handleLoadedMetadata)
+        // Handle cases where metadata comes late (e.g., after playback ends)
+        audio.addEventListener("loadedmetadata", updateStreamingState)
+        audio.addEventListener("ended", updateStreamingState)
 
         return () => {
-            audio.removeEventListener("loadedmetadata", handleLoadedMetadata)
+            audio.removeEventListener("loadedmetadata", updateStreamingState)
+            audio.removeEventListener("ended", updateStreamingState)
         }
     }, [src])
 
@@ -60,14 +64,17 @@ export default function AudioPlayerCard({ src, question, variant }: AudioPlayerC
     }
 
     const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-        const audio = audioRef.current
-        if (!audio || !audio.duration) return
+        console.log(isStreaming)
+        if (isStreaming !== true) {
+            const audio = audioRef.current
+            if (!audio || !audio.duration) return
 
-        const rect = e.currentTarget.getBoundingClientRect()
-        const clickX = e.clientX - rect.left
-        const seekTime = (clickX / rect.width) * audio.duration
+            const rect = e.currentTarget.getBoundingClientRect()
+            const clickX = e.clientX - rect.left
+            const seekTime = (clickX / rect.width) * audio.duration
 
-        audio.currentTime = seekTime
+            audio.currentTime = seekTime
+        }
     }
 
     // fix dropbox url

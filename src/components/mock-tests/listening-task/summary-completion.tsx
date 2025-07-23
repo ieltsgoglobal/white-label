@@ -43,7 +43,7 @@ export default function SummaryCompletion(props: SummaryQuestion) {
                                     <AnswerInput
                                         questionNumber={id}
                                         placeholder="____"
-                                        className="w-32 text-center font-medium"
+                                        className="w-32 text-center font-medium mr-1"
                                     />
                                 </span>
                             )

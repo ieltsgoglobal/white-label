@@ -14,7 +14,7 @@ interface YesNoNotGivenSection {
     questions: Question[]
 }
 
-const optionLabels = ["TRUE", "FALSE", "NOT GIVEN"]
+const optionLabels = ["YES", "NO", "NOT GIVEN"]
 const optionLetters = ["A", "B", "C"]
 
 

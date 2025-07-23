@@ -134,7 +134,7 @@ export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven
             value={value}
         >
             {question.options.map((optionText, idx) => {
-                const letter = optionLetters[idx]
+                const letter = trueFalseNotGiven ? question.options[idx] : optionLetters[idx]
                 const inputId = `q${question.id}-${letter}`
 
                 // review variables
@@ -153,7 +153,7 @@ export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven
                     <div key={letter} className="flex items-start space-x-3">
                         {!trueFalseNotGiven && <span className="font-semibold mr-2">{letter}</span>}
                         <RadioGroupItem
-                            value={trueFalseNotGiven ? question.options[idx] : letter}
+                            value={letter}
                             id={inputId}
                             className="mt-0.5"
                             disabled={isReviewMode}

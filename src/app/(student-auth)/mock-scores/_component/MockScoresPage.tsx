@@ -41,10 +41,15 @@ export default function MockScoresPage() {
         console.log(`Review test ${testId}`)
     }
     return (
-        <div className="max-w-4xl mx-auto p-6 space-y-6">
-            <div className="text-center space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight">IELTS Test Overview</h1>
-                <p className="text-muted-foreground">Review your test performance and track your progress</p>
+        <div className="container px-4 md:px-6 py-12 relative">
+            <div className="text-center max-w-3xl mx-auto mb-12" >
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+                    IELTS Mocks Overview
+                </h1>
+                <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+                    View a complete summary of your IELTS mock test performances. Analyze your section-wise scores,
+                    monitor progress over time, and identify areas for improvement.
+                </p>
             </div>
 
             <div className="grid gap-6">
@@ -166,16 +171,18 @@ export default function MockScoresPage() {
                                             4,
                                         )} font-mono text-xl px-4 py-2`}
                                     >
-                                        {(
-                                            (test.scores.listening +
+                                        {Math.round(
+                                            ((test.scores.listening +
                                                 test.scores.reading +
                                                 test.scores.writing.overall +
-                                                test.scores.speaking.overall_band) /
-                                            4
-                                        ).toFixed(1)}
+                                                test.scores.speaking.overall_band)
+                                                / 4
+                                            ))
+                                        }
+
                                     </Badge>
                                 </div>
-                                <div className="text-sm text-muted-foreground">Test Attempt #{attempts.length - index}</div>
+                                {/* <div className="text-sm text-muted-foreground">Test Attempt #{attempts.length - index}</div> */}
                             </div>
                         </CardContent>
                     </Card>
