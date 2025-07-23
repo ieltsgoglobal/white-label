@@ -171,6 +171,10 @@ export default function ReadingMain({ test_id, onNext }: { test_id: string, onNe
                         allSections={allSections}
                         onNext={goToNextSubset}
                         onPrev={goToPrevSubset}
+                        goToQuestion={(sectionIndex: number, subsetIndex: number) => {
+                            setCurrentSectionIndex(sectionIndex);
+                            setCurrentSubsetIndex(subsetIndex)
+                        }}
                     />
                 }
             </div>

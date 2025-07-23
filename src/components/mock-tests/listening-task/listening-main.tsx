@@ -135,6 +135,7 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
                 {!isReviewMode && (
                     <ListeningPagination
                         allSections={allSections} //giving allSections props to calculate which (1-40)Button goes to which (SectionA,B,C,D or Part1,2,3,4)section
+                        goToSectionByQuestionId={(index: number) => { setCurrentSectionIndex(index) }}
                         prevSection={() => {
                             if (currentSectionIndex > 0) {
                                 setCurrentSectionIndex(currentSectionIndex - 1)

@@ -1,7 +1,6 @@
 "use client"
 
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
+import AnswerRadio from "../additional-ui/AnswerRadio"
 
 interface Question {
   id: number
@@ -13,20 +12,11 @@ interface TrueFalseNotGivenSection {
   questions: Question[]
 }
 
-
-
-const options = [
-  { value: "TRUE", label: "TRUE" },
-  { value: "FALSE", label: "FALSE" },
-  { value: "NOT GIVEN", label: "NOT GIVEN" }
-]
+const optionLabels = ["TRUE", "FALSE", "NOT GIVEN"]
+const optionLetters = ["A", "B", "C"]
 
 export default function TrueFalseNotGiven(props: TrueFalseNotGivenSection) {
   const section: TrueFalseNotGivenSection = props
-
-  const handleAnswerChange = (questionId: number, answer: string) => {
-    // do stuff here
-  }
 
   return (
     <div className="bg-background rounded-3xl border border-border p-8">
@@ -48,26 +38,7 @@ export default function TrueFalseNotGiven(props: TrueFalseNotGivenSection) {
             </div>
 
             <div className="ml-11">
-              <RadioGroup
-                onValueChange={(value) => handleAnswerChange(question.id, value)}
-                className="space-y-3"
-              >
-                {options.map((option) => (
-                  <div key={option.value} className="flex items-center space-x-3 group">
-                    <RadioGroupItem
-                      value={option.value}
-                      id={`q${question.id}-${option.value}`}
-                      className="border-border text-foreground"
-                    />
-                    <Label
-                      htmlFor={`q${question.id}-${option.value}`}
-                      className="text-foreground/80 cursor-pointer group-hover:text-foreground transition-colors font-medium"
-                    >
-                      {option.label}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
+              <AnswerRadio question={{ id: question.id, options: optionLabels }} optionLetters={optionLetters} trueFalseNotGiven />
             </div>
           </div>
         ))}

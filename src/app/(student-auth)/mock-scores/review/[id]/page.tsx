@@ -44,11 +44,11 @@ export default function ReviewPage() {
             <TestSectionNavigation onSectionClick={setSection} activeSection={section} />
             <div className="bg-background flex items-center justify-center pb-10">
 
-                {section === "listening" && (<ListeningMain test_id={testId} />)}
+                {section === "listening" && (<ListeningMain test_id={testId} onNext={() => { }} />)}
 
                 {section === "reading" && (
                     <div className="px-5">
-                        <ReadingMain test_id={testId} />
+                        <ReadingMain test_id={testId} onNext={() => { }} />
                     </div>
                 )}
                 {section === "writing" && (

@@ -11,7 +11,7 @@ interface SectionMeta {
     range: [number, number]
 }
 
-export default function ListeningPagination({ allSections, prevSection, nextSection }: { allSections: any, prevSection: () => void, nextSection: () => void }) {
+export default function ListeningPagination({ allSections, prevSection, nextSection, goToSectionByQuestionId }: { allSections: any, prevSection: () => void, nextSection: () => void, goToSectionByQuestionId: (index: number) => void }) {
     const [isCollapsed, setIsCollapsed] = useState(true)
 
     const sectionTitles = ["Section A", "Section B", "Section C", "Section D"]
@@ -44,7 +44,22 @@ export default function ListeningPagination({ allSections, prevSection, nextSect
 
         return (
             <button
-                onClick={() => { }}
+                onClick={() => {
+                    const sectionIndex = sections.findIndex(
+                        (s) => page >= s.range[0] && page <= s.range[1]
+                    )
+
+                    goToSectionByQuestionId(sectionIndex)
+
+                    // Smooth scroll to the input with ID `listening-q{page}`
+                    setTimeout(() => {
+                        const target = document.getElementById(`listening-q${page}`)
+                        if (target) {
+                            target.scrollIntoView({ behavior: "smooth", block: "center" });
+                            (target as HTMLInputElement).focus()
+                        }
+                    }, 200)
+                }}
                 key={page}
                 className={`w-8 h-8 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 border 
                      ${isAttempted

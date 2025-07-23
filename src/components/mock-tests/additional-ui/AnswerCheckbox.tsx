@@ -141,7 +141,7 @@ export default function AnswerCheckbox({ questionKey, options, optionLetters, ma
     }
 
     return (
-        <div className="ml-8 space-y-3">
+        <div id={`${section}-q${questionKey[0]}`} className="ml-8 space-y-3">
             {options.map((optionText, idx) => {
                 const letter = optionLetters[idx]
                 const inputId = `q${questionKey}-${letter}`

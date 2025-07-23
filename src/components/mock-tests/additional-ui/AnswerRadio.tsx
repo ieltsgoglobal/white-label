@@ -16,9 +16,12 @@ interface QuestionProps {
         options: string[]
     }
     optionLetters: string[]
+
+    // Handle TFNT and YNNG questionTypes
+    trueFalseNotGiven?: boolean
 }
 
-export default function AnswerRadio({ question, optionLetters }: QuestionProps) {
+export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven }: QuestionProps) {
     const [section, setSection] = useState<"listening" | "reading" | null>(null)
     const [value, setValue] = useState("")
 
@@ -125,6 +128,7 @@ export default function AnswerRadio({ question, optionLetters }: QuestionProps) 
 
     return (
         <RadioGroup
+            id={`${section}-q${question.id}`}
             onValueChange={(value) => handleAnswerChange(question.id, value)}
             className="space-y-3"
             value={value}
@@ -147,9 +151,9 @@ export default function AnswerRadio({ question, optionLetters }: QuestionProps) 
 
                 return (
                     <div key={letter} className="flex items-start space-x-3">
-                        <span className="font-semibold mr-2">{letter}</span>
+                        {!trueFalseNotGiven && <span className="font-semibold mr-2">{letter}</span>}
                         <RadioGroupItem
-                            value={letter}
+                            value={trueFalseNotGiven ? question.options[idx] : letter}
                             id={inputId}
                             className="mt-0.5"
                             disabled={isReviewMode}

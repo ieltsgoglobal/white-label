@@ -20,13 +20,12 @@ export default function WritingPagination({
                 {Array.from({ length: totalTabs }, (_, idx) => {
                     const tabIndex = idx + 1
                     return (
-                        <div className="flex items-center justify-center gap-4 mr-6">
+                        <div key={tabIndex} className="flex items-center justify-center gap-4 mr-6">
                             <h3 className="text-sm font-semibold text-muted-foreground">
                                 Part
                             </h3>
 
                             <button
-                                key={tabIndex}
                                 onClick={() => setActiveTab((tabIndex) as 1 | 2)}
                                 className="w-8 h-8 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 border bg-muted text-muted-foreground border-border hover:bg-muted/60"
                             >

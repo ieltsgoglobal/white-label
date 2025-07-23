@@ -132,6 +132,7 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
     return (
         <>
             <Input
+                id={`${section}-q${questionNumber}`} // for smooth scolls
                 placeholder={placeholder}
                 value={value}
                 onChange={handleChange}

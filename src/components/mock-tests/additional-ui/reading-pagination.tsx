@@ -11,7 +11,7 @@ interface SectionMeta {
     range: [number, number]
 }
 
-export default function ReadingPagination({ allSections, onPrev, onNext }: { allSections: any, onPrev: () => void, onNext: () => void }) {
+export default function ReadingPagination({ allSections, onPrev, onNext, goToQuestion }: { allSections: any, onPrev: () => void, onNext: () => void, goToQuestion: (sectionIndex: number, subsetIndex: number) => void, }) {
     const [isCollapsed, setIsCollapsed] = useState(true)
 
     const sectionTitles = ["Section A", "Section B", "Section C"]
@@ -36,15 +36,35 @@ export default function ReadingPagination({ allSections, onPrev, onNext }: { all
         return () => window.removeEventListener("update-pagination", handleUpdate)
     }, [])
 
-
-    const renderPageButton = (page: number) => {
+    const renderPageButton = (page: number, sectionIndex: number) => {
         // get answers from localstorage, filter out Listening Answers and then check which questions are having some kind of value, so that we can mark attempted question with bg-blue
         const answers = getMockAnswers()
         const isAttempted = answers?.reading?.[page]?.trim() !== ""
 
+        // Find the subsetIndex for this page/question ID
+        const subsetIndex = allSections[sectionIndex].questions.findIndex((subset: any) => {
+            const ids = extractIds({ questions: [subset] })
+            return ids.includes(page)
+        })
+
+
         return (
             <button
                 key={page}
+                onClick={() => {
+                    if (subsetIndex !== -1) {
+                        goToQuestion(sectionIndex, subsetIndex)
+                    };
+
+                    // Smooth scroll to the input with ID `listening-q{page}`
+                    setTimeout(() => {
+                        const target = document.getElementById(`reading-q${page}`)
+                        if (target) {
+                            target.scrollIntoView({ behavior: "smooth", block: "center" });
+                            (target as HTMLInputElement).focus()
+                        }
+                    }, 200)
+                }}
                 className={`w-8 h-8 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 border 
                      ${isAttempted
                         ? "bg-blue-500 text-white border-blue-600 hover:bg-blue-600"
@@ -93,7 +113,7 @@ export default function ReadingPagination({ allSections, onPrev, onNext }: { all
                                     <div className="flex flex-wrap gap-2">
                                         {Array.from({ length: section.range[1] - section.range[0] + 1 }, (_, i) =>
                                             section.range[0] + i
-                                        ).map(renderPageButton)}
+                                        ).map((page) => renderPageButton(page, sectionIndex))}
                                     </div>
                                 </div>
                             </div>
