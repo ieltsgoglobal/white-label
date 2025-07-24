@@ -29,6 +29,6 @@ export default function PurchaseCreditsButton() {
     }
 
     return (
-        <Button onClick={handlePurchase}>Buy Credits</Button>
+        <Button onClick={handlePurchase} variant="outline">Buy Credits</Button>
     )
 }

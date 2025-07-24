@@ -4,27 +4,10 @@ import type React from "react"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import {
-    BarChart3,
-    Users,
-    Briefcase,
-    Settings,
-    Menu,
-    LogOut,
-    User,
-    X,
-} from "lucide-react"
+import { BarChart3, Users, Briefcase, Settings, Menu, LogOut, User, X } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import PurchaseCreditsButton from "./purchase-credits-button"
+import { UserNav } from "@/components/admin-panel/user-nav"
 
 
 interface AdminLayoutProps {
@@ -34,9 +17,8 @@ interface AdminLayoutProps {
 }
 
 const navigation = [
-    { name: "Dashboard", key: "dashboard", icon: BarChart3 },
     { name: "User Management", key: "users", icon: Users },
-    { name: "Transaction Management", key: "jobs", icon: Briefcase },
+    { name: "Transaction Management", key: "transactions", icon: Briefcase },
 ]
 
 export function AdminLayout({ children, activeTab, setActiveTab }: AdminLayoutProps) {
@@ -79,7 +61,7 @@ export function AdminLayout({ children, activeTab, setActiveTab }: AdminLayoutPr
                     <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-xl">
                         <div className="flex h-full flex-col">
                             <div className="flex h-16 items-center justify-between border-b bg-white px-4">
-                                <h1 className="text-xl font-bold text-blue-600">ExtrUp Admin</h1>
+                                <h1 className="text-xl font-bold text-blue-600">Admin Dashboard</h1>
                                 <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)}>
                                     <X className="h-6 w-6" />
                                 </Button>
@@ -94,7 +76,7 @@ export function AdminLayout({ children, activeTab, setActiveTab }: AdminLayoutPr
             <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
                 <div className="flex min-h-0 flex-1 flex-col bg-white border-r border-gray-200">
                     <div className="flex h-16 items-center justify-center border-b bg-white px-4">
-                        <h1 className="text-xl font-bold text-blue-600">ExtrUp Admin</h1>
+                        <h1 className="text-xl font-bold text-blue-600">Admin Dashboard</h1>
                     </div>
                     <div className="flex flex-1 flex-col overflow-y-auto">
                         {renderNav(true)}
@@ -120,40 +102,9 @@ export function AdminLayout({ children, activeTab, setActiveTab }: AdminLayoutPr
                             </div>
                         </div>
                         <div className="flex items-center justify-between gap-4">
-                            <div><PurchaseCreditsButton /></div>
+                            <PurchaseCreditsButton />
                             <div className="ml-4 flex items-center md:ml-6">
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                            <Avatar className="h-8 w-8">
-                                                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Admin" />
-                                                <AvatarFallback>AD</AvatarFallback>
-                                            </Avatar>
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent className="w-56" align="end" forceMount>
-                                        <DropdownMenuLabel className="font-normal">
-                                            <div className="flex flex-col space-y-1">
-                                                <p className="text-sm font-medium leading-none">Admin User</p>
-                                                <p className="text-xs leading-none text-muted-foreground">admin@extrup.com</p>
-                                            </div>
-                                        </DropdownMenuLabel>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem>
-                                            <User className="mr-2 h-4 w-4" />
-                                            <span>Profile</span>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem>
-                                            <Settings className="mr-2 h-4 w-4" />
-                                            <span>Settings</span>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem>
-                                            <LogOut className="mr-2 h-4 w-4" />
-                                            <span>Log out</span>
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                                <UserNav />
                             </div>
                         </div>
                     </div>

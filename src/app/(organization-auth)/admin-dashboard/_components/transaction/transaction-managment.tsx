@@ -2,23 +2,13 @@
 
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, MoreHorizontal, Eye, Trash2, Flag, Briefcase, Clock, CheckCircle, Users } from "lucide-react"
+import { Clock } from "lucide-react"
 import { getAllTransactionsByOrgId } from "@/lib/superbase/transaction-table"
 import { IndianRupee, CreditCard, ListChecks } from "lucide-react"
 import { getSessionUser } from "@/lib/auth/session/get-user"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 interface Transaction {
     id: string
@@ -28,36 +18,37 @@ interface Transaction {
 }
 
 export function TransactionManagment() {
-    const [searchTerm, setSearchTerm] = useState("")
-    const [statusFilter, setStatusFilter] = useState("all")
-    const [categoryFilter, setCategoryFilter] = useState("all")
+    // handle filter results 
+    const [tempFromDate, setTempFromDate] = useState("")
+    const [tempToDate, setTempToDate] = useState("")
+    const [fromDate, setFromDate] = useState<string>("")
+    const [toDate, setToDate] = useState<string>("")
+
+    // fetch and store transactions
     const [transactions, setTransactions] = useState<Transaction[]>([])
     const [transactionStats, setTransactionStats] = useState([
         {
             title: "Total Credits Purchased",
             value: "0",
             icon: CreditCard,
-            color: "text-blue-600",
         },
         {
             title: "Total Amount Paid",
             value: "₹0",
             icon: IndianRupee,
-            color: "text-green-600",
         },
         {
             title: "Last Transaction",
             value: "-",
             icon: Clock,
-            color: "text-yellow-600",
         },
         {
             title: "Total Transactions",
             value: "0",
             icon: ListChecks,
-            color: "text-purple-600",
         },
     ])
+
 
     // fetch all transactions
     useEffect(() => {
@@ -98,43 +89,36 @@ export function TransactionManagment() {
                 title: "Total Credits Purchased",
                 value: totalCredits.toString(),
                 icon: CreditCard,
-                color: "text-blue-600",
             },
             {
                 title: "Total Amount Paid",
                 value: `₹${totalAmount.toLocaleString()}`,
                 icon: IndianRupee,
-                color: "text-green-600",
             },
             {
                 title: "Last Transaction",
                 value: lastTransactionDate,
                 icon: Clock,
-                color: "text-yellow-600",
             },
             {
                 title: "Total Transactions",
                 value: transactions.length.toString(),
                 icon: ListChecks,
-                color: "text-purple-600",
             },
         ])
     }, [transactions])
 
-    const getStatusBadge = (status: string) => {
-        switch (status) {
-            case "Open":
-                return <Badge className="bg-green-100 text-green-800">Open</Badge>
-            case "In Progress":
-                return <Badge className="bg-blue-100 text-blue-800">In Progress</Badge>
-            case "Hired":
-                return <Badge className="bg-yellow-100 text-yellow-800">Hired</Badge>
-            case "Completed":
-                return <Badge className="bg-purple-100 text-purple-800">Completed</Badge>
-            default:
-                return <Badge variant="secondary">{status}</Badge>
-        }
-    }
+
+    // choose dates to filter transactions
+    const filteredTransactions = transactions.filter((txn) => {
+        const txnDate = new Date(txn.created_at).getTime()
+        const from = fromDate ? new Date(fromDate).getTime() : null
+        const to = toDate ? new Date(toDate).getTime() : null
+
+        if (from && txnDate < from) return false
+        if (to && txnDate > to) return false
+        return true
+    })
 
     return (
         <div className="p-6 space-y-6">
@@ -154,7 +138,7 @@ export function TransactionManagment() {
                                     <p className="text-sm font-medium text-gray-600">{stat.title}</p>
                                     <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
                                 </div>
-                                <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                                <stat.icon className={`h-8 w-8`} />
                             </div>
                         </CardContent>
                     </Card>
@@ -164,47 +148,46 @@ export function TransactionManagment() {
             {/* Jobs Table */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Job Listings</CardTitle>
-                    <CardDescription>All job postings on the platform</CardDescription>
+                    <CardTitle>Check Transactions</CardTitle>
+                    <CardDescription>All transactions performed on the platform</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                        <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+
+                    {/* handle filter dates */}
+                    <div className="flex flex-wrap items-center gap-4 mb-4">
+                        <div className="flex items-center gap-2">
+                            <label htmlFor="from" className="text-sm font-medium text-gray-700">From:</label>
                             <Input
-                                placeholder="Search jobs..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pl-10"
+                                type="date"
+                                id="from"
+                                value={tempFromDate}
+                                onChange={(e) => setTempFromDate(e.target.value)}
+                                className="w-[160px]"
                             />
                         </div>
-                        <Select value={statusFilter} onValueChange={setStatusFilter}>
-                            <SelectTrigger className="w-full sm:w-[180px]">
-                                <SelectValue placeholder="Filter by status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Status</SelectItem>
-                                <SelectItem value="open">Open</SelectItem>
-                                <SelectItem value="in-progress">In Progress</SelectItem>
-                                <SelectItem value="hired">Hired</SelectItem>
-                                <SelectItem value="completed">Completed</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                            <SelectTrigger className="w-full sm:w-[180px]">
-                                <SelectValue placeholder="Filter by category" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Categories</SelectItem>
-                                <SelectItem value="web-development">Web Development</SelectItem>
-                                <SelectItem value="design">Design</SelectItem>
-                                <SelectItem value="writing">Writing</SelectItem>
-                                <SelectItem value="marketing">Marketing</SelectItem>
-                                <SelectItem value="data-science">Data Science</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <div className="flex items-center gap-2">
+                            <label htmlFor="to" className="text-sm font-medium text-gray-700">To:</label>
+                            <Input
+                                type="date"
+                                id="to"
+                                value={tempToDate}
+                                onChange={(e) => setTempToDate(e.target.value)}
+                                className="w-[160px]"
+                            />
+                        </div>
+                        <Button
+                            variant="outline"
+                            onClick={() => {
+                                setFromDate(tempFromDate)
+                                setToDate(tempToDate)
+                            }}
+                        >
+                            Search
+                        </Button>
                     </div>
 
+
+                    {/* Rest of the table */}
                     <div className="rounded-md border">
                         <Table>
                             <TableHeader>
@@ -213,7 +196,6 @@ export function TransactionManagment() {
                                     <TableHead>Credits Purchased</TableHead>
                                     <TableHead>Amount Paid (₹)</TableHead>
                                     <TableHead>Date</TableHead>
-                                    <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -224,60 +206,17 @@ export function TransactionManagment() {
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    transactions.map((txn) => (
+                                    filteredTransactions.map((txn) => (
                                         <TableRow key={txn.id}>
                                             <TableCell className="text-xs break-all">{txn.id}</TableCell>
                                             <TableCell>{txn.users_purchased}</TableCell>
                                             <TableCell>₹{txn.amount_received}</TableCell>
                                             <TableCell>{new Date(txn.created_at).toLocaleDateString()}</TableCell>
-                                            <TableCell className="text-right">
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0">
-                                                            <span className="sr-only">Open menu</span>
-                                                            <MoreHorizontal className="h-4 w-4" />
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>
-                                                            <Eye className="mr-2 h-4 w-4" />
-                                                            View Details
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem>
-                                                            <Users className="mr-2 h-4 w-4" />
-                                                            View Applications
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuSeparator />
-                                                        <DropdownMenuItem className="text-orange-600">
-                                                            <Flag className="mr-2 h-4 w-4" />
-                                                            Mark as Spam
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem className="text-red-600">
-                                                            <Trash2 className="mr-2 h-4 w-4" />
-                                                            Delete Job
-                                                        </DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
                                         </TableRow>
                                     ))
                                 )}
                             </TableBody>
                         </Table>
-                    </div>
-
-                    {/* Pagination */}
-                    <div className="flex items-center justify-between space-x-2 py-4">
-                        <div className="text-sm text-gray-500">Showing 1 to 5 of 1,234 jobs</div>
-                        <div className="flex space-x-2">
-                            <Button variant="outline" size="sm" disabled>
-                                Previous
-                            </Button>
-                            <Button variant="outline" size="sm">
-                                Next
-                            </Button>
-                        </div>
                     </div>
                 </CardContent>
             </Card>

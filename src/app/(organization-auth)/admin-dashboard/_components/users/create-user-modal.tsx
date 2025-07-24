@@ -88,17 +88,17 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                     </div>
 
                     {/* Right form section */}
-                    <div className="p-6 md:p-8 bg-white flex flex-col justify-between">
+                    <div className="p-6 md:p-8 bg-background flex flex-col justify-between">
                         <div>
                             <DialogHeader>
-                                <DialogTitle className="text-2xl font-semibold text-gray-800">
+                                <DialogTitle className="text-2xl font-semibold text-foreground">
                                     Create New Student
                                 </DialogTitle>
-                                <p className="text-sm text-gray-500 mt-1">Add student credentials and revenue.</p>
+                                <p className="text-sm text-muted-foreground mt-1">Add student credentials and revenue.</p>
                             </DialogHeader>
                             <div className="grid gap-4 mt-6">
                                 <div className="flex flex-col gap-1">
-                                    <label htmlFor="name" className="text-sm font-medium text-gray-700">
+                                    <label htmlFor="name" className="text-sm font-medium text-foreground/90">
                                         Student Name <span className="text-red-500">*</span>
                                     </label>
                                     <Input
@@ -111,7 +111,7 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                                 </div>
 
                                 <div className="flex flex-col gap-1">
-                                    <label htmlFor="username" className="text-sm font-medium text-gray-700">
+                                    <label htmlFor="username" className="text-sm font-medium text-foreground/90">
                                         Username <span className="text-red-500">*</span>
                                     </label>
                                     <Input
@@ -124,7 +124,7 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                                 </div>
 
                                 <div className="flex flex-col gap-1">
-                                    <label htmlFor="password" className="text-sm font-medium text-gray-700">
+                                    <label htmlFor="password" className="text-sm font-medium text-foreground/90">
                                         Password <span className="text-red-500">*</span>
                                     </label>
                                     <Input
@@ -138,7 +138,7 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                                 </div>
 
                                 <div className="flex flex-col gap-1">
-                                    <label htmlFor="revenue" className="text-sm font-medium text-gray-700">
+                                    <label htmlFor="revenue" className="text-sm font-medium text-foreground/90">
                                         Fee Received (₹) <span className="text-gray-400 text-xs">(Optional)</span>
                                     </label>
                                     <Input

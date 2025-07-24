@@ -2,9 +2,7 @@
 
 import { useState } from "react"
 import { AdminLayout } from "./_components/layout/admin-layout"
-import { DashboardOverview } from "./_components/dashboard/dashboard-overview"
 import { TransactionManagment } from "./_components/transaction/transaction-managment"
-import { PaymentManagement } from "./_components/payments/payment-management"
 import { UserManagement } from "./_components/users/user-managment"
 
 export default function Dashboard() {
@@ -12,19 +10,15 @@ export default function Dashboard() {
 
     const renderContent = () => {
         switch (activeTab) {
-            case "users":
-                return <UserManagement />
-            case "jobs":
+            case "transactions":
                 return <TransactionManagment />
-            case "payments":
-                return <PaymentManagement />
-            case "dashboard":
             default:
-                return <DashboardOverview />
+                return <UserManagement />
         }
     };
 
     return (
+
         <AdminLayout activeTab={activeTab} setActiveTab={setActiveTab}>
             {renderContent()}
         </AdminLayout>

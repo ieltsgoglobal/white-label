@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, MoreHorizontal, Eye, Edit, Ban, CheckCircle, Users, UserCheck, UserX, PlusCircleIcon } from "lucide-react"
+import { Search, MoreHorizontal, Eye, Edit, Ban, CheckCircle, Users, UserCheck, UserX, PlusCircleIcon, Unlock, Lock } from "lucide-react"
 import CreateUserModal from "./create-user-modal"
 import { getStudentsByOrg } from "@/lib/superbase/student-table"
 import { getSessionUser } from "@/lib/auth/session/get-user"
@@ -49,27 +49,24 @@ export function UserManagement() {
             title: "Total Users",
             value: userStats.totalUsers.toString(),
             icon: Users,
-            color: "text-blue-600",
         },
         {
             title: "Total Fee Collected",
             value: `₹${userStats.totalRevenue}`,
             icon: UserCheck,
-            color: "text-green-600",
         },
         {
             title: "Active Users",
             value: userStats.activeUsers.toString(),
             icon: CheckCircle,
-            color: "text-teal-600",
         },
         {
             title: "Deactivated Users",
             value: userStats.deactivatedUsers.toString(),
             icon: Ban,
-            color: "text-red-600",
         },
     ]
+
 
     // fetch students initially
     useEffect(() => {
@@ -139,17 +136,7 @@ export function UserManagement() {
         )
     }
 
-    const getRoleBadge = (role: string) => {
-        return role === "Freelancer" ? (
-            <Badge variant="outline" className="text-blue-600 border-blue-200">
-                Freelancer
-            </Badge>
-        ) : (
-            <Badge variant="outline" className="text-purple-600 border-purple-200">
-                Client
-            </Badge>
-        )
-    }
+
 
     return (
         <div className="p-6 space-y-6">
@@ -179,7 +166,7 @@ export function UserManagement() {
                                     <p className="text-sm font-medium text-gray-600">{stat.title}</p>
                                     <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
                                 </div>
-                                <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                                <stat.icon className={`h-8 w-8`} />
                             </div>
                         </CardContent>
                     </Card>
@@ -256,8 +243,8 @@ export function UserManagement() {
                                         </TableCell>
                                         <TableCell className="text-sm text-gray-700">{user.name}</TableCell>
                                         <TableCell className="text-sm text-gray-700">{user.username}</TableCell>
-                                        <TableCell className="text-sm text-red-600">{user.password}</TableCell>
-                                        <TableCell className="text-sm text-red-600">{user.revenue}</TableCell>
+                                        <TableCell className="text-sm text-gray-700"><PasswordCell pass={user.password} /></TableCell>
+                                        <TableCell className="text-sm text-green-600">{user.revenue}</TableCell>
                                         <TableCell className="text-sm text-gray-500">
                                             {user.created_at
                                                 ? new Date(new Date(user.created_at).setMonth(new Date(user.created_at).getMonth() + 6)).toLocaleDateString("en-GB", {
@@ -315,7 +302,7 @@ export function UserManagement() {
                     </div>
 
                     {/* Pagination */}
-                    <div className="flex items-center justify-between space-x-2 py-4">
+                    {/* <div className="flex items-center justify-between space-x-2 py-4">
                         <div className="text-sm text-gray-500">Showing 1 to 5 of 12,847 users</div>
                         <div className="flex space-x-2">
                             <Button variant="outline" size="sm" disabled>
@@ -325,9 +312,32 @@ export function UserManagement() {
                                 Next
                             </Button>
                         </div>
-                    </div>
+                    </div> */}
                 </CardContent>
             </Card>
+        </div>
+    )
+}
+
+
+
+// set password hidden initially
+function PasswordCell({ pass }: { pass: string }) {
+    const [hidden, setHidden] = useState(true)
+
+    return (
+        <div className="flex items-center gap-2">
+            <span className="font-mono">
+                {hidden ? "•".repeat(pass.length) : pass}
+            </span>
+            <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setHidden(!hidden)}
+                className="w-6 h-6"
+            >
+                {hidden ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
+            </Button>
         </div>
     )
 }
