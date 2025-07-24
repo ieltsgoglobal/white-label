@@ -124,8 +124,8 @@ export function TransactionManagment() {
         <div className="p-6 space-y-6">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-gray-900">Transaction Management</h1>
-                <p className="text-gray-600">Manage all job postings and applications on the platform</p>
+                <h1 className="text-2xl font-bold ">Transaction Management</h1>
+                <p className="text-muted-foreground">Manage all job postings and applications on the platform</p>
             </div>
 
             {/* Stats Cards */}
@@ -135,8 +135,8 @@ export function TransactionManagment() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                                    <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                                    <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
+                                    <p className="text-2xl font-bold">{stat.value}</p>
                                 </div>
                                 <stat.icon className={`h-8 w-8`} />
                             </div>
@@ -156,7 +156,7 @@ export function TransactionManagment() {
                     {/* handle filter dates */}
                     <div className="flex flex-wrap items-center gap-4 mb-4">
                         <div className="flex items-center gap-2">
-                            <label htmlFor="from" className="text-sm font-medium text-gray-700">From:</label>
+                            <label htmlFor="from" className="text-sm font-medium text-muted-foreground">From:</label>
                             <Input
                                 type="date"
                                 id="from"
@@ -166,7 +166,7 @@ export function TransactionManagment() {
                             />
                         </div>
                         <div className="flex items-center gap-2">
-                            <label htmlFor="to" className="text-sm font-medium text-gray-700">To:</label>
+                            <label htmlFor="to" className="text-sm font-medium text-muted-foreground">To:</label>
                             <Input
                                 type="date"
                                 id="to"

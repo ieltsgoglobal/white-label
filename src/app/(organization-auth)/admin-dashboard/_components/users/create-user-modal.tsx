@@ -75,7 +75,7 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
-            <DialogContent className="max-w-4xl p-0 overflow-hidden">
+            <DialogContent className="max-w-4xl p-0 overflow-hidden border-none bg-transparent">
                 <div className="grid grid-cols-1 md:grid-cols-2 min-h-[600px]">
                     {/* Left image section */}
                     <div className="relative hidden md:block">

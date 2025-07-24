@@ -144,8 +144,8 @@ export function UserManagement() {
             <div className="flex justify-between items-center">
 
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
-                    <p className="text-gray-600">Manage freelancers and clients on the platform</p>
+                    <h1 className="text-2xl font-bold">User Management</h1>
+                    <p className="text-muted-foreground">Manage freelancers and clients on the platform</p>
                 </div>
                 <div>
                     {/* create new user button  */}
@@ -163,8 +163,8 @@ export function UserManagement() {
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                                    <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                                    <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
+                                    <p className="text-2xl font-bold">{stat.value}</p>
                                 </div>
                                 <stat.icon className={`h-8 w-8`} />
                             </div>
@@ -182,7 +182,7 @@ export function UserManagement() {
                 <CardContent>
                     <div className="flex flex-col sm:flex-row gap-4 mb-6">
                         <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                             <Input
                                 placeholder="Search by name or email..."
                                 value={searchTerm}
@@ -241,11 +241,11 @@ export function UserManagement() {
                                                     : "-"}
                                             </TableCell>
                                         </TableCell>
-                                        <TableCell className="text-sm text-gray-700">{user.name}</TableCell>
-                                        <TableCell className="text-sm text-gray-700">{user.username}</TableCell>
-                                        <TableCell className="text-sm text-gray-700"><PasswordCell pass={user.password} /></TableCell>
+                                        <TableCell className="text-sm dark:text-muted-foreground">{user.name}</TableCell>
+                                        <TableCell className="text-sm dark:text-muted-foreground">{user.username}</TableCell>
+                                        <TableCell className="text-sm dark:text-muted-foreground"><PasswordCell pass={user.password} /></TableCell>
                                         <TableCell className="text-sm text-green-600">{user.revenue}</TableCell>
-                                        <TableCell className="text-sm text-gray-500">
+                                        <TableCell className="text-sm dark:text-muted-foreground">
                                             {user.created_at
                                                 ? new Date(new Date(user.created_at).setMonth(new Date(user.created_at).getMonth() + 6)).toLocaleDateString("en-GB", {
                                                     day: "2-digit",
