@@ -33,7 +33,7 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "",
       menus: [
         {
-          href: "/dashboard",
+          href: "/",
           label: "Dashboard",
           icon: LayoutGrid,
           submenus: []
@@ -44,28 +44,13 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "Contents",
       menus: [
         {
-          href: "",
-          label: "Posts",
-          icon: SquarePen,
-          submenus: [
-            {
-              href: "/posts",
-              label: "All Posts"
-            },
-            {
-              href: "/posts/new",
-              label: "New Post"
-            }
-          ]
-        },
-        {
-          href: "/categories",
-          label: "Categories",
+          href: "/practice",
+          label: "Try a Mock",
           icon: Bookmark
         },
         {
-          href: "/tags",
-          label: "Tags",
+          href: "/mock-scores",
+          label: "Assessment Scores",
           icon: Tag
         }
       ]
@@ -74,15 +59,33 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "Settings",
       menus: [
         {
-          href: "/users",
-          label: "Users",
+          href: "/contact",
+          label: "Contact",
           icon: Users
         },
         {
-          href: "/account",
-          label: "Account",
-          icon: Settings
-        }
+          href: "",
+          label: "Policies",
+          icon: SquarePen,
+          submenus: [
+            {
+              href: "/policies/privacy",
+              label: "Privacy Policy"
+            },
+            {
+              href: "/policies/return",
+              label: "Return Policy"
+            },
+            {
+              href: "/policies/refund",
+              label: "Refund Policy"
+            },
+            {
+              href: "/terms-conditions",
+              label: "Terms & Conditions"
+            }
+          ]
+        },
       ]
     }
   ];

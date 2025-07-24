@@ -15,10 +15,12 @@ export async function POST(req: Request) {
     }
 
     const studentId = result.student.id
+    const studentName = result.student.name
 
     const token = jwt.sign(
         {
             studentId,
+            studentName,
             role: "student"
         },
         JWT_SECRET,

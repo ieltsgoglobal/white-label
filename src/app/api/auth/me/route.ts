@@ -20,11 +20,13 @@ export async function GET() {
                 return NextResponse.json({
                     role: "student",
                     studentId: decoded.studentId,
+                    studentName: decoded.studentName
                 })
             case "organization":
                 return NextResponse.json({
                     role: "organization",
                     orgId: decoded.orgId,
+                    organizationName: decoded.organizationName
                 })
             case "teacher":
                 return NextResponse.json({

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Ellipsis, LogOut } from "lucide-react";
+import { Ellipsis, PenBoxIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -61,7 +61,7 @@ export function Menu({ isOpen }: MenuProps) {
                               variant={
                                 (active === undefined &&
                                   pathname.startsWith(href)) ||
-                                active
+                                  active
                                   ? "secondary"
                                   : "ghost"
                               }
@@ -118,12 +118,11 @@ export function Menu({ isOpen }: MenuProps) {
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
                   <Button
-                    onClick={() => {}}
                     variant="outline"
                     className="w-full justify-center h-10 mt-5"
                   >
                     <span className={cn(isOpen === false ? "" : "mr-4")}>
-                      <LogOut size={18} />
+                      <PenBoxIcon size={18} />
                     </span>
                     <p
                       className={cn(
@@ -131,12 +130,14 @@ export function Menu({ isOpen }: MenuProps) {
                         isOpen === false ? "opacity-0 hidden" : "opacity-100"
                       )}
                     >
-                      Sign out
+                      Register Complaint
                     </p>
                   </Button>
                 </TooltipTrigger>
                 {isOpen === false && (
-                  <TooltipContent side="right">Sign out</TooltipContent>
+                  <TooltipContent side="right" className="p-0">
+                    Sign out
+                  </TooltipContent>
                 )}
               </Tooltip>
             </TooltipProvider>

@@ -20,8 +20,56 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { getSessionUser } from "@/lib/auth/session/get-user";
+import { useEffect, useState } from "react";
+import { signOut } from "@/lib/auth/session/sign-out";
+
+type UserInfo = {
+  id: string
+  name: string
+  role: string
+}
 
 export function UserNav() {
+  const [user, setUser] = useState<UserInfo>({
+    id: "",
+    name: "Guest",
+    role: "guest",
+  });
+
+  useEffect(() => {
+    const fetchStudent = async () => {
+      const data = await getSessionUser();
+
+      if (data) {
+        if (data.role === "organization") {
+          setUser({
+            id: data.orgId,
+            name: data.organizationName,
+            role: data.role,
+          });
+        } else if (data.role === "student") {
+          setUser({
+            id: data.studentId,
+            name: data.studentName,
+            role: data.role,
+          });
+        } else if (data.role === "teacher") {
+          setUser({
+            id: data.teacherId,
+            name: data.teacherName,
+            role: data.role,
+          });
+        }
+      }
+
+      console.log(data)
+    };
+
+    fetchStudent();
+  }, []);
+
+
   return (
     <DropdownMenu>
       <TooltipProvider disableHoverableContent>
@@ -34,7 +82,15 @@ export function UserNav() {
               >
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="#" alt="Avatar" />
-                  <AvatarFallback className="bg-transparent">JD</AvatarFallback>
+                  <AvatarFallback className="bg-transparent">
+                    {user.name
+                      ?.split(" ")
+                      .map((n) => n[0])
+                      .join("")
+                      .slice(0, 2)
+                      .toUpperCase()
+                    }
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -46,33 +102,57 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">John Doe</p>
+            <p className="text-sm font-medium leading-none">{user.name}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              johndoe@example.com
+              {user.role}
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
-            <Link href="/dashboard" className="flex items-center">
+            <Link href="/" className="flex items-center">
               <LayoutGrid className="w-4 h-4 mr-3 text-muted-foreground" />
               Dashboard
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
-            <Link href="/account" className="flex items-center">
+            <Link href="/admin-dashboard" className="flex items-center">
               <User className="w-4 h-4 mr-3 text-muted-foreground" />
-              Account
+              Admin
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {}}>
-          <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
-          Sign out
+        <DropdownMenuItem className="hover:cursor-pointer p-0" onClick={() => { }}>
+          {SignInOut(user)}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
+}
+
+
+export function SignInOut(user: UserInfo) {
+  const handleSignOut = async () => {
+
+    if (user.role !== "guest") {
+      const success = await signOut();
+      if (success) {
+        window.location.href = "/";
+      }
+    }
+  }
+
+  return (
+    <>
+      {user.role !== "guest" &&
+        <div onClick={handleSignOut} className="flex items-center  bg-red w-full h-full px-2 py-1.5">
+          <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
+          {user.role === "guest" ? "Student Log In" : "Sign out"}
+        </div>
+      }
+    </>
+
+  )
 }

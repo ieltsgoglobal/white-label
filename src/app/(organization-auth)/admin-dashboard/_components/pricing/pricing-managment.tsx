@@ -1,10 +1,10 @@
 export default function PricingManagment() {
     const pricingTiers = [
-        { range: "1-5", users: 1, price: 899 },
-        { range: "6-10", users: 5, price: 799 },
-        { range: "11-20", users: 10, price: 699 },
-        { range: "21-50", users: 20, price: 599 },
-        { range: "51-100", users: 40, price: 499 },
+        { title: "Individual", users: 5, price: 899 },
+        { title: "Freelancer", users: 10, price: 799 },
+        { title: "Startup", users: 20, price: 699 },
+        { title: "Business", users: 50, price: 599 },
+        { title: "Enterprise", users: 100, price: 499 },
     ];
 
     return (
@@ -12,7 +12,7 @@ export default function PricingManagment() {
             {pricingTiers.map((tier, index) => (
                 <PricingCard
                     key={index}
-                    title={tier.range}
+                    title={tier.title}
                     price={tier.price}
                     users={tier.users}
                 />
@@ -28,7 +28,7 @@ function PricingCard({ title, price, users }: { title: string; price: number; us
                 <div className="grid items-center justify-center w-full grid-cols-1 text-left">
                     <div>
                         <h2 className="text-lg font-medium tracking-tighter lg:text-3xl">
-                            {title} <span className="text-base tracking-tight">Students</span>
+                            {title} <span className="text-base tracking-tight text-muted-foreground">Plan</span>
                         </h2>
                         <p className="mt-2 text-sm text-muted-foreground">
                             {users} user{users > 1 ? "s" : ""} package

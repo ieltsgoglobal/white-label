@@ -15,10 +15,12 @@ export async function POST(req: Request) {
     }
 
     const orgId = result.org.id
+    const organizationName = result.org.name
 
     const token = jwt.sign(
         {
             orgId,
+            organizationName,
             role: "organization"
         },
         JWT_SECRET,
