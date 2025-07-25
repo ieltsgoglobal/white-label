@@ -2,6 +2,7 @@ import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "./login-form"
 import StudentLoginHero from "./student-login.jpg"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function StudentLogin({ onSuccess }: { onSuccess: () => void }) {
     return (
@@ -14,6 +15,13 @@ export default function StudentLogin({ onSuccess }: { onSuccess: () => void }) {
                         </div>
                         <span className="font-bold">IELTS Go Global</span>
                     </a>
+
+                    <Link
+                        href="/"
+                        className="ml-auto text-sm underline-offset-4 hover:underline"
+                    >
+                        {"<"} Back
+                    </Link>
                 </div>
                 <div className="flex flex-1 items-center justify-center">
                     <div className="w-full max-w-xs">

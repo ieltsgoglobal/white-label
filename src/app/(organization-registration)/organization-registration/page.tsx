@@ -12,8 +12,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { User, Mail, Lock, Eye, EyeOff, PhoneForwarded, LocateIcon, Building2 } from "lucide-react"
 import { registerPartner } from "@/lib/superbase/organization-table"
 import { IdCardIcon } from "@radix-ui/react-icons"
+import { useRouter } from "next/navigation"
+import DotPulseLoader from "@/components/loaders/mock-tests/speaking/DotPulseLoader"
 
 export default function Component() {
+    const router = useRouter()
+    const [loading, setLoading] = useState(false)
+
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
@@ -31,6 +36,7 @@ export default function Component() {
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
+        setLoading(true)
         e.preventDefault()
 
         const response = await registerPartner({
@@ -58,6 +64,13 @@ export default function Component() {
                 subdomain: "",
                 agreeToTerms: false,
             })
+            const isProd = process.env.NODE_ENV === "production"
+
+            const domain = isProd
+                ? `https://${formData.subdomain}.ieltsgoglobal.com/admin-dashboard`
+                : `http://${formData.subdomain}.localhost:3000/admin-dashboard`
+
+            router.push(domain)
             console.log("✅ Organization registered successfully!")
         }
     }
@@ -68,10 +81,12 @@ export default function Component() {
             relative w-full min-h-screen 
             bg-cover bg-center bg-no-repeat
             bg-[url('/organization-registraion/mobile-bg.png')]
-            sm:bg-[url('/organization-registraion/registration-bg.jpg')]
-            bg-gradient-to-br from-pink-500 via-pink-500 to-teal-500
-            "
+            sm:bg-[url('/organization-registraion/registration-bg.jpg')]"
         >
+
+            {/* loader while form submits */}
+            {loading && <DotPulseLoader />}
+
             {/* Dark translucent overlay for contrast */}
             <div className="absolute inset-0 bg-black/40 z-0 w-full h-full min-h-screen" />
 
@@ -109,7 +124,7 @@ export default function Component() {
                     <Card className="z-1 w-full max-w-2xl shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
                         <CardContent className="p-6 sm:p-8">
                             <div className="text-center mb-8">
-                                <h2 className="text-3xl font-bold mb-2">Register</h2>
+                                <h2 className="text-3xl font-bold mb-2 text-black">Register</h2>
                                 <p className="text-gray-600">Create your account, it's free and only takes a minute</p>
                             </div>
 
@@ -128,7 +143,7 @@ export default function Component() {
                                                 placeholder="Organization Name"
                                                 value={formData.name}
                                                 onChange={(e) => handleInputChange("name", e.target.value)}
-                                                className="pl-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg"
+                                                className="pl-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg text-black"
                                             />
                                         </div>
                                     </div>
@@ -278,7 +293,7 @@ export default function Component() {
                                     />
                                     <Label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer">
                                         I accept the{" "}
-                                        <a href="#" className="text-pink-600 hover:text-pink-500 underline">
+                                        <a href="/terms-conditions" target="_blank" className="text-pink-600 hover:text-pink-500 underline">
                                             Terms and Conditions
                                         </a>
                                     </Label>
@@ -288,7 +303,7 @@ export default function Component() {
                                 <Button
                                     type="submit"
                                     className="w-full bg-gradient-to-r from-pink-500 to-teal-500 hover:from-pink-600 hover:to-teal-600 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-                                    disabled={!formData.agreeToTerms}
+                                    disabled={!formData.agreeToTerms || loading}
                                 >
                                     SIGN UP
                                 </Button>

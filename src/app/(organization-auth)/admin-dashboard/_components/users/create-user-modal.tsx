@@ -1,11 +1,14 @@
+"use client"
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
-import { createStudent } from "@/lib/superbase/student-table"
+import { useEffect, useState } from "react"
+import { createStudent, getStudentsByOrg } from "@/lib/superbase/student-table"
 import ModrenBg from "./bg-create-user-modal.jpg"
 import Image from "next/image"
 import { getSessionUser } from "@/lib/auth/session/get-user"
+import { checkCredits } from "@/lib/superbase/organization-table"
 
 export type PartnerSession = {
     id: string
@@ -28,6 +31,7 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
         revenue: "",
     })
 
+    const [availableCredits, setAvailableCredits] = useState<number>(0)
     const [loading, setLoading] = useState(false)
 
     const handleChange = (key: string, value: string) => {
@@ -72,6 +76,31 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
             setLoading(false)
         }
     }
+
+
+    // fetch credits
+    useEffect(() => {
+        const fetchCredits = async () => {
+            const user = await getSessionUser()
+            if (!user || user.role !== "organization") {
+                console.error("Not logged in as organization")
+                return
+            }
+            const partnerId = user.orgId
+
+
+            // Check credits
+            const creditResult = await checkCredits(partnerId)
+            if ("error" in creditResult) {
+                console.error("Failed to fetch credits", creditResult.error)
+            } else {
+                setAvailableCredits(creditResult.credits)
+            }
+        }
+
+        fetchCredits()
+    }, [])
+
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
@@ -153,13 +182,15 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                             </div>
                         </div>
 
-                        <DialogFooter className="mt-6">
-                            <Button variant="outline" onClick={onClose} disabled={loading}>
-                                Cancel
-                            </Button>
-                            <Button onClick={handleSubmit} disabled={loading}>
-                                {loading ? "Creating..." : "Create Student"}
-                            </Button>
+                        <DialogFooter>
+                            <div className="flex items-center justify-between w-full mt-6">
+                                <div className="text-sm text-muted-foreground">
+                                    Remaining Credits: <span className="font-medium">{availableCredits}</span>
+                                </div>
+                                <Button onClick={handleSubmit} disabled={loading}>
+                                    {loading ? "Creating..." : "Create Student"}
+                                </Button>
+                            </div>
                         </DialogFooter>
                     </div>
                 </div>

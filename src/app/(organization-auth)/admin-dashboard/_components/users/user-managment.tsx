@@ -12,6 +12,7 @@ import { Search, MoreHorizontal, Eye, Edit, Ban, CheckCircle, Users, UserCheck, 
 import CreateUserModal from "./create-user-modal"
 import { getStudentsByOrg } from "@/lib/superbase/student-table"
 import { getSessionUser } from "@/lib/auth/session/get-user"
+import { checkCredits } from "@/lib/superbase/organization-table"
 
 type Student = {
     id: string
@@ -35,7 +36,7 @@ export function UserManagement() {
     const [searchTerm, setSearchTerm] = useState("")
     const [roleFilter, setRoleFilter] = useState("all")
     const [statusFilter, setStatusFilter] = useState("all")
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false) //create user modal
 
     const [users, setUsers] = useState<Student[]>([])
     const [userStats, setUserStats] = useState<UserStats>({
@@ -66,6 +67,7 @@ export function UserManagement() {
             icon: Ban,
         },
     ]
+    const [availableCredits, setAvailableCredits] = useState<number>(0)
 
 
     // fetch students initially
@@ -78,11 +80,20 @@ export function UserManagement() {
             }
             const partnerId = user.orgId
 
-            const { data, error } = await getStudentsByOrg(partnerId)
-            if (error) {
-                console.error("Failed to fetch students:", error)
+            // Fetch students
+            const { data: studentData, error: studentError } = await getStudentsByOrg(partnerId)
+            if (studentError) {
+                console.error("Failed to fetch students:", studentError)
             } else {
-                setUsers(data || [])
+                setUsers(studentData || [])
+            }
+
+            // Check credits
+            const creditResult = await checkCredits(partnerId)
+            if ("error" in creditResult) {
+                console.error("Failed to fetch credits", creditResult.error)
+            } else {
+                setAvailableCredits(creditResult.credits)
             }
         }
 
@@ -142,14 +153,14 @@ export function UserManagement() {
         <div className="p-6 space-y-6">
             {/* Header */}
             <div className="flex justify-between items-center">
-
                 <div>
                     <h1 className="text-2xl font-bold">User Management</h1>
                     <p className="text-muted-foreground">Manage freelancers and clients on the platform</p>
                 </div>
-                <div>
+                <div className="flex gap-3">
                     {/* create new user button  */}
-                    <Button onClick={() => setOpen(!open)}>Create New User <PlusCircleIcon className="ml-2 w-4 h-4" /></Button>
+                    <Button variant="outline" className="rounded-full">Available Credits: {availableCredits}</Button>
+                    <Button onClick={() => setOpen(!open)} className="rounded-full">Create User <PlusCircleIcon className="ml-2 w-4 h-4" /></Button>
                 </div>
             </div>
 
@@ -228,75 +239,83 @@ export function UserManagement() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {users.map((user) => (
-                                    <TableRow key={user.id}>
-                                        <TableCell>
-                                            <TableCell className="text-sm text-gray-500">
+                                {users.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={8} className="text-center text-sm text-gray-500">
+                                            No Users found.
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    users.map((user) => (
+                                        <TableRow key={user.id}>
+                                            <TableCell>
+                                                <TableCell className="text-sm text-gray-500">
+                                                    {user.created_at
+                                                        ? new Date(user.created_at).toLocaleDateString("en-GB", {
+                                                            day: "2-digit",
+                                                            month: "short",
+                                                            year: "numeric",
+                                                        })
+                                                        : "-"}
+                                                </TableCell>
+                                            </TableCell>
+                                            <TableCell className="text-sm dark:text-muted-foreground">{user.name}</TableCell>
+                                            <TableCell className="text-sm dark:text-muted-foreground">{user.username}</TableCell>
+                                            <TableCell className="text-sm dark:text-muted-foreground"><PasswordCell pass={user.password} /></TableCell>
+                                            <TableCell className="text-sm text-green-600">{user.revenue}</TableCell>
+                                            <TableCell className="text-sm dark:text-muted-foreground">
                                                 {user.created_at
-                                                    ? new Date(user.created_at).toLocaleDateString("en-GB", {
+                                                    ? new Date(new Date(user.created_at).setMonth(new Date(user.created_at).getMonth() + 6)).toLocaleDateString("en-GB", {
                                                         day: "2-digit",
                                                         month: "short",
                                                         year: "numeric",
                                                     })
                                                     : "-"}
                                             </TableCell>
-                                        </TableCell>
-                                        <TableCell className="text-sm dark:text-muted-foreground">{user.name}</TableCell>
-                                        <TableCell className="text-sm dark:text-muted-foreground">{user.username}</TableCell>
-                                        <TableCell className="text-sm dark:text-muted-foreground"><PasswordCell pass={user.password} /></TableCell>
-                                        <TableCell className="text-sm text-green-600">{user.revenue}</TableCell>
-                                        <TableCell className="text-sm dark:text-muted-foreground">
-                                            {user.created_at
-                                                ? new Date(new Date(user.created_at).setMonth(new Date(user.created_at).getMonth() + 6)).toLocaleDateString("en-GB", {
-                                                    day: "2-digit",
-                                                    month: "short",
-                                                    year: "numeric",
-                                                })
-                                                : "-"}
-                                        </TableCell>
-                                        <TableCell>{getStatusBadge(user.created_at)}</TableCell>
-                                        <TableCell className="text-right">
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" className="h-8 w-8 p-0">
-                                                        <span className="sr-only">Open menu</span>
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                    <DropdownMenuItem>
-                                                        <Eye className="mr-2 h-4 w-4" />
-                                                        View Profile
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem>
-                                                        <Edit className="mr-2 h-4 w-4" />
-                                                        Edit User
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuSeparator />
-                                                    {/* {user.status === "Al" && ( */}
-                                                    <DropdownMenuItem className="text-green-600">
-                                                        <CheckCircle className="mr-2 h-4 w-4" />
-                                                        Approve
-                                                    </DropdownMenuItem>
-                                                    {/* )} */}
-                                                    {/* {user.status === "Active" && ( */}
-                                                    <DropdownMenuItem className="text-red-600">
-                                                        <Ban className="mr-2 h-4 w-4" />
-                                                        Block User
-                                                    </DropdownMenuItem>
-                                                    {/* )} */}
-                                                    {/* {user.status === "Blocked" && ( */}
-                                                    <DropdownMenuItem className="text-green-600">
-                                                        <CheckCircle className="mr-2 h-4 w-4" />
-                                                        Unblock
-                                                    </DropdownMenuItem>
-                                                    {/* )} */}
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                            <TableCell>{getStatusBadge(user.created_at)}</TableCell>
+                                            <TableCell className="text-right">
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                            <span className="sr-only">Open menu</span>
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                        <DropdownMenuItem>
+                                                            <Eye className="mr-2 h-4 w-4" />
+                                                            View Profile
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem>
+                                                            <Edit className="mr-2 h-4 w-4" />
+                                                            Edit User
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuSeparator />
+                                                        {/* {user.status === "Al" && ( */}
+                                                        <DropdownMenuItem className="text-green-600">
+                                                            <CheckCircle className="mr-2 h-4 w-4" />
+                                                            Approve
+                                                        </DropdownMenuItem>
+                                                        {/* )} */}
+                                                        {/* {user.status === "Active" && ( */}
+                                                        <DropdownMenuItem className="text-red-600">
+                                                            <Ban className="mr-2 h-4 w-4" />
+                                                            Block User
+                                                        </DropdownMenuItem>
+                                                        {/* )} */}
+                                                        {/* {user.status === "Blocked" && ( */}
+                                                        <DropdownMenuItem className="text-green-600">
+                                                            <CheckCircle className="mr-2 h-4 w-4" />
+                                                            Unblock
+                                                        </DropdownMenuItem>
+                                                        {/* )} */}
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
                             </TableBody>
                         </Table>
                     </div>

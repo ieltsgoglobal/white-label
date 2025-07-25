@@ -2,6 +2,7 @@ import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "./login-form"
 import AdminLoginHero from "./admin-login.jpg"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function PartnerLogin({ onSuccess }: { onSuccess: () => void }) {
     return (
@@ -14,6 +15,13 @@ export default function PartnerLogin({ onSuccess }: { onSuccess: () => void }) {
                         </div>
                         IELTS Go Global
                     </a>
+
+                    <Link
+                        href="/"
+                        className="ml-auto text-sm underline-offset-4 hover:underline"
+                    >
+                        {"<"} Back
+                    </Link>
                 </div>
                 <div className="flex flex-1 items-center justify-center">
                     <div className="w-full max-w-xs">
@@ -25,7 +33,7 @@ export default function PartnerLogin({ onSuccess }: { onSuccess: () => void }) {
                 <Image
                     src={AdminLoginHero}
                     alt="Image"
-                    className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                    className="absolute inset-0 h-full w-full object-cover"
                     fill
                 />
             </div>
