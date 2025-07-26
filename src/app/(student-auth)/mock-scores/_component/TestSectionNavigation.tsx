@@ -7,6 +7,7 @@ import { useParams } from "next/navigation"
 import { useMockAttempts } from "./MockAttemptContext"
 import { useEffect, useState } from "react"
 import { Scores } from "@/types/mockTestAttempt"
+import Link from "next/link"
 
 type SectionType = "listening" | "reading" | "writing" | "speaking"
 
@@ -77,9 +78,11 @@ export default function TestSectionNavigation({ activeSection, onSectionClick }:
     return (
         <div className="flex items-center gap-4 p-4 bg-background border-b border-border">
             {/* Back Button */}
-            <Button variant="ghost" size="sm" onClick={() => { }} className="p-2 hover:bg-gray-100">
-                <ChevronLeft className="h-5 w-5 text-gray-600" />
-            </Button>
+            <Link href="/mock-scores">
+                <Button variant="ghost" size="sm" onClick={() => { }} className="p-2 hover:bg-gray-100">
+                    <ChevronLeft className="h-5 w-5 text-gray-600" />
+                </Button>
+            </Link>
 
             <h1 className="font-semibold tracking-tight text-foreground/70">
                 IELTS Mock Test Review

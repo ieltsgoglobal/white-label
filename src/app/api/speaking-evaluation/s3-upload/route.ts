@@ -14,6 +14,8 @@ const s3 = new S3Client({
     },
 })
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+
 export async function POST(req: NextRequest) {
     const formData = await req.formData()
     const blob = formData.get("file") as File
@@ -21,6 +23,11 @@ export async function POST(req: NextRequest) {
 
     if (!blob || !filename) {
         return NextResponse.json({ error: "Missing file or filename" }, { status: 400 })
+    }
+
+    // Check file size before upload
+    if (blob.size > MAX_FILE_SIZE) {
+        return NextResponse.json({ error: "File too large." }, { status: 400 })
     }
 
     const arrayBuffer = await blob.arrayBuffer()

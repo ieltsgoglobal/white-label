@@ -9,14 +9,21 @@ interface WordTimestamp {
     speaker: string | null;
 }
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024  // 5MB
+const API_KEY = process.env.ASSEMBLYAI_API_KEY;
+
 export async function POST(req: Request) {
-    const API_KEY = process.env.ASSEMBLYAI_API_KEY;
+
     if (!API_KEY) {
-        console.error("❌ Missing AssemblyAI API key.");
-        return NextResponse.json({ error: 'Missing API key' }, { status: 500 });
+        return NextResponse.json({ error: 'Missing API key' }, { status: 500 })
     }
 
     const blob = await req.blob();
+
+    // Check file size before upload
+    if (blob.size > MAX_FILE_SIZE) {
+        return NextResponse.json({ error: "File too large." }, { status: 400 })
+    }
 
     // Step 1: Upload audio
     const uploadRes = await fetch("https://api.assemblyai.com/v2/upload", {

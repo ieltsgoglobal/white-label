@@ -17,8 +17,25 @@ export async function POST(req: Request) {
 
         const { taskType, response } = body
 
-        if (!response) {
-            return NextResponse.json({ error: 'Missing writing response' }, { status: 400 })
+        // Validate task type (must be either Task 1 or Task 2)
+        if (taskType !== 1 && taskType !== 2) {
+            return NextResponse.json({
+                error: 'Invalid task type. Must be 1 or 2.',
+            }, { status: 400 })
+        }
+
+        // Ensure response is a non-empty string
+        if (!response || typeof response !== 'string' || response.trim().length === 0) {
+            return NextResponse.json({
+                error: 'Missing or empty writing response.',
+            }, { status: 400 })
+        }
+
+        // Enforce maximum length limit (to prevent prompt flooding)
+        if (response.length > 2500) {
+            return NextResponse.json({
+                error: 'Response too long. Please limit to 2500 characters (~300–350 words).',
+            }, { status: 400 })
         }
 
         const prompt = `

@@ -13,6 +13,21 @@ export async function POST(req: NextRequest) {
             return new Response(JSON.stringify({ error: 'Missing transcription or question' }), { status: 400 });
         }
 
+        //  Ensure valid part number (IELTS has only Part 1, 2, or 3)
+        if (![1, 2, 3].includes(partNumber)) {
+            return new Response(JSON.stringify({ error: 'Invalid partNumber. Must be 1, 2, or 3.' }), { status: 400 });
+        }
+
+        // Enforce maximum length on question to prevent prompt abuse (estimated 50 words ≈ 300 characters)
+        if (typeof question !== 'string' || question.length > 300) {
+            return new Response(JSON.stringify({ error: 'Question too long. Limit is 300 characters (~50 words).' }), { status: 400 });
+        }
+
+        // Enforce transcription size limit to avoid token flooding and excessive input (600 words ≈ 3600 characters)
+        if (typeof transcription !== 'string' || transcription.length > 3600) {
+            return new Response(JSON.stringify({ error: 'Transcription too long. Limit is 3600 characters (~600 words).' }), { status: 400 });
+        }
+
         const prompt = `
 You are an IELTS Speaking band evaluator.
 

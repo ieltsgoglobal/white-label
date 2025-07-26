@@ -69,6 +69,7 @@ export default function AnswerTextArea({ value, setResponse, activeTab }: Answer
                 value={isReviewMode ? userAttemptedAnswer : value}
                 onChange={(e) => setResponse(e.target.value)}
                 className="h-full min-h-[600px] resize-none border p-6 text-base leading-relaxed focus-visible:ring-0 focus-visible:ring-offset-0"
+                maxLength={2500}
             />
             {isReviewMode && aiScore !== null && (
                 <div className="p-6 bg-muted-foreground/10 mt-4 rounded-md text-lg font-medium">
