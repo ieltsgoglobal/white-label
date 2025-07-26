@@ -117,22 +117,24 @@ export function Menu({ isOpen }: MenuProps) {
             <TooltipProvider disableHoverableContent>
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-center h-10 mt-5"
-                  >
-                    <span className={cn(isOpen === false ? "" : "mr-4")}>
-                      <PenBoxIcon size={18} />
-                    </span>
-                    <p
-                      className={cn(
-                        "whitespace-nowrap",
-                        isOpen === false ? "opacity-0 hidden" : "opacity-100"
-                      )}
+                  <Link href="/register-complaint" className="w-full">
+                    <Button
+                      variant="outline"
+                      className="w-full justify-center h-10 mt-5"
                     >
-                      Register Complaint
-                    </p>
-                  </Button>
+                      <span className={cn(isOpen === false ? "" : "mr-4")}>
+                        <PenBoxIcon size={18} />
+                      </span>
+                      <p
+                        className={cn(
+                          "whitespace-nowrap",
+                          isOpen === false ? "opacity-0 hidden" : "opacity-100"
+                        )}
+                      >
+                        Register Complaint
+                      </p>
+                    </Button>
+                  </Link>
                 </TooltipTrigger>
                 {isOpen === false && (
                   <TooltipContent side="right" className="p-0">

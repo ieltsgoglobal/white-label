@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import Link from 'next/link'
 import { useState } from 'react'
 
 export function LoginForm({ onSuccess }: { onSuccess: () => void }) {
@@ -64,12 +65,12 @@ export function LoginForm({ onSuccess }: { onSuccess: () => void }) {
                 <div className="grid gap-2">
                     <div className="flex items-center">
                         <Label htmlFor="password">Password</Label>
-                        <a
-                            href="#"
+                        <Link
+                            href="/forgot-password"
                             className="ml-auto text-sm underline-offset-4 hover:underline"
                         >
                             Forgot your password?
-                        </a>
+                        </Link>
                     </div>
                     <Input
                         id="password"
@@ -86,9 +87,9 @@ export function LoginForm({ onSuccess }: { onSuccess: () => void }) {
             </div>
             <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="#" className="underline underline-offset-4">
+                <Link href="/signup" className="underline underline-offset-4">
                     Sign up
-                </a>
+                </Link>
             </div>
         </form>
     )

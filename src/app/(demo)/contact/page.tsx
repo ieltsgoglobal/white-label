@@ -49,7 +49,8 @@ export default function UsersPage() {
               Let us know how we can support your goals.
             </p>
             <div className="max-w-xl mx-auto w-full space-y-6">
-              <form className="space-y-6">
+              <form className="space-y-6" action="https://formsubmit.co/ieltsmanager99@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="Book a Demo" />
                 <div className="text-left">
                   <Label htmlFor="phone" className="block text-sm font-medium text-foreground mb-1">
                     Phone Number
@@ -57,6 +58,7 @@ export default function UsersPage() {
                   <Input
                     type="tel"
                     id="phone"
+                    name="phone"
                     placeholder="+91 9876543210"
                     className="w-full h-12 px-4 rounded-xl border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20" />
                 </div>
@@ -67,6 +69,7 @@ export default function UsersPage() {
                   </Label>
                   <Textarea
                     id="notes"
+                    name="notes"
                     rows={4}
                     placeholder="Let us know how we can help..."
                     className="resize-none h-36 w-full px-4 py-3 rounded-xl border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20"
