@@ -57,7 +57,7 @@ export default function RegisterComplaintPage() {
                                 method="POST"
                             >
                                 {/* Hidden fields */}
-                                <input type="hidden" name="_subject" value="New Complaint Registered" />
+                                <input type="hidden" name="_subject" value="New Complaint from Register Complaint Page" />
 
                                 {/* Phone */}
                                 <div className="text-left">

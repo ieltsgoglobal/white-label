@@ -81,7 +81,14 @@ export default function AccountPage() {
               </section>
 
               <section>
-                <h2 className="font-semibold text-foreground text-lg mb-2">6. Changes to Terms</h2>
+                <h2 className="font-semibold text-foreground text-lg mb-2">6. Ownership</h2>
+                <p>
+                  This website is proudly operated and maintained by Arnav Jain, committed to delivering quality educational services.
+                </p>
+              </section>
+
+              <section>
+                <h2 className="font-semibold text-foreground text-lg mb-2">7. Changes to Terms</h2>
                 <p>
                   These Terms & Conditions may be updated from time to time. Continued use of our services indicates your acceptance of any changes.
                 </p>

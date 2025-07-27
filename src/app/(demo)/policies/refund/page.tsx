@@ -69,7 +69,7 @@ export default function TagsPage() {
               <section>
                 <h2 className="font-semibold text-foreground text-lg mb-2">4. Refund Processing Time</h2>
                 <p>
-                  In rare cases where a refund is approved (e.g., duplicate payment or proven access failure), it may take 7–10 business days to reflect in your original payment method.
+                  In rare cases where a refund is approved (e.g., duplicate payment or verified access failure), the amount will be credited to your original payment method within 7–10 business days.
                 </p>
               </section>
 

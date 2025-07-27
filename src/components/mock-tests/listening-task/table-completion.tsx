@@ -37,10 +37,10 @@ export default function TableCompletion(props: TableQuestion) {
                         if (line.includes(`(${questionNumber})`)) {
                             const parts = line.split(`(${questionNumber})_______`)
                             return (
-                                <div key={lineIndex} className="flex items-center gap-1 text-sm">
+                                <div key={lineIndex} className="inline items-center text-sm">
                                     <span>{parts[0]}</span>
-                                    <span className="font-semibold text-blue-600">({questionNumber})</span>
-                                    <AnswerInput questionNumber={questionNumber} className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-background px-1" />
+                                    <span className="font-semibold text-blue-600 ml-1">({questionNumber})</span>
+                                    <AnswerInput questionNumber={questionNumber} className="w-20 h-7 inline-block mx-1 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-background px-1" />
                                     <span>{parts[1] || ""}</span>
                                 </div>
                             )

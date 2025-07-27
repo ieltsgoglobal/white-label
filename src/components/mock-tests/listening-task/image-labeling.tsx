@@ -46,7 +46,7 @@ export default function ImageLabeling(props: MapSection) {
                             <img
                                 src={mapQuestions.image_url}
                                 alt="Inverness Aquarium Floor Plan"
-                                className="w-full h-auto max-w-full"
+                                className="w-full h-auto max-w-full max-h-[500px]"
                             />
                         </div>
                     </div>

@@ -49,7 +49,7 @@ export default function CategoriesPage() {
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-7xl mx-auto mb-12">
             {Array.from({ length: 10 }).map((_, i) => (
-              <PracticeCard key={i} val={i + 2} />
+              <PracticeCard key={i} val={i + 1} />
             ))}
           </div>
         </div>
