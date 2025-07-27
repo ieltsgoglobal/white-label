@@ -42,7 +42,7 @@ export default function UsersPage() {
                 </Button>
               </Link>
 
-              <Link href="/contact">
+              <Link href="/become-partner">
                 <Button size="lg" variant="outline" className="rounded-full h-12 px-8 text-base">
                   Become Partner
                 </Button>

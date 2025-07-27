@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import jwt from 'jsonwebtoken'
+import { jwtVerify } from 'jose'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key'
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'super-secret-key')
 
 export async function middleware(req: NextRequest) {
     const token = req.cookies.get('token')?.value
@@ -12,7 +12,7 @@ export async function middleware(req: NextRequest) {
     }
 
     try {
-        jwt.verify(token, JWT_SECRET)
+        await jwtVerify(token, JWT_SECRET)
         return NextResponse.next()
     } catch (err) {
         console.error("JWT verification failed:", err)
@@ -20,11 +20,12 @@ export async function middleware(req: NextRequest) {
     }
 }
 
+
 export const config = {
     matcher: [
         '/api/writing-evaluation',
         '/api/speaking-evaluation/s3-upload',
         '/api/speaking-evaluation/evaluate-response',
-        '/api/speaking-evaluation/assemblyai,',
+        '/api/speaking-evaluation/assemblyai,'
     ]
 }
