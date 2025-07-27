@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { jwtVerify } from 'jose'
+import jwt from 'jsonwebtoken'
 
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET)
+const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-key'
 
 export async function middleware(req: NextRequest) {
     const token = req.cookies.get('token')?.value
@@ -12,9 +12,10 @@ export async function middleware(req: NextRequest) {
     }
 
     try {
-        await jwtVerify(token, JWT_SECRET)
+        jwt.verify(token, JWT_SECRET)
         return NextResponse.next()
-    } catch {
+    } catch (err) {
+        console.error("JWT verification failed:", err)
         return NextResponse.json({ error: 'Invalid Token' }, { status: 401 })
     }
 }
