@@ -23,6 +23,7 @@ export async function calculateBand(words: WordTimestamp[], questionText: string
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ transcription: fullTranscript, question: questionText, partNumber: partNumber }),
+        credentials: "include",
     });
     const languageScores = await res.json();
 

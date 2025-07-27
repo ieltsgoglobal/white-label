@@ -44,7 +44,7 @@ export default function UsersPage() {
 
               <Link href="/contact">
                 <Button size="lg" variant="outline" className="rounded-full h-12 px-8 text-base">
-                  Book a Demo
+                  Become Partner
                 </Button>
               </Link>
             </div>

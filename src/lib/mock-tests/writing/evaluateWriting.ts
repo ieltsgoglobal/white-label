@@ -59,6 +59,7 @@ const submitTask = async (questionId: number, response: string) => {
                 taskType: questionId,
                 response,
             }),
+            credentials: 'include',
         })
 
         const data = await res.json()

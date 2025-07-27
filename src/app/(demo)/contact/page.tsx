@@ -50,7 +50,7 @@ export default function UsersPage() {
             </p>
             <div className="max-w-xl mx-auto w-full space-y-6">
               <form className="space-y-6" action="https://formsubmit.co/ieltsmanager99@gmail.com" method="POST">
-                <input type="hidden" name="_subject" value="Book a Demo" />
+                <input type="hidden" name="_subject" value="New Message from Get In Touch Page" />
                 <div className="text-left">
                   <Label htmlFor="phone" className="block text-sm font-medium text-foreground mb-1">
                     Phone Number

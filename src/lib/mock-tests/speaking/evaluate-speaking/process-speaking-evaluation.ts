@@ -122,6 +122,7 @@ export async function sendToAssemblyAI(blob: Blob): Promise<WordTimestamp[] | nu
     const res = await fetch('/api/speaking-evaluation/assemblyai', {
         method: 'POST',
         body: blob,
+        credentials: "include",
     });
 
     const data = await res.json();

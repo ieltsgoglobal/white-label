@@ -7,6 +7,7 @@ export async function uploadAudioToS3(blob: Blob, filename: string): Promise<str
         const res = await fetch("/api/speaking-evaluation/s3-upload", {
             method: "POST",
             body: formData,
+            credentials: "include",
         })
 
         if (!res.ok) {
