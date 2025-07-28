@@ -75,7 +75,7 @@ export default function TagsPage() {
 
 
               <section>
-                <h2 className="font-semibold text-foreground text-lg mb-2">4. Policy Acceptance</h2>
+                <h2 className="font-semibold text-foreground text-lg mb-2">5. Policy Acceptance</h2>
                 <p>
                   By purchasing or enrolling in any of our services, you acknowledge that you have read and agreed to this refund policy.
                 </p>

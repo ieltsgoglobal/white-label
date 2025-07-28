@@ -83,7 +83,7 @@ export default function AccountPage() {
               <section>
                 <h2 className="font-semibold text-foreground text-lg mb-2">6. Ownership</h2>
                 <p>
-                  This website is proudly operated and maintained by Arnav Jain, committed to delivering quality educational services.
+                  This website is proudly operated and maintained by MJ Go Global, committed to delivering quality educational services.
                 </p>
               </section>
 
