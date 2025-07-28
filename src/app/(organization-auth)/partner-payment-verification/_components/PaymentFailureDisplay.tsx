@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { X, RefreshCw, MessageCircle, ArrowLeft, AlertTriangle } from "lucide-react"
+import { X, RefreshCw, MessageCircle, ArrowLeft, AlertTriangle, Copy } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Link from "next/link"
@@ -80,26 +80,35 @@ export default function PaymentFailureDisplay({ orderId, amount }: Props) {
 
                     {/* Error details */}
                     <div
-                        className={`bg-red-50 border border-red-200 rounded-lg p-4 mb-6 transform transition-all duration-500 delay-500 ${showContent ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                        className={`bg-red-50 border border-red-200 rounded-lg p-4 mb-2 transform transition-all duration-500 delay-500 ${showContent ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
                             }`}
                     >
                         <div className="flex items-center mb-3">
                             <AlertTriangle className="w-4 h-4 text-red-500 mr-2" />
                             <span className="text-sm font-medium text-red-800">Transaction Details</span>
                         </div>
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm text-gray-600">Transaction ID</span>
-                            <span className="font-mono text-sm font-medium">#{orderId}</span>
+
+                        <div className="flex justify-center items-center space-x-2">
+                            <span className="font-mono text-sm truncate max-w-[260px]" title={orderId}>
+                                {orderId}
+                            </span>
+                            <Copy
+                                size={16}
+                                className="cursor-pointer text-muted-foreground hover:text-foreground"
+                                onClick={() => navigator.clipboard.writeText(orderId)}
+                            />
                         </div>
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm text-gray-600">Amount</span>
-                            <span className="font-semibold text-gray-700">{amount * 100}</span>
-                        </div>
+
+                    </div>
+
+                    <div className="flex justify-between items-center my-6">
+                        <span className="text-sm text-gray-600">Amount</span>
+                        <span className="font-semibold text-gray-700">₹{amount / 10}</span>
                     </div>
 
                     {/* Action buttons */}
                     <div
-                        className={`space-y-3 transform transition-all duration-500 delay-700 ${showContent ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                        className={`flex flex-col space-y-3 transform transition-all duration-500 delay-700 ${showContent ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
                             }`}
                     >
 

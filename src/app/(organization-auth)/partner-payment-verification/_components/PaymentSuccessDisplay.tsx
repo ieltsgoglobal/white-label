@@ -79,11 +79,11 @@ export default function PaymentSuccessDisplay({ orderId, amount }: Props) {
                     >
                         <div className="flex justify-between items-center mb-2">
                             <span className="text-sm text-gray-600">Order #</span>
-                            <span className="font-mono text-sm font-medium">#{orderId}</span>
+                            <span className="font-mono text-sm font-medium  max-w-[240px]">#{orderId}</span>
                         </div>
                         <div className="flex justify-between items-center mb-2">
                             <span className="text-sm text-gray-600">Amount</span>
-                            <span className="font-semibold text-green-600">${amount * 100}</span>
+                            <span className="font-semibold text-green-600">₹{amount / 100}</span>
                         </div>
                     </div>
 
