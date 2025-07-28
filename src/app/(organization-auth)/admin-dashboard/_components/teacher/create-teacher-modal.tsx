@@ -4,13 +4,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
-import { createStudent, getStudentsByOrg } from "@/lib/superbase/student-table"
-import ModrenBg from "./bg-create-user-modal.jpg"
+import ModrenBg from "./bg-create-teacher-modal.jpg"
 import Image from "next/image"
 import { getSessionUser } from "@/lib/auth/session/get-user"
 import { checkCredits } from "@/lib/superbase/organization-table"
-import { getTeachersByOrgId, Teacher } from "@/lib/superbase/teacher-table"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { createTeacher } from "@/lib/superbase/teacher-table"
 
 export type PartnerSession = {
     id: string
@@ -25,17 +23,13 @@ export type PartnerSession = {
 }
 
 
-export default function CreateUserModal({ open, onClose, }: { open: boolean, onClose: () => void }) {
-    const [teachers, setTeachers] = useState<Teacher[]>([])
+export default function CreateTeacherModal({ open, onClose, }: { open: boolean, onClose: () => void }) {
     const [formData, setFormData] = useState({
         name: "",
         username: "",
         password: "",
-        revenue: "",
-        teacher_id: "",
     })
 
-    const [availableCredits, setAvailableCredits] = useState<number>(0)
     const [loading, setLoading] = useState(false)
 
     const handleChange = (key: string, value: string) => {
@@ -58,20 +52,18 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
         setLoading(true)
 
         try {
-            const result = await createStudent({
+            const result = await createTeacher({
                 name: formData.name,
                 username: formData.username,
                 password: formData.password,
-                revenue: formData.revenue,
-                teacher_id: formData.teacher_id,
-                orgId: partnerId,
+                org_id: partnerId,
             })
 
+
             if ("error" in result) {
-                console.error("Error creating student:", result.error)
-                alert(result.error || "Failed to create student.")
+                alert(result.error || "Failed to create teacher.")
             } else {
-                alert("Student created successfully.")
+                alert("Teacher created successfully.")
                 onClose()
             }
         } catch (err) {
@@ -83,50 +75,6 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
     }
 
 
-    // fetch credits
-    useEffect(() => {
-        const fetchCredits = async () => {
-            const user = await getSessionUser()
-            if (!user || user.role !== "organization") {
-                console.error("Not logged in as organization")
-                return
-            }
-            const partnerId = user.orgId
-
-
-            // Check credits
-            const creditResult = await checkCredits(partnerId)
-            if ("error" in creditResult) {
-                console.error("Failed to fetch credits", creditResult.error)
-            } else {
-                setAvailableCredits(creditResult.credits)
-            }
-        }
-
-        fetchCredits()
-    }, [])
-
-    // fetch teachers
-    useEffect(() => {
-        const fetchTeachers = async () => {
-            const user = await getSessionUser()
-            if (!user || user.role !== 'organization') {
-                console.error("Not logged in as organization")
-                return
-            }
-
-            const result = await getTeachersByOrgId(user.orgId)
-            if ('error' in result) {
-                console.error("Failed to load teachers:", result.error)
-            } else {
-                setTeachers(result.teachers)
-            }
-        }
-
-        fetchTeachers()
-    }, [])
-
-
     return (
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent className="max-w-4xl p-0 overflow-hidden border-none bg-transparent">
@@ -135,7 +83,7 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                     <div className="relative hidden md:block">
                         <Image
                             src={ModrenBg}
-                            alt="Create Student Background"
+                            alt="Create Teacher Background"
                             fill
                             className="object-cover"
                         />
@@ -146,19 +94,19 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                         <div>
                             <DialogHeader>
                                 <DialogTitle className="text-2xl font-semibold text-foreground">
-                                    Create New Student
+                                    Create New Teacher
                                 </DialogTitle>
-                                <p className="text-sm text-muted-foreground mt-1">Add student credentials and revenue.</p>
+                                <p className="text-sm text-muted-foreground mt-1">Add Teacher credentials.</p>
                             </DialogHeader>
                             <div className="grid gap-4 mt-6">
                                 <div className="flex flex-col gap-1">
                                     <label htmlFor="name" className="text-sm font-medium text-foreground/90">
-                                        Student Name <span className="text-red-500">*</span>
+                                        Teacher Name <span className="text-red-500">*</span>
                                     </label>
                                     <Input
                                         id="name"
                                         autoComplete="name"
-                                        placeholder="e.g. Priya Sharma"
+                                        placeholder="e.g. Ms. Priya Sharma"
                                         value={formData.name}
                                         onChange={(e) => handleChange("name", e.target.value)}
                                     />
@@ -190,50 +138,13 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                                         onChange={(e) => handleChange("password", e.target.value)}
                                     />
                                 </div>
-
-                                <div className="flex flex-col gap-1">
-                                    <label htmlFor="teacher" className="text-sm font-medium text-foreground/90">
-                                        Assign Teacher <span className="text-red-500">*</span>
-                                    </label>
-                                    <Select
-                                        value={formData.teacher_id}
-                                        onValueChange={(value) => handleChange("teacher_id", value)}
-                                    >
-                                        <SelectTrigger id="teacher" className="h-10">
-                                            <SelectValue placeholder="-- Select a Teacher --" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {teachers.map((t) => (
-                                                <SelectItem key={t.id} value={t.id}>
-                                                    {t.name} ({t.username})
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    <label htmlFor="revenue" className="text-sm font-medium text-foreground/90">
-                                        Fee Received (₹) <span className="text-gray-400 text-xs">(Optional)</span>
-                                    </label>
-                                    <Input
-                                        id="revenue"
-                                        type="number"
-                                        placeholder="e.g. 1500"
-                                        min={0}
-                                        value={formData.revenue}
-                                        onChange={(e) => handleChange("revenue", e.target.value)}
-                                    />
-                                </div>
                             </div>
                         </div>
 
                         <DialogFooter>
                             <div className="flex items-center justify-between w-full mt-6">
-                                <div className="text-sm text-muted-foreground">
-                                    Remaining Credits: <span className="font-medium">{availableCredits}</span>
-                                </div>
                                 <Button onClick={handleSubmit} disabled={loading}>
-                                    {loading ? "Creating..." : "Create Student"}
+                                    {loading ? "Creating..." : "Create Teacher"}
                                 </Button>
                             </div>
                         </DialogFooter>

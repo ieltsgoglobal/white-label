@@ -32,6 +32,7 @@ export async function GET() {
                 return NextResponse.json({
                     role: "teacher",
                     teacherId: decoded.teacherId,
+                    teacherName: decoded.teacherName
                 })
             default:
                 return NextResponse.json({ error: "Invalid role" }, { status: 400 })

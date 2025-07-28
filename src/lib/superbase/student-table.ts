@@ -10,7 +10,7 @@ const supabase = createClient(
 )
 
 // Create a new student
-export async function createStudent({ name, username, password, revenue, orgId, }: { name: string, username: string, password: string, revenue: string, orgId: string }) {
+export async function createStudent({ name, username, password, revenue, teacher_id, orgId, }: { name: string, username: string, password: string, revenue: string, teacher_id: string, orgId: string }) {
 
     // 1. check credits are available or not
     const creditResult = await checkCredits(orgId)
@@ -40,7 +40,7 @@ export async function createStudent({ name, username, password, revenue, orgId, 
     // 3. Insert new student
     const { data: student, error: insertError } = await supabase
         .from("student")
-        .insert([{ name, username, password, revenue, org_id: orgId }])
+        .insert([{ name, username, password, revenue, teacher_id, org_id: orgId }])
         .select()
         .single()
 

@@ -10,6 +10,7 @@ import { UserManagement } from "./_components/users/user-managment";
 import { TransactionManagment } from "./_components/transaction/transaction-managment";
 import { useState } from "react";
 import PricingManagment from "./_components/pricing/pricing-managment";
+import TeacherManagement from "./_components/teacher/teacher-managment";
 
 export default function UsersPage() {
     const [activeTab, setActiveTab] = useState<string>("pricing")
@@ -50,6 +51,10 @@ export default function UsersPage() {
                                 Transaction Managment
                             </Button>
 
+                            <Button onClick={() => setActiveTab("teachers")} size="lg" variant="outline" className="rounded-full h-12 px-8 text-base">
+                                Teacher Managment
+                            </Button>
+
                             {activeTab !== "pricing" &&
                                 <Button onClick={() => setActiveTab("pricing")} size="lg" variant="outline" className="rounded-full h-12 px-8 text-base">
                                     Pricing
@@ -62,6 +67,7 @@ export default function UsersPage() {
                     {activeTab === "users" && <UserManagement />}
                     {activeTab === "transactions" && <TransactionManagment />}
                     {activeTab === "pricing" && <PricingManagment />}
+                    {activeTab === "teachers" && <TeacherManagement />}
                 </div>
             </PlaceholderContent>
         </ContentLayout>
