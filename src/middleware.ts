@@ -26,6 +26,7 @@ export const config = {
         '/api/writing-evaluation',
         '/api/speaking-evaluation/s3-upload',
         '/api/speaking-evaluation/evaluate-response',
-        '/api/speaking-evaluation/assemblyai,'
+        '/api/speaking-evaluation/assemblyai,',
+        '/teacher-dashboard/:path*'
     ]
 }

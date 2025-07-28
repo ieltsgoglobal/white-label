@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, Headphones, FileText, PenTool, Mic } from "lucide-react"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useMockAttempts } from "./MockAttemptContext"
 import { useEffect, useState } from "react"
 import { Scores } from "@/types/mockTestAttempt"
@@ -17,6 +17,7 @@ interface TestNavigationProps {
 }
 
 export default function TestSectionNavigation({ activeSection, onSectionClick }: TestNavigationProps) {
+    const router = useRouter()
 
 
     // --------------------- MOCK TEST REVIEW CODE ----------------------
@@ -78,11 +79,9 @@ export default function TestSectionNavigation({ activeSection, onSectionClick }:
     return (
         <div className="flex items-center gap-4 p-4 bg-background border-b border-border">
             {/* Back Button */}
-            <Link href="/mock-scores">
-                <Button variant="ghost" size="sm" onClick={() => { }} className="p-2 hover:bg-gray-100">
-                    <ChevronLeft className="h-5 w-5 text-gray-600" />
-                </Button>
-            </Link>
+            <Button variant="ghost" size="sm" onClick={() => router.back()} className="p-2 hover:bg-gray-100">
+                <ChevronLeft className="h-5 w-5 text-gray-600" />
+            </Button>
 
             <h1 className="font-semibold tracking-tight text-foreground/70">
                 IELTS Mock Test Review

@@ -4,26 +4,37 @@ import { useEffect, useState } from "react"
 import type { MockTestAttempt } from "@/types/mockTestAttempt"
 import { MockAttemptContext } from "./_component/MockAttemptContext"
 import { getCachedMockTestAttempts, setCachedMockTestAttempts } from "@/lib/cache/mock-scores/mockAttemptsCache"
+import { useSearchParams } from "next/navigation"
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
     const [attempts, setAttempts] = useState<MockTestAttempt[]>([])
+
+    // teacher review
+    const searchParams = useSearchParams()
+    const isTeacherReview = searchParams.get("teacher-review") === "true"
+    const studentId = searchParams.get("studentid") || undefined
 
 
     useEffect(() => {
         async function fetchAttempts() {
             // if data cached then use it
-            const cached = getCachedMockTestAttempts()
-            if (cached) {
-                setAttempts(cached)
-                console.debug("Used cached attempts")
-                return
+            if (!isTeacherReview) {
+                const cached = getCachedMockTestAttempts()
+                if (cached) {
+                    setAttempts(cached)
+                    console.debug("Used cached attempts")
+                    return
+                }
             }
 
-            const data = await getAllMockTestAttempts()
+
+            const data = await getAllMockTestAttempts(studentId)
             if (data) {
                 setAttempts(data)
-                // cache data for 10 mins
-                setCachedMockTestAttempts(data)
                 console.log(data)
+                // cache data for 10 mins
+                if (!isTeacherReview) {
+                    setCachedMockTestAttempts(data)
+                }
             }
         }
 

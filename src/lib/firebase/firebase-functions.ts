@@ -55,15 +55,22 @@ export async function submitAllMockAnswers() {
 }
 
 
-export async function getAllMockTestAttempts() {
+// when user check its scores
+export async function getAllMockTestAttempts(studentIdParam?: string) {
     try {
-        // Get studentId from indexedDB
-        const user = await getSessionUser()
-        if (!user || user.role !== "student") {
-            console.error("Missing or invalid student session")
-            return
+
+        // if teacher is checkign then we pass student id
+        let studentId = studentIdParam
+
+        // If no studentId is passed, use logged-in student
+        if (!studentId) {
+            const user = await getSessionUser()
+            if (!user || user.role !== "student") {
+                console.error("Missing or invalid student session")
+                return []
+            }
+            studentId = user.studentId
         }
-        const studentId = user.studentId
 
         // Firestore path: mock-tests/{studentId}/attempts
         const attemptsRef = collection(db, "mock-tests", studentId, "attempts")

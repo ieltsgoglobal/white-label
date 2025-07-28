@@ -3,9 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Calendar, Clock, FileText, Headphones, BookOpen, Mic, Eye } from "lucide-react"
+import { Calendar, Clock, FileText, Headphones, BookOpen, Mic, Eye, ChevronLeft } from "lucide-react"
 import { useMockAttempts } from "./MockAttemptContext"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 
 function getScoreColor(score: number): string {
@@ -33,6 +34,8 @@ function formatTime(timestamp: string): string {
 }
 
 export default function MockScoresPage() {
+    const router = useRouter()
+
     //Get attempts from Context API
     const mockAttemptContext = useMockAttempts(true)
     const attempts = mockAttemptContext?.attempts || []
@@ -42,6 +45,15 @@ export default function MockScoresPage() {
     }
     return (
         <div className="container px-4 md:px-6 py-12 relative">
+            <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => router.back()}
+                className="absolute left-0 top-0 p-2 hover:bg-gray-100 underline text-sm"
+            >
+                <ChevronLeft className="h-5 w-5 text-gray-600" />
+                Back
+            </Button>
             <div className="text-center max-w-3xl mx-auto mb-12" >
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
                     IELTS Mocks Overview

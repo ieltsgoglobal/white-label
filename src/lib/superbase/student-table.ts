@@ -117,3 +117,18 @@ export async function loginStudent(username: string, password: string) {
 
     return { success: true, student: studentData }
 }
+
+// Get all students by teacher ID
+export async function getStudentsByTeacherId(teacherId: string) {
+    const { data, error } = await supabase
+        .from("student")
+        .select("*")
+        .eq("teacher_id", teacherId)
+        .order("created_at", { ascending: false })
+
+    if (error) {
+        return { error: error.message }
+    }
+
+    return { students: data }
+}

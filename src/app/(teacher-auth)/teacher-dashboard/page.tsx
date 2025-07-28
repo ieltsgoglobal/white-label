@@ -15,6 +15,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import DisplayStudentsTable from "./_component/display-students";
 
 export default function UsersPage() {
     return (
@@ -50,6 +51,8 @@ export default function UsersPage() {
                         </p>
                     </div>
                 </div>
+
+                <DisplayStudentsTable />
             </PlaceholderContent>
         </ContentLayout >
     );
