@@ -7,7 +7,6 @@ import { useEffect, useState } from "react"
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-
     useEffect(() => {
         async function checkUser() {
             const user = await getSessionUser()

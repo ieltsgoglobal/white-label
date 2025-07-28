@@ -1,5 +1,3 @@
-// need to add captcha on submit
-
 "use client"
 
 import type React from "react"
