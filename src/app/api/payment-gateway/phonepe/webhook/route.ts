@@ -6,7 +6,7 @@ import { StandardCheckoutClient, Env } from "pg-sdk-node";
 const clientId = process.env.PHONEPE_CLIENT_ID!;
 const clientSecret = process.env.PHONEPE_CLIENT_SECRET!;
 const clientVersion = 1;
-const env = Env.SANDBOX; // Use Env.PRODUCTION in live
+const env = Env.PRODUCTION; // Use Env.PRODUCTION in live , Env.SANDBOX; in dev
 
 const client = StandardCheckoutClient.getInstance(
     clientId,

@@ -5,7 +5,7 @@ import { randomUUID } from 'crypto';
 const clientId = process.env.PHONEPE_CLIENT_ID!;
 const clientSecret = process.env.PHONEPE_CLIENT_SECRET!;
 const clientVersion = 1;
-const env = Env.SANDBOX; // Change to Env.PRODUCTION in prod
+const env = Env.PRODUCTION; // Change to Env.PRODUCTION in prod or Env.SANDBOX for dev
 
 const client = StandardCheckoutClient.getInstance(clientId, clientSecret, clientVersion, env);
 

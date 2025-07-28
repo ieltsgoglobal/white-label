@@ -6,7 +6,7 @@ const client = StandardCheckoutClient.getInstance(
     process.env.PHONEPE_CLIENT_ID!,
     process.env.PHONEPE_CLIENT_SECRET!,
     1,
-    Env.SANDBOX // or Env.PRODUCTION
+    Env.PRODUCTION // or Env.PRODUCTION or  Env.SANDBOX
 );
 
 export async function GET(req: NextRequest) {

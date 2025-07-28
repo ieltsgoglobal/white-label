@@ -9,6 +9,7 @@ export default function PricingManagment() {
         { title: "Startup", users: 20, price: 699 },
         { title: "Business", users: 50, price: 599 },
         { title: "Enterprise", users: 100, price: 499 },
+        { title: "Test", users: 10, price: 1 },
     ];
 
     return (
