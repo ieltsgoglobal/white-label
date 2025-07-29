@@ -12,7 +12,7 @@ const client = StandardCheckoutClient.getInstance(clientId, clientSecret, client
 export async function POST(req: NextRequest) {
     const { amount, redirectUrl, orgId, usersPurchased } = await req.json();
 
-    const merchantOrderId = randomUUID();
+    const merchantOrderId = `${orgId}__${usersPurchased}__${randomUUID()}`;
 
     // Build redirect URL with query params
     // will be passed in params for payment verification display in partner-payment-verification
@@ -21,10 +21,6 @@ export async function POST(req: NextRequest) {
     const payRequest = StandardCheckoutPayRequest.builder()
         .merchantOrderId(merchantOrderId)
         .amount(amount)
-        .metaInfo({
-            orgId: orgId.toString(),
-            usersPurchased: usersPurchased.toString(), // PhonePe expects string values
-        } as any)
         .redirectUrl(redirectUrlWithParams)
         .build();
 

@@ -14,7 +14,6 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
                 console.log("Logged in as teacher")
                 setIsLoggedIn(true)
             }
-            setIsLoggedIn(true)
         }
 
         checkUser()
