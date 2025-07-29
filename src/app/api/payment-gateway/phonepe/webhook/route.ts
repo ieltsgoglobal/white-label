@@ -36,22 +36,36 @@ export async function POST(req: NextRequest) {
         );
 
         const payload = callbackResponse.payload;
-        const { state, amount, orderId } = payload;
+        const { state, amount, metaInfo } = payload;
 
         if (state !== "COMPLETED") {
             return NextResponse.json({ status: "ignored", reason: "payment not completed" });
         }
 
-        // Extract detilas from custom merchantOrderId (e.g., orgId, usersPurchased)
-        const [orgId, usersPurchasedStr] = orderId.split("__");
-        const usersPurchased = parseInt(usersPurchasedStr, 10);
+
+        /// -----------  EXTRACT DATA FORM META INFO ----------------
+
+        let orgId: string | undefined;
+        let usersPurchased: number | undefined;
+
+        try {
+            const parsed = JSON.parse(metaInfo?.udf1 || "{}");
+            orgId = parsed.orgId;
+            usersPurchased = parseInt(parsed.usersPurchased);
+        } catch {
+            return new Response("Invalid metaInfo", { status: 400 });
+        }
 
         if (!orgId || !usersPurchased) {
             return new Response("Missing metaInfo", { status: 400 });
         }
 
+        // ------------------------------------------------------------
+
+
+
         // Add credits + transaction
-        const result = await addTransactionAndCredits(orgId, usersPurchased, amount / 100);
+        const result = await addTransactionAndCredits(orgId, usersPurchased, amount);
 
         if ("error" in result) {
             return new Response("Failed to update credits", { status: 500 });

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { StandardCheckoutClient, Env, StandardCheckoutPayRequest } from 'pg-sdk-node';
+import { StandardCheckoutClient, Env, StandardCheckoutPayRequest, MetaInfo } from 'pg-sdk-node';
 import { randomUUID } from 'crypto';
 
 const clientId = process.env.PHONEPE_CLIENT_ID!;
@@ -12,15 +12,23 @@ const client = StandardCheckoutClient.getInstance(clientId, clientSecret, client
 export async function POST(req: NextRequest) {
     const { amount, redirectUrl, orgId, usersPurchased } = await req.json();
 
-    const merchantOrderId = `${orgId}__${usersPurchased}__${randomUUID()}`;
+    const merchantOrderId = randomUUID();
 
     // Build redirect URL with query params
     // will be passed in params for payment verification display in partner-payment-verification
     const redirectUrlWithParams = `${redirectUrl}?merchantOrderId=${merchantOrderId}&users=${usersPurchased}&amount=${amount}`;
+    const metaInfo = new MetaInfo(
+        JSON.stringify({ orgId, usersPurchased }), // udf1
+        "", // udf2
+        "", // udf3
+        "", // udf4
+        ""  // udf5
+    );
 
     const payRequest = StandardCheckoutPayRequest.builder()
         .merchantOrderId(merchantOrderId)
         .amount(amount)
+        .metaInfo(metaInfo)
         .redirectUrl(redirectUrlWithParams)
         .build();
 
