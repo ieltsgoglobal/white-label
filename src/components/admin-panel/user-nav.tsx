@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutGrid, LogOut, User } from "lucide-react";
+import { GraduationCap, LayoutGrid, LogOut, ShieldCheck, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -113,13 +113,25 @@ export function UserNav() {
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
             <Link href="/" className="flex items-center">
               <LayoutGrid className="w-4 h-4 mr-3 text-muted-foreground" />
-              Dashboard
+              Dashboards
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem className="hover:cursor-pointer" asChild>
+          <DropdownMenuItem className="ml-2 hover:cursor-pointer" asChild>
             <Link href="/admin-dashboard" className="flex items-center">
+              <ShieldCheck className="w-4 h-4 mr-3 text-muted-foreground" />
+              Admin Dashbord
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="ml-2 hover:cursor-pointer" asChild>
+            <Link href="/teacher-dashboard" className="flex items-center">
+              <GraduationCap className="w-4 h-4 mr-3 text-muted-foreground" />
+              Teacher Dashboard
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="ml-2 hover:cursor-pointer" asChild>
+            <Link href="/login/student" className="flex items-center">
               <User className="w-4 h-4 mr-3 text-muted-foreground" />
-              Admin
+              Student Login
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>

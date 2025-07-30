@@ -1,4 +1,5 @@
 // uses cookies and jwt to get current user details
+// used in client side authentication
 
 export type SessionUser =
   | { role: "student"; studentId: string; studentName: string }

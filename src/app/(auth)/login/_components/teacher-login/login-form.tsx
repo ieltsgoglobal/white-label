@@ -1,13 +1,12 @@
 "use client"
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useState } from 'react'
 import Link from 'next/link'
+import { useState } from 'react'
 
-export function LoginForm({ onSuccess }: { onSuccess: () => void }) {
-    const [email, setEmail] = useState("")
+export function LoginForm() {
+    const [username, setusername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
@@ -19,19 +18,19 @@ export function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         setLoading(true)
 
         try {
-            const res = await fetch("/api/auth/organization", {
+            const res = await fetch("/api/auth/teacher", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ username, password }),
             })
 
             const result = await res.json()
 
 
             if (result === true) {
-                onSuccess()
+                window.location.href = "/teacher-dashboard"
             } else {
                 setError("Login failed.")
             }
@@ -44,23 +43,23 @@ export function LoginForm({ onSuccess }: { onSuccess: () => void }) {
 
 
     return (
-        <form onSubmit={handleSubmit} className={cn("flex flex-col gap-6")}>
+        <form onSubmit={handleSubmit} className={"flex flex-col gap-6"}>
             <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-2xl font-bold">Log into Admin account</h1>
+                <h1 className="text-2xl font-bold">Log into Teacher Account</h1>
                 <p className="text-balance text-sm text-muted-foreground">
-                    Enter your email below to login to your account
+                    Enter your details below to login to your account
                 </p>
             </div>
             <div className="grid gap-6">
                 <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="username">username</Label>
                     <Input
-                        id="email"
-                        type="email"
-                        placeholder="m@example.com"
+                        id="username"
+                        type="text"
+                        placeholder="e.g. priya123"
                         required
-                        value={email}
-                        onChange={(e) => setEmail((e.target as HTMLInputElement).value)}
+                        value={username}
+                        onChange={(e) => setusername((e.target as HTMLInputElement).value)}
                     />
                 </div>
                 <div className="grid gap-2">

@@ -5,7 +5,8 @@ import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { useState } from 'react'
 
-export function LoginForm({ onSuccess }: { onSuccess: () => void }) {
+export function LoginForm() {
+
     const [username, setusername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
@@ -30,10 +31,11 @@ export function LoginForm({ onSuccess }: { onSuccess: () => void }) {
 
 
             if (result === true) {
-                onSuccess()
-            } else {
-                setError("Login failed.")
+                window.location.href = '/practice';
+                return;
             }
+
+            setError("Login failed.")
         } catch (err) {
             setError("Something went wrong.")
         } finally {

@@ -5,7 +5,12 @@ import type { MockTestAttempt } from "@/types/mockTestAttempt"
 import { MockAttemptContext } from "./_component/MockAttemptContext"
 import { getCachedMockTestAttempts, setCachedMockTestAttempts } from "@/lib/cache/mock-scores/mockAttemptsCache"
 import { useSearchParams } from "next/navigation"
-export default function DemoLayout({ children }: { children: React.ReactNode }) {
+import { requireRole } from "@/lib/auth/session/check-auth"
+
+
+export default async function DemoLayout({ children }: { children: React.ReactNode }) {
+    await requireRole(["student", "teacher"]);
+
     const [attempts, setAttempts] = useState<MockTestAttempt[]>([])
 
     // teacher review
@@ -16,8 +21,8 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
 
     useEffect(() => {
         async function fetchAttempts() {
-            // if data cached then use it
             if (!isTeacherReview) {
+                // if data cached then use it
                 const cached = getCachedMockTestAttempts()
                 if (cached) {
                     setAttempts(cached)

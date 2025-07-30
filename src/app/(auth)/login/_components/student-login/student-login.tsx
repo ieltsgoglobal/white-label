@@ -1,10 +1,10 @@
 import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "./login-form"
-import AdminLoginHero from "./admin-login.jpg"
+import StudentLoginHero from "./student-login.jpg"
 import Image from "next/image"
 import Link from "next/link"
 
-export default function PartnerLogin({ onSuccess }: { onSuccess: () => void }) {
+export default function StudentLogin() {
     return (
         <div className="grid min-h-svh lg:grid-cols-2">
             <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -13,7 +13,7 @@ export default function PartnerLogin({ onSuccess }: { onSuccess: () => void }) {
                         <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                             <GalleryVerticalEnd className="size-4" />
                         </div>
-                        IELTS Go Global
+                        <span className="font-bold">IELTS Go Global</span>
                     </a>
 
                     <Link
@@ -25,15 +25,15 @@ export default function PartnerLogin({ onSuccess }: { onSuccess: () => void }) {
                 </div>
                 <div className="flex flex-1 items-center justify-center">
                     <div className="w-full max-w-xs">
-                        <LoginForm onSuccess={() => onSuccess()} />
+                        <LoginForm />
                     </div>
                 </div>
             </div>
             <div className="relative hidden bg-muted lg:block">
                 <Image
-                    src={AdminLoginHero}
+                    src={StudentLoginHero}
                     alt="Image"
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="absolute inset-0 h-full w-full object-cover dark:grayscale"
                     fill
                 />
             </div>
