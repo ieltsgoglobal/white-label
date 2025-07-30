@@ -26,7 +26,7 @@ export default function UsersPage() {
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link href="/dashboard">Admin Dashboard</Link>
+                            <Link href="#">Admin Dashboard</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 </BreadcrumbList>

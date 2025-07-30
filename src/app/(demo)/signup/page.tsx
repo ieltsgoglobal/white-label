@@ -24,12 +24,6 @@ export default function AccountPage() {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbLink asChild>
-                            <Link href="/dashboard">Dashboard</Link>
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
                         <BreadcrumbPage>Term & Conditions</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>

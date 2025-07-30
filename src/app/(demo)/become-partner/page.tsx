@@ -28,12 +28,6 @@ export default function UsersPage() {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbLink asChild>
-                            <Link href="/dashboard">Dashboard</Link>
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
                         <BreadcrumbPage>Become a Partner</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>

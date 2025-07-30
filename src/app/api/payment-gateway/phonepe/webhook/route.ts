@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
 
 
         // Add credits + transaction
-        const result = await addTransactionAndCredits(orgId, usersPurchased, amount);
+        const result = await addTransactionAndCredits(orgId, usersPurchased, amount / 100);
 
         if ("error" in result) {
             return new Response("Failed to update credits", { status: 500 });
