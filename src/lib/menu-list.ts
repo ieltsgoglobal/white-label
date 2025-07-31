@@ -65,11 +65,6 @@ export function getMenuList(pathname: string): Group[] {
           icon: Users
         },
         {
-          href: "/pricing",
-          label: "Pricing",
-          icon: DollarSign
-        },
-        {
           href: "",
           label: "Policies",
           icon: SquarePen,

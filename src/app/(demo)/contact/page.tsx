@@ -43,12 +43,6 @@ export default function UsersPage() {
               Let us know how we can support your goals.
             </p>
 
-            <div className="w-full flex items-center justify-around text-center text-muted-foreground space-y-1 mb-8">
-              <p className="text-base md:text-lg">📞 8287202722</p>
-              <p className="text-base md:text-lg">✉️ ieltsmanager99@gmail.com</p>
-              <p className="text-base md:text-lg">📍 Gurgaon, Haryana</p>
-            </div>
-
             <div className="max-w-xl mx-auto w-full space-y-6">
               <form className="space-y-6" action="https://formsubmit.co/ieltsmanager99@gmail.com" method="POST">
                 <input type="hidden" name="_subject" value="New Message from Get In Touch Page" />

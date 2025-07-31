@@ -3,14 +3,11 @@ import { getAllMockTestAttempts } from "@/lib/firebase/firebase-functions"
 import { useEffect, useState } from "react"
 import type { MockTestAttempt } from "@/types/mockTestAttempt"
 import { MockAttemptContext } from "./_component/MockAttemptContext"
-import { getCachedMockTestAttempts, setCachedMockTestAttempts } from "@/lib/cache/mock-scores/mockAttemptsCache"
+import { getCachedMockTestAttempts, setCachedMockTestAttempts } from "@/app/(student-auth)/mock-scores/_component/mockAttemptsCache"
 import { useSearchParams } from "next/navigation"
-import { requireRole } from "@/lib/auth/session/check-auth"
 
 
-export default async function DemoLayout({ children }: { children: React.ReactNode }) {
-    await requireRole(["student", "teacher"]);
-
+export default function DemoLayout({ children }: { children: React.ReactNode }) {
     const [attempts, setAttempts] = useState<MockTestAttempt[]>([])
 
     // teacher review
