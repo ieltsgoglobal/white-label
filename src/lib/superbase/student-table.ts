@@ -1,6 +1,5 @@
 "use server"
 
-import bcrypt from "bcryptjs"
 import { createClient } from "@supabase/supabase-js"
 import { checkCredits, deductCredit } from "./organization-table"
 

@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
-import { createStudent, getStudentsByOrg } from "@/lib/superbase/student-table"
+import { createStudent } from "@/lib/superbase/student-table"
 import ModrenBg from "./bg-create-user-modal.jpg"
 import Image from "next/image"
 import { getSessionUser } from "@/lib/auth/session/get-user"
@@ -24,9 +24,7 @@ export type PartnerSession = {
     subdomain: string
 }
 
-
 export default function CreateUserModal({ open, onClose, }: { open: boolean, onClose: () => void }) {
-    const [teachers, setTeachers] = useState<Teacher[]>([])
     const [formData, setFormData] = useState({
         name: "",
         username: "",
@@ -34,8 +32,6 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
         revenue: "",
         teacher_id: "",
     })
-
-    const [availableCredits, setAvailableCredits] = useState<number>(0)
     const [loading, setLoading] = useState(false)
 
     const handleChange = (key: string, value: string) => {
@@ -82,8 +78,10 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
         }
     }
 
+    // ------------- GET CREDITS -------------------
 
-    // fetch credits
+    const [availableCredits, setAvailableCredits] = useState<number>(0)
+
     useEffect(() => {
         const fetchCredits = async () => {
             const user = await getSessionUser()
@@ -106,7 +104,11 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
         fetchCredits()
     }, [])
 
-    // fetch teachers
+
+    // --------------- GET TEACHERS -----------------
+
+    const [teachers, setTeachers] = useState<Teacher[]>([])
+
     useEffect(() => {
         const fetchTeachers = async () => {
             const user = await getSessionUser()
