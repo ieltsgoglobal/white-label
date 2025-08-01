@@ -16,6 +16,7 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
     const studentId = searchParams.get("studentid") || undefined
 
 
+    // if teacher is checking then dont cache the data
     useEffect(() => {
         async function fetchAttempts() {
             if (!isTeacherReview) {
