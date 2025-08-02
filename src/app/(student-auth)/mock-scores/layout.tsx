@@ -1,6 +1,7 @@
 "use client"
+
 import { getAllMockTestAttempts } from "@/lib/firebase/firebase-functions"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import type { MockTestAttempt } from "@/types/mockTestAttempt"
 import { MockAttemptContext } from "./_component/MockAttemptContext"
 import { getCachedMockTestAttempts, setCachedMockTestAttempts } from "@/app/(student-auth)/mock-scores/_component/mockAttemptsCache"
@@ -10,11 +11,16 @@ import { useSearchParams } from "next/navigation"
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
     const [attempts, setAttempts] = useState<MockTestAttempt[]>([])
 
-    // teacher review
-    const searchParams = useSearchParams()
-    const isTeacherReview = searchParams.get("teacher-review") === "true"
-    const studentId = searchParams.get("studentid") || undefined
-
+    // check teacher review and get studentId from url
+    // Read URL params safely at initial render
+    const { isTeacherReview, studentId } = useMemo(() => {
+        if (typeof window === "undefined") return { isTeacherReview: false, studentId: undefined };
+        const params = new URLSearchParams(window.location.search);
+        return {
+            isTeacherReview: params.get("teacher-review") === "true",
+            studentId: params.get("studentid") || undefined,
+        };
+    }, []);
 
     // if teacher is checking then dont cache the data
     useEffect(() => {
