@@ -82,16 +82,14 @@ export default function DisplayStudents({ users }: { users: Student[] }) {
                             ) : (
                                 users.map((user) => (
                                     <TableRow key={user.id}>
-                                        <TableCell>
-                                            <TableCell className="text-sm text-gray-500">
-                                                {user.created_at
-                                                    ? new Date(user.created_at).toLocaleDateString("en-GB", {
-                                                        day: "2-digit",
-                                                        month: "short",
-                                                        year: "numeric",
-                                                    })
-                                                    : "-"}
-                                            </TableCell>
+                                        <TableCell className="text-sm text-gray-500">
+                                            {user.created_at
+                                                ? new Date(user.created_at).toLocaleDateString("en-GB", {
+                                                    day: "2-digit",
+                                                    month: "short",
+                                                    year: "numeric",
+                                                })
+                                                : "-"}
                                         </TableCell>
                                         <TableCell className="text-sm dark:text-muted-foreground">{user.name}</TableCell>
                                         <TableCell className="text-sm dark:text-muted-foreground">{user.username}</TableCell>

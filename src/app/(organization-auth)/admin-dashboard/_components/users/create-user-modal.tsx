@@ -38,45 +38,6 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
         setFormData({ ...formData, [key]: value })
     }
 
-    const handleSubmit = async () => {
-        const user = await getSessionUser()
-        if (!user || user.role !== "organization") {
-            console.error("Not logged in as organization")
-            return
-        }
-        const partnerId = user.orgId
-
-        if (!formData.name || !formData.username || !formData.password) {
-            alert("Please fill in all fields.")
-            return
-        }
-
-        setLoading(true)
-
-        try {
-            const result = await createStudent({
-                name: formData.name,
-                username: formData.username,
-                password: formData.password,
-                revenue: formData.revenue,
-                teacher_id: formData.teacher_id,
-                orgId: partnerId,
-            })
-
-            if ("error" in result) {
-                console.error("Error creating student:", result.error)
-                alert(result.error || "Failed to create student.")
-            } else {
-                alert("Student created successfully.")
-                onClose()
-            }
-        } catch (err) {
-            console.error("Unexpected error:", err)
-            alert("Something went wrong.")
-        } finally {
-            setLoading(false)
-        }
-    }
 
     // ------------- GET CREDITS -------------------
 
@@ -127,6 +88,55 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
 
         fetchTeachers()
     }, [])
+
+
+
+    // ------------- CREATE NEW USER -----------------
+
+    const handleSubmit = async () => {
+        const user = await getSessionUser()
+        if (!user || user.role !== "organization") {
+            console.error("Not logged in as organization")
+            return
+        }
+        const partnerId = user.orgId
+
+        if (!formData.name || !formData.username || !formData.password) {
+            alert("Please fill in all fields.")
+            return
+        }
+
+        setLoading(true)
+
+        try {
+            const result = await createStudent({
+                name: formData.name,
+                username: formData.username,
+                password: formData.password,
+                revenue: formData.revenue,
+                teacher_id: formData.teacher_id,
+                orgId: partnerId,
+            })
+
+            if ("error" in result) {
+                console.error("Error creating student:", result.error)
+                alert(result.error || "Failed to create student.")
+            } else {
+                alert("Student created successfully.")
+                onClose()
+            }
+
+            // Reload window to reflect newly added student and updated credits
+            window.location.reload()
+
+        } catch (err) {
+            console.error("Unexpected error:", err)
+            alert("Something went wrong.")
+        } finally {
+            setLoading(false)
+        }
+    }
+
 
 
     return (

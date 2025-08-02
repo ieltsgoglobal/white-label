@@ -12,6 +12,7 @@ export default function TeacherManagement() {
     const [teachers, setTeachers] = useState<Teacher[]>([])
     const [open, setOpen] = useState(false) //create teacher modal
 
+    // get all teachers
     useEffect(() => {
         const fetchTeachers = async () => {
             const user = await getSessionUser()

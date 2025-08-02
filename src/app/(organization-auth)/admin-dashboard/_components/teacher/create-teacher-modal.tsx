@@ -3,25 +3,11 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import ModrenBg from "./bg-create-teacher-modal.jpg"
 import Image from "next/image"
 import { getSessionUser } from "@/lib/auth/session/get-user"
-import { checkCredits } from "@/lib/superbase/organization-table"
 import { createTeacher } from "@/lib/superbase/teacher-table"
-
-export type PartnerSession = {
-    id: string
-    name: string
-    email: string
-    address: string
-    phone: string
-    gst: string
-    pan: string
-    credits: number
-    subdomain: string
-}
-
 
 export default function CreateTeacherModal({ open, onClose, }: { open: boolean, onClose: () => void }) {
     const [formData, setFormData] = useState({
@@ -29,12 +15,13 @@ export default function CreateTeacherModal({ open, onClose, }: { open: boolean, 
         username: "",
         password: "",
     })
-
     const [loading, setLoading] = useState(false)
 
     const handleChange = (key: string, value: string) => {
         setFormData({ ...formData, [key]: value })
     }
+
+    // -------------- CREATE TEACHER ----------------------
 
     const handleSubmit = async () => {
         const user = await getSessionUser()
@@ -73,7 +60,6 @@ export default function CreateTeacherModal({ open, onClose, }: { open: boolean, 
             setLoading(false)
         }
     }
-
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
