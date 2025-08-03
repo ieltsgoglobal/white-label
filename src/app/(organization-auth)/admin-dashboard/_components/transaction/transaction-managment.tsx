@@ -1,10 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { getAllTransactionsByOrgId } from "@/lib/superbase/transaction-table"
-import { getSessionUser } from "@/lib/auth/session/get-user"
 import StatsCard from "./_components/StatsCard"
 import DisplayTransactions from "./_components/DisplatTransactions"
+import { useTransactions } from "@/hooks/supabase/transaction-table"
 
 export interface Transaction {
     id: string
@@ -14,31 +12,7 @@ export interface Transaction {
 }
 
 export function TransactionManagment() {
-    const [transactions, setTransactions] = useState<Transaction[]>([])
-
-    // fetch all transactions
-    useEffect(() => {
-        const fetchTransactions = async () => {
-            const user = await getSessionUser()
-            if (!user || user.role !== "organization") {
-                console.log(user?.role)
-                console.error("Not logged in as organization")
-                return
-            }
-            const partnerId = user.orgId
-
-            const result = await getAllTransactionsByOrgId(partnerId)
-
-            if ("error" in result) {
-                console.error("Error fetching transactions:", result.error)
-                setTransactions([])
-            } else {
-                setTransactions(result.transactions)
-            }
-        }
-
-        fetchTransactions()
-    }, [])
+    const { data: transactions = [], } = useTransactions();
 
     return (
         <div className="p-6 space-y-6">

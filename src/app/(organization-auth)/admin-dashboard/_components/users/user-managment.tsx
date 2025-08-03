@@ -1,16 +1,15 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { PlusCircleIcon } from "lucide-react"
 import CreateUserModal from "./create-user-modal"
-import { getStudentsByOrg } from "@/lib/superbase/student-table"
-import { getSessionUser } from "@/lib/auth/session/get-user"
-import { checkCredits } from "@/lib/superbase/organization-table"
 import DisplayStudents from "./_components/DisplayStudents"
 import { StatsCard } from "./_components/StatsCard"
+import { useStudents } from "@/hooks/supabase/student"
+import { useCredits } from "@/hooks/supabase/organization-table"
 
-type Student = {
+export type Student = {
     id: string
     username: string
     org_id: string | null
@@ -20,49 +19,12 @@ type Student = {
     name: string
 }
 
-type UserStats = {
-    totalUsers: number
-    totalRevenue: number
-    activeUsers: number
-    deactivatedUsers: number
-}
-
 export function UserManagement() {
     const [open, setOpen] = useState(false) //create user modal
 
-    const [users, setUsers] = useState<Student[]>([])
-    const [availableCredits, setAvailableCredits] = useState<number>(0)
-
-
-    // fetch students initially
-    useEffect(() => {
-        const fetchStudents = async () => {
-            const user = await getSessionUser()
-            if (!user || user.role !== "organization") {
-                console.error("Not logged in as organization")
-                return
-            }
-            const partnerId = user.orgId
-
-            // Fetch students
-            const { data: studentData, error: studentError } = await getStudentsByOrg(partnerId)
-            if (studentError) {
-                console.error("Failed to fetch students:", studentError)
-            } else {
-                setUsers(studentData || [])
-            }
-
-            // Check credits
-            const creditResult = await checkCredits(partnerId)
-            if ("error" in creditResult) {
-                console.error("Failed to fetch credits", creditResult.error)
-            } else {
-                setAvailableCredits(creditResult.credits)
-            }
-        }
-
-        fetchStudents()
-    }, [])
+    // tanstack fetching
+    const { data: users = [] } = useStudents();
+    const { data: availableCredits = 0 } = useCredits();
 
 
     return (

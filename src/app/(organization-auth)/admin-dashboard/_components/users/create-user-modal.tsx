@@ -3,14 +3,15 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { createStudent } from "@/lib/superbase/student-table"
 import ModrenBg from "./bg-create-user-modal.jpg"
 import Image from "next/image"
 import { getSessionUser } from "@/lib/auth/session/get-user"
-import { checkCredits } from "@/lib/superbase/organization-table"
-import { getTeachersByOrgId, Teacher } from "@/lib/superbase/teacher-table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useCredits } from "@/hooks/supabase/organization-table"
+import { useTeachers } from "@/hooks/supabase/teachers-table"
+import { useCreateStudent } from "@/hooks/supabase/student"
 
 export type PartnerSession = {
     id: string
@@ -32,108 +33,33 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
         revenue: "",
         teacher_id: "",
     })
-    const [loading, setLoading] = useState(false)
 
     const handleChange = (key: string, value: string) => {
         setFormData({ ...formData, [key]: value })
     }
 
+    const { data: availableCredits = 0 } = useCredits();
+    const { data: teachers = [] } = useTeachers();
 
-    // ------------- GET CREDITS -------------------
-
-    const [availableCredits, setAvailableCredits] = useState<number>(0)
-
-    useEffect(() => {
-        const fetchCredits = async () => {
-            const user = await getSessionUser()
-            if (!user || user.role !== "organization") {
-                console.error("Not logged in as organization")
-                return
-            }
-            const partnerId = user.orgId
-
-
-            // Check credits
-            const creditResult = await checkCredits(partnerId)
-            if ("error" in creditResult) {
-                console.error("Failed to fetch credits", creditResult.error)
-            } else {
-                setAvailableCredits(creditResult.credits)
-            }
-        }
-
-        fetchCredits()
-    }, [])
-
-
-    // --------------- GET TEACHERS -----------------
-
-    const [teachers, setTeachers] = useState<Teacher[]>([])
-
-    useEffect(() => {
-        const fetchTeachers = async () => {
-            const user = await getSessionUser()
-            if (!user || user.role !== 'organization') {
-                console.error("Not logged in as organization")
-                return
-            }
-
-            const result = await getTeachersByOrgId(user.orgId)
-            if ('error' in result) {
-                console.error("Failed to load teachers:", result.error)
-            } else {
-                setTeachers(result.teachers)
-            }
-        }
-
-        fetchTeachers()
-    }, [])
-
-
-
-    // ------------- CREATE NEW USER -----------------
+    const { mutateAsync: createStudentMutation, isPending } = useCreateStudent();
 
     const handleSubmit = async () => {
-        const user = await getSessionUser()
-        if (!user || user.role !== "organization") {
-            console.error("Not logged in as organization")
-            return
-        }
-        const partnerId = user.orgId
-
         if (!formData.name || !formData.username || !formData.password) {
-            alert("Please fill in all fields.")
-            return
+            alert("Please fill in all fields.");
+            return;
         }
-
-        setLoading(true)
-
         try {
-            const result = await createStudent({
-                name: formData.name,
-                username: formData.username,
-                password: formData.password,
-                revenue: formData.revenue,
-                teacher_id: formData.teacher_id,
-                orgId: partnerId,
-            })
+            const result = await createStudentMutation(formData);
 
             if ("error" in result) {
-                console.error("Error creating student:", result.error)
-                alert(result.error || "Failed to create student.")
+                alert(result.error || "Failed to create student.");
             } else {
-                alert("Student created successfully.")
-                onClose()
+                alert("Student created successfully.");
+                onClose();
             }
-
-            // Reload window to reflect newly added student and updated credits
-            window.location.reload()
-
         } catch (err) {
-            console.error("Unexpected error:", err)
-            alert("Something went wrong.")
-        } finally {
-            setLoading(false)
+            console.error("Unexpected error:", err);
+            alert("Something went wrong.");
         }
     }
 
@@ -244,8 +170,8 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                                 <div className="text-sm text-muted-foreground">
                                     Remaining Credits: <span className="font-medium">{availableCredits}</span>
                                 </div>
-                                <Button onClick={handleSubmit} disabled={loading}>
-                                    {loading ? "Creating..." : "Create Student"}
+                                <Button onClick={handleSubmit} disabled={isPending}>
+                                    {isPending ? "Creating..." : "Create Student"}
                                 </Button>
                             </div>
                         </DialogFooter>

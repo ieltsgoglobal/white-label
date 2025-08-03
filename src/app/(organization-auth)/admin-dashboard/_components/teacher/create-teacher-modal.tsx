@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import ModrenBg from "./bg-create-teacher-modal.jpg"
 import Image from "next/image"
-import { getSessionUser } from "@/lib/auth/session/get-user"
-import { createTeacher } from "@/lib/superbase/teacher-table"
+import { useCreateTeacher } from "@/hooks/supabase/teachers-table"
 
 export default function CreateTeacherModal({ open, onClose, }: { open: boolean, onClose: () => void }) {
     const [formData, setFormData] = useState({
@@ -15,51 +14,40 @@ export default function CreateTeacherModal({ open, onClose, }: { open: boolean, 
         username: "",
         password: "",
     })
-    const [loading, setLoading] = useState(false)
 
     const handleChange = (key: string, value: string) => {
         setFormData({ ...formData, [key]: value })
     }
 
-    // -------------- CREATE TEACHER ----------------------
 
-    const handleSubmit = async () => {
-        const user = await getSessionUser()
-        if (!user || user.role !== "organization") {
-            console.error("Not logged in as organization")
-            return
-        }
-        const partnerId = user.orgId
+    const { mutate, isPending } = useCreateTeacher();
 
-        if (!formData.name || !formData.username || !formData.password) {
-            alert("Please fill in all fields.")
-            return
+    const handleSubmit = () => {
+        const { name, username, password } = formData;
+        if (!name || !username || !password) {
+            alert("Please fill in all fields.");
+            return;
         }
 
-        setLoading(true)
-
-        try {
-            const result = await createTeacher({
-                name: formData.name,
-                username: formData.username,
-                password: formData.password,
-                org_id: partnerId,
-            })
-
-
-            if ("error" in result) {
-                alert(result.error || "Failed to create teacher.")
-            } else {
-                alert("Teacher created successfully.")
-                onClose()
+        mutate(
+            { name, username, password },
+            {
+                onSuccess: (res) => {
+                    if ("error" in res) {
+                        alert(res.error);
+                        return;
+                    }
+                    setFormData({ name: "", username: "", password: "", })
+                    onClose();
+                },
+                onError: (err) => {
+                    console.error("Mutation failed:", err);
+                    alert("Something went wrong.");
+                },
             }
-        } catch (err) {
-            console.error("Unexpected error:", err)
-            alert("Something went wrong.")
-        } finally {
-            setLoading(false)
-        }
-    }
+        );
+    };
+
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
@@ -129,8 +117,8 @@ export default function CreateTeacherModal({ open, onClose, }: { open: boolean, 
 
                         <DialogFooter>
                             <div className="flex items-center justify-between w-full mt-6">
-                                <Button onClick={handleSubmit} disabled={loading}>
-                                    {loading ? "Creating..." : "Create Teacher"}
+                                <Button onClick={handleSubmit} disabled={isPending}>
+                                    {isPending ? "Creating..." : "Create Teacher"}
                                 </Button>
                             </div>
                         </DialogFooter>

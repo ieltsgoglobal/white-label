@@ -1,19 +1,21 @@
 "use client"
-import Link from "next/link";
 
+import Link from "next/link";
 import PlaceholderContent from "@/components/demo/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UserManagement } from "./_components/users/user-managment";
 import { TransactionManagment } from "./_components/transaction/transaction-managment";
 import { useState } from "react";
 import PricingManagment from "./_components/pricing/pricing-managment";
 import TeacherManagement from "./_components/teacher/teacher-managment";
+import { QueryProvider } from "@/components/providers/query-provider";
 
 export default function UsersPage() {
     const [activeTab, setActiveTab] = useState<string>("pricing")
+
     return (
         <ContentLayout title="IELTS GO GLOBAL">
             <Breadcrumb>
@@ -63,11 +65,14 @@ export default function UsersPage() {
                         </div>
                     </div>
 
-                    {activeTab !== "" && <div className="border-b border-border my-5"></div>}
-                    {activeTab === "users" && <UserManagement />}
-                    {activeTab === "transactions" && <TransactionManagment />}
-                    {activeTab === "pricing" && <PricingManagment />}
-                    {activeTab === "teachers" && <TeacherManagement />}
+                    <QueryProvider>
+                        {activeTab !== "" && <div className="border-b border-border my-5"></div>}
+                        {activeTab === "users" && <UserManagement />}
+                        {activeTab === "transactions" && <TransactionManagment />}
+                        {activeTab === "pricing" && <PricingManagment />}
+                        {activeTab === "teachers" && <TeacherManagement />}
+                    </QueryProvider>
+
                 </div>
             </PlaceholderContent>
         </ContentLayout>
