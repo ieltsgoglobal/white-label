@@ -1,3 +1,4 @@
+import { checkAnswerAcceptable } from "../listening/checkAnswerAcceptable"
 import { getMockAnswers, updateReadingScore } from "../mockAnswersStorage"
 
 type AnswerMap = Record<number, string>
@@ -18,9 +19,6 @@ export async function evaluateReading(test_id: string) {
 
     // store reading band in localstorage
     updateReadingScore(band)
-
-    console.log(userAnswers)
-    console.log(realAnswers)
 
 }
 
@@ -56,9 +54,8 @@ function compareReadingAnswers(userAnswers: AnswerMap, realAnswers: AnswerMap): 
     for (const [idStr, correctAns] of Object.entries(realAnswers)) {
         const qid = Number(idStr)
         const userAns = (userAnswers[qid] || "").trim().toLowerCase()
-        const real = correctAns.trim().toLowerCase()
 
-        if (userAns === real) {
+        if (checkAnswerAcceptable(userAns, correctAns)) {
             correctCount++
         }
     }

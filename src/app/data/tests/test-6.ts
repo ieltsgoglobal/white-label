@@ -501,7 +501,7 @@ The modification of clouds was a major new idea, and what struck the audience mo
         },
         {
             questionType: "image-labeling",
-            image_url: "https://www.dropbox.com/scl/fi/q86plzk9vj3n7duvv85ol/image-labeling-q33-36.png?rlkey=p3e7mgwy8742ykb16ci7bopqf&st=w3aplmyd&raw=1",
+            image_url: "https://www.dropbox.com/scl/fi/s5a7qtszbb01am3f5yqdf/image-labeling-q33-36.jpg?rlkey=j03e8qm08tubrcdnc12qtuuty&st=ygjd65zz&raw=1",
             instructions: "Label the diagram below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from the passage for each answer.",
             questions: [
                 {
@@ -646,7 +646,7 @@ export const reading_answers = {
     33: "dizzy heights",
     34: "major cumulus cloud",
     35: "oxygen",
-    36: "6.5°C; thousand/1000 metres",
+    36: "6.5",
 
     37: "E",
     38: "F",

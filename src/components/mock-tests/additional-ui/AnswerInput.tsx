@@ -9,6 +9,7 @@ import clsx from "clsx"
 import { useParams } from "next/navigation"
 import { useMockAttempts } from "@/app/(student-auth)/mock-scores/_component/MockAttemptContext"
 import { AnswerMap } from "@/types/mockTestAttempt"
+import { checkAnswerAcceptable } from "@/lib/mock-tests/listening/checkAnswerAcceptable"
 
 interface AnswerInputProps {
     questionNumber: number
@@ -82,8 +83,7 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
                 // check if answers is correct or not
                 const correctAnswer = correct[questionNumber.toString()]
                 if (isReviewMode && correctAnswer && value) {
-                    const isSame =
-                        correctAnswer.toLowerCase().trim() === value.toLowerCase().trim()
+                    const isSame = checkAnswerAcceptable(value, correctAnswer)
                     setIsCorrect(isSame)
                 } else {
                     setIsCorrect(null)

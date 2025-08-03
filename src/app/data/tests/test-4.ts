@@ -592,7 +592,7 @@ export const reading_answers = {
     9: "B",
     10: "E",
     11: "Masterpieces",
-    12: "Eye-tracking",
+    12: "Eye-tracking/Eye tracking",
     13: "handwritten letter",
     14: "artistic environment",
 

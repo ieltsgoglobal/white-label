@@ -714,10 +714,10 @@ export const reading_answers = {
     16: "B",
     17: "F",
 
-    18: "mid(-)ocean ridge(s)/ ridge crest(s)",
+    18: "mid-ocean ridge(s)/mid ocean ridge(s)/ ridge crest(s)",
     19: "molten rock rose",
-    20: "(Earth's )magnetic field",
-    21: "parallel/symmetrical/magnetic (zebra) stripes",
+    20: "(Earth's) magnetic field",
+    21: "parallel/ symmetrical/ magnetic zebra stripes/ magnetic stripes",
     22: "pushed aside/(further) apart",
 
     23: "plate tectonics",
@@ -745,7 +745,7 @@ export const reading_answers = {
 
 export const listening_answers = {
     1: "10 Bridge",
-    2: "Writing / Writing Class",
+    2: "Writing/ Writing Class",
     3: "Mrs Green",
     4: "July 15",
     5: "1 / One",

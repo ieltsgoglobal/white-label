@@ -784,7 +784,7 @@ export const reading_answers = {
     25: "Winds",
     26: "Existence",
     27: "Glaciers",
-    28: "Well-being",
+    28: "Well-being/Well being",
     29: "Moving",
     30: "Noise",
     31: "Infrastructure",

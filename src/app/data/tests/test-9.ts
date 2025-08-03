@@ -609,7 +609,7 @@ export const listening_answers = {
     2: "12/twelve",
     3: "5/five",
     4: "breakfast",
-    5: "8th june",
+    5: "8th june/8 june",
 
     6: "C",
     7: "E",
@@ -647,7 +647,7 @@ export const listening_answers = {
     35: "older residents",
     36: "waste",
     37: "wind farms",
-    38: "co-operative",
+    38: "co-operative/cooperative",
     39: "retirement homes",
     40: "social housing"
 };
