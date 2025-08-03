@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from "react"
 import type { MockTestAttempt } from "@/types/mockTestAttempt"
 import { MockAttemptContext } from "./_component/MockAttemptContext"
 import { getCachedMockTestAttempts, setCachedMockTestAttempts } from "@/app/(student-auth)/mock-scores/_component/mockAttemptsCache"
-import { useSearchParams } from "next/navigation"
 
 
 export default function DemoLayout({ children }: { children: React.ReactNode }) {

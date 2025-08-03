@@ -34,7 +34,9 @@ export default function ImageLabeling(props: MapSection) {
     return (
         <Card className="w-full">
             <CardHeader>
-                <CardTitle>Questions {mapQuestions.questions[0].id} -  {mapQuestions.questions[mapQuestions.questions.length - 1].id}</CardTitle>
+                <CardTitle className="">
+                    Questions {mapQuestions.questions[0].id} -  {mapQuestions.questions[mapQuestions.questions.length - 1].id}
+                </CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">{mapQuestions.instructions}</p>
             </CardHeader>
             <CardContent>

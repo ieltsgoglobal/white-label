@@ -52,6 +52,7 @@ export default function MicCheck({ onNext }: { onNext: () => void }) {
         }
     };
 
+    // request for mic on browser
     useEffect(() => {
         requestMicAccess();
         return () => {
@@ -73,18 +74,26 @@ export default function MicCheck({ onNext }: { onNext: () => void }) {
                 <CardContent className="p-6 flex flex-col items-center space-y-6">
                     <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-300">Microphone Check</h1>
 
+
                     <Image
                         src="/mock-tests/microphone-check/microphone-check.png"
                         alt="Microphone Test"
                         width={200}
                         height={200}
-                        className="rounded-xl object-contain"
+                        className={`rounded-xl object-contain transition-all duration-300 ${isRecording ? "boom-glow" : ""}`}
                     />
 
-                    <p className="text-xl font-medium text-center text-gray-700 dark:text-gray-300">
-                        Question: <br />
-                        <span className="italic">“Briefly introduce yourself.”</span>
-                    </p>
+
+                    {isRecording ? (
+                        <p className="text-xl font-medium text-center animate-pulse text-gray-700 dark:text-gray-300">
+                            Recording...
+                        </p>
+                    ) : (
+                        <p className="text-xl font-medium text-center text-gray-700 dark:text-gray-300">
+                            <span className="italic">"Say something to test your microphone.”</span>
+                        </p>
+
+                    )}
 
                     <div className="w-full flex flex-col space-y-4">
                         <Button
@@ -112,6 +121,25 @@ export default function MicCheck({ onNext }: { onNext: () => void }) {
                     )}
                 </CardContent>
             </Card>
-        </div>
+
+
+            <style jsx>{`
+  @keyframes boomGlow {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(0, 149, 255, 0.4);
+    }
+    50% {
+      transform: scale(1.08);
+      box-shadow: 0 0 30px 12px rgba(0, 149, 255, 0.6);
+    }
+  }
+
+  .boom-glow {
+    animation: boomGlow 1.4s ease-in-out infinite;
+    border-radius: 9999px;
+  }
+`}</style>
+        </div >
     );
 }

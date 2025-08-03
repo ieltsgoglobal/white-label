@@ -85,7 +85,11 @@ export default function TableCompletion(props: TableQuestion) {
                 <h2 className="text-2xl font-bold text-foreground mb-4">
                     {(() => {
                         const allIds = tableQuestion.tableData.rows.flatMap(row =>
-                            row.cells.map(cell => cell.id).filter((id): id is number => typeof id === "number")
+                            row.cells.flatMap(cell => {
+                                if (typeof cell.id === "number") return [cell.id]
+                                if (Array.isArray(cell.id)) return cell.id
+                                return []
+                            })
                         )
                         const minId = Math.min(...allIds)
                         const maxId = Math.max(...allIds)

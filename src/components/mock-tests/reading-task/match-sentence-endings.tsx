@@ -32,31 +32,24 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
     const [questions, setQuestions] = useState(
         matchingEndingsQuestion.question.starting.map((q) => ({
             ...q,
-            selectedAnswer: "",
         }))
     )
 
-
-    const handleAnswerChange = (questionId: number, value: string) => {
-        // Only allow single letters A-G (case insensitive)
-        const upperValue = value.toUpperCase()
-        const validLetters = ["A", "B", "C", "D", "E", "F", "G"]
-        const filteredValue =
-            upperValue.length > 0 && validLetters.includes(upperValue.charAt(upperValue.length - 1))
-                ? upperValue.charAt(upperValue.length - 1)
-                : ""
-
-    }
+    const [questionsEndings, setQuestionsEndings] = useState(
+        matchingEndingsQuestion.question.endings.map((q) => ({
+            ...q,
+        }))
+    )
 
     return (
         <div className="bg-background rounded-3xl border border-border p-8">
             <div className="mb-8">
-                <h2 className="text-2xl font-bold text-foreground mb-4">
+                <h2 className="text-xl font-bold text-foreground mb-4">
                     Questions {Math.min(...questions.map(q => q.id))} - {Math.max(...questions.map(q => q.id))}
                 </h2>
                 <p className="text-sm font-medium text-blue-900">
-                    Complete each sentence with the correct ending, <span className="font-bold">A - G</span>, below. Write the
-                    correct letter, <span className="font-bold">A - G</span>, in boxes 32 - 36.
+                    Complete each sentence with the correct ending, Write the
+                    correct letter, <span className="font-bold">{questionsEndings[0].letter} - {questionsEndings[questionsEndings.length - 1].letter}</span>, in boxes {questions[0].id} - {questions[questions.length - 1].id}.
                 </p>
             </div>
 

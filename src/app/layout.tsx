@@ -14,24 +14,24 @@ export const metadata: Metadata = {
         ? `https://${process.env.VERCEL_URL}`
         : `http://localhost:${process.env.PORT || 3000}`
   ),
-  title: "shadcn/ui sidebar",
+  title: "IELTS Go Global | Practice & Evaluate for IELTS Success",
   description:
-    "A stunning and functional retractable sidebar for Next.js built on top of shadcn/ui complete with desktop and mobile responsiveness.",
+    "IELTS Go Global is your trusted platform for realistic IELTS practice tests, expert evaluations, and detailed performance analytics—helping students and educators succeed worldwide.",
   alternates: {
     canonical: "/"
   },
   openGraph: {
     url: "/",
-    title: "shadcn/ui sidebar",
+    title: "IELTS Go Global | Practice & Evaluate for IELTS Success",
     description:
-      "A stunning and functional retractable sidebar for Next.js built on top of shadcn/ui complete with desktop and mobile responsiveness.",
+      "Take full-length IELTS mock tests, receive professional feedback, and track your progress. Trusted by students and teachers around the world.",
     type: "website"
   },
   twitter: {
     card: "summary_large_image",
-    title: "shadcn/ui sidebar",
+    title: "IELTS Go Global | Your Trusted IELTS Practice Platform",
     description:
-      "A stunning and functional retractable sidebar for Next.js built on top of shadcn/ui complete with desktop and mobile responsiveness."
+      "Get real IELTS practice tests, AI + expert feedback, and grow your IELTS band score.",
   }
 };
 

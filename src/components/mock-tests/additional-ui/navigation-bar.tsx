@@ -1,15 +1,29 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { ArrowLeft, Clock, Check } from "lucide-react"
 
-export default function NavigationBar({ onSubmit }: { onSubmit: () => void }) {
-    const [timeLeft, setTimeLeft] = useState(30 * 60) // 13:54 in seconds
+interface NavigationBarProps {
+    onSubmit: () => void
+    initialMinutes?: number // defaults to 30
+}
+
+export default function NavigationBar({ onSubmit, initialMinutes = 30 }: NavigationBarProps) {
+    const [timeLeft, setTimeLeft] = useState(initialMinutes * 60)
+    const hasSubmittedRef = useRef(false)
 
     useEffect(() => {
+        if (initialMinutes <= 0) return
+
+        const timer = startTimer(setTimeLeft)
+        return () => clearInterval(timer)
+    }, [initialMinutes])
+
+    const startTimer = (setTime: React.Dispatch<React.SetStateAction<number>>) => {
         const timer = setInterval(() => {
-            setTimeLeft((prev) => {
-                if (prev <= 0) {
+            setTime((prev) => {
+                if (prev <= 1) {
+                    safeSubmit() // when timer ends
                     clearInterval(timer)
                     return 0
                 }
@@ -17,13 +31,20 @@ export default function NavigationBar({ onSubmit }: { onSubmit: () => void }) {
             })
         }, 1000)
 
-        return () => clearInterval(timer)
-    }, [])
+        return timer
+    }
 
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60)
         const secs = seconds % 60
         return `${mins}:${secs.toString().padStart(2, "0")}`
+    }
+
+    // prevents from double submit
+    const safeSubmit = () => {
+        if (hasSubmittedRef.current) return
+        hasSubmittedRef.current = true
+        onSubmit()
     }
 
     return (
@@ -39,7 +60,7 @@ export default function NavigationBar({ onSubmit }: { onSubmit: () => void }) {
                     <span className="font-mono">{formatTime(timeLeft)} LEFT</span>
                 </div>
 
-                <button onClick={onSubmit} className="flex items-center gap-2 text-white hover:text-gray-300">
+                <button onClick={safeSubmit} className="flex items-center gap-2 text-white hover:text-gray-300">
                     <span>SUBMIT</span>
                     <Check className="w-4 h-4" />
                 </button>
