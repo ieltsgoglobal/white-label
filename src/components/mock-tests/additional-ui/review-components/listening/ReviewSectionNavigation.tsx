@@ -9,7 +9,7 @@ export default function ReviewSectionNavigation({ onSelect }: ReviewSectionNavig
 
   return (
     <div className="max-w-[95vw] overflow-x-auto scrollbar-hide max-h-12 mt-5 rounded-3xl px-2 py-1 bg-muted/40 border border-border">
-      <div className="h-full flex flex-col md:flex-row">
+      <div className="h-full flex">
         {parts.map((part, index) => (
           <div
             key={part}

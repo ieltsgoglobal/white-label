@@ -83,12 +83,12 @@ export default function TestSectionNavigation({ activeSection, onSectionClick }:
                 <ChevronLeft className="h-5 w-5 text-gray-600" />
             </Button>
 
-            <h1 className="font-semibold tracking-tight text-foreground/70">
+            <h1 className="hidden sm:block font-semibold tracking-tight text-foreground/70">
                 IELTS Mock Test Review
             </h1>
 
             {/* Section Badges */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
                 {sections.map((section) => {
                     const IconComponent = section.icon
                     const isActive = section.id === activeSection

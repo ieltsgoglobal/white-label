@@ -16,11 +16,11 @@ export default function ReadingPaginationStrip({ allSections, onJump }: ReadingP
         })
     })
 
-    const partLabels = ["Part 1", "Part 2", "Part 3"]
+    const partLabels = ["Part A", "Part B", "Part C"]
 
     return (
         <div className="max-w-[95vw] overflow-x-auto scrollbar-hide max-h-12 mt-5 rounded-3xl px-4 py-1 bg-muted/40 border border-border">
-            <div className="flex items-start gap-6 sm:gap-4 whitespace-nowrap">
+            <div className="flex items-center justify-around gap-6 sm:gap-4 whitespace-nowrap">
                 {allSections.map((_, sectionIndex) => {
                     // Extract questions belonging to this section
                     const sectionQuestions = flattenedQuestions.filter(q => q.sectionIndex === sectionIndex)
@@ -30,7 +30,10 @@ export default function ReadingPaginationStrip({ allSections, onJump }: ReadingP
                     return (
                         <div key={sectionIndex} className="flex items-center justify-center gap-1">
                             {/* Part Label */}
-                            <div className="text-xs font-semibold text-foreground/80">{partLabel}</div>
+                            <div className="text-center group-hover:scale-105 transition-transform duration-300">
+                                <h2 className="text-sm font-bold text-foreground/80 tracking-wider mb-1">{partLabel}</h2>
+                                <div className="w-16 h-0.5 bg-slate-300 mx-auto" />
+                            </div>
 
                             {/* Buttons for this section */}
                             <div className="flex gap-1">
