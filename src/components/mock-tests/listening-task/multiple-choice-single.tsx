@@ -26,7 +26,7 @@ export default function MultipleChoiceSingle(props: MCQSection) {
     return (
         <Card className="w-full rounded-3xl">
             <CardHeader>
-                <CardTitle>
+                <CardTitle className="text-xl">
                     Questions {mcqQuestions.questions[0].id}–{mcqQuestions.questions[mcqQuestions.questions.length - 1].id}
                 </CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">

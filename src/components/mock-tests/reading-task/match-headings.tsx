@@ -1,6 +1,7 @@
 "use client"
 import { Input } from "@/components/ui/input"
 import AnswerInput from "../additional-ui/AnswerInput"
+import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface Heading {
     number: string
@@ -28,11 +29,11 @@ export default function MatchHeadings(props: MatchHeadingsSection) {
     const getSectionLabel = (index: number) => `Section ${String.fromCharCode(65 + index)}`
 
     return (
-        <div className="bg-background rounded-3xl border border-border p-8">
-            <div className="mb-8">
-                <h2 className="text-2xl font-bold text-foreground mb-4">
+        <Card className="w-full rounded-3xl">
+            <CardHeader>
+                <CardTitle className="text-xl">
                     Questions {section.question.id[0]} - {section.question.id[section.question.id.length - 1]}
-                </h2>
+                </CardTitle>
                 <p className="text-muted-foreground leading-relaxed">
                     The text has {section.question.id.length} sections,{" "}
                     <span className="font-bold">
@@ -48,7 +49,7 @@ export default function MatchHeadings(props: MatchHeadingsSection) {
                     </span>
                     .
                 </p>
-            </div>
+            </CardHeader>
 
             {/* Headings */}
             <div className="mb-8 p-6 border-2 border-border rounded-lg">
@@ -81,6 +82,6 @@ export default function MatchHeadings(props: MatchHeadingsSection) {
                     </div>
                 ))}
             </div>
-        </div>
+        </Card>
     )
 }

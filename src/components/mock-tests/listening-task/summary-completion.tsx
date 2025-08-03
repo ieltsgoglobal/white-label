@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 import AnswerInput from "../additional-ui/AnswerInput"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface SummaryQuestion {
     questionType: "summary-completion"
@@ -74,27 +75,27 @@ export default function SummaryCompletion(props: SummaryQuestion) {
     }
 
     return (
-        <div className="w-full bg-background rounded-3xl border border-border p-8">
-            <div className="mb-8">
-                <h2 className="text-2xl font-bold text-foreground mb-4">
+        <Card className="w-full rounded-3xl">
+            <CardHeader>
+                <CardTitle className="text-xl">
                     Questions {summaryQuestion.question.id[0]} - {summaryQuestion.question.id.at(-1)}
-                </h2>
-                <p className="text-sm font-medium text-foreground">
+                </CardTitle>
+                <p className="text-sm font-medium text-muted-foreground">
                     Complete the summary below. Write NO MORE THAN ONE WORD from the text in each box.
                 </p>
 
                 {renderOptionList()}
 
-            </div>
+            </CardHeader>
 
-            <div className="space-y-6">
+            <CardContent className="space-y-6">
                 <div className="bg-muted/50 p-6 rounded-3xl">
                     <h3 className="text-xl font-bold text-center mb-6">
                         {summaryQuestion.question.title}
                     </h3>
                     <div className="text-base leading-relaxed space-y-4">{renderPassage()}</div>
                 </div>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     )
 }

@@ -20,7 +20,7 @@ export default function FlowChartCompletion(props: FlowChartSection) {
     return (
         <Card className="w-full">
             <CardHeader>
-                <CardTitle>
+                <CardTitle className="text-xl">
                     Questions {id[0]} - {id[id.length - 1]}
                 </CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">

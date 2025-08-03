@@ -62,7 +62,7 @@ export default function NoteCompletion(props: NoteCompletionSection) {
     return (
         <Card className="w-full rounded-3xl">
             <CardHeader>
-                <CardTitle>
+                <CardTitle className="text-xl">
                     {(() => {
                         const allIds = noteQuestions.sections
                             .flatMap(section => section.bulletPoints)

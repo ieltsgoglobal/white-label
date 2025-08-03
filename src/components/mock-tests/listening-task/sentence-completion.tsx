@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 import AnswerInput from "../additional-ui/AnswerInput"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 interface Question {
     id: number
     sentence: string
@@ -37,21 +38,21 @@ export default function SentenceCompletion(props: SentenceCompletionSection) {
     }
 
     return (
-        <div className="w-full bg-background rounded-3xl border border-border p-8">
-            <div className="mb-8">
-                <h2 className="text-2xl font-bold text-foreground mb-2">
+        <Card className="w-full rounded-3xl">
+            <CardHeader>
+                <CardTitle className="text-xl">
                     Questions {section.questions[0].id} - {section.questions[section.questions.length - 1].id}
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
+                </CardTitle>
+                <p className="text-muted-foreground text-sm font-medium leading-relaxed">
                     Complete the sentences. Write <span className="font-bold">NO MORE THAN THREE WORDS</span> from the text in each box.
                 </p>
-            </div>
+            </CardHeader>
 
-            <div className="space-y-8">
+            <CardContent className="space-y-8">
                 {section.questions.map((question, index) => (
                     <div key={question.id} className="space-y-4">
                         <div className="flex items-start space-x-3">
-                            <span className="font-bold text-lg text-foreground mt-1 min-w-[32px]">{question.id}</span>
+                            <span className="font-bold text-foreground mt-1 min-w-[32px]">{question.id}</span>
                             <div className="flex-1">{renderSentenceWithInput(question)}</div>
                         </div>
 
@@ -60,7 +61,7 @@ export default function SentenceCompletion(props: SentenceCompletionSection) {
                         )}
                     </div>
                 ))}
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     )
 }

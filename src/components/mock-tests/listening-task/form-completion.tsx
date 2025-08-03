@@ -90,7 +90,7 @@ export default function FormCompletion(props: FormQuestion) {
     return (
         <Card className="w-full rounded-3xl">
             <CardHeader>
-                <CardTitle className="text-2xl">
+                <CardTitle className="text-xl">
                     {(() => {
                         const allIds = formQuestion.formData.sections
                             .flatMap(section => section.fields)

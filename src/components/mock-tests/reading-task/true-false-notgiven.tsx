@@ -1,5 +1,6 @@
 "use client"
 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import AnswerRadio from "../additional-ui/AnswerRadio"
 
 interface Question {
@@ -19,17 +20,17 @@ export default function TrueFalseNotGiven(props: TrueFalseNotGivenSection) {
   const section: TrueFalseNotGivenSection = props
 
   return (
-    <div className="bg-background rounded-3xl border border-border p-8">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-foreground mb-2">
+    <Card className="w-full rounded-3xl">
+      <CardHeader>
+        <CardTitle className="text-xl">
           Questions {section.questions[0].id} - {section.questions[section.questions.length - 1].id}
-        </h2>
+        </CardTitle>
         <p className="text-muted-foreground leading-relaxed">
           Choose <span className="font-bold">TRUE</span> if the statement agrees with the information given in the text, choose <span className="font-bold">FALSE</span> if the statement contradicts the information, or choose <span className="font-bold">NOT GIVEN</span> if there is no information on this.
         </p>
-      </div>
+      </CardHeader>
 
-      <div className="space-y-8">
+      <CardContent>
         {section.questions.map((question) => (
           <div key={question.id} className="space-y-4">
             <div className="flex items-start space-x-3">
@@ -42,7 +43,7 @@ export default function TrueFalseNotGiven(props: TrueFalseNotGivenSection) {
             </div>
           </div>
         ))}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }

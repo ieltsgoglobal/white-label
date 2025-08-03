@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import AnswerInput from "../additional-ui/AnswerInput"
 
@@ -43,21 +43,21 @@ export default function Matching(props: MatchingFeaturesQuestion) {
     }
 
     return (
-        <div className="w-full bg-background rounded-3xl border border-border p-8">
-            <div className="mb-8">
-                <h2 className="text-2xl font-bold text-foreground mb-4">
+        <Card className="w-full rounded-3xl">
+            <CardHeader>
+                <CardTitle className="text-xl">
                     Questions {statements[0].id} - {statements[statements.length - 1].id}
-                </h2>
+                </CardTitle>
                 <p className="text-sm font-medium text-muted-foreground">
                     Choose {statements.length} answers from the box and write correct letters <span className="font-bold">A – {features[features.length - 1].letter}</span> next to questions <span className="font-bold">{statements[0].id}-{statements[statements.length - 1].id}</span>.
                 </p>
                 {question_statement && <div className="mt-4 text-base text-foreground">{question_statement}</div>}
-            </div>
+            </CardHeader>
 
-            <div className="space-y-8">
+            <CardContent>
                 {/* Questions */}
                 <div>
-                    {statements_title && <h3 className="text-lg font-semibold text-foreground mb-3">{statements_title}</h3>}
+                    {statements_title && <h3 className="text-lg font-semibold text-foreground mb-3 ml-1">{statements_title}</h3>}
                     <div className="space-y-6">
                         {questions.map((q) => (
                             <div key={q.id} className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
@@ -83,8 +83,8 @@ export default function Matching(props: MatchingFeaturesQuestion) {
 
 
                 {/* Feature Options */}
-                <div>
-                    {features_title && <h3 className="text-lg font-semibold text-foreground mb-3">{features_title}</h3>}
+                <div className="mt-8">
+                    {features_title && <h3 className="text-lg font-semibold text-foreground mb-3 ml-1">{features_title}</h3>}
                     <Card className="border-2 border-border">
                         <CardContent className="p-6">
                             <div className="space-y-3">
@@ -98,7 +98,7 @@ export default function Matching(props: MatchingFeaturesQuestion) {
                         </CardContent>
                     </Card>
                 </div>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     )
 }

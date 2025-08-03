@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import AnswerInput from "../additional-ui/AnswerInput"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export interface MatchingSentenceStart {
     id: number
@@ -41,20 +42,20 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
     }
 
     return (
-        <div className="bg-background rounded-3xl border border-border p-8">
-            <div className="mb-8">
-                <h2 className="text-2xl font-bold text-foreground mb-4">
+        <Card className="w-full rounded-3xl">
+            <CardHeader>
+                <CardTitle className="text-xl">
                     Questions {Math.min(...questions.map(q => q.id))} - {Math.max(...questions.map(q => q.id))}
-                </h2>
+                </CardTitle>
                 <p className="text-sm font-medium text-muted-foreground">
                     The reading passage has {props.question.letters.length} paragraphs, {props.question.letters[0]}–{props.question.letters[props.question.letters.length - 1]}.{" "}
                     Which paragraph contains the following information? Write the correct letter, {props.question.letters[0]}–{props.question.letters[props.question.letters.length - 1]}{" "}
                     in boxes {Math.min(...props.question.information.map(q => q.id))}–{Math.max(...props.question.information.map(q => q.id))} on your screen.{" "}
                     You may use any letter more than once.
                 </p>
-            </div>
+            </CardHeader>
 
-            <div className="space-y-8">
+            <CardContent>
                 {/* Questions Section */}
                 <div className="space-y-6">
                     {questions.map((question) => (
@@ -75,7 +76,7 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
                         </div>
                     ))}
                 </div>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     )
 }

@@ -24,7 +24,7 @@ export default function MultipleChoiceMany(props: MultipleChoiceManySection) {
     return (
         <Card className="w-full rounded-3xl">
             <CardHeader>
-                <CardTitle>
+                <CardTitle className="text-xl">
                     Questions {props.questions[0].id[0]}–{props.questions[props.questions.length - 1].id[props.questions[props.questions.length - 1].id.length - 1]}
                 </CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">

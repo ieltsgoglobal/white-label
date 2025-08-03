@@ -41,7 +41,9 @@ export default function ShortAnswer(props: OneWordSection) {
     return (
         <Card className="w-full">
             <CardHeader>
-                <CardTitle>Questions {oneWordQuestions.questions[0].id} - {oneWordQuestions.questions[oneWordQuestions.questions.length - 1].id}</CardTitle>
+                <CardTitle className="text-xl">
+                    Questions {oneWordQuestions.questions[0].id} - {oneWordQuestions.questions[oneWordQuestions.questions.length - 1].id}
+                </CardTitle>
                 {/* if reading instruction are there then use it or else use default listening instructions */}
                 {/* need to do this as we are using short-answer component for reading and listening but they have diffrent instructions  */}
                 <p className="text-sm text-muted-foreground font-medium">
@@ -53,7 +55,7 @@ export default function ShortAnswer(props: OneWordSection) {
                     {/* Topic Header */}
                     {oneWordQuestions.topic &&
                         <div className="border-l-4 border-blue-500 pl-4">
-                            <h3 className="font-semibold text-lg">{oneWordQuestions.topic}</h3>
+                            <h3 className="font-semibold">{oneWordQuestions.topic}</h3>
                         </div>
                     }
 

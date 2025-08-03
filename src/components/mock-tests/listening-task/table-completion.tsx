@@ -80,9 +80,9 @@ export default function TableCompletion(props: TableQuestion) {
     }
 
     return (
-        <div className="w-full rounded-3xl border border-border p-8 bg-background">
-            <div className="mb-8">
-                <h2 className="text-2xl font-bold text-foreground mb-4">
+        <Card className="w-full rounded-3xl">
+            <CardHeader>
+                <CardTitle className="text-xl">
                     {(() => {
                         const allIds = tableQuestion.tableData.rows.flatMap(row =>
                             row.cells.flatMap(cell => {
@@ -95,11 +95,11 @@ export default function TableCompletion(props: TableQuestion) {
                         const maxId = Math.max(...allIds)
                         return minId === maxId ? `Question ${minId}` : `Questions ${minId}–${maxId}`
                     })()}
-                </h2>
+                </CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">Complete the table below. Write ONE WORD OR A NUMBER.</p>
-            </div>
+            </CardHeader>
 
-            <CardContent>
+            <CardContent className="mx-8 mb-8">
                 <div className="space-y-6 -mx-6">
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-full">
@@ -127,6 +127,6 @@ export default function TableCompletion(props: TableQuestion) {
                     </div>
                 </div>
             </CardContent>
-        </div>
+        </Card>
     )
 }

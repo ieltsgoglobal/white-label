@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import AnswerInput from "../additional-ui/AnswerInput"
 
 export interface MatchingSentenceStart {
@@ -42,18 +42,18 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
     )
 
     return (
-        <div className="bg-background rounded-3xl border border-border p-8">
-            <div className="mb-8">
-                <h2 className="text-xl font-bold text-foreground mb-4">
+        <Card className="w-full rounded-3xl">
+            <CardHeader>
+                <CardTitle className="text-xl">
                     Questions {Math.min(...questions.map(q => q.id))} - {Math.max(...questions.map(q => q.id))}
-                </h2>
-                <p className="text-sm font-medium text-blue-900">
+                </CardTitle>
+                <p className="text-sm font-medium text-muted-foreground">
                     Complete each sentence with the correct ending, Write the
                     correct letter, <span className="font-bold">{questionsEndings[0].letter} - {questionsEndings[questionsEndings.length - 1].letter}</span>, in boxes {questions[0].id} - {questions[questions.length - 1].id}.
                 </p>
-            </div>
+            </CardHeader>
 
-            <div className="space-y-8">
+            <CardContent>
                 {/* Questions Section */}
                 <div className="space-y-6">
                     {questions.map((question) => (
@@ -76,7 +76,7 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
                 </div>
 
                 {/* Answer Options Section */}
-                <Card className="border-2 border-border">
+                <Card className="border-2 border-border mt-8">
                     <CardContent className="p-6">
                         <div className="space-y-3">
                             {matchingEndingsQuestion.question.endings.map((option: MatchingSentenceEndingOption) => (
@@ -88,7 +88,7 @@ export default function MatchSentenceEndings(props: MatchingSentenceEndingsQuest
                         </div>
                     </CardContent>
                 </Card>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     )
 }

@@ -441,8 +441,8 @@ If Dr Molveldt’s research is anything to go by, next time you yearn to live el
 
 export const reading_section_2 = {
     reading_passage: {
-        title: "",
-        subtitle: "",
+        title: "Tupperware’s Global Makeover",
+        subtitle: "From post-war kitchens to modern China, Tupperware evolves through shifting cultures and sales models.",
         passage: `
 Throw open anyone’s kitchen cupboards from Andorra to Zimbabwe, and you’ll find colourful plastic products for the preparation, serving, and storage of food. Chances are, some of these are Tupperware
 For many people in developed countries, Tupperware is redolent of the 1950s when grandma and her friends bought and sold it at ‘Tupperware parties’. Some would even say Tupperware became a cultural icon in that decade. However, these days, while parties are still popular, online sales are challenging the model. Indeed, since 2000, more Tupperware franchises have opened in China than anywhere else.
