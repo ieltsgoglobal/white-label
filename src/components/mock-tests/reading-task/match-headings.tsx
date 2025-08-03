@@ -1,7 +1,7 @@
 "use client"
 import { Input } from "@/components/ui/input"
 import AnswerInput from "../additional-ui/AnswerInput"
-import { Card, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface Heading {
     number: string
@@ -52,36 +52,38 @@ export default function MatchHeadings(props: MatchHeadingsSection) {
             </CardHeader>
 
             {/* Headings */}
-            <div className="mb-8 p-6 border-2 border-border rounded-lg">
-                <h3 className="text-xl font-bold text-foreground mb-4">List of Headings</h3>
-                <div className="space-y-2">
-                    {section.question.headings.map((heading) => (
-                        <div key={heading.number} className="flex items-start space-x-3">
-                            <span className="font-bold text-foreground min-w-[32px]">{heading.number}</span>
-                            <span className="text-foreground">{heading.text}</span>
+            <CardContent>
+                <div className="mb-8 p-6 border-2 border-border rounded-lg">
+                    <h3 className="text-xl font-bold text-foreground mb-4">List of Headings</h3>
+                    <div className="space-y-2">
+                        {section.question.headings.map((heading) => (
+                            <div key={heading.number} className="flex items-start space-x-3">
+                                <span className="font-bold text-foreground min-w-[32px]">{heading.number}</span>
+                                <span className="text-foreground">{heading.text}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Questions */}
+                <div className="space-y-6">
+                    {section.question.id.map((id, index) => (
+                        <div key={id} className="space-y-4">
+                            <div className="flex items-center space-x-4">
+                                <span className="font-bold text-lg text-foreground min-w-[32px]">{id}</span>
+                                <span className="text-foreground font-medium">{getSectionLabel(index)}</span>
+                                <AnswerInput
+                                    className="w-20 h-10 border-2 border-blue-300 focus:border-blue-500 rounded-md px-3 text-center"
+                                    questionNumber={id}
+                                    maxLength={4}
+                                />
+                            </div>
+
+                            {index < section.question.id.length - 1 && <div className="border-b border-border mt-4"></div>}
                         </div>
                     ))}
                 </div>
-            </div>
-
-            {/* Questions */}
-            <div className="space-y-6">
-                {section.question.id.map((id, index) => (
-                    <div key={id} className="space-y-4">
-                        <div className="flex items-center space-x-4">
-                            <span className="font-bold text-lg text-foreground min-w-[32px]">{id}</span>
-                            <span className="text-foreground font-medium">{getSectionLabel(index)}</span>
-                            <AnswerInput
-                                className="w-20 h-10 border-2 border-blue-300 focus:border-blue-500 rounded-md px-3 text-center"
-                                questionNumber={id}
-                                maxLength={4}
-                            />
-                        </div>
-
-                        {index < section.question.id.length - 1 && <div className="border-b border-border mt-4"></div>}
-                    </div>
-                ))}
-            </div>
+            </CardContent>
         </Card>
     )
 }

@@ -63,7 +63,7 @@ export default function SummaryCompletion(props: SummaryQuestion) {
         if (!list) return null
 
         return (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 my-12 border border-border p-6 rounded-3xl">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 border border-border p-6 rounded-3xl">
                 {list.map((item) => (
                     <div key={item.letter} className="text-sm font-medium text-foreground">
                         <span className="font-bold mr-2">{item.letter}</span>
@@ -84,11 +84,13 @@ export default function SummaryCompletion(props: SummaryQuestion) {
                     Complete the summary below. Write NO MORE THAN ONE WORD from the text in each box.
                 </p>
 
-                {renderOptionList()}
 
             </CardHeader>
 
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 mt-2" >
+
+                {renderOptionList()}
+
                 <div className="bg-muted/50 p-6 rounded-3xl">
                     <h3 className="text-xl font-bold text-center mb-6">
                         {summaryQuestion.question.title}

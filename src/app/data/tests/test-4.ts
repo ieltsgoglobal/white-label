@@ -455,7 +455,7 @@ Failing that, the Olympics could simply be scrapped altogether. International co
             questionType: "multiple-choice-many",
             questions: [
                 {
-                    id: [26, 27],
+                    id: [39, 40],
                     question: "Which TWO of the following does the author propose as alternatives to the current Olympics?",
                     options: [
                         "The Olympics should be cancelled in favour of individual competitions for each sport.",

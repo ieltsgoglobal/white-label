@@ -30,11 +30,11 @@ export default function TrueFalseNotGiven(props: TrueFalseNotGivenSection) {
         </p>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="space-y-5">
         {section.questions.map((question) => (
           <div key={question.id} className="space-y-4">
             <div className="flex items-start space-x-3">
-              <span className="font-bold text-lg text-foreground mt-1 min-w-[32px]">{question.id}</span>
+              <span className="font-bold text-lg text-foreground min-w-[32px]">{question.id}</span>
               <p className="text-foreground leading-relaxed font-medium">{question.statement}</p>
             </div>
 

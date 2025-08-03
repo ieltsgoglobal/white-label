@@ -27,7 +27,9 @@ export default function MultipleChoiceSingle(props: MCQSection) {
         <Card className="w-full rounded-3xl">
             <CardHeader>
                 <CardTitle className="text-xl">
-                    Questions {mcqQuestions.questions[0].id}–{mcqQuestions.questions[mcqQuestions.questions.length - 1].id}
+                    {mcqQuestions.questions.length === 1
+                        ? `Question ${mcqQuestions.questions[0].id}`
+                        : `Questions ${mcqQuestions.questions[0].id}–${mcqQuestions.questions[mcqQuestions.questions.length - 1].id}`}
                 </CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">
                     Choose the correct letter between A - {String.fromCharCode(65 + mcqQuestions.questions[0].options.length - 1)}

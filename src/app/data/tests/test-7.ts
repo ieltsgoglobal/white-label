@@ -596,10 +596,10 @@ When conventional chips finally reach their limits, nanotechnology beckons. Rese
         {
             questionType: "summary-completion",
             question: {
-                id: [30, 31, 32, 33, 34, 35],
+                id: [35, 36, 37, 38, 39, 40],
                 title: "MOORE'S LAW",
                 passageTemplate: `
-Gordon Moore’s ability to foresee developments is well-known. In 1965, he referred to the increase in the <30> of integrated circuits and guessed that the number of transistors would go on rising for a decade. The <31> of his prediction surprised him. Previously, the <32> and main <33> of integrated circuits had been the major <34> with regard to their development. But Moore observed that the <35> of integrated circuits was going to improve dramatically. His resulting forecasts concerning chips led to the creation of the term ‘Moore’s Law’.
+Gordon Moore’s ability to foresee developments is well-known. In 1965, he referred to the increase in the <35> of integrated circuits and guessed that the number of transistors would go on rising for a decade. The <36> of his prediction surprised him. Previously, the <37> and main <38> of integrated circuits had been the major <39> with regard to their development. But Moore observed that the <40> of integrated circuits was going to improve dramatically. His resulting forecasts concerning chips led to the creation of the term ‘Moore’s Law’.
     `,
                 optionList: [
                     { letter: "A", text: "design" },

@@ -34,22 +34,17 @@ export default function Matching(props: MatchingFeaturesQuestion) {
         props.question?.statements?.map(s => ({ ...s, selectedFeature: "" })) || []
     )
 
-    const handleAnswerChange = (id: number, value: string) => {
-        const upper = value.toUpperCase()
-        const allowed = features.map(f => f.letter)
-        const clean = upper.length && allowed.includes(upper.charAt(upper.length - 1))
-            ? upper.charAt(upper.length - 1)
-            : ""
-    }
+    // handle card title
+    const statementsWithId = questions.filter(s => typeof s.id === "number");
 
     return (
         <Card className="w-full rounded-3xl">
             <CardHeader>
                 <CardTitle className="text-xl">
-                    Questions {statements[0].id} - {statements[statements.length - 1].id}
+                    Questions {statementsWithId[0].id} - {statementsWithId[statementsWithId.length - 1].id}
                 </CardTitle>
                 <p className="text-sm font-medium text-muted-foreground">
-                    Choose {statements.length} answers from the box and write correct letters <span className="font-bold">A – {features[features.length - 1].letter}</span> next to questions <span className="font-bold">{statements[0].id}-{statements[statements.length - 1].id}</span>.
+                    Choose {statements.length} answers from the box and write correct letters <span className="font-bold">A – {features[features.length - 1].letter}</span> next to questions <span className="font-bold">{statementsWithId[0].id} - {statementsWithId[statementsWithId.length - 1].id}</span>.
                 </p>
                 {question_statement && <div className="mt-4 text-base text-foreground">{question_statement}</div>}
             </CardHeader>
