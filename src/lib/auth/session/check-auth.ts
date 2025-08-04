@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "super-secret-key");
 
+// check roles for private paths
 export async function requireRole(role: string) {
     const token = cookies().get("token")?.value;
     if (!token) {
@@ -22,5 +23,31 @@ export async function requireRole(role: string) {
         return payload;
     } catch {
         redirect(`/login/${role}`);
+    }
+}
+
+
+
+export type SessionPayload = {
+    role: "organization" | "student" | "teacher";
+    orgId?: string;
+    organizationName?: string;
+    studentId?: string;
+    studentName?: string;
+    teacherId?: string;
+    teacherName?: string;
+};
+
+// for public paths, eg. userNav
+export async function getUserSession(): Promise<SessionPayload | null> {
+    const token = cookies().get("token")?.value;
+
+    if (!token) return null;
+
+    try {
+        const { payload } = await jwtVerify(token, JWT_SECRET);
+        return payload as SessionPayload;
+    } catch {
+        return null;
     }
 }
