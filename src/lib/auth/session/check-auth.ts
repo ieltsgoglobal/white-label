@@ -1,5 +1,6 @@
 // lib/auth/check-auth.ts
 // used in server components auth
+"use server"
 
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
