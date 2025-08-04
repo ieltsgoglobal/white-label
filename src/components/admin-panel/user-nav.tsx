@@ -1,6 +1,7 @@
 
 import { getUserSession } from "@/lib/auth/session/check-auth";
 import UserNavDropdown from "./userNavDropdown.client";
+import { Suspense } from "react";
 
 type UserInfo = {
   id: string
@@ -24,8 +25,10 @@ export default async function UserNav() {
 
   return (
     <div>
-      <UserNavDropdown user={user} />
+      <Suspense fallback={<>Loading...</>}>
+        <UserNavDropdown user={user} />
+      </Suspense>
     </div>
   );
-} ``
+}
 
