@@ -1,15 +1,13 @@
-// isSubdomain.client.ts
+// lib/utils/isSubdomain.client.ts
 
-// checks re-turn if its a subdomain
-// doesnt verifys subdomain
 export function getClientSubdomain(): string | null {
     if (typeof window === "undefined") return null;
 
-    const host = window.location.hostname; // e.g., "mj.example.com"
+    const host = window.location.hostname;
+
+    // Handle www and apex domain
     const parts = host.split(".");
+    if (parts.length < 3) return null;
 
-    if (parts.length < 2) return null; // No subdomain present
-    const subdomain = parts[0];
-
-    return subdomain;
+    return parts[0]; // e.g., orgname.ieltsgoglobal.com => "orgname"
 }

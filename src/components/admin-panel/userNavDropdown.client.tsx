@@ -57,7 +57,11 @@ export default function UserNavDropdown({ user }: { user: UserInfo }) {
     const [subdomain, setSubdomain] = useState<string | null>(null);
 
     useEffect(() => {
-        setSubdomain(getClientSubdomain());
+        const sub = getClientSubdomain();
+        if (!sub) {
+            console.warn("⚠️ No subdomain detected. Likely on apex domain or www.");
+        }
+        setSubdomain(sub);
     }, []);
 
     return (
