@@ -61,6 +61,8 @@ export default function UserNavDropdown({ user }: { user: UserInfo }) {
         if (!sub) {
             console.warn("⚠️ No subdomain detected. Likely on apex domain or www.");
         }
+        console.log("subdomin", sub);
+
         setSubdomain(sub);
     }, []);
 
