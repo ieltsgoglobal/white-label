@@ -24,6 +24,7 @@ export default function Component() {
     const [isHovered, setIsHovered] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
     const [isLandscape, setIsLandscape] = useState(false)
+    const [isFullscreen, setIsFullscreen] = useState(false)
 
     useEffect(() => {
         const checkDevice = () => {
@@ -40,6 +41,21 @@ export default function Component() {
         return () => {
             window.removeEventListener("resize", checkDevice)
             window.removeEventListener("orientationchange", checkDevice)
+        }
+    }, [])
+
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(Boolean(document.fullscreenElement))
+        }
+
+        document.addEventListener("fullscreenchange", handleFullscreenChange)
+
+        // Initial check
+        handleFullscreenChange()
+
+        return () => {
+            document.removeEventListener("fullscreenchange", handleFullscreenChange)
         }
     }, [])
 
@@ -71,6 +87,17 @@ export default function Component() {
                     </div>
 
                     <div className="text-xs text-gray-500">🔄 Rotate to landscape • 📱 Best mobile experience</div>
+
+                    <button
+                        onClick={() => {
+                            if (document.documentElement.requestFullscreen) {
+                                document.documentElement.requestFullscreen()
+                            }
+                        }}
+                        className="mt-4 px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg shadow hover:from-indigo-700 hover:to-purple-700 transition"
+                    >
+                        🔍 View Full Screen
+                    </button>
                 </div>
             </div>
         )
@@ -300,14 +327,14 @@ export default function Component() {
                                                     </Button>
                                                 </Link>
 
-                                                <Link href="/become-partner">
+                                                <Link href="/">
                                                     <Button
                                                         size={isMobile ? "sm" : "sm"}
                                                         className={`gap-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white border-0 transition-all duration-300 ${isMobile ? "text-xs px-2" : ""} ${isHovered ? "scale-105 shadow-lg" : ""
                                                             }`}
                                                     >
                                                         <Rocket className={`${isMobile ? "h-3 w-3" : "h-4 w-4"}`} />
-                                                        Launch
+                                                        Website
                                                         <ArrowRight className={`${isMobile ? "h-3 w-3" : "h-4 w-4"}`} />
                                                     </Button>
                                                 </Link >
@@ -322,6 +349,19 @@ export default function Component() {
                 <div className="text-center">
                     <p className="text-sm text-gray-500">Transform your organization with cutting-edge AI technology</p>
                 </div>
+
+                {!isFullscreen && (
+                    <button
+                        onClick={() => {
+                            if (document.documentElement.requestFullscreen) {
+                                document.documentElement.requestFullscreen()
+                            }
+                        }}
+                        className="mt-4 px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg shadow hover:from-indigo-700 hover:to-purple-700 transition"
+                    >
+                        🔍 View Full Screen
+                    </button>
+                )}
             </div>
         </div>
     )
