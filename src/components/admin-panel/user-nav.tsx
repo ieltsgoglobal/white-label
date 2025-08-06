@@ -1,7 +1,9 @@
 
-import { getUserSession } from "@/lib/auth/session/check-auth";
+"use client"
+
 import UserNavDropdown from "./userNavDropdown.client";
-import { Suspense } from "react";
+import { useEffect, useState } from "react";
+import { getSessionUser } from "@/lib/auth/session/get-user";
 
 type UserInfo = {
   id: string
@@ -9,26 +11,41 @@ type UserInfo = {
   role: string
 }
 
-export default async function UserNav() {
-  const session = await getUserSession();
+export default function UserNav() {
+  const [user, setUser] = useState<UserInfo | null>(null)
 
-  const user: UserInfo = session
-    ? session.role === "organization"
-      ? { id: session.orgId!, name: session.organizationName!, role: "organization" }
-      : session.role === "student"
-        ? { id: session.studentId!, name: session.studentName!, role: "student" }
-        : session.role === "teacher"
-          ? { id: session.teacherId!, name: session.teacherName!, role: "teacher" }
-          : { id: "", name: "Guest", role: "guest" }
-    : { id: "", name: "Guest", role: "guest" };
+  useEffect(() => {
+    const fetchSession = async () => {
+      const session = await getSessionUser()
 
+      if (!session) {
+        setUser({ id: "", name: "Guest", role: "guest" })
+        return
+      }
+
+      // Map session to uniform UserInfo structure
+      const mappedUser: UserInfo =
+        session.role === "organization"
+          ? { id: session.orgId, name: session.organizationName, role: "organization" }
+          : session.role === "student"
+            ? { id: session.studentId, name: session.studentName, role: "student" }
+            : session.role === "teacher"
+              ? { id: session.teacherId, name: session.teacherName, role: "teacher" }
+              : { id: "", name: "Guest", role: "guest" }
+
+      setUser(mappedUser)
+    }
+
+    fetchSession()
+  }, [])
+
+
+  if (!user) {
+    return <div>Loading...</div>
+  }
 
   return (
-    <div>
-      <Suspense fallback={<>Loading...</>}>
-        <UserNavDropdown user={user} />
-      </Suspense>
-    </div>
+    <UserNavDropdown user={user} />
   );
 }
 
