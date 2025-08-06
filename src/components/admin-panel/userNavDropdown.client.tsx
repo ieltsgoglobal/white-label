@@ -54,16 +54,11 @@ export function SignInOut(user: UserInfo) {
 }
 
 export default function UserNavDropdown({ user }: { user: UserInfo }) {
-    const [subdomain, setSubdomain] = useState<string | null>(null);
+    const [isSubdomain, setIsSubdomain] = useState<boolean>(false); // isSubdimain(true) = partner domain
 
     useEffect(() => {
         const sub = getClientSubdomain();
-        if (!sub) {
-            console.warn("⚠️ No subdomain detected. Likely on apex domain or www.");
-        }
-        console.log("subdomin", sub);
-
-        setSubdomain(sub);
+        setIsSubdomain(sub !== null);
     }, []);
 
     return (
@@ -106,7 +101,7 @@ export default function UserNavDropdown({ user }: { user: UserInfo }) {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    {subdomain !== null &&
+                    {isSubdomain &&
                         <>
                             <DropdownMenuItem className="hover:cursor-pointer" asChild>
                                 <Link href="/" className="flex items-center">

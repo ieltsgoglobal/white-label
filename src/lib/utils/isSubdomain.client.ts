@@ -18,8 +18,19 @@ export function getClientSubdomain(): string | null {
     // Get current hostname (e.g., org1.ieltsgoglobal.com)
     const host = window.location.hostname;
 
-    // Guard clause: Ignore localhost and its variations
-    if (host === "localhost" || host.endsWith(".localhost")) return null;
+
+    // Guard clause: Ignore bare localhost (no subdomain)
+    if (host === "localhost") {
+        return null;
+    }
+
+    // Allow subdomains on .localhost (e.g., mj-go.localhost)
+    if (host.endsWith(".localhost")) {
+        const parts = host.split(".");
+        if (parts.length >= 2) {
+            return parts[0]; // subdomain
+        }
+    }
 
     // Split by "." to get subdomain and domain parts
     const parts = host.split(".");
