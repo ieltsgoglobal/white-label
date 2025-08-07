@@ -345,7 +345,7 @@ export default function Component() {
                                 {/* Sign In Link */}
                                 <p className="text-center text-sm text-gray-600">
                                     Already a member?{" "}
-                                    <a href="#" className="text-pink-600 hover:text-pink-500 font-semibold underline">
+                                    <a href="/admin-dashboard" className="text-pink-600 hover:text-pink-500 font-semibold underline">
                                         Sign in
                                     </a>
                                 </p>

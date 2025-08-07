@@ -29,7 +29,7 @@ export const useCreateStudent = () => {
             name: string;
             username: string;
             password: string;
-            revenue: string;
+            revenue: number;
             teacher_id: string;
         }) => {
             const user = await getSessionUser();

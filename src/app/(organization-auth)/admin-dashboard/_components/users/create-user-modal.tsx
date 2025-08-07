@@ -4,14 +4,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { createStudent } from "@/lib/superbase/student-table"
 import ModrenBg from "./bg-create-user-modal.jpg"
 import Image from "next/image"
-import { getSessionUser } from "@/lib/auth/session/get-user"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useCredits } from "@/hooks/supabase/organization-table"
 import { useTeachers } from "@/hooks/supabase/teachers-table"
 import { useCreateStudent } from "@/hooks/supabase/student"
+import { createStudentSchemaClient } from "@/lib/schemas/student/create-student-schema"
 
 export type PartnerSession = {
     id: string
@@ -26,30 +25,51 @@ export type PartnerSession = {
 }
 
 export default function CreateUserModal({ open, onClose, }: { open: boolean, onClose: () => void }) {
+    const [formErrors, setFormErrors] = useState<Partial<Record<keyof typeof formData, string>>>({})
     const [formData, setFormData] = useState({
         name: "",
         username: "",
         password: "",
-        revenue: "",
+        revenue: undefined,
         teacher_id: "",
     })
 
-    const handleChange = (key: string, value: string) => {
-        setFormData({ ...formData, [key]: value })
-    }
 
     const { data: availableCredits = 0 } = useCredits();
     const { data: teachers = [] } = useTeachers();
 
     const { mutateAsync: createStudentMutation, isPending } = useCreateStudent();
 
+    const handleChange = (key: keyof typeof formData, value: string) => {
+        setFormData(prev => ({
+            ...prev,
+            [key]: key === "revenue" ? Number(value) : value,
+        }))
+    }
+
     const handleSubmit = async () => {
-        if (!formData.name || !formData.username || !formData.password) {
-            alert("Please fill in all fields.");
-            return;
+        const parseResult = createStudentSchemaClient.safeParse(formData)
+
+        // find error for each field
+        if (!parseResult.success) {
+            const errors: Partial<Record<keyof typeof formData, string>> = {}
+            for (const issue of parseResult.error.errors) {
+                const field = issue.path[0] as keyof typeof formData
+                if (!errors[field]) {
+                    errors[field] = issue.message
+                }
+            }
+            setFormErrors(errors)
+            return
         }
+
+        setFormErrors({})
+
+
+        const validatedData = parseResult.data
+
         try {
-            const result = await createStudentMutation(formData);
+            const result = await createStudentMutation(validatedData);
 
             if ("error" in result) {
                 alert(result.error || "Failed to create student.");
@@ -100,6 +120,7 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                                         value={formData.name}
                                         onChange={(e) => handleChange("name", e.target.value)}
                                     />
+                                    {formErrors.name && <p className="text-sm text-red-500 mt-1">{formErrors.name}</p>}
                                 </div>
 
                                 <div className="flex flex-col gap-1">
@@ -113,6 +134,7 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                                         value={formData.username}
                                         onChange={(e) => handleChange("username", e.target.value)}
                                     />
+                                    {formErrors.username && <p className="text-sm text-red-500 mt-1">{formErrors.username}</p>}
                                 </div>
 
                                 <div className="flex flex-col gap-1">
@@ -127,6 +149,7 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                                         value={formData.password}
                                         onChange={(e) => handleChange("password", e.target.value)}
                                     />
+                                    {formErrors.password && <p className="text-sm text-red-500 mt-1">{formErrors.password}</p>}
                                 </div>
 
                                 <div className="flex flex-col gap-1">
@@ -148,6 +171,17 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                                             ))}
                                         </SelectContent>
                                     </Select>
+                                    {teachers.length < 1
+                                        ? (
+                                            <p className="text-sm text-red-500 mt-1">
+                                                No teachers available. Please add a teacher from the Teacher Dashboard before creating a student.
+                                            </p>
+                                        ) : (
+                                            formErrors.teacher_id && (
+                                                <p className="text-sm text-red-500 mt-1">{formErrors.teacher_id}</p>
+                                            )
+                                        )
+                                    }
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <label htmlFor="revenue" className="text-sm font-medium text-foreground/90">
@@ -158,9 +192,10 @@ export default function CreateUserModal({ open, onClose, }: { open: boolean, onC
                                         type="number"
                                         placeholder="e.g. 1500"
                                         min={0}
-                                        value={formData.revenue}
+                                        value={formData.revenue === undefined ? "" : formData.revenue}
                                         onChange={(e) => handleChange("revenue", e.target.value)}
                                     />
+                                    {formErrors.revenue && <p className="text-sm text-red-500 mt-1">{formErrors.revenue}</p>}
                                 </div>
                             </div>
                         </div>

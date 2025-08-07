@@ -2,6 +2,7 @@
 
 import { createClient } from "@supabase/supabase-js"
 import { checkCredits, deductCredit } from "./organization-table"
+import { createStudentSchemaServer } from "../schemas/student/create-student-schema"
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -9,7 +10,16 @@ const supabase = createClient(
 )
 
 // Create a new student
-export async function createStudent({ name, username, password, revenue, teacher_id, orgId, }: { name: string, username: string, password: string, revenue: string, teacher_id: string, orgId: string }) {
+export async function createStudent(rawInput: unknown) {
+
+    // 0. Validate input using Zod
+    const parseResult = createStudentSchemaServer.safeParse(rawInput)
+    if (!parseResult.success) {
+        return { error: parseResult.error.errors[0]?.message ?? "Invalid input." }
+    }
+
+    const { name, username, password, revenue, teacher_id, orgId } = parseResult.data
+
 
     // 1. check credits are available or not
     const creditResult = await checkCredits(orgId)
