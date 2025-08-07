@@ -3,6 +3,7 @@
 
 import bcrypt from "bcryptjs"
 import { createClient } from "@supabase/supabase-js"
+import { registerPartnerSchema } from "../schemas/organization/register-partner"
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,13 +16,23 @@ interface OrgData {
     address: string
     email: string
     password: string
-    gst: string
-    pan: string
+    gst?: string
+    pan?: string
     subdomain: string
 }
 
 export async function registerPartner(data: OrgData) {
-    const { name, phone, address, email, password, gst, pan, subdomain } = data
+    // ✅ Validate input using Zod schema
+    const parsed = registerPartnerSchema.omit({ agreeToTerms: true }).safeParse(data)
+
+    if (!parsed.success) {
+        const flat = parsed.error.flatten().fieldErrors
+        console.log(flat)
+        return { error: "Validation failed", details: flat }
+    }
+
+
+    const { name, phone, address, email, password, subdomain } = parsed.data
 
     if (!name || !email) {
         return { error: "Name and Email are required." }
@@ -32,7 +43,7 @@ export async function registerPartner(data: OrgData) {
 
     // push data in table
     const { error } = await supabase.from("organization").insert({
-        name, phone, address, email, password: hashedPassword, gst, pan, subdomain
+        name, phone, address, email, password: hashedPassword, subdomain
     })
 
     if (error) {

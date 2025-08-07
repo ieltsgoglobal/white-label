@@ -12,19 +12,20 @@ import { registerPartner } from "@/lib/superbase/organization-table"
 import { IdCardIcon } from "@radix-ui/react-icons"
 import { useRouter } from "next/navigation"
 import DotPulseLoader from "@/components/loaders/mock-tests/speaking/DotPulseLoader"
+import { RegisterPartnerData, registerPartnerSchema } from "@/lib/schemas/organization/register-partner"
 
 export default function Component() {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
-
-    const [formData, setFormData] = useState({
+    const [formErrors, setFormErrors] = useState<Partial<Record<keyof RegisterPartnerData, string>>>({})
+    const [formData, setFormData] = useState<RegisterPartnerData>({
         name: "",
         phone: "",
         address: "",
         email: "",
         password: "",
-        gst: "",
-        pan: "",
+        // gst: "",
+        // pan: "",
         subdomain: "",
         agreeToTerms: false,
     })
@@ -33,44 +34,71 @@ export default function Component() {
         setFormData((prev) => ({ ...prev, [field]: value }))
     }
 
+    const getError = (field: keyof RegisterPartnerData) => {
+        return formErrors?.[field] ? (
+            <p className="text-sm text-red-500 mt-1">{formErrors[field]}</p>
+        ) : null
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         setLoading(true)
         e.preventDefault()
 
-        const response = await registerPartner({
-            name: formData.name,
-            phone: formData.phone,
-            address: formData.address,
-            email: formData.email,
-            password: formData.password,
-            gst: formData.gst,
-            pan: formData.pan,
-            subdomain: formData.subdomain,
-        })
+        const result = registerPartnerSchema.safeParse(formData)
+
+        if (!result.success) {
+            const flat = result.error.flatten().fieldErrors
+
+            setFormErrors({
+                name: flat.name?.[0],
+                phone: flat.phone?.[0],
+                address: flat.address?.[0],
+                email: flat.email?.[0],
+                password: flat.password?.[0],
+                subdomain: flat.subdomain?.[0],
+                agreeToTerms: flat.agreeToTerms?.[0],
+            })
+
+            setLoading(false)
+            return
+        }
+
+        // clear previous errors if validation passes
+        setFormErrors({})
+
+        const { agreeToTerms, ...data } = result.data
+
+        const response = await registerPartner(data)
 
         if (response.error) {
             console.log(`❌ ${response.error}`)
-        } else {
-            setFormData({
-                name: "",
-                phone: "",
-                address: "",
-                email: "",
-                password: "",
-                gst: "",
-                pan: "",
-                subdomain: "",
-                agreeToTerms: false,
-            })
-            const isProd = process.env.NODE_ENV === "production"
-
-            const domain = isProd
-                ? `https://${formData.subdomain}.ieltsgoglobal.com/admin-dashboard`
-                : `http://${formData.subdomain}.localhost:3000/admin-dashboard`
-
-            router.push(domain)
-            console.log("✅ Organization registered successfully!")
+            setLoading(false)
+            return
         }
+
+        console.log("form submit")
+
+        setFormData({
+            name: "",
+            phone: "",
+            address: "",
+            email: "",
+            password: "",
+            // gst: "",
+            // pan: "",
+            subdomain: "",
+            agreeToTerms: false,
+        })
+
+
+        const isProd = process.env.NODE_ENV === "production"
+
+        const domain = isProd
+            ? `https://${formData.subdomain}.ieltsgoglobal.com/admin-dashboard`
+            : `http://${formData.subdomain}.localhost:3000/admin-dashboard`
+
+        router.push(domain)
+        console.log("✅ Organization registered successfully!")
     }
 
     return (
@@ -144,6 +172,7 @@ export default function Component() {
                                                 className="pl-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg text-black"
                                             />
                                         </div>
+                                        {getError("name")}
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
@@ -160,6 +189,7 @@ export default function Component() {
                                                 className="pl-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg"
                                             />
                                         </div>
+                                        {getError("phone")}
                                     </div>
                                 </div>
 
@@ -179,10 +209,11 @@ export default function Component() {
                                             className="pl-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg"
                                         />
                                     </div>
+                                    {getError('address')}
                                 </div>
 
                                 {/* Email and Password Fields */}
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4">
                                     {/* Email */}
                                     <div className="space-y-2">
                                         <Label htmlFor="email" className="text-sm font-medium text-gray-700">
@@ -199,6 +230,7 @@ export default function Component() {
                                                 className="pl-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg"
                                             />
                                         </div>
+                                        {getError("email")}
                                     </div>
 
                                     {/* Password */}
@@ -217,6 +249,7 @@ export default function Component() {
                                                 className="pl-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg"
                                             />
                                         </div>
+                                        {getError("password")}
                                     </div>
                                 </div>
 
@@ -241,11 +274,13 @@ export default function Component() {
                                             .ieltsgoglobal.com
                                         </div>
                                     </div>
+                                    {getError("subdomain")}
+
                                 </div>
 
 
                                 {/* gst */}
-                                <div className="space-y-2">
+                                {/* <div className="space-y-2">
                                     <Label htmlFor="gst" className="text-sm font-medium text-gray-700">
                                         GST Number
                                     </Label>
@@ -260,10 +295,10 @@ export default function Component() {
                                         />
 
                                     </div>
-                                </div>
+                                </div> */}
 
                                 {/* Pan */}
-                                <div className="space-y-2">
+                                {/* <div className="space-y-2">
                                     <Label htmlFor="pan" className="text-sm font-medium text-gray-700">
                                         Pan
                                     </Label>
@@ -277,8 +312,7 @@ export default function Component() {
                                             className="pl-10 pr-10 border-gray-300 focus:border-pink-500 focus:ring-pink-500 rounded-lg"
                                         />
                                     </div>
-                                </div>
-
+                                </div> */}
 
 
                                 {/* Terms and Conditions */}
@@ -295,7 +329,9 @@ export default function Component() {
                                             Terms and Conditions
                                         </a>
                                     </Label>
+                                    {getError("agreeToTerms")}
                                 </div>
+
 
                                 {/* Submit Button */}
                                 <Button
