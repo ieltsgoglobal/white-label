@@ -8,36 +8,71 @@ import { Input } from "@/components/ui/input"
 import PasswordCell from "./Password-cell"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { getClientSubdomain } from "@/lib/utils/isSubdomain.client"
+import { Student } from "../user-managment"
+import { toggleStudentActivation } from "@/lib/superbase/student-table"
 
-export type Student = {
-    id: string
-    username: string
-    org_id: string | null
-    created_at: string | null
-    password: string
-    revenue: number
-    name: string
-}
 
 export default function DisplayStudents({ users }: { users: Student[] }) {
+    const [studentList, setStudentList] = useState<Student[]>([]) // 🆙 local state (we are using this to how that handleToggleActivation is working, without refetching all data again)
     const [searchQuery, setSearchQuery] = useState("")
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value)
     }
 
+    useEffect(() => {
+        setStudentList(users)
+    }, [users])
+
+
     const filteredUsers = useMemo(() => {
-        if (!searchQuery.trim()) return users
+        if (!searchQuery.trim()) return studentList
         const query = searchQuery.toLowerCase()
 
-        return users.filter(
+        return studentList.filter(
             (user) =>
                 user.name.toLowerCase().includes(query) ||
                 user.username.toLowerCase().includes(query)
         )
-    }, [users, searchQuery])
+    }, [studentList, searchQuery])
+
+
+    // fake the list when the activated status gets updated without fetching data again
+    async function handleToggleActivation(user: Student) {
+        if (user.created_at) {
+            const createdAt = new Date(user.created_at)
+            const now = new Date()
+            const sixMonthsAfterCreation = new Date(createdAt)
+            sixMonthsAfterCreation.setMonth(createdAt.getMonth() + 6)
+
+
+            console.log("Created At:", createdAt.toISOString())
+            console.log("Now:", now.toISOString())
+            console.log("Six Months After Creation:", sixMonthsAfterCreation.toISOString())
+
+            // ❌ Block toggling if account is older than 6 months
+            if (now >= sixMonthsAfterCreation) {
+                alert("You cannot toggle users older than 6 months.")
+                return
+            }
+        }
+
+        const result = await toggleStudentActivation(user)
+
+        if ("error" in result) {
+            alert(result.error)
+            return
+        }
+
+        // ✅ Optimistically update local state
+        setStudentList((prev) =>
+            prev.map((u) =>
+                u.id === user.id ? { ...u, activated: result.newStatus } : u
+            )
+        )
+    }
 
     return (
         <Card>
@@ -109,7 +144,7 @@ export default function DisplayStudents({ users }: { users: Student[] }) {
                                         <TableCell className="text-sm dark:text-muted-foreground"><PasswordCell pass={user.password} /></TableCell>
                                         <TableCell className="text-sm text-green-600">{user.revenue}</TableCell>
                                         <TableCell className="text-sm dark:text-muted-foreground">{calculateValidTill(user.created_at)}</TableCell>
-                                        <TableCell>{getStatusBadge(user.created_at)}</TableCell>
+                                        <TableCell>{getStatusBadge(user.activated)}</TableCell>
                                         <TableCell className="text-right">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
@@ -125,13 +160,11 @@ export default function DisplayStudents({ users }: { users: Student[] }) {
                                                         Copy Details
                                                     </DropdownMenuItem>
                                                     <DropdownMenuSeparator />
-                                                    <DropdownMenuItem className="text-red-600">
-                                                        <Ban className="mr-2 h-4 w-4" />
-                                                        Block User
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem className="text-green-600">
-                                                        <CheckCircle className="mr-2 h-4 w-4" />
-                                                        Unblock
+                                                    <DropdownMenuItem
+                                                        onClick={() => handleToggleActivation(user)}
+                                                        className={user.activated ? "text-red-600" : "text-green-600"}
+                                                    >
+                                                        {renderToggleLabel(user.activated)}
                                                     </DropdownMenuItem>
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
@@ -158,10 +191,7 @@ export default function DisplayStudents({ users }: { users: Student[] }) {
             </CardContent>
         </Card>
     )
-}
-
-
-function copyUserDetails(user: Student) {
+} function copyUserDetails(user: Student) {
     if (!user) return
 
     const subdomain = getClientSubdomain()
@@ -178,13 +208,18 @@ Please log in to begin your mock test. If you face any issues, feel free to reac
 Good luck!
 `
 
-    navigator.clipboard.writeText(details).then(() => {
-        // Optional: Toast or alert for confirmation
-        console.log("User details copied to clipboard")
-    }).catch((err) => {
-        console.error("Failed to copy: ", err)
-    })
+    navigator.clipboard.writeText(details)
+        .then(() => {
+            alert("Details copied to clipboard. You can now share them with the student.")
+        })
+        .catch((err) => {
+            console.error("Failed to copy: ", err)
+            alert("Failed to copy user details.")
+        })
 }
+
+
+
 
 // Helper: Format date
 function formatDate(dateString: string | null): string {
@@ -208,22 +243,25 @@ function calculateValidTill(createdAt: string | null): string {
     })
 }
 
-
 // if 6 months passed then show inactive
-const getStatusBadge = (created_at: string | null) => {
-    if (!created_at) {
-        return <Badge className="bg-gray-100 text-gray-600">Unknown</Badge>
-    }
-
-    const createdDate = new Date(created_at)
-    const validTill = new Date(createdDate.setMonth(createdDate.getMonth() + 6))
-    const now = new Date()
-
-    const isActive = now <= validTill
-
-    return isActive ? (
+const getStatusBadge = (activated: boolean) => {
+    return activated ? (
         <Badge className="bg-green-100 text-green-800">Activated</Badge>
     ) : (
         <Badge className="bg-red-100 text-red-800">Deactivated</Badge>
+    )
+}
+
+const renderToggleLabel = (activated: boolean) => {
+    return activated ? (
+        <>
+            <Ban className="mr-2 h-4 w-4" />
+            Deactivate
+        </>
+    ) : (
+        <>
+            <CheckCircle className="mr-2 h-4 w-4" />
+            Activate
+        </>
     )
 }

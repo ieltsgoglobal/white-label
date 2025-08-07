@@ -3,6 +3,8 @@
 import { createClient } from "@supabase/supabase-js"
 import { checkCredits, deductCredit } from "./organization-table"
 import { createStudentSchemaServer } from "../schemas/student/create-student-schema"
+import { Student } from "@/app/(organization-auth)/admin-dashboard/_components/users/user-managment"
+import { getUserSession } from "../auth/session/check-auth"
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -140,4 +142,50 @@ export async function getStudentsByTeacherId(teacherId: string) {
     }
 
     return { students: data }
+}
+
+// Toggle student activation status
+export async function toggleStudentActivation(user: Student) {
+
+    // 1. Guard: Check required ID and org_id
+    if (!user?.id || !user?.org_id) {
+        return { error: "Invalid user data." }
+    }
+
+    // 2. Get session (organization role and id)
+    const session = await getUserSession()
+    if (!session || session.role !== "organization") {
+        return { error: "Unauthorized. Only organizations can toggle users." }
+    }
+
+    // 3. Guard: Ensure student belongs to org
+    if (session.orgId !== user.org_id) {
+        return { error: "You are not allowed to modify this student." }
+    }
+
+    // 4. Guard: Block toggle if account is older than 6 months
+    if (user.created_at) {
+        const createdAt = new Date(user.created_at)
+        const now = new Date()
+        const sixMonthsAfterCreation = new Date(createdAt)
+        sixMonthsAfterCreation.setMonth(createdAt.getMonth() + 6)
+
+        if (now >= sixMonthsAfterCreation) {
+            return { error: "Cannot toggle users older than 6 months." }
+        }
+    }
+
+    // 5. Update activation
+    const newStatus = !user.activated
+
+    const { error: updateError } = await supabase
+        .from("student")
+        .update({ activated: newStatus })
+        .eq("id", user.id)
+
+    if (updateError) {
+        return { error: "Failed to toggle activation." }
+    }
+
+    return { success: true, newStatus }
 }
