@@ -7,8 +7,14 @@ import { useState } from "react"
 import ModrenBg from "./bg-create-teacher-modal.jpg"
 import Image from "next/image"
 import { useCreateTeacher } from "@/hooks/supabase/teachers-table"
+import { createTeacherSchemaClient } from "@/lib/schemas/teacher/create-teacher-schema"
 
 export default function CreateTeacherModal({ open, onClose, }: { open: boolean, onClose: () => void }) {
+    const [formErrors, setFormErrors] = useState({
+        name: "",
+        username: "",
+        password: "",
+    })
     const [formData, setFormData] = useState({
         name: "",
         username: "",
@@ -23,11 +29,26 @@ export default function CreateTeacherModal({ open, onClose, }: { open: boolean, 
     const { mutate, isPending } = useCreateTeacher();
 
     const handleSubmit = () => {
-        const { name, username, password } = formData;
-        if (!name || !username || !password) {
-            alert("Please fill in all fields.");
-            return;
+        const result = createTeacherSchemaClient.safeParse(formData)
+
+        // get errors for each field
+        if (!result.success) {
+            const fieldErrors: typeof formErrors = { name: "", username: "", password: "" }
+
+            for (const issue of result.error.issues) {
+                const fieldName = issue.path[0] as keyof typeof formErrors
+                if (fieldName in fieldErrors) {
+                    fieldErrors[fieldName] = issue.message
+                }
+            }
+
+            setFormErrors(fieldErrors)
+            return
         }
+
+        setFormErrors({ name: "", username: "", password: "" }) // clear previous errors
+
+        const { name, username, password } = result.data
 
         mutate(
             { name, username, password },
@@ -84,6 +105,7 @@ export default function CreateTeacherModal({ open, onClose, }: { open: boolean, 
                                         value={formData.name}
                                         onChange={(e) => handleChange("name", e.target.value)}
                                     />
+                                    {formErrors.name && <p className="text-sm text-red-500">{formErrors.name}</p>}
                                 </div>
 
                                 <div className="flex flex-col gap-1">
@@ -97,6 +119,7 @@ export default function CreateTeacherModal({ open, onClose, }: { open: boolean, 
                                         value={formData.username}
                                         onChange={(e) => handleChange("username", e.target.value)}
                                     />
+                                    {formErrors.username && <p className="text-sm text-red-500">{formErrors.username}</p>}
                                 </div>
 
                                 <div className="flex flex-col gap-1">
@@ -111,6 +134,7 @@ export default function CreateTeacherModal({ open, onClose, }: { open: boolean, 
                                         value={formData.password}
                                         onChange={(e) => handleChange("password", e.target.value)}
                                     />
+                                    {formErrors.password && <p className="text-sm text-red-500">{formErrors.password}</p>}
                                 </div>
                             </div>
                         </div>

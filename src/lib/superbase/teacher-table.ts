@@ -2,6 +2,7 @@
 "use server"
 
 import { createClient } from "@supabase/supabase-js"
+import { createTeacherSchemaServer } from "../schemas/teacher/create-teacher-schema"
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,11 +28,18 @@ export type Teacher = {
 
 
 export async function createTeacher(data: TeacherData): Promise<{ success: true } | { error: string }> {
-    const { name, username, password, org_id } = data
 
-    if (!name || !username || !password || !org_id) {
-        return { error: "All fields are required." }
+    // Zod Schema Validation
+    const result = createTeacherSchemaServer.safeParse({
+        ...data,
+        orgId: data.org_id,
+    })
+    if (!result.success) {
+        const message = result.error.issues[0]?.message ?? "Validation failed"
+        return { error: message }
     }
+
+    const { name, username, password, orgId } = result.data
 
     // Check for duplicate username
     const { data: existing, error: checkError } = await supabase
@@ -52,7 +60,7 @@ export async function createTeacher(data: TeacherData): Promise<{ success: true 
         name,
         username,
         password,
-        org_id,
+        org_id: orgId,
     })
 
     if (error) {
