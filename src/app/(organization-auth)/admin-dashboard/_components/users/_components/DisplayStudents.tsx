@@ -1,3 +1,5 @@
+"use client"
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Search, MoreHorizontal, Eye, Ban, CheckCircle } from "lucide-react"
@@ -6,6 +8,8 @@ import { Input } from "@/components/ui/input"
 import PasswordCell from "./Password-cell"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { useMemo, useState } from "react"
+import { getClientSubdomain } from "@/lib/utils/isSubdomain.client"
 
 export type Student = {
     id: string
@@ -18,6 +22,23 @@ export type Student = {
 }
 
 export default function DisplayStudents({ users }: { users: Student[] }) {
+    const [searchQuery, setSearchQuery] = useState("")
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value)
+    }
+
+    const filteredUsers = useMemo(() => {
+        if (!searchQuery.trim()) return users
+        const query = searchQuery.toLowerCase()
+
+        return users.filter(
+            (user) =>
+                user.name.toLowerCase().includes(query) ||
+                user.username.toLowerCase().includes(query)
+        )
+    }, [users, searchQuery])
+
     return (
         <Card>
             <CardHeader>
@@ -29,9 +50,9 @@ export default function DisplayStudents({ users }: { users: Student[] }) {
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                         <Input
-                            placeholder="Search by name or email..."
-                            value={''}
-                            onChange={(e) => () => { }}
+                            placeholder="Search by name or username..."
+                            value={searchQuery}
+                            onChange={handleSearchChange}
                             className="pl-10"
                         />
                     </div>
@@ -73,37 +94,21 @@ export default function DisplayStudents({ users }: { users: Student[] }) {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {users.length === 0 ? (
+                            {filteredUsers.length === 0 ? (
                                 <TableRow>
                                     <TableCell colSpan={8} className="text-center text-sm text-gray-500">
                                         No Users found.
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                users.map((user) => (
+                                filteredUsers.map((user) => (
                                     <TableRow key={user.id}>
-                                        <TableCell className="text-sm text-gray-500">
-                                            {user.created_at
-                                                ? new Date(user.created_at).toLocaleDateString("en-GB", {
-                                                    day: "2-digit",
-                                                    month: "short",
-                                                    year: "numeric",
-                                                })
-                                                : "-"}
-                                        </TableCell>
+                                        <TableCell className="text-sm text-gray-500"> {formatDate(user.created_at)}</TableCell>
                                         <TableCell className="text-sm dark:text-muted-foreground">{user.name}</TableCell>
                                         <TableCell className="text-sm dark:text-muted-foreground">{user.username}</TableCell>
                                         <TableCell className="text-sm dark:text-muted-foreground"><PasswordCell pass={user.password} /></TableCell>
                                         <TableCell className="text-sm text-green-600">{user.revenue}</TableCell>
-                                        <TableCell className="text-sm dark:text-muted-foreground">
-                                            {user.created_at
-                                                ? new Date(new Date(user.created_at).setMonth(new Date(user.created_at).getMonth() + 6)).toLocaleDateString("en-GB", {
-                                                    day: "2-digit",
-                                                    month: "short",
-                                                    year: "numeric",
-                                                })
-                                                : "-"}
-                                        </TableCell>
+                                        <TableCell className="text-sm dark:text-muted-foreground">{calculateValidTill(user.created_at)}</TableCell>
                                         <TableCell>{getStatusBadge(user.created_at)}</TableCell>
                                         <TableCell className="text-right">
                                             <DropdownMenu>
@@ -115,9 +120,9 @@ export default function DisplayStudents({ users }: { users: Student[] }) {
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                    <DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={() => copyUserDetails(user)}>
                                                         <Eye className="mr-2 h-4 w-4" />
-                                                        View Profile
+                                                        Copy Details
                                                     </DropdownMenuItem>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuItem className="text-red-600">
@@ -153,6 +158,54 @@ export default function DisplayStudents({ users }: { users: Student[] }) {
             </CardContent>
         </Card>
     )
+}
+
+
+function copyUserDetails(user: Student) {
+    if (!user) return
+
+    const subdomain = getClientSubdomain()
+    const details = `Hi there,
+
+Your IELTS mock test account has been created.
+
+Username: ${user.username}
+Password: ${user.password}
+Test Link: https://${subdomain}.ieltsgoglobal.com
+
+Please log in to begin your mock test. If you face any issues, feel free to reach out.
+
+Good luck!
+`
+
+    navigator.clipboard.writeText(details).then(() => {
+        // Optional: Toast or alert for confirmation
+        console.log("User details copied to clipboard")
+    }).catch((err) => {
+        console.error("Failed to copy: ", err)
+    })
+}
+
+// Helper: Format date
+function formatDate(dateString: string | null): string {
+    if (!dateString) return "-"
+    return new Date(dateString).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+    })
+}
+
+// Helper: Valid till = +6 months
+function calculateValidTill(createdAt: string | null): string {
+    if (!createdAt) return "-"
+    const date = new Date(createdAt)
+    date.setMonth(date.getMonth() + 6)
+    return date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+    })
 }
 
 

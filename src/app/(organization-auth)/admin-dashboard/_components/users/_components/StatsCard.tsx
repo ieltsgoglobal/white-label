@@ -41,7 +41,7 @@ export function StatsCard({ users }: { users: Student[] }) {
         },
         {
             title: "Total Fee Collected",
-            value: `₹${userStats.totalRevenue}`,
+            value: `₹${userStats.totalRevenue.toFixed(2)}`,
             icon: UserCheck,
         },
         {
