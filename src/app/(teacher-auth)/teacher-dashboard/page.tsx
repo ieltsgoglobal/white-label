@@ -3,7 +3,7 @@ import Link from "next/link";
 import PlaceholderContent from "@/components/demo/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import DisplayStudentsTable from "./_component/display-students";
+import DisplayStudentsServer from "./_component/DisplayStudents.server";
 
 export default function UsersPage() {
     return (
@@ -34,7 +34,7 @@ export default function UsersPage() {
                     </div>
                 </div>
 
-                <DisplayStudentsTable />
+                <DisplayStudentsServer />
             </PlaceholderContent>
         </ContentLayout >
     );

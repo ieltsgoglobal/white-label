@@ -17,6 +17,7 @@ export type Student = {
     password: string
     revenue: number
     name: string
+    activated: boolean
 }
 
 export function UserManagement() {

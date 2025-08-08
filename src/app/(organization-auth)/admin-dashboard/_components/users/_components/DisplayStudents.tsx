@@ -191,7 +191,10 @@ export default function DisplayStudents({ users }: { users: Student[] }) {
             </CardContent>
         </Card>
     )
-} function copyUserDetails(user: Student) {
+}
+
+
+function copyUserDetails(user: Student) {
     if (!user) return
 
     const subdomain = getClientSubdomain()
@@ -217,9 +220,6 @@ Good luck!
             alert("Failed to copy user details.")
         })
 }
-
-
-
 
 // Helper: Format date
 function formatDate(dateString: string | null): string {
