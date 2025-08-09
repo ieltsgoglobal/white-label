@@ -4,10 +4,8 @@ import { useParams } from "next/navigation"
 import { useMockAttempts } from "../../_component/MockAttemptContext"
 import { MockTestAttempt } from "@/types/mockTestAttempt"
 import TestSectionNavigation from "../../_component/TestSectionNavigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import ListeningMain from "@/components/mock-tests/listening-task/listening-main"
-import { setReviewMode } from "@/lib/mock-tests/indexedDb"
-import ListeningReviewNavigation from "@/components/mock-tests/additional-ui/review-components/listening/ReviewSectionNavigation"
 import ReadingMain from "@/components/mock-tests/reading-task/reading-main"
 import WritingMain from "@/components/mock-tests/writing-task/writing-main"
 import SpeakingReviewPage from "../../../../../components/mock-tests/additional-ui/review-components/speaking/SpeakingReviewPage"
@@ -19,11 +17,6 @@ export default function ReviewPage() {
     // match the pathname-id with attempts we have to get the details of test we want to review
     const mockAttemptContext = useMockAttempts(true) // use Context API to get test attempts done by user
     const attempts = mockAttemptContext?.attempts || []
-
-    // sets isReviewMode ON in indexedDB
-    useEffect(() => {
-        setReviewMode(true)
-    }, [])
 
     // navigate through sections
     const [section, setSection] = useState<"listening" | "reading" | "writing" | "speaking">("listening")

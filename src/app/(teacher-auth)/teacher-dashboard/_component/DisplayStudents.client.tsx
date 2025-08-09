@@ -6,7 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Search } from "lucide-react"
-import Link from "next/link"
 import { useMemo, useState } from "react"
 
 export function DisplayStudentsTable({ students }: { students: Student[] }) {
@@ -65,11 +64,11 @@ export function DisplayStudentsTable({ students }: { students: Student[] }) {
                                         <TableCell className="text-sm">{student.name}</TableCell>
                                         <TableCell className="text-sm">{student.username}</TableCell>
                                         <TableCell className="flex justify-center items-center">
-                                            <Link href={`/mock-scores?teacher-review=true&studentid=${student.id}`}>
+                                            <a href={`/mock-scores?teacher-review=true&studentid=${student.id}`} target="_blank">
                                                 <Button size="sm" variant="outline">
                                                     View Details
                                                 </Button>
-                                            </Link>
+                                            </a>
                                         </TableCell>
                                     </TableRow>
                                 ))

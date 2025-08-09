@@ -2,7 +2,7 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Search, MoreHorizontal, Eye, Ban, CheckCircle } from "lucide-react"
+import { Search, MoreHorizontal, Eye, Ban, CheckCircle, Pencil } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import PasswordCell from "./Password-cell"
@@ -160,6 +160,13 @@ export default function DisplayStudents({ users }: { users: Student[] }) {
                                                         Copy Details
                                                     </DropdownMenuItem>
                                                     <DropdownMenuSeparator />
+                                                    <DropdownMenuItem className="p-0">
+                                                        <a href={`/mock-scores?studentid=${user.id}`} target="_blank" className="w-full h-hull px-2 py-1.5 flex">
+                                                            <Pencil className="mr-2 h-4 w-4" />
+                                                            View Scores
+                                                        </a>
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuSeparator />
                                                     <DropdownMenuItem
                                                         onClick={() => handleToggleActivation(user)}
                                                         className={user.activated ? "text-red-600" : "text-green-600"}
@@ -213,7 +220,7 @@ Good luck!
 
     navigator.clipboard.writeText(details)
         .then(() => {
-            alert("Details copied to clipboard. You can now share them with the student.")
+            alert("✅ Student login details copied! Paste them into WhatsApp or email to share.")
         })
         .catch((err) => {
             console.error("Failed to copy: ", err)

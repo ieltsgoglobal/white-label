@@ -1,52 +1,47 @@
 "use client"
 
 import { getAllMockTestAttempts } from "@/lib/firebase/firebase-functions"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import type { MockTestAttempt } from "@/types/mockTestAttempt"
 import { MockAttemptContext } from "./_component/MockAttemptContext"
-import { getCachedMockTestAttempts, setCachedMockTestAttempts } from "@/app/(student-auth)/mock-scores/_component/mockAttemptsCache"
+import { setReviewMode } from "@/lib/mock-tests/indexedDb"
+import { useSearchParams } from "next/navigation"
+import { getSessionUser, SessionUser } from "@/lib/auth/session/get-user"
 
 
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
     const [attempts, setAttempts] = useState<MockTestAttempt[]>([])
-
-    // check teacher review and get studentId from url
-    // Read URL params safely at initial render
-    const { isTeacherReview, studentId } = useMemo(() => {
-        if (typeof window === "undefined") return { isTeacherReview: false, studentId: undefined };
-        const params = new URLSearchParams(window.location.search);
-        return {
-            isTeacherReview: params.get("teacher-review") === "true",
-            studentId: params.get("studentid") || undefined,
-        };
-    }, []);
+    const searchParams = useSearchParams()
+    const studentIdParams = searchParams.get("studentid") || ""
 
     // if teacher is checking then dont cache the data
     useEffect(() => {
         async function fetchAttempts() {
-            if (!isTeacherReview) {
-                // if data cached then use it
-                const cached = getCachedMockTestAttempts()
-                if (cached) {
-                    setAttempts(cached)
-                    console.debug("Used cached attempts")
-                    return
+
+            // if student is checking: get id from jwt
+            // if teacher/org checking
+            // : get id from params
+            let studentId = studentIdParams;
+            if (!studentIdParams) {
+                const user: SessionUser | null = await getSessionUser();
+                if (user?.role === "student") {
+                    studentId = user.studentId
                 }
             }
-
 
             const data = await getAllMockTestAttempts(studentId)
             if (data) {
                 setAttempts(data)
-                console.log(data)
-                // cache data for 10 mins
-                if (!isTeacherReview) {
-                    setCachedMockTestAttempts(data)
-                }
             }
         }
 
         fetchAttempts()
+    }, [])
+
+
+    // sets isReviewMode ON in indexedDB
+    useEffect(() => {
+        setReviewMode(true)
     }, [])
 
     return (
