@@ -1,14 +1,8 @@
 import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 // import { getAllSubdomains } from '@/lib/superbase/organization-table';
 
 export async function verifySubdomain() {
     const subdomain = isSubdomain();
-
-    if (!subdomain) {
-        return; // ✅ No subdomain, nothing to validate
-    }
-
 
     // Now if subdomain is there, check validity
     // const result = await getAllSubdomains();
@@ -28,27 +22,28 @@ export async function verifySubdomain() {
 }
 
 
-export function isSubdomain(): string | null {
-    // mj.localhost:3000 (site name without protocol)
+export function isSubdomain(): string {
+    // mj.localhost:3000 =  return mj
+    // mj.ieltsgoglobal.com = return mj
+    // ieltsgoglobal.com = return ieltsgoglobal
+    // localhost:3000 = return localhost:3000
     const host = headers().get("host");
 
-    // Extract the subdomain (first part of hostname)
-    const subdomain = host?.split(".")[0];
+    if (!host) return ""
 
-    if (subdomain === undefined) {
-        return "main"
-    }
+    // mj.ieltsgoglobal.com = 1.mj, 2.ieltsgoglobal 3.com
+    const parts = host.split(".");
 
-    return subdomain;
+    return parts[0];
 }
 
 
 
 // Temporary hardcoded subdomain list
 const allowedSubdomains = [
-    "main", // keep it
-    "abc",
-    "xyz",
-    "test",
+    "", // keep it
+    "iop", // testing
+    "ieltsgoglobal", // keep it
+    "localhost:3000", // keep it
     "mj-study-abroad"
 ]
