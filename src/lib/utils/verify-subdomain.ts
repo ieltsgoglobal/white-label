@@ -33,12 +33,10 @@ export function isSubdomain(): string | null {
     const host = headers().get("host");
 
     // Extract the subdomain (first part of hostname)
-    const subdomain = host?.split(".")[0] || "";
+    const subdomain = host?.split(".")[0];
 
-
-    // Skip if it's localhost or root domain
-    if (subdomain.includes("localhost") || subdomain.length <= 2) {
-        return null;
+    if (subdomain === undefined) {
+        return "main"
     }
 
     return subdomain;
@@ -48,8 +46,7 @@ export function isSubdomain(): string | null {
 
 // Temporary hardcoded subdomain list
 const allowedSubdomains = [
-    "", // keep it
-    "www", // keep it
+    "main", // keep it
     "abc",
     "xyz",
     "test",
