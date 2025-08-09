@@ -48,6 +48,8 @@ export function isSubdomain(): string | null {
 
 // Temporary hardcoded subdomain list
 const allowedSubdomains = [
+    "", // keep it
+    "www", // keep it
     "abc",
     "xyz",
     "test",
