@@ -10,12 +10,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { User, Mail, Lock, Eye, EyeOff, PhoneForwarded, LocateIcon, Building2 } from "lucide-react"
 import { registerPartner } from "@/lib/superbase/organization-table"
 import { IdCardIcon } from "@radix-ui/react-icons"
-import { useRouter } from "next/navigation"
 import DotPulseLoader from "@/components/loaders/mock-tests/speaking/DotPulseLoader"
 import { RegisterPartnerData, registerPartnerSchema } from "@/lib/schemas/organization/register-partner"
 
 export default function Component() {
-    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [formErrors, setFormErrors] = useState<Partial<Record<keyof RegisterPartnerData, string>>>({})
     const [formData, setFormData] = useState<RegisterPartnerData>({
@@ -90,14 +88,7 @@ export default function Component() {
             agreeToTerms: false,
         })
 
-
-        const isProd = process.env.NODE_ENV === "production"
-
-        const domain = isProd
-            ? `https://${formData.subdomain}.ieltsgoglobal.com/admin-dashboard`
-            : `http://${formData.subdomain}.localhost:3000/admin-dashboard`
-
-        router.push(domain)
+        window.location.href = `/organization-registration/success?subdomain=${formData.subdomain}&email=${formData.email}&org=${formData.name}&createdAt=${new Date()}`
         console.log("✅ Organization registered successfully!")
     }
 
