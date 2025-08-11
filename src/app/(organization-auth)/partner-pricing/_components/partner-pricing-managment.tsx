@@ -42,11 +42,12 @@ function PricingCard({ title, price, users }: { title: string; price: number; us
         // rest phonepe code
         const amount = price * users * 100; // Convert to paise
         const redirectUrl = `${returnTo}/partner-payment-verification`;
+        const TYPE = 'B2B_CREDIT_PACKAGE';
 
         const res = await fetch("api/payment-gateway/phonepe/pay", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount, redirectUrl, usersPurchased: users, orgId: partnerId }),
+            body: JSON.stringify({ amount, redirectUrl, usersPurchased: users, orgId: partnerId, TYPE }),
         });
 
         const data = await res.json();

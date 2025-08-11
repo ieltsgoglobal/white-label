@@ -1,7 +1,6 @@
 // lib/partner-function.ts
 "use server"
 
-import bcrypt from "bcryptjs"
 import { createClient } from "@supabase/supabase-js"
 
 const supabase = createClient(
