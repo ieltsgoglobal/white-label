@@ -34,6 +34,12 @@ export async function GET() {
                     teacherId: decoded.teacherId,
                     teacherName: decoded.teacherName
                 })
+            case "user":
+                return NextResponse.json({
+                    role: "user",
+                    userId: decoded.userId,
+                    userName: decoded.userName
+                })
             default:
                 return NextResponse.json({ error: "Invalid role" }, { status: 400 })
         }

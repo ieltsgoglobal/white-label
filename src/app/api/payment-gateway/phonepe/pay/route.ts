@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     // Build redirect URL with query params
     // will be passed in params for payment verification display in partner-payment-verification
-    const redirectUrlWithParams = `${redirectUrl}?merchantOrderId=${merchantOrderId}&users=${usersPurchased}&amount=${amount}`;
+    const redirectUrlWithParams = `${redirectUrl}?merchantOrderId=${merchantOrderId}&users=${usersPurchased}&amount=${amount}&type=${TYPE}`;
     const metaInfo = new MetaInfo(
         JSON.stringify({ orgId, usersPurchased, TYPE }), // udf1
         "", // udf2

@@ -31,7 +31,9 @@ export default function UserNav() {
             ? { id: session.studentId, name: session.studentName, role: "student" }
             : session.role === "teacher"
               ? { id: session.teacherId, name: session.teacherName, role: "teacher" }
-              : { id: "", name: "Guest", role: "guest" }
+              : session.role === "user"
+                ? { id: session.userId, name: session.userName, role: "user" }
+                : { id: "", name: "Guest", role: "guest" }
 
       setUser(mappedUser)
     }

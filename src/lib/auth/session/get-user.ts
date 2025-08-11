@@ -5,6 +5,7 @@ export type SessionUser =
   | { role: "student"; studentId: string; studentName: string }
   | { role: "organization"; orgId: string; organizationName: string }
   | { role: "teacher"; teacherId: string; teacherName: string }
+  | { role: "user"; userId: string; userName: string }
 
 export const getSessionUser = async (): Promise<SessionUser | null> => {
   try {
@@ -28,6 +29,10 @@ export const getSessionUser = async (): Promise<SessionUser | null> => {
 
     if (data.role === "teacher" && data.teacherId) {
       return { role: "teacher", teacherId: data.teacherId, teacherName: data.teacherName }
+    }
+
+    if (data.role === "user" && data.userId) {
+      return { role: "user", userId: data.userId, userName: data.userName }
     }
 
     return null

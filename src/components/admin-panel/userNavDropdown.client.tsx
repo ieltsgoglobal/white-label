@@ -101,7 +101,7 @@ export default function UserNavDropdown({ user }: { user: UserInfo }) {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    {isSubdomain &&
+                    {isSubdomain ?
                         <>
                             <DropdownMenuItem className="hover:cursor-pointer" asChild>
                                 <Link href="/" className="flex items-center">
@@ -121,14 +121,25 @@ export default function UserNavDropdown({ user }: { user: UserInfo }) {
                                     Teacher Dashboard
                                 </Link>
                             </DropdownMenuItem>
+                            <DropdownMenuItem className="ml-2 hover:cursor-pointer" asChild>
+                                <Link href="/login/student" className="flex items-center">
+                                    <User className="w-4 h-4 mr-3 text-muted-foreground" />
+                                    Student Login
+                                </Link>
+                            </DropdownMenuItem>
+                        </>
+
+                        :
+
+                        <>
+                            <DropdownMenuItem className="hover:cursor-pointer" asChild>
+                                <Link href="/login/user" className="flex items-center">
+                                    <User className="w-4 h-4 mr-3 text-muted-foreground" />
+                                    User Login
+                                </Link>
+                            </DropdownMenuItem>
                         </>
                     }
-                    <DropdownMenuItem className="ml-2 hover:cursor-pointer" asChild>
-                        <Link href="/login/student" className="flex items-center">
-                            <User className="w-4 h-4 mr-3 text-muted-foreground" />
-                            Student Login
-                        </Link>
-                    </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
 
