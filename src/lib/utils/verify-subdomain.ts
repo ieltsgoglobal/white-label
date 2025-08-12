@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 // import { getAllSubdomains } from '@/lib/superbase/organization-table';
 
 export async function verifySubdomain() {
-    const subdomain = isSubdomain();
+    const subdomain = getCurrentSubdomain();
 
     // Now if subdomain is there, check validity
     // const result = await getAllSubdomains();
@@ -22,7 +22,7 @@ export async function verifySubdomain() {
 }
 
 
-export function isSubdomain(): string {
+export function getCurrentSubdomain(): string {
     // mj.localhost:3000 =  return mj
     // mj.ieltsgoglobal.com = return mj
     // ieltsgoglobal.com = return ieltsgoglobal
@@ -47,3 +47,15 @@ const allowedSubdomains = [
     "localhost:3000", // keep it
     "mj-study-abroad"
 ]
+
+
+
+export function isSubdomain() {
+    const subdomain = getCurrentSubdomain()
+
+    if (!subdomain) return null
+
+    if (subdomain == "ieltsgoglobal" || subdomain == "localhost:3000") return false // its main website
+
+    return true // if subdomain holds any rather than ieltsgoglobal and localhost:3000
+}

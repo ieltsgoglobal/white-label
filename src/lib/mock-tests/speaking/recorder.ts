@@ -33,11 +33,12 @@ export const stopRecordingWithMeta = async (questionId: number): Promise<{ blob:
 
         // Get studentId from cookies
         const user = await getSessionUser()
-        if (!user || user.role !== "student") {
-            console.error("Missing or invalid student session")
+        if (!user || (user.role !== "student" && user.role !== "user")) {
+            console.error("Missing or invalid session")
             return
         }
-        const studentId = user.studentId
+        const studentId =
+            user.role === "student" ? user.studentId : user.role === "user" ? user.userId : null
 
         // using timestamp to create unique urls
         const timestamp = Date.now()

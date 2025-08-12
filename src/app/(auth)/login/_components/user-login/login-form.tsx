@@ -87,7 +87,7 @@ export function LoginForm() {
             className={"flex flex-col gap-6"}
         >
             <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-2xl font-bold">Log into Teacher Account</h1>
+                <h1 className="text-2xl font-bold">Log into User Account</h1>
                 <p className="text-balance text-sm text-muted-foreground">
                     Enter your details below to login to your account
                 </p>

@@ -19,12 +19,15 @@ export async function submitAllMockAnswers() {
 
         // Get studentId from indexedDB
         const user = await getSessionUser()
-        if (!user || user.role !== "student") {
-            console.error("Missing or invalid student session")
+        if (!user || (user.role !== "student" && user.role !== "user")) {
+            console.error("Missing or invalid session")
             return
         }
-        const studentId = user.studentId
 
+        const studentId =
+            user.role === "student" ? user.studentId : user.role === "user" ? user.userId : null
+
+        if (!studentId) return
 
         // ✅ Get all local answers from localstorage
         const answers = getMockAnswers()

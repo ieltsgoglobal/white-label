@@ -26,6 +26,8 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
                 const user: SessionUser | null = await getSessionUser();
                 if (user?.role === "student") {
                     studentId = user.studentId
+                } else if (user?.role === "user") {
+                    studentId = user.userId
                 }
             }
 

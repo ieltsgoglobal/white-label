@@ -75,5 +75,6 @@ export async function createOrGetUser(input: CreateUserInput) {
         throw new Error(`Failed to create user: ${insertError.message}`)
     }
 
+    console.log("newUser", newUser)
     return newUser
 }

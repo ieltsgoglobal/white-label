@@ -30,13 +30,15 @@ export async function requireRole(role: string) {
 
 
 export type SessionPayload = {
-    role: "organization" | "student" | "teacher";
+    role: "organization" | "student" | "teacher" | "user";
     orgId?: string;
     organizationName?: string;
     studentId?: string;
     studentName?: string;
     teacherId?: string;
     teacherName?: string;
+    userId: string;
+    userName: string
 };
 
 // for public paths, eg. userNav
