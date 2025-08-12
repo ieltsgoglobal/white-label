@@ -38,7 +38,8 @@ export type SessionPayload = {
     teacherId?: string;
     teacherName?: string;
     userId: string;
-    userName: string
+    userName: string;
+    is_member?: boolean
 };
 
 // for public paths, eg. userNav

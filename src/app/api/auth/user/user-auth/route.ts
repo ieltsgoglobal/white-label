@@ -14,12 +14,14 @@ export async function POST(req: Request) {
 
     try {
         const user = await createOrGetUser({ name, phone })
+        console.log(user)
 
         const token = jwt.sign(
             {
                 userId: user.id,
                 userName: user.name,
-                role: "user"
+                role: "user",
+                is_member: user.is_member
             },
             JWT_SECRET,
             { expiresIn: "1d" }
