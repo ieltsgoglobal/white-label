@@ -9,9 +9,10 @@ import Link from "next/link"
 type Props = {
     orderId: string;
     amount: number;
+    redirectURL: string
 };
 
-export default function PaymentSuccessDisplay({ orderId, amount }: Props) {
+export default function PaymentSuccessDisplay({ orderId, amount, redirectURL }: Props) {
     const [showContent, setShowContent] = useState(false)
     const [showConfetti, setShowConfetti] = useState(false)
 
@@ -92,9 +93,9 @@ export default function PaymentSuccessDisplay({ orderId, amount }: Props) {
                         className={`space-y-3 transform transition-all duration-500 delay-700 ${showContent ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
                             }`}
                     >
-                        <Link href="/admin-dashboard">
+                        <Link href={redirectURL}>
                             <Button variant="ghost" className="w-full group">
-                                Go To Admin Dashboard
+                                Go To {redirectURL === "/admin-dashboard" ? "Admin Dashboard" : "Practice"}
                                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                             </Button>
                         </Link>

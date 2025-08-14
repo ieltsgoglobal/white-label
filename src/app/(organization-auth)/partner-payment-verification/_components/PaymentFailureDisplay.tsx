@@ -10,9 +10,10 @@ import Link from "next/link"
 type Props = {
     orderId: string;
     amount: number;
+    redirectURL: string
 };
 
-export default function PaymentFailureDisplay({ orderId, amount }: Props) {
+export default function PaymentFailureDisplay({ orderId, amount, redirectURL }: Props) {
     const [showContent, setShowContent] = useState(false)
     const [showShake, setShowShake] = useState(false)
 
@@ -112,7 +113,7 @@ export default function PaymentFailureDisplay({ orderId, amount }: Props) {
                             }`}
                     >
 
-                        <Link href="/admin-dashboard">
+                        <Link href={redirectURL === "/admin-dashboard" ? "/admin-dashboard" : "/user-pricing"}>
                             <Button className="w-full bg-red-600 hover:bg-red-700 text-white group">
                                 <RefreshCw className="w-4 h-4 mr-2 group-hover:animate-spin" />
                                 Try Again
@@ -127,10 +128,10 @@ export default function PaymentFailureDisplay({ orderId, amount }: Props) {
                             </Button>
                         </Link>
 
-                        <Link href="/admin-dashboard">
+                        <Link href={redirectURL}>
                             <Button variant="ghost" className="w-full group text-gray-600 hover:text-gray-800">
                                 <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-                                Go To Admin Dashboard
+                                Go To {redirectURL === "/admin-dashboard" ? "Admin Dashboard" : "Practice"}
                             </Button>
                         </Link>
                     </div>

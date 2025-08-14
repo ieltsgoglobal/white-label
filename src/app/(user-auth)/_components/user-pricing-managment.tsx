@@ -34,6 +34,13 @@ export default function UserPricingManagment() {
             isOffer: true,
             type: "B2C_V1_AUTOPAY_MONTLY"
         },
+        {
+            title: "7-Day Test",
+            label: "1-Week Validity",
+            durationInDays: 7,
+            price: 1,
+            type: "B2C_V1_FIXED",
+        },
     ];
 
 
