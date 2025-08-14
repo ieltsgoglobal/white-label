@@ -7,6 +7,8 @@ import PaymentFailureDisplay from "./_components/PaymentFailureDisplay";
 
 export default function PartnerPaymentVerification() {
     const statusRef = useRef<"loading" | "success" | "failed">("loading");
+    const [renderTrigger, setRenderTrigger] = useState(0); // just to re-render UI when status changes
+
     const [merchantOrderId, setMerchantOrderId] = useState<string>("");
     const [amount, setAmount] = useState<number>(0);
     const [redirectURL, setRedirectURL] = useState<string>("");
@@ -19,6 +21,7 @@ export default function PartnerPaymentVerification() {
 
         if (!orderId) {
             statusRef.current = "failed";
+            setRenderTrigger(v => v + 1);
             return;
         }
 
@@ -42,11 +45,13 @@ export default function PartnerPaymentVerification() {
                 });
                 const data = await res.json();
                 statusRef.current = data.state === "COMPLETED" ? "success" : "failed";
+                setRenderTrigger(v => v + 1); // trigger re-render
 
                 await giveTempAccess(type);
 
             } catch (err) {
                 statusRef.current = "failed";
+                setRenderTrigger(v => v + 1);
             }
         };
 
