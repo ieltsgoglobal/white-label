@@ -69,7 +69,7 @@ export default function UserPricingManagment() {
                         title={tier.title}
                         price={tier.price}
                         label={tier.label}
-                        type={tier.label}
+                        type={tier.type}
                         duration={tier.durationInDays}
                     />
                 )
