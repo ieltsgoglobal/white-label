@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DotPulseLoader from "@/components/loaders/mock-tests/speaking/DotPulseLoader";
 import PaymentSuccessDisplay from "./_components/PaymentSuccessDisplay";
 import PaymentFailureDisplay from "./_components/PaymentFailureDisplay";
 
 export default function PartnerPaymentVerification() {
-    const [status, setStatus] = useState<"loading" | "success" | "failed">("loading");
+    const statusRef = useRef<"loading" | "success" | "failed">("loading");
     const [merchantOrderId, setMerchantOrderId] = useState<string>("");
     const [amount, setAmount] = useState<number>(0);
     const [redirectURL, setRedirectURL] = useState<string>("");
@@ -18,7 +18,7 @@ export default function PartnerPaymentVerification() {
         const type = params.get("type") as "B2B_CREDIT_PACKAGE" | "B2C_V1_FIXED" | null;
 
         if (!orderId) {
-            setStatus("failed");
+            statusRef.current = "failed";
             return;
         }
 
@@ -34,21 +34,34 @@ export default function PartnerPaymentVerification() {
         setMerchantOrderId(orderId);
         setAmount(parseInt(amountStr));
 
+
         const checkStatus = async () => {
             try {
                 const res = await fetch(`/api/payment-gateway/phonepe/status?orderId=${orderId}`, {
                     cache: "no-store",
                 });
                 const data = await res.json();
+                statusRef.current = data.state === "COMPLETED" ? "success" : "failed";
 
-                setStatus(data.state === "COMPLETED" ? "success" : "failed");
+                await giveTempAccess(type);
+
             } catch (err) {
-                setStatus("failed");
+                statusRef.current = "failed";
             }
         };
 
         checkStatus();
+
     }, []);
+
+    // make the "USER COOKEIE's is_member:true"
+    // it will automaticaly get expired after one day
+    // and then we can fetch new data from backend on login
+    const giveTempAccess = async (type: string | null) => {
+        if (type === "B2B_CREDIT_PACKAGE") return
+        if (statusRef.current === "failed") return;
+        await fetch("/api/auth/user/set-temp-access", { method: "POST" });
+    }
 
     if (status === "loading") return <DotPulseLoader />;
 
