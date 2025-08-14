@@ -68,9 +68,9 @@ export default function PartnerPaymentVerification() {
         await fetch("/api/auth/user/set-temp-access", { method: "POST" });
     }
 
-    if (status === "loading") return <DotPulseLoader />;
+    if (statusRef.current === "loading") return <DotPulseLoader />;
 
-    return status === "success" ? (
+    return statusRef.current === "success" ? (
         <PaymentSuccessDisplay orderId={merchantOrderId} amount={amount} redirectURL={redirectURL} />
     ) : (
         <PaymentFailureDisplay orderId={merchantOrderId} amount={amount} redirectURL={redirectURL} />
