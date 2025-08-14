@@ -1,5 +1,7 @@
 "use client"
 
+import { getSessionUser } from "@/lib/auth/session/get-user";
+
 export default function UserPricingManagment() {
     const pricingTiers = [
         {
@@ -60,6 +62,8 @@ export default function UserPricingManagment() {
                         title={tier.title}
                         price={tier.price}
                         label={tier.label}
+                        type={tier.label}
+                        duration={tier.durationInDays}
                     />
                 )
             })}
@@ -67,10 +71,31 @@ export default function UserPricingManagment() {
     )
 }
 
-function PricingCardFixed({ title, price, label }: { title: string; price: number, label: string }) {
+function PricingCardFixed({ title, price, label, type, duration }: { title: string; price: number, label: string, type: string, duration?: number }) {
 
     const handlePayment = async () => {
-        console.log("yo")
+
+        // get userId
+        const user = await getSessionUser()
+        if (!user || user.role !== "user") {
+            console.error("Not logged in as User")
+            return
+        }
+        const userId = user.userId
+
+
+        // rest phonepe code
+        const amount = price * 100; // Convert to paise
+        const redirectUrl = `${window.location.origin}/user-payment-verification`;
+
+        const res = await fetch("api/payment-gateway/phonepe/pay", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount, redirectUrl, userId, type, duration }),
+        });
+
+        const data = await res.json();
+        window.location.href = data.redirectUrl;
     };
 
     return (
