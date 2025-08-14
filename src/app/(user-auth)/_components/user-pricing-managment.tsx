@@ -93,12 +93,12 @@ function PricingCardFixed({ title, price, label, type, duration }: { title: stri
 
         // rest phonepe code
         const amount = price * 100; // Convert to paise
-        const redirectUrl = `${window.location.origin}/user-payment-verification`;
+        const redirectUrl = `${window.location.origin}/partner-payment-verification`;
 
         const res = await fetch("api/payment-gateway/phonepe/pay", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount, redirectUrl, userId, type, duration }),
+            body: JSON.stringify({ amount, redirectUrl, userId, TYPE: type, duration }),
         });
 
         const data = await res.json();
