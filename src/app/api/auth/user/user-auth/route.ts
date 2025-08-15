@@ -24,7 +24,7 @@ export async function POST(req: Request) {
                 is_member: user.is_member
             },
             JWT_SECRET,
-            { expiresIn: "1d" }
+            { expiresIn: "1m" }
         )
 
         cookies().set({
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             path: "/",
-            maxAge: 60 * 60 * 24,
+            maxAge: 60,
         })
 
         return NextResponse.json({ success: true })
