@@ -4,7 +4,7 @@ import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import UserPricingManagment from "../_components/user-pricing-managment";
+import UserPricingManagment from "./_components/user-pricing-managment";
 
 export default function UsersPage() {
     return (

@@ -25,15 +25,15 @@ export default function UserPricingManagment() {
             price: 899,
             type: "B2C_V1_FIXED",
         },
-        {
-            title: "Monthly Membership",
-            label: "4-Week Validity",
-            price: 599,
-            originalPrice: 999,
-            offerEnds: "15th September 2025",
-            isOffer: true,
-            type: "B2C_V1_AUTOPAY_MONTLY"
-        },
+        // {
+        //     title: "Monthly Membership",
+        //     label: "4-Week Validity",
+        //     price: 599,
+        //     originalPrice: 999,
+        //     offerEnds: "15th September 2025",
+        //     isOffer: true,
+        //     type: "B2C_V1_AUTOPAY_MONTLY"
+        // },
         {
             title: "7-Day Test",
             label: "1-Week Validity",
@@ -49,19 +49,19 @@ export default function UserPricingManagment() {
             {pricingTiers.map((tier, index) => {
                 const isAutoPay = tier.type.includes("AUTOPAY")
 
-                if (isAutoPay) {
-                    return (
-                        <PricingCardAutoPay
-                            key={index}
-                            title={tier.title}
-                            label={tier.label}
-                            price={tier.price}
-                            originalPrice={tier.originalPrice}
-                            isOffer={tier.isOffer}
-                            offerEnds={tier.offerEnds}
-                        />
-                    )
-                }
+                // if (isAutoPay) {
+                //     return (
+                //         <PricingCardAutoPay
+                //             key={index}
+                //             title={tier.title}
+                //             label={tier.label}
+                //             price={tier.price}
+                //             originalPrice={tier.originalPrice}
+                //             isOffer={tier.isOffer}
+                //             offerEnds={tier.offerEnds}
+                //         />
+                //     )
+                // }
 
                 return (
                     <PricingCardFixed
