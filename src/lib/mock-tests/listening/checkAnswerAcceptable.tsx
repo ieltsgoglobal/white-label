@@ -53,6 +53,7 @@ function expandAcceptableAnswers(correctAnswer: string): Set<string> {
         if (percentMatch) {
             set.add(percentMatch[1]) // add just the number
             set.add(percentMatch[1] + "%") // add number w/ %
+            set.add(percentMatch[1] + " " + "%") // add number w/ % with gap
         }
 
 

@@ -6,9 +6,10 @@ import { ArrowLeft, Clock, Check } from "lucide-react"
 interface NavigationBarProps {
     onSubmit: () => void
     initialMinutes?: number // defaults to 30
+    hideTimer?: boolean
 }
 
-export default function NavigationBar({ onSubmit, initialMinutes = 30 }: NavigationBarProps) {
+export default function NavigationBar({ onSubmit, initialMinutes = 30, hideTimer }: NavigationBarProps) {
     const [timeLeft, setTimeLeft] = useState(initialMinutes * 60)
     const hasSubmittedRef = useRef(false)
 
@@ -55,10 +56,12 @@ export default function NavigationBar({ onSubmit, initialMinutes = 30 }: Navigat
                     <span>EXIT</span>
                 </button>
 
-                <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    <span className="font-mono">{formatTime(timeLeft)} LEFT</span>
-                </div>
+                {hideTimer !== true &&
+                    <div className="flex items-center gap-2">
+                        <Clock className="w-4 h-4" />
+                        <span className="font-mono">{formatTime(timeLeft)} LEFT</span>
+                    </div>
+                }
 
                 <button onClick={safeSubmit} className="flex items-center gap-2 text-white hover:text-gray-300">
                     <span>SUBMIT</span>

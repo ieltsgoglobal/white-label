@@ -206,7 +206,7 @@ function ReadingPassageDisplay({
             <div className="space-y-8">
                 {paragraphs.map((paragraph, index) => (
                     <div key={index} className="flex flex-col items-start text-sm">
-                        <span className="font-bold text-sm text-foreground my-1 min-w-[32px]">{index + 1}</span>
+                        <span className="font-bold text-sm text-foreground my-1 min-w-[32px]">{String.fromCharCode(65 + index)}</span>
                         <p className="text-foreground leading-relaxed text-justify whitespace-pre-line">{paragraph}</p>
                     </div>
                 ))}

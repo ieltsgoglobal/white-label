@@ -481,7 +481,7 @@ In a rejoinder, Ericsson argues that Macnamara’s analysis actually showed the 
         {
             questionType: "matching-features",
             question: {
-                question_statement: "Look at the following statements the list of researchers below",
+                question_statement: "Look at the following statements the list of researchers below. You may use any letter more than once.",
                 statements_title: "Statements",
                 statements: [
                     { id: 19, text: "Their research involved innovative methods of measuring practice among participants.", },

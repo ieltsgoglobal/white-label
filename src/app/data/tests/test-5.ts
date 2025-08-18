@@ -114,6 +114,7 @@ export const listening_section_2 = {
         {
             questionType: "short-answer",
             topic: "Which THREE events does the speaker say are taking place in September?",
+            instructions: "Write NO MORE THAN THREE WORDS for each answer.",
             questions: [
                 {
                     id: 14,
