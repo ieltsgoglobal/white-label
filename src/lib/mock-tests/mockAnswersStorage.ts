@@ -56,10 +56,20 @@ export function initializeMockAnswers() {
             speaking: [],
             writing: [],
             scores: {
-                listening: undefined,
-                reading: undefined,
-                writing: undefined,
-                speaking: undefined,
+                listening: 0,
+                reading: 0,
+                writing: {
+                    task1: 0,
+                    task2: 0,
+                    overall: 0,
+                },
+                speaking: {
+                    fluency_and_coherence: 0,
+                    lexical_resource: 0,
+                    grammatical_range_and_accuracy: 0,
+                    pronunciation: 0,
+                    overall_band: 0,
+                },
             },
         }
 
