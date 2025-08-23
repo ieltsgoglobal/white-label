@@ -102,7 +102,8 @@ export default function AnswerCheckbox({ questionKey, options, optionLetters, ma
 
     //get particular answer, in this case all questionKeys
     useEffect(() => {
-        if (!isReviewMode || !section) return
+        if (!section) return
+        if (isReviewMode) return;
 
         const collected: string[] = []
 
