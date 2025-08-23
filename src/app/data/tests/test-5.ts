@@ -719,9 +719,9 @@ export const listening_answers = {
     12: "D",
     13: "F",
 
-    14: "local history society",
-    15: "book club",
-    16: "ask the author",
+    14: "local history society/ book club/ ask the author",
+    15: "book club/ local history society/ ask the author",
+    16: "ask the author/ local history society/ book club",
 
     17: "B",
     18: "B",
