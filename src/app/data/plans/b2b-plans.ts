@@ -1,4 +1,4 @@
-// /lib/plans.ts
+// /lib/b2b-plans.ts
 export type PlanId =
     | "individual"
     | "freelancer"
