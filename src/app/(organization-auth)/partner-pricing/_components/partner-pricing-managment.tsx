@@ -1,58 +1,23 @@
 "use client"
 
+import { getActivePlans, PlanId, requirePlan } from "../utils/plans";
+
 export default function PartnerPricingManagment() {
-    const pricingTiers = [
-        { title: "Individual", users: 5, price: 899 },
-        { title: "Freelancer", users: 10, price: 799 },
-        { title: "Startup", users: 20, price: 699 },
-        { title: "Business", users: 50, price: 599 },
-        { title: "Enterprise", users: 100, price: 499 },
-        { title: "Test", users: 10, price: 1 },
-    ];
+    const plans = getActivePlans();
 
     return (
         <div className="flex flex-wrap items-center justify-around p-6 gap-6">
-            {pricingTiers.map((tier, index) => (
-                <PricingCard
-                    key={index}
-                    title={tier.title}
-                    price={tier.price}
-                    users={tier.users}
-                />
+            {plans.map((plan) => (
+                <PricingCard key={plan.id} planId={plan.id} />
             ))}
         </div>
-    )
+    );
 }
 
-function PricingCard({ title, price, users }: { title: string; price: number; users: number }) {
 
-    const handlePayment = async () => {
-
-        // get partnerId from params
-        const searchParams = new URLSearchParams(window.location.search);
-        const partnerId = searchParams.get("partnerId");
-        const returnTo = searchParams.get("returnTo");
-
-        // Guard clause: check partnerId is present
-        if (!partnerId) {
-            console.error("❌ partnerId not found in query params");
-            return;
-        }
-
-        // rest phonepe code
-        const amount = price * users * 100; // Convert to paise
-        const redirectUrl = `${returnTo}/partner-payment-verification`;
-        const TYPE = 'B2B_CREDIT_PACKAGE';
-
-        const res = await fetch("api/payment-gateway/phonepe/pay", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ amount, redirectUrl, usersPurchased: users, orgId: partnerId, TYPE }),
-        });
-
-        const data = await res.json();
-        window.location.href = data.redirectUrl;
-    };
+function PricingCard({ planId }: { planId: PlanId }) {
+    const plan = requirePlan(planId);
+    const { title, users, pricePerUser: price } = plan;
 
     return (
         <div className="flex flex-col rounded-3xl dark:border border-border shadow-[0_20px_50px_rgba(8,_112,_184,_0.2)]">
@@ -77,10 +42,37 @@ function PricingCard({ title, price, users }: { title: string; price: number; us
                 </div>
             </div>
             <div className="flex px-6 pb-8 sm:px-8">
-                <button onClick={handlePayment} className="items-center justify-center w-full px-6 py-2.5 text-center duration-200 border border-border rounded-full hover:border-foreground text-sm">
+                <button onClick={() => { handlePayment(planId) }} className="items-center justify-center w-full px-6 py-2.5 text-center duration-200 border border-border rounded-full hover:border-foreground text-sm">
                     Get started
                 </button>
             </div>
         </div>
     )
 }
+
+const handlePayment = async (planId: string) => {
+
+    // get partnerId from params
+    const searchParams = new URLSearchParams(window.location.search);
+    const partnerId = searchParams.get("partnerId");
+    const returnTo = searchParams.get("returnTo");
+
+    // Guard clause: check partnerId is present
+    if (!partnerId) {
+        console.error("❌ partnerId not found in query params");
+        return;
+    }
+
+    // rest phonepe code
+    const redirectUrl = `${returnTo}/partner-payment-verification`;
+    const TYPE = 'B2B_CREDIT_PACKAGE';
+
+    const res = await fetch("api/payment-gateway/phonepe/pay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planId, redirectUrl, orgId: partnerId, TYPE }),
+    });
+
+    const data = await res.json();
+    window.location.href = data.redirectUrl;
+};

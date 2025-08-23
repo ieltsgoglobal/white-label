@@ -8,22 +8,13 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UserManagement } from "./_components/users/user-managment";
 import { TransactionManagment } from "./_components/transaction/transaction-managment";
-import { useEffect, useState } from "react";
-import PricingManagment from "./_components/pricing/pricing-managment";
+import { useState } from "react";
 import TeacherManagement from "./_components/teacher/teacher-managment";
 import { QueryProvider } from "@/components/providers/query-provider";
-import { getClientSubdomain } from "@/lib/utils/isSubdomain.client";
 import { openMainWebsiteWindow } from "./_components/pricing/openMainWebsiteWindow";
 
 export default function UsersPage() {
     const [activeTab, setActiveTab] = useState<string>("")
-    const [isSubdomain, setIsSubdomain] = useState<boolean>(false); // isSubdimain(true) = partner domain
-
-    useEffect(() => {
-        const sub = getClientSubdomain();
-        setIsSubdomain(sub !== null);
-    }, []);
-
 
     return (
         <ContentLayout title="IELTS GO GLOBAL">
@@ -67,11 +58,7 @@ export default function UsersPage() {
                             </Button>
 
                             {activeTab !== "pricing" &&
-                                <Button onClick={() => {
-                                    isSubdomain
-                                        ? openMainWebsiteWindow()
-                                        : setActiveTab("pricing")
-                                }} size="lg" variant="outline" className="rounded-full h-12 px-8 text-base">
+                                <Button onClick={() => { openMainWebsiteWindow() }} size="lg" variant="outline" className="rounded-full h-12 px-8 text-base">
                                     Pricing
                                 </Button>
                             }
@@ -82,7 +69,6 @@ export default function UsersPage() {
                         {activeTab !== "" && <div className="border-b border-border my-5"></div>}
                         {activeTab === "users" && <UserManagement />}
                         {activeTab === "transactions" && <TransactionManagment />}
-                        {activeTab === "pricing" && <PricingManagment />}
                         {activeTab === "teachers" && <TeacherManagement />}
                     </QueryProvider>
 

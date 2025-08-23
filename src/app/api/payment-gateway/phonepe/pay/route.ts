@@ -1,16 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { StandardCheckoutClient, Env, StandardCheckoutPayRequest, MetaInfo } from 'pg-sdk-node';
 import { randomUUID } from 'crypto';
+import { computeAmountPaise, requirePlan } from '@/app/(organization-auth)/partner-pricing/utils/plans';
 
 const clientId = process.env.PHONEPE_CLIENT_ID!;
 const clientSecret = process.env.PHONEPE_CLIENT_SECRET!;
 const clientVersion = 1;
-const env = Env.PRODUCTION; // Change to Env.PRODUCTION in prod or Env.SANDBOX for dev
+const env =
+    process.env.NODE_ENV === "production" ? Env.PRODUCTION : Env.SANDBOX;
 
 const client = StandardCheckoutClient.getInstance(clientId, clientSecret, clientVersion, env);
 
 export async function POST(req: NextRequest) {
-    const { amount, redirectUrl, orgId, usersPurchased, TYPE, userId, duration } = await req.json();
+    const { planId, redirectUrl, orgId, TYPE, userId, duration } = await req.json();
+
+    // Lookup plan from server-side module
+    const plan = requirePlan(planId);
+    const amount = computeAmountPaise(plan);
+    const usersPurchased = plan.users;
 
     const merchantOrderId = randomUUID();
 
