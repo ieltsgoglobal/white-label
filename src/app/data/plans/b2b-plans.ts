@@ -25,7 +25,7 @@ const PLANS: Record<B2BPlanId, Plan> = {
 };
 
 /** Return all active plans for UI */
-export function getActivePlans(): Plan[] {
+export function getActiveB2BPlans(): Plan[] {
     return Object.values(PLANS).filter(p => p.isActive);
 }
 

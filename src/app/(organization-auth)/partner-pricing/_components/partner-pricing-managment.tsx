@@ -1,9 +1,11 @@
 "use client"
 
-import { getActivePlans, PlanId, requirePlan } from "../../../data/plans/b2b-plans";
+import { B2BPlanId, getActiveB2BPlans, requireB2BPlan } from "@/app/data/plans/b2b-plans";
+
+
 
 export default function PartnerPricingManagment() {
-    const plans = getActivePlans();
+    const plans = getActiveB2BPlans();
 
     return (
         <div className="flex flex-wrap items-center justify-around p-6 gap-6">
@@ -15,8 +17,8 @@ export default function PartnerPricingManagment() {
 }
 
 
-function PricingCard({ planId }: { planId: PlanId }) {
-    const plan = requirePlan(planId);
+function PricingCard({ planId }: { planId: B2BPlanId }) {
+    const plan = requireB2BPlan(planId);
     const { title, users, pricePerUser: price } = plan;
 
     return (
