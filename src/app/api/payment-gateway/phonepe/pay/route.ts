@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { StandardCheckoutClient, Env, StandardCheckoutPayRequest, MetaInfo } from 'pg-sdk-node';
 import { randomUUID } from 'crypto';
-import { computeAmountPaise, requirePlan } from '@/app/(organization-auth)/partner-pricing/utils/plans';
+import { computeAmountPaise, requirePlan } from '@/app/data/plans/b2b-plans';
 
 const clientId = process.env.PHONEPE_CLIENT_ID!;
 const clientSecret = process.env.PHONEPE_CLIENT_SECRET!;

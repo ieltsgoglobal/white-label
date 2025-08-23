@@ -1,6 +1,6 @@
 "use client"
 
-import { getActivePlans, PlanId, requirePlan } from "../utils/plans";
+import { getActivePlans, PlanId, requirePlan } from "../../../data/plans/b2b-plans";
 
 export default function PartnerPricingManagment() {
     const plans = getActivePlans();
