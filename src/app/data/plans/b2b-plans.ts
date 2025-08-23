@@ -1,5 +1,5 @@
 // /lib/b2b-plans.ts
-export type PlanId =
+export type B2BPlanId =
     | "individual"
     | "freelancer"
     | "startup"
@@ -8,14 +8,14 @@ export type PlanId =
     | "test";
 
 export interface Plan {
-    id: PlanId;
+    id: B2BPlanId;
     title: string;
     users: number;
     pricePerUser: number; // in INR
     isActive: boolean;
 }
 
-const PLANS: Record<PlanId, Plan> = {
+const PLANS: Record<B2BPlanId, Plan> = {
     individual: { id: "individual", title: "Individual", users: 5, pricePerUser: 899, isActive: true },
     freelancer: { id: "freelancer", title: "Freelancer", users: 10, pricePerUser: 799, isActive: true },
     startup: { id: "startup", title: "Startup", users: 20, pricePerUser: 699, isActive: true },
@@ -30,14 +30,14 @@ export function getActivePlans(): Plan[] {
 }
 
 /** Lookup a plan by id (throws if missing/inactive) */
-export function requirePlan(planId: PlanId): Plan {
+export function requireB2BPlan(planId: B2BPlanId): Plan {
     const plan = PLANS[planId];
     if (!plan || !plan.isActive) throw new Error("Invalid or inactive planId");
     return plan;
 }
 
 /** Compute total amount in paise for PhonePe (server-side only) */
-export function computeAmountPaise(plan: Plan): number {
+export function computeB2BAmountPaise(plan: Plan): number {
     const inr = plan.pricePerUser * plan.users;
     return Math.round(inr * 100);
 }

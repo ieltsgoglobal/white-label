@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { StandardCheckoutClient, Env, StandardCheckoutPayRequest, MetaInfo } from 'pg-sdk-node';
 import { randomUUID } from 'crypto';
-import { computeAmountPaise, requirePlan } from '@/app/data/plans/b2b-plans';
+import { B2CPlanId, computeB2CAmountPaise, requireB2CPlan } from '@/app/data/plans/b2c-plans';
+import { B2BPlanId, computeB2BAmountPaise, requireB2BPlan } from '@/app/data/plans/b2b-plans';
 
 const clientId = process.env.PHONEPE_CLIENT_ID!;
 const clientSecret = process.env.PHONEPE_CLIENT_SECRET!;
@@ -12,12 +13,26 @@ const env =
 const client = StandardCheckoutClient.getInstance(clientId, clientSecret, clientVersion, env);
 
 export async function POST(req: NextRequest) {
-    const { planId, redirectUrl, orgId, TYPE, userId, duration } = await req.json();
+    const { planId, redirectUrl, orgId, TYPE, userId } = await req.json();
 
-    // Lookup plan from server-side module
-    const plan = requirePlan(planId);
-    const amount = computeAmountPaise(plan);
-    const usersPurchased = plan.users;
+    let amount: number;
+    let usersPurchased: number | undefined;
+    let duration: number | undefined;
+
+    // 🔹 B2B flow
+    if (TYPE?.includes("B2B")) {
+        const plan = requireB2BPlan(planId as B2BPlanId);
+        amount = computeB2BAmountPaise(plan);
+        usersPurchased = plan.users;
+    }
+    // 🔹 B2C flow
+    else if (TYPE?.includes("B2C")) {
+        const plan = requireB2CPlan(planId as B2CPlanId);
+        amount = computeB2CAmountPaise(plan);
+        duration = plan.durationDays;
+    } else {
+        return NextResponse.json({ error: "Invalid TYPE" }, { status: 400 });
+    }
 
     const merchantOrderId = randomUUID();
 
