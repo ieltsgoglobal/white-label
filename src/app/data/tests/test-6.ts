@@ -174,6 +174,7 @@ export const listening_section_3 = {
     questions: [
         {
             questionType: "sentence-completion",
+            oneWord: true,
             questions: [
                 {
                     id: 21,
@@ -353,6 +354,7 @@ The whole concept of field recordings was, in 1933 and still is today, radically
     questions: [
         {
             questionType: "summary-completion",
+            multiWord: true,
             question: {
                 id: [1, 2, 3, 4, 5],
                 title: "John Lomax's Project",
@@ -656,7 +658,7 @@ export const reading_answers = {
 
 export const listening_answers = {
     1: "John Sparrow",
-    2: "24th January",
+    2: "24 January",
     3: "Athens, Greece",
     4: "9.45",
     5: "Hypnos",
@@ -671,7 +673,7 @@ export const listening_answers = {
     13: "Italian",
     14: "hot dogs",
     15: "A",
-    16: "A",
+    16: "B",
     17: "C",
     18: "B",
 
@@ -700,5 +702,5 @@ export const listening_answers = {
     37: "food/feeding",
     38: "shipping",
     39: "wider",
-    40: "sub-tropical/ subtropical"
+    40: "sub-tropical/ subtropical/ sub tropical"
 };

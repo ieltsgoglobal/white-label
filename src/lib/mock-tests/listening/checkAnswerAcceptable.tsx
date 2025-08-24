@@ -68,7 +68,55 @@ function expandAcceptableAnswers(correctAnswer: string): Set<string> {
             set.add(normalized)                       // "(fixed) camera"
             continue
         }
+
+
+        // ✅ Dates handling
+        const dateVariants = expandDateVariants(normalized)
+        dateVariants.forEach(v => set.add(normalizeAnswer(v)))
     }
 
     return set
+}
+
+
+/**
+ * Expand date forms:
+ * e.g. "24th January" → ["24 january", "24th january", "january 24", "24 jan", "jan 24"]
+ */
+function expandDateVariants(value: string): string[] {
+    const results: string[] = []
+
+    const months: Record<string, string> = {
+        january: "jan",
+        february: "feb",
+        march: "mar",
+        april: "apr",
+        may: "may",
+        june: "jun",
+        july: "jul",
+        august: "aug",
+        september: "sep",
+        october: "oct",
+        november: "nov",
+        december: "dec",
+    }
+
+    // Match things like "24th january"
+    const match = value.match(/^(\d{1,2})(st|nd|rd|th)?\s+([a-z]+)$/i)
+    if (match) {
+        const day = match[1]
+        const month = match[3].toLowerCase()
+
+        const short = months[month]
+        if (short) {
+            results.push(`${day} ${month}`)
+            results.push(`${day} ${short}`)
+            results.push(`${day}th ${month}`)
+            results.push(`${day}th ${short}`)
+            results.push(`${month} ${day}`)
+            results.push(`${short} ${day}`)
+        }
+    }
+
+    return results
 }

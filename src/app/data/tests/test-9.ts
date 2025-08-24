@@ -609,7 +609,7 @@ export const listening_answers = {
     2: "12/twelve",
     3: "5/five",
     4: "breakfast",
-    5: "8th june/8 june",
+    5: "8 june",
 
     6: "C",
     7: "E",
