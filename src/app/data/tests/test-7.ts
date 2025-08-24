@@ -217,6 +217,7 @@ export const listening_section_3 = {
         },
         {
             questionType: "summary-completion",
+            multiWord: true,
             question: {
                 id: [26, 27, 28],
                 title: "",
@@ -392,6 +393,7 @@ Groucho really had no need for this entire enterprise. He gave the money to Shee
         },
         {
             questionType: "table-completion",
+            multiWord: true,
             tableData: {
                 headers: ["Category 1", "Category 2", "Category 3"],
                 rows: [
@@ -746,12 +748,12 @@ export const reading_answers = {
 export const listening_answers = {
     1: "10 Bridge",
     2: "Writing/ Writing Class",
-    3: "Mrs Green",
+    3: "Mrs Green/Mrs. Green",
     4: "15 July",
     5: "1 / One",
     6: "31 May",
     7: "4 June",
-    8: "3 days",
+    8: "3 days/ 3",
     9: "A",
     10: "B",
 

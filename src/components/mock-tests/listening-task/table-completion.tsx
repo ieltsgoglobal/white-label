@@ -10,6 +10,7 @@ interface TableQuestion {
     id: number
     type: "table-completion"
     instructions: string
+    multiWord: boolean
     tableData: {
         headers: string[]
         rows: Array<{
@@ -96,7 +97,7 @@ export default function TableCompletion(props: TableQuestion) {
                         return minId === maxId ? `Question ${minId}` : `Questions ${minId}–${maxId}`
                     })()}
                 </CardTitle>
-                <p className="text-sm text-muted-foreground font-medium">Complete the table below. Write ONE WORD OR A NUMBER.</p>
+                <p className="text-sm text-muted-foreground font-medium">Complete the table below. Write {tableQuestion.multiWord ? "NO MORE THAN THREE WORDS." : "ONE WORD OR A NUMBER."}</p>
             </CardHeader>
 
             <CardContent className="mx-8 mb-8">
