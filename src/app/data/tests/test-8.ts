@@ -123,6 +123,7 @@ export const listening_section_3 = {
     questions: [
         {
             questionType: "sentence-completion",
+            oneWord: true,
             questions: [
                 {
                     id: 21,
@@ -189,6 +190,7 @@ export const listening_section_4 = {
     questions: [
         {
             questionType: "note-completion",
+            oneWord: true,
             topic: "Factors for Successful Language Learning",
             sections: [
                 {
@@ -325,6 +327,7 @@ In one instance a Welsh Manx shearwater carried to America and released was back
         },
         {
             questionType: "summary-completion",
+            multiWord: true,
             question: {
                 id: [10, 11, 12, 13],
                 title: "Bird Migration Mystery",
@@ -372,6 +375,7 @@ On a global scale, the good news is that people are eating better than ever befo
         },
         {
             questionType: "summary-completion",
+            multiWord: true,
             question: {
                 id: [21, 22, 23, 24],
                 title: "Feeding Programme Effects",
@@ -472,6 +476,7 @@ Whatever the method used, all salespeople work towards one aim: “closing the d
         },
         {
             questionType: "summary-completion",
+            multiWord: true,
             question: {
                 id: [36, 37, 38, 39, 40],
                 title: "Supermarket Strategies",
@@ -556,10 +561,12 @@ export const reading_answers = {
     7: "viii",
     8: "A/C",
     9: "A/C",
+
     10: "Parental guidance",
     11: "Compass",
     12: "Predators",
     13: "Visible",
+
     14: "iii",
     15: "x",
     16: "viii",
@@ -567,21 +574,26 @@ export const reading_answers = {
     18: "vi",
     19: "i",
     20: "iv",
+
     21: "Extra snacks",
     22: "Firewood",
     23: "85%",
     24: "50%",
+
     25: "A/C",
     26: "A/C",
+
     27: "B",
     28: "A",
     29: "D",
+
     30: "C",
     31: "J",
     32: "F",
     33: "K",
     34: "K",
     35: "D",
+
     36: "Aisles",
     37: "Experiments",
     38: "Loyalty card",
@@ -595,6 +607,7 @@ export const listening_answers = {
     3: "3",
     4: "50",
     5: "6",
+
     6: "Parkinson",
     7: "performance",
     8: "melrose road",
@@ -607,6 +620,7 @@ export const listening_answers = {
     14: "blue light",
     15: "spider",
     16: "company office",
+
     17: "hall (ways)",
     18: "neighbour",
     19: "the evening(s)",
@@ -615,6 +629,7 @@ export const listening_answers = {
     21: "officers",
     22: "constitution",
     23: "communications",
+
     24: "C",
     25: "B",
     26: "A",

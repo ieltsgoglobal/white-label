@@ -18,6 +18,7 @@ interface NoteSection {
 
 interface NoteCompletionSection {
     type: "note-completion"
+    oneWord?: boolean
     topic: string
     sections: NoteSection[]
 }
@@ -76,7 +77,7 @@ export default function NoteCompletion(props: NoteCompletionSection) {
                         return min === max ? `Question ${min}` : `Questions ${min}–${max}`;
                     })()}
                 </CardTitle>
-                <p className="text-sm text-muted-foreground font-medium">Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.</p>
+                <p className="text-sm text-muted-foreground font-medium">Complete the notes below. Write NO MORE THAN {noteQuestions.oneWord ? `ONE WORD` : `TWO WORDS`} for each answer.</p>
             </CardHeader>
             <CardContent>
                 <div className="space-y-6">
