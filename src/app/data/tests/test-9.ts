@@ -58,6 +58,7 @@ export const listening_section_1 = {
         },
         {
             questionType: "sentence-completion",
+            oneWord: true,
             questions: [
                 {
                     id: 8,
@@ -81,6 +82,7 @@ export const listening_section_2 = {
     questions: [
         {
             questionType: "table-completion",
+            multiWord: true,
             tableData: {
                 headers: ["Data", "Event", "Important for art"],
                 rows: [
@@ -177,6 +179,7 @@ export const listening_section_3 = {
         },
         {
             questionType: "table-completion",
+            multiWord: true,
             tableData: {
                 headers: ["Title", "Author", "Year Published", "Publisher"],
                 rows: [
@@ -232,6 +235,7 @@ export const listening_section_4 = {
     questions: [
         {
             questionType: "table-completion",
+            multiWord: true,
             tableData: {
                 headers: ["", "New Features", "Size", "Problems"],
                 rows: [
@@ -272,6 +276,7 @@ export const listening_section_4 = {
         },
         {
             questionType: "short-answer",
+            instructions: "Complete the sentences below. Write NO MORE THAN TWO WORDS in each box.",
             topic: "Which three types of accommodation does the speaker say will increase in city centres?",
             questions: [
                 {
@@ -359,6 +364,7 @@ Historically the bristlecone’s remote location and gnarled wood have deterred 
         },
         {
             questionType: "summary-completion",
+            multiWord: true,
             question: {
                 id: [8, 9, 10, 11, 12, 13],
                 title: "",
@@ -486,6 +492,7 @@ If Pennell experienced the wonder of work in the aggregate, Lewis Hine focused o
         },
         {
             questionType: "summary-completion",
+            multiWord: true,
             question: {
                 id: [37, 38, 39, 40],
                 title: "Iron bridge Coalbrookdale, England",
@@ -566,15 +573,18 @@ export const reading_answers = {
     2: "C",
     3: "D",
     4: "A",
+
     5: "B",
     6: "A",
     7: "D",
+
     8: "Energy",
     9: "Stratification",
     10: "Bark",
     11: "Air",
     12: "Ground cover",
     13: "Distance",
+
     14: "ix",
     15: "x",
     16: "i",
@@ -582,23 +592,27 @@ export const reading_answers = {
     18: "iii",
     19: "viii",
     20: "vi",
+
     21: "I",
     22: "D",
     23: "B",
     24: "H",
     25: "E",
     26: "A",
+
     27: "C",
     28: "E",
     29: "B",
     30: "F",
     31: "A",
+
     32: "E",
     33: "B",
     34: "F",
     35: "D",
     36: "A",
-    37: "Abraham Darby III",
+
+    37: "Abraham Darby III/ Abraham Darby/ Abraham Darby 3",
     38: "Stone",
     39: "River",
     40: "Coalbrookdale Museum"
@@ -613,6 +627,7 @@ export const listening_answers = {
 
     6: "C",
     7: "E",
+
     8: "550",
     9: "bank",
     10: "5/five",
@@ -622,6 +637,7 @@ export const listening_answers = {
     13: "colonisation",
     14: "tourism",
     15: "everyday life",
+
     16: "formal training",
     17: "rich soil",
     18: "the religion",
@@ -630,6 +646,7 @@ export const listening_answers = {
 
     21: "C",
     22: "D",
+
     23: "Smith brothers",
     24: "University courses",
     25: "Ltd or Limited",
@@ -647,6 +664,7 @@ export const listening_answers = {
     35: "older residents",
     36: "waste",
     37: "wind farms",
+
     38: "co-operative/cooperative",
     39: "retirement homes",
     40: "social housing"
