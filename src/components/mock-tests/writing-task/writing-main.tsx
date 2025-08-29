@@ -82,7 +82,7 @@ export default function WritingMain({ test_id, onNext }: { test_id: string, onNe
             <EvalutaingTaskLoaderModal visible={evaluatingResponse} />
 
             {/* 30 MIN TIMER */}
-            {!isReviewMode && <NavigationBar onSubmit={handleSubmit} />}
+            {!isReviewMode && <NavigationBar onSubmit={handleSubmit} initialMinutes={60} />}
 
             {isReviewMode && <WritingReviewTaskNavigation onSelect={setActiveTab} />}
 

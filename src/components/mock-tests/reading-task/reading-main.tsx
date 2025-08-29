@@ -138,7 +138,7 @@ export default function ReadingMain({ test_id, onNext }: { test_id: string, onNe
     return (
         <div>
             {/* 30 MIN TIMER */}
-            {!isReviewMode && <NavigationBar onSubmit={handleSubmitReading} />}
+            {!isReviewMode && <NavigationBar onSubmit={handleSubmitReading} initialMinutes={60} />}
 
             {isReviewMode &&
                 // returns index and subindex for navigation
