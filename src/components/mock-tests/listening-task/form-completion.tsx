@@ -15,8 +15,8 @@ interface FormQuestion {
             fields: Array<{
                 label: string
                 content: string
-                hasBlank: boolean
-                id: number
+                hasBlank?: boolean
+                id: number | number[]
             }>
         }>
     }
@@ -32,22 +32,24 @@ export default function FormCompletion(props: FormQuestion) {
             return <span className="text-sm">{field.content}</span>
         }
 
-        // Handle other fields with single blanks and multiline content
-        if (field.id) {
-            const lines = field.content.split("\n")
+        const lines = field.content.split("\n")
 
+        // Handle other fields with single blanks and multiline content
+        // Case 1: Single id
+        if (typeof field.id === "number") {
+            const id = field.id
             return (
                 <div className="text-sm space-y-1">
                     {lines.map((line: string, index: number) => {
-                        const parts = line.split(`(${field.id}) _______`)
-                        if (parts.length === 2) {
+                        if (line.includes(`(${id})`)) {
+                            const parts = line.split(`(${id}) _______`)
                             return (
                                 <div key={index} className="flex items-center gap-2 flex-wrap">
                                     <span>{parts[0]}</span>
                                     <div className="flex items-center gap-1">
-                                        <span className="font-semibold text-blue-600">({field.id})</span>
+                                        <span className="font-semibold text-blue-600">({id})</span>
                                         <AnswerInput
-                                            questionNumber={field.id}
+                                            questionNumber={id}
                                             className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
                                         />
                                     </div>
@@ -55,38 +57,103 @@ export default function FormCompletion(props: FormQuestion) {
                                 </div>
                             )
                         }
-
                         return <div key={index}>{line}</div>
                     })}
                 </div>
             )
         }
 
+        // Case 2: Multiple ids
+        if (Array.isArray(field.id)) {
+            const ids: number[] = field.id
+            return (
+                <div className="text-sm space-y-1">
+                    {lines.map((line: string, index: number) => {
+                        let lineContent = line
+                        let elements: (JSX.Element | string)[] = []
+
+                        ids.forEach((id) => {
+                            if (lineContent.includes(`(${id}) _______`)) {
+                                const [before, after = ""] = lineContent.split(`(${id}) _______`)
+                                elements.push(before)
+                                elements.push(
+                                    <span key={`input-${id}`} className="inline-flex items-center mx-1">
+                                        <span className="font-semibold text-blue-600 mr-1">({id})</span>
+                                        <AnswerInput
+                                            questionNumber={id}
+                                            className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
+                                        />
+                                    </span>
+                                )
+                                lineContent = after
+                            }
+                        })
+
+                        elements.push(lineContent)
+
+                        return (
+                            <div key={index} className="flex flex-wrap items-center">
+                                {elements}
+                            </div>
+                        )
+                    })}
+                </div>
+            )
+        }
+
+
         return <span className="text-sm">{field.content}</span>
     }
 
     // add blank for labels
-    const renderTextWithBlank = (text: string, id: number) => {
-        const parts = text.split(`(${id}) ________`)
-        if (parts.length === 2) {
-            return (
-                <>
-                    <span>{parts[0]}</span>
-                    <div className="inline-flex items-center gap-1">
-                        <span className="font-semibold text-blue-600">({id})</span>
-                        <AnswerInput
-                            questionNumber={id}
-                            className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-background px-1"
-                        />
-                    </div>
-                    <span>{parts[1]}</span>
-                </>
-            )
+    const renderTextWithBlank = (text: string, id: number | number[]) => {
+        if (typeof id === "number") {
+            const parts = text.split(`(${id}) ________`)
+            if (parts.length === 2) {
+                return (
+                    <>
+                        <span>{parts[0]}</span>
+                        <div className="inline-flex items-center gap-1">
+                            <span className="font-semibold text-blue-600">({id})</span>
+                            <AnswerInput
+                                questionNumber={id}
+                                className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-background px-1"
+                            />
+                        </div>
+                        <span>{parts[1]}</span>
+                    </>
+                )
+            }
+            return <>{text}</>
+        }
+
+        if (Array.isArray(id)) {
+            let textContent = text
+            let elements: (JSX.Element | string)[] = []
+
+            id.forEach((num) => {
+                if (textContent.includes(`(${num}) ________`)) {
+                    const [before, after = ""] = textContent.split(`(${num}) ________`)
+                    elements.push(before)
+                    elements.push(
+                        <span key={`label-${num}`} className="inline-flex items-center gap-1 mx-1">
+                            <span className="font-semibold text-blue-600">({num})</span>
+                            <AnswerInput
+                                questionNumber={num}
+                                className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-background px-1"
+                            />
+                        </span>
+                    )
+                    textContent = after
+                }
+            })
+
+            elements.push(textContent)
+            return <>{elements}</>
         }
 
         return <>{text}</>
     }
-
     return (
         <Card className="w-full rounded-3xl">
             <CardHeader>
@@ -117,7 +184,7 @@ export default function FormCompletion(props: FormQuestion) {
                         {/* Form Sections */}
                         {formQuestion.formData.sections.map((section, sectionIndex) => (
                             <div key={sectionIndex} className="w-full space-y-4">
-                                {section.title && <h3 className="text-lg font-semibold mb-4">{section.title}</h3>}
+                                {section.title && <h3 className="text-lg font-semibold mb-4 mt-8">{section.title}</h3>}
 
                                 {section.fields.map((field, fieldIndex) => (
                                     <div key={fieldIndex} className="flex justify-end gap-10 py-2">

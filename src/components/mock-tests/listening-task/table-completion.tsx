@@ -2,8 +2,6 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { getFieldAnswer, updateMockAnswer } from "@/lib/mock-tests/mockAnswersStorage"
 import AnswerInput from "../additional-ui/AnswerInput"
 
 interface TableQuestion {
@@ -57,24 +55,39 @@ export default function TableCompletion(props: TableQuestion) {
         } else if (Array.isArray(cell.id)) {
             const questionNumbers: number[] = cell.id
 
-            let lineContent = cell.content
-            let elements: (JSX.Element | string)[] = []
+            return (
+                <div className="space-y-2">
+                    {cell.content.split("\n").map((line: string, lineIndex: number) => {
+                        let lineContent = line
+                        let elements: (JSX.Element | string)[] = []
 
-            questionNumbers.forEach((id) => {
-                const [before, after = ""] = lineContent.split(`(${id})_______`)
-                elements.push(before)
-                elements.push(
-                    <span key={`input-${id}`} className="inline-flex items-center mx-1">
-                        <span className="font-semibold text-blue-600 mr-1">({id})</span>
-                        <AnswerInput questionNumber={id} className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1" />
-                    </span>
-                )
-                lineContent = after
-            })
+                        questionNumbers.forEach((id) => {
+                            if (lineContent.includes(`(${id})_______`)) {
+                                const [before, after = ""] = lineContent.split(`(${id})_______`)
+                                elements.push(before)
+                                elements.push(
+                                    <span key={`input-${id}`} className="inline-flex items-center mx-1">
+                                        <span className="font-semibold text-blue-600 mr-1">({id})</span>
+                                        <AnswerInput
+                                            questionNumber={id}
+                                            className="w-20 h-7 text-xs border-b-2 border-t-0 border-l-0 border-r-0 rounded-none bg-transparent focus:bg-white px-1"
+                                        />
+                                    </span>
+                                )
+                                lineContent = after
+                            }
+                        })
 
-            elements.push(lineContent)
+                        elements.push(lineContent)
 
-            return <div className="text-sm flex flex-wrap items-center">{elements}</div>
+                        return (
+                            <div key={lineIndex} className="text-sm flex flex-wrap items-center">
+                                {elements}
+                            </div>
+                        )
+                    })}
+                </div>
+            )
         } else {
             return <div className="text-sm whitespace-pre-line">{cell.content}</div>
         }
