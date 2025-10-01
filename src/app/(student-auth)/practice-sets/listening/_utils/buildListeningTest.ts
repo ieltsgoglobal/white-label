@@ -2,21 +2,7 @@
 
 import { hashFilename } from "./hashFilename";
 import { pickRandomBookAndTest } from "./pickRandomBookAndTest";
-
-/**
- * Temporary fake answers generator.
- * In production this should be replaced with actual answer fetching logic
- * from the JSON payload or a backend service.
- *
- * @param questions - Array of test questions
- * @returns Array of fake answers, each mapped to a questionId
- */
-function generateFakeAnswers(questions: any[]) {
-    return questions.map((q, i) => ({
-        questionId: q?.id ?? i + 1, // fallback to index if no id
-        correct: Math.random() > 0.5 ? "Yes" : "No", // random stubbed value
-    }));
-}
+import { sanitizeListeningAnswers } from "./misc";
 
 /**
  * Build a full IELTS-style listening test.
@@ -72,7 +58,7 @@ export async function buildListeningTest() {
         throw new Error("Invalid listening test: one or more parts are missing audio/questions");
     }
 
-    // 4. Flatten all test questions into one array
+    // 4. Map all test questions into one array
     const allQuestions = allData.map(
         (d) => d.json?.data?.test_question || []
     );
@@ -80,9 +66,30 @@ export async function buildListeningTest() {
     // 5. Collect audio URLs (one per lecture/part)
     const audioUrls = allData.map((d) => d.mp3Url);
 
-    // 6. Generate stubbed answers (replace with real logic later)
-    const answers = generateFakeAnswers(allQuestions);
+    // Now configuring the ALL 40 ANSWERS FILE
+    // 6. neeed to add json cuz thats how the hashing is configured from starting
+    const { answerFileUrl } = await hashFilename(`${testPath}.json`);
 
+    // 7. Fetch answers JSON, Didnt run through loop as this file has all 40 answers
+    let answers: any[] = [];
+    try {
+        const res = await fetch(answerFileUrl, { cache: "no-store" });
+        if (!res.ok) {
+            throw new Error(`Failed to fetch answers for: ${answerFileUrl}`);
+        }
+        const answersJson = await res.json();
+        answers = sanitizeListeningAnswers(answersJson);
+
+    } catch (err) {
+        console.error("⚠️ Could not fetch answers:", err);
+    }
+
+
+    // Returned object includes:
+    // - audioUrls: string[4]  → one audio file per part (10 Qs each)
+    // - questions: Question[] → Map array of 40 questions (10 from each part)
+    // - answers: String[]     → all 40 correct answers for the test
+    // - testPath: string      → unique identifier for the test (e.g. "book_20/test_2")
     return {
         audioUrls,
         questions: allQuestions,

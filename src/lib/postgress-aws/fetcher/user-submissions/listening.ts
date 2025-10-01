@@ -29,9 +29,3 @@ export async function submitListeningAnswers({
 
     return res.json();
 }
-
-export async function fetchUserSubmissions(userId: string) {
-    const res = await fetch(`/api/aws-postgres/submissions?userId=${userId}`);
-    if (!res.ok) throw new Error(`API error: ${res.status}`);
-    return res.json();
-}

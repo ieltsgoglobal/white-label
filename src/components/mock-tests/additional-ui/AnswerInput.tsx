@@ -10,6 +10,7 @@ import { useParams } from "next/navigation"
 import { useMockAttempts } from "@/app/(student-auth)/mock-scores/_component/MockAttemptContext"
 import { AnswerMap } from "@/types/mockTestAttempt"
 import { checkAnswerAcceptable } from "@/lib/mock-tests/listening/checkAnswerAcceptable"
+import { getPracticeSetAnswer, getPracticeSetCorrectAnswers, updatePracticeSetAnswer } from "@/lib/practice-sets/user-submissions/sessionStorage"
 
 interface AnswerInputProps {
     questionNumber: number
@@ -19,8 +20,11 @@ interface AnswerInputProps {
 }
 
 export default function AnswerInput({ className, questionNumber, maxLength, placeholder }: AnswerInputProps) {
-    const [section, setSection] = useState<"listening" | "reading" | null>(null)
+    const [section, setSection] = useState<"listening" | "reading" | "practice-sets-listening" | null>(null)
     const [value, setValue] = useState("")
+
+    const isInMockTestSection = section === "listening" || section === "reading";
+    const isInPracticeSetSection = section === "practice-sets-listening"
 
     // --------------------- MOCK TEST REVIEW CODE ----------------------
 
@@ -45,7 +49,7 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
     const [testId, setTestId] = useState<number | null>(null)
 
     useEffect(() => {
-        if (!section || !isReviewMode) return
+        if (!isInMockTestSection || !isReviewMode) return
 
         const loadData = async () => {
             // find the correct test attempt using id from useParams
@@ -66,9 +70,9 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
     const [correctAnswers, setCorrectAnswers] = useState<AnswerMap>({})
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
 
-    // Load real answers from `listeing_answers` or `reading_answers`
+    // Load real answers from `listeing_answers` or `reading_answers` during isInMockTestSection and isReviewMode
     useEffect(() => {
-        if (!testId || !section) return
+        if (!testId || !isInMockTestSection) return
 
         const loadAnswers = async () => {
             try {
@@ -100,10 +104,33 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
 
     // ------------------------------------------------------------------
 
-    // check in which section we are dealing with (listening / reading)
+
+
+    // -------------------- PRACTICE SETS REVIEW CODE -------------------
+
+    // Load real answers using event-listening during isInMockTestSection and isReviewMode
+    useEffect(() => {
+        if (!isInPracticeSetSection) return
+
+        // 1️⃣ Load immediately from sessionStorage (if ListeningUI already stored)
+        const storedCorrect = getPracticeSetCorrectAnswers("practice-sets-listening")
+        if (storedCorrect) {
+            setCorrectAnswers(storedCorrect)
+            const correctAnswer = storedCorrect[questionNumber]
+            if (isReviewMode && correctAnswer && value) {
+                setIsCorrect(checkAnswerAcceptable(value, correctAnswer))
+            }
+        }
+    }, [isReviewMode, isInPracticeSetSection, questionNumber, value])
+
+    // ------------------------------------------------------------------
+
+
+
+    // check in which section we are dealing with (listening/ reading/ practice-sets-listening)
     useEffect(() => {
         loadCurrentMockSection().then((value) => {
-            if (value === "listening" || value === "reading") {
+            if (value === "listening" || value === "reading" || value === "practice-sets-listening") {
                 setSection(value)
             }
         })
@@ -111,8 +138,16 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
 
     // When section or questionNumber changes, fetch stored answer
     useEffect(() => {
-        if (!isReviewMode && section) {
+
+        // in mock tests we get the user answers from the context API `mockAttemptContext`
+        if (!isReviewMode && isInMockTestSection) {
             const stored = getFieldAnswer(section, questionNumber)
+            setValue(stored || "")
+        }
+
+        // isReviewMode removed cuz in ReviewMode we still fecth user answers from sessionStorage
+        if (isInPracticeSetSection) {
+            const stored = getPracticeSetAnswer(section, questionNumber)
             setValue(stored || "")
         }
     }, [section, questionNumber])
@@ -121,13 +156,17 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
         const newVal = e.target.value
         setValue(newVal)
 
-        if (section) {
+        if (isInMockTestSection) {
             updateMockAnswer(section, questionNumber, newVal)
+        }
+
+        if (isInPracticeSetSection) {
+            updatePracticeSetAnswer(section, questionNumber, newVal)
         }
     }
 
-    if (!section) return null // or a loading spinner
 
+    if (!section) return null // or a loading spinner
 
     return (
         <>
