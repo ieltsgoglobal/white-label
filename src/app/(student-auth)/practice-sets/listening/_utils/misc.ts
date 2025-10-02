@@ -82,3 +82,35 @@ export function normalizePracticeSetsAnswers(arr: string[]): AnswerMap {
     )
 }
 
+
+/**
+ * Compare user answers with correct answers and calculate score.
+ *
+ * - Case insensitive
+ * - Ignores surrounding whitespace
+ * - Supports multiple variants with " | "
+ */
+export function calculatePracticeSetScore(
+    userAnswers: Record<string, string>,
+    correctAnswers: Record<string, string>
+): number {
+    let score = 0;
+
+    for (let i = 1; i <= 40; i++) {
+        const qid = i.toString();
+
+        const user = (userAnswers[qid] || "").trim().toLowerCase();
+        const correctRaw = (correctAnswers[qid] || "").trim().toLowerCase();
+
+        if (!user || !correctRaw) continue; // skip empty
+
+        // split variants by "|" and trim
+        const correctVariants = correctRaw.split("|").map(v => v.trim());
+
+        if (correctVariants.includes(user)) {
+            score++;
+        }
+    }
+
+    return score;
+}

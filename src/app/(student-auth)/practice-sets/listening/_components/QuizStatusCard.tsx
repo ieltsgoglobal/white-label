@@ -4,23 +4,30 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
+import { getPracticeSetAnswers, getPracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage"
+import { calculatePracticeSetScore } from "../_utils/misc"
+
+// const MAX_INDEX = MAX_LECTURES - 1
+const MAX_INDEX = 4 - 1
+const TOTAL_QUESTIONS = 40;
 
 export function QuizStatusCard({
   NextSet,
   PrevSet,
   currentIndex,
-  maxIndex,
-  CheckResulsts
+  CheckResulsts,
 }: {
   NextSet: () => void
   PrevSet: () => void
   currentIndex: number
-  maxIndex: number
-  CheckResulsts: () => void
+  CheckResulsts: (data: { startedAt: Date; timeTaken: number }) => void
 }) {
   const [startedAt] = useState<Date>(new Date())
   const [timeTaken, setTimeTaken] = useState<number>(0) // seconds
   const [isPaused, setIsPaused] = useState(false)
+  const [hasPressedCheckResults, setHasPressedCheckResults] = useState(false)
+
+  const [userScoreAfterSubmission, setUserScoreAfterSubmission] = useState<number | null>(null) // null means not submitted yet
 
   // Timer updater
   useEffect(() => {
@@ -75,20 +82,36 @@ export function QuizStatusCard({
             </div>
           </div>
 
-          {/* Pause Timer */}
-          <div className="flex items-center justify-between rounded-md border p-3">
-            <div className="flex flex-col">
-              <Label htmlFor="pause-timer" className="text-muted-foreground">
-                Pause Timer
-              </Label>
-              <span id="pause-timer-desc" className="sr-only">
-                Press to pause the timer
-              </span>
-            </div>
-            <Button onClick={() => setIsPaused((prev) => !prev)} id="pause-timer" aria-describedby="pause-timer-desc" variant="secondary">
-              {isPaused ? 'Play' : 'Stop'}
-            </Button>
-          </div>
+          {hasPressedCheckResults ? (
+            <>
+              {/* Score (only after submission) */}
+              <div className="rounded-md border p-3 border-green-600">
+                <Label className="text-muted-foreground text-green-600">Score</Label>
+                <div className="mt-1 font-medium tabular-nums text-green-600">
+                  {userScoreAfterSubmission !== null
+                    ? `${userScoreAfterSubmission}/${TOTAL_QUESTIONS}`
+                    : "-"}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Pause Timer */}
+              < div className="flex items-center justify-between rounded-md border p-3">
+                <div className="flex flex-col">
+                  <Label htmlFor="pause-timer" className="text-muted-foreground">
+                    Pause Timer
+                  </Label>
+                  <span id="pause-timer-desc" className="sr-only">
+                    Press to pause the timer
+                  </span>
+                </div>
+                <Button onClick={() => setIsPaused((prev) => !prev)} id="pause-timer" aria-describedby="pause-timer-desc" variant="secondary">
+                  {isPaused ? 'Play' : 'Stop'}
+                </Button>
+              </div>
+            </>
+          )}
 
           {/* Flag for review */}
           <div className="flex items-center justify-between rounded-md border p-3">
@@ -98,7 +121,7 @@ export function QuizStatusCard({
             <Switch id="flag-review" aria-label="Flag this question for review" />
           </div>
         </div>
-      </CardContent>
+      </CardContent >
 
       <CardFooter className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Navigation / Actions */}
@@ -112,7 +135,23 @@ export function QuizStatusCard({
             Back
           </Button>
           <Button
-            onClick={CheckResulsts}
+            onClick={() => {
+              // When "Check Results" is pressed:
+              CheckResulsts({ startedAt, timeTaken });
+              setHasPressedCheckResults(true);
+              setIsPaused(true)
+
+              // Calculate score
+              // Logic: compare user answers vs correct answers from sessionStorage
+              // and calculate the score
+              // Note: This assumes both user answers and correct answers are already stored in sessionStorage
+              // under the keys "practice-sets-listening" and "practice-sets-listening-correct" respectively.
+              // If not, the score will be 0.
+              const userAttempt = getPracticeSetAnswers("practice-sets-listening");
+              const correctAnswer = getPracticeSetCorrectAnswers("practice-sets-listening");
+              const score = calculatePracticeSetScore(userAttempt || {}, correctAnswer || {});
+              setUserScoreAfterSubmission(score);
+            }}
             variant="outline"
             aria-label="Check results"
           >
@@ -121,13 +160,13 @@ export function QuizStatusCard({
           <Button
             variant="outline"
             onClick={NextSet}
-            disabled={currentIndex === maxIndex}
+            disabled={currentIndex === MAX_INDEX}
           >
             Next Question
           </Button>
         </div>
       </CardFooter>
-    </Card>
+    </Card >
   )
 }
 

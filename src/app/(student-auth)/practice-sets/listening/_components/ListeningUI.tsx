@@ -15,7 +15,7 @@ type AttemptWithCorrectAnswers = {
 };
 
 
-const MAX_LECTURES = 4
+export const MAX_LECTURES = 4
 const TOTAL_QUESTIONS = 40;
 
 export default function ListeningUI({
@@ -69,22 +69,24 @@ export default function ListeningUI({
         storePracticeSetCorrectAnswers("practice-sets-listening", normalized)
     }, [answers])
 
-    async function handleCheckResults() {
 
+    async function handleCheckResults() {
         //  Turn on review mode so AnswerInput.tsx can show answers
         setReviewMode(true)
         setforceRender(n => n + 1); //trick: this forces the AnswerInput.tsx to read the updated setReviewMode
+    }
 
+    async function handelSubmitScores({ startedAt, timeTaken, }: { startedAt: Date; timeTaken: number; }) {
         try {
             // convert the array to json, beacuse answers coloums is a JSOB field
             const answersJson = transformAnswerAttemptsToJson(userAttemptsWithAnswers);
 
             const response = await submitListeningAnswers({
-                userId: "00000000-0000-0000-0000-000000000001",
+                userId: "10000000-0000-0000-0000-000000000001",
                 testPath: testPath,
                 answers: answersJson,
-                startedAt: new Date().toISOString(),
-                metadata: { device: "browser" },
+                startedAt: startedAt.toISOString(),
+                metadata: { 'device': "browser", 'timeTaken': timeTaken },
             });
 
             console.log("✅ Submission stored:", response);
@@ -92,8 +94,6 @@ export default function ListeningUI({
             console.error("❌ Error submitting:", err);
         }
     }
-
-
 
     return (
         <div className="space-y-10 p-6 bg-muted-foreground/10">
@@ -103,19 +103,20 @@ export default function ListeningUI({
                     NextSet={() => setCurrentIndex((prev) => Math.min(prev + 1, MAX_LECTURES - 1))}
                     PrevSet={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}
                     currentIndex={currentIndex}
-                    maxIndex={MAX_LECTURES - 1}
-                    CheckResulsts={handleCheckResults}
+                    CheckResulsts={({ startedAt, timeTaken }) => {
+                        handleCheckResults();
+                        handelSubmitScores({ startedAt, timeTaken })
+                    }}
                 />
             </div>
 
-            {
-                currentQuestion.map((questionRaw: any, index: number) => (
-                    <QuestionRenderer
-                        // trick: this forces the AnswerInput.tsx to read the updated setReviewMode which is deep nested
-                        key={`${forceRender}-${index}`}
-                        questionRaw={questionRaw}
-                        index={index} />
-                ))
+            {currentQuestion.map((questionRaw: any, index: number) => (
+                <QuestionRenderer
+                    // trick: this forces the AnswerInput.tsx to read the updated setReviewMode which is deep nested
+                    key={`${forceRender}-${index}`}
+                    questionRaw={questionRaw}
+                    index={index} />
+            ))
             }
         </div >
     );
