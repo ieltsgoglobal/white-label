@@ -6,13 +6,19 @@ import Matching from "@/components/mock-tests/listening-task/matching";
 import ImageLabeling from "@/components/mock-tests/listening-task/image-labeling";
 import FormCompletion from "@/components/mock-tests/listening-task/form-completion";
 import Flowchart from "@/components/practice-sets/listening-task/Flowchart";
-import { transformBodyToTableQuestion, transformToFormCompletion, transformToImageLabeling, transformToMatching, transformToMCQ, transformToMCQMany, transformToNoteCompletion, transformToSentenceCompletion } from "../_utils/transformer";
+import { transformBodyToTableQuestion, transformToFormCompletion, transformToImageLabeling, transformToMatching, transformToMatchParagraphInformation, transformToMCQ, transformToMCQMany, transformToNoteCompletion, transformToSentenceCompletion, transformToSummaryCompletion, transformToTrueFalseNotGiven, transformToYesNoNotGiven } from "../_utils/transformer";
 import SentenceCompletion from "@/components/mock-tests/listening-task/sentence-completion";
+import TrueFalseNotGiven from "@/components/mock-tests/reading-task/true-false-notgiven";
+import MatchSentenceEndings from "@/components/mock-tests/reading-task/match-paragraph-information";
+import SummaryCompletion from "@/components/mock-tests/listening-task/summary-completion";
+import YesNoNotGiven from "@/components/mock-tests/reading-task/yes-no-notgiven";
 
 interface QuestionRendererProps {
     questionRaw: any
     index: number
 }
+
+// this file includes all the question types supported in listening test and reading test
 
 export default function QuestionRenderer({ questionRaw, index }: QuestionRendererProps) {
     switch (questionRaw.type) {
@@ -117,6 +123,47 @@ export default function QuestionRenderer({ questionRaw, index }: QuestionRendere
             )
             return <SentenceCompletion key={index} {...sentenceSection} />
         }
+
+        case "option-true-false": {
+            const tfngSection = transformToTrueFalseNotGiven(
+                questionRaw.body,
+                questionRaw.start,
+                questionRaw.end
+            );
+            return <TrueFalseNotGiven key={index} {...tfngSection} />;
+        }
+
+        case "select-section": {
+            const matchInfoSection = transformToMatchParagraphInformation(
+                questionRaw,
+                questionRaw.start,
+                questionRaw.end,
+                questionRaw.desc
+            )
+            return <MatchSentenceEndings key={index} {...matchInfoSection} />
+        }
+
+        case "input-summary":
+        case "select-summary-given-list": {
+            const summarySection = transformToSummaryCompletion(
+                questionRaw,
+                questionRaw.start,
+                questionRaw.end,
+                questionRaw.desc
+            )
+            return <SummaryCompletion key={index} {...summarySection} />
+        }
+
+        case "option-yes-no": {
+            const yesNoSection = transformToYesNoNotGiven(
+                questionRaw,
+                questionRaw.start,
+                questionRaw.end
+            )
+            return <YesNoNotGiven key={index} {...yesNoSection} />
+        }
+
+
 
 
         default:

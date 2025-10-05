@@ -107,6 +107,7 @@ export default function ListeningUI({
                         handleCheckResults();
                         handelSubmitScores({ startedAt, timeTaken })
                     }}
+                    MAX_INDEX={MAX_LECTURES - 1}
                 />
             </div>
 

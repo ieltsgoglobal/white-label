@@ -623,3 +623,261 @@ export function transformToSentenceCompletion(
         ...(oneWord ? { oneWord } : {}), // only add if true
     }
 }
+
+// ------------------------- TRUE / FALSE / NOT GIVEN -------------------------------------
+
+interface TrueFalseNotGivenQuestion {
+    id: number
+    statement: string
+}
+
+interface TrueFalseNotGivenSection {
+    questionType: "true-false-notgiven"
+    questions: TrueFalseNotGivenQuestion[]
+}
+
+/**
+ * Converts raw body or body_smart data for True/False/Not Given type questions.
+ * Supports both simple text arrays and tokenized ("blocks") smart bodies.
+ */
+export function transformToTrueFalseNotGiven(
+    body: any,
+    start: number,
+    end: number
+): TrueFalseNotGivenSection {
+    // Prefer body_smart if present and valid
+    let items: string[] = []
+
+    if (body?.items && Array.isArray(body.items) && body.items.length > 0 && typeof body.items[0] === "string") {
+        // simple body (plain string array)
+        items = body.items.map((s: string) => s.trim())
+    } else if (body?.items && Array.isArray(body.items) && typeof body.items[0] === "object" && body.items[0].blocks) {
+        // body_smart style (tokenized)
+        items = body.items.map((item: any) =>
+            item.blocks.map((b: any) => b.content ?? "").join("").trim()
+        )
+    } else if (body?.body_smart?.items) {
+        // nested structure under body.body_smart
+        items = body.body_smart.items.map((item: any) =>
+            item.blocks.map((b: any) => b.content ?? "").join("").trim()
+        )
+    } else {
+        console.warn("transformToTrueFalseNotGiven: no valid items found")
+    }
+
+    // Fallback if somehow empty
+    if (!items || items.length === 0) {
+        items = []
+    }
+
+    const questions: TrueFalseNotGivenQuestion[] = items.map((text, idx) => ({
+        id: start + idx,
+        statement: text,
+    }))
+
+    return {
+        questionType: "true-false-notgiven",
+        questions,
+    }
+}
+
+
+// ------------------------- MATCH PARAGRAPH INFORMATION -------------------------------------
+
+interface MatchParagraphInformation {
+    questionType: "match-paragraph-information"
+    question: {
+        information: { id: number; text: string }[]
+        letters: string[]
+    }
+}
+
+/**
+ * Converts raw select-section body (paragraph information matching)
+ * into structured MatchParagraphInformation format.
+ * Supports both body.items and body_smart.items.
+ */
+export function transformToMatchParagraphInformation(
+    body: any,
+    start: number,
+    end: number,
+    desc?: any
+): MatchParagraphInformation {
+    let information: { id: number; text: string }[] = []
+
+    // ✅ Prefer body_smart.items if available (tokenized format)
+    if (body?.body_smart?.items && Array.isArray(body.body_smart.items)) {
+        information = body.body_smart.items.map((item: any, idx: number) => {
+            const sentence = item.blocks.map((b: any) => b.content ?? "").join("").trim()
+            // find id inside block with type "input"
+            const blockId =
+                item.blocks.find((b: any) => b.type === "input")?.content ??
+                start + idx
+            return { id: Number(blockId), text: sentence.replace(/\d+$/, "").trim() }
+        })
+    } else if (body?.items && Array.isArray(body.items)) {
+        // fallback for plain body
+        information = body.items.map((line: string, idx: number) => {
+            // extract id number from "<input>" or trailing digits
+            const match = line.match(/(\d+)/)
+            const id = match ? Number(match[1]) : start + idx
+            return { id, text: line.replace(/<input>/g, "").trim() }
+        })
+    }
+
+    // ✅ Determine paragraph letters (like A–G)
+    const letters: string[] = (() => {
+        if (desc?.sectionRange && Array.isArray(desc.sectionRange)) {
+            const [startLetter, endLetter] = desc.sectionRange
+            const range: string[] = []
+            for (let code = startLetter.charCodeAt(0); code <= endLetter.charCodeAt(0); code++) {
+                range.push(String.fromCharCode(code))
+            }
+            return range
+        }
+        return ["A", "B", "C", "D", "E"]
+    })()
+
+    return {
+        questionType: "match-paragraph-information",
+        question: {
+            information,
+            letters,
+        },
+    }
+}
+
+
+// ------------------------- SUMMARY COMPLETION -------------------------------------
+
+interface SummaryCompletion {
+    questionType: "summary-completion"
+    multiWord?: boolean
+    question: {
+        id: number[]
+        title: string
+        passageTemplate: string
+        optionList?: {
+            letter: string
+            text: string
+        }[]
+    }
+}
+
+/**
+ * Supports:
+ *  - input-summary (no list)
+ *  - select-summary-given-list (with list of options)
+ */
+export function transformToSummaryCompletion(
+    body: any,
+    start: number,
+    end: number,
+    desc?: any
+): SummaryCompletion {
+    // ---------- 1️⃣ Extract title ----------
+    const title =
+        (body?.body_smart?.title?.blocks ?? body?.title?.blocks ?? [])
+            .map((b: any) => b.content ?? "")
+            .join("")
+            .trim() || body?.title || "Summary"
+
+    // ---------- 2️⃣ Build passageTemplate ----------
+    let passage = ""
+
+    // Prefer body_smart
+    if (body?.body_smart?.items && Array.isArray(body.body_smart.items)) {
+        passage = body.body_smart.items
+            .map((item: any) =>
+                item.blocks
+                    .map((b: any) => {
+                        if (b.type === "input" && typeof b.content === "number") {
+                            return `<${b.content}>`
+                        }
+                        return b.content ?? ""
+                    })
+                    .join("")
+            )
+            .join("\n") // new line per passage
+    } else if (body?.items && Array.isArray(body.items)) {
+        // fallback
+        passage = body.items
+            .map((s: string) => s.replace(/<input>/g, () => `<${start++}>`))
+            .join("\n")
+    }
+
+    // ---------- 3️⃣ Collect all numeric IDs (strict <number>) ----------
+    const idMatches = Array.from(passage.matchAll(/<(\d+)>/g)).map((m) => Number(m[1]))
+
+    // ---------- 4️⃣ Multi-word constraint ----------
+    const constraint = desc?.constraint?.toUpperCase() || ""
+    const multiWord =
+        constraint.includes("THREE WORD") ||
+        constraint.includes("NO MORE THAN THREE WORD")
+
+    // ---------- 5️⃣ Optional option list ----------
+    let optionList: { letter: string; text: string }[] | undefined = undefined
+
+    // Case A: From body_smart.list
+    if (body?.body_smart?.list && Array.isArray(body.body_smart.list)) {
+        optionList = body.body_smart.list.map((opt: any, idx: number) => ({
+            letter: String.fromCharCode(65 + idx),
+            text: opt.blocks.map((b: any) => b.content ?? "").join("").trim(),
+        }))
+    }
+
+    // Case B: From body.list (plain array)
+    else if (body?.list && Array.isArray(body.list)) {
+        optionList = body.list.map((text: string, idx: number) => ({
+            letter: String.fromCharCode(65 + idx),
+            text: text.trim(),
+        }))
+    }
+
+    return {
+        questionType: "summary-completion",
+        ...(multiWord ? { multiWord } : {}),
+        question: {
+            id: idMatches,
+            title,
+            passageTemplate: passage.trim(),
+            ...(optionList && optionList.length > 0 ? { optionList } : {}),
+        },
+    }
+}
+
+// ------------------------- YES / NO / NOT GIVEN -------------------------------------
+
+interface YesNoNotGiven {
+    questionType: "yes-no-notgiven"
+    questions: {
+        id: number
+        statement: string
+    }[]
+}
+
+export function transformToYesNoNotGiven(body: any, start: number, end: number): YesNoNotGiven {
+    const questions: { id: number; statement: string }[] = []
+
+    // ✅ Prefer body_smart if available
+    if (body?.body_smart?.items && Array.isArray(body.body_smart.items)) {
+        const qids = body.body_smart.item_qids || []
+        body.body_smart.items.forEach((item: any, index: number) => {
+            const statement = item.blocks.map((b: any) => b.content ?? "").join("").trim()
+            const id = qids[index] ?? start + index
+            questions.push({ id, statement })
+        })
+    }
+
+    // ✅ Fallback to body.items if body_smart missing
+    else if (body?.body?.items && Array.isArray(body.body.items)) {
+        body.body.items.forEach((text: string, i: number) => {
+            questions.push({ id: start + i, statement: text.trim() })
+        })
+    }
+
+    return {
+        questionType: "yes-no-notgiven",
+        questions,
+    }
+}

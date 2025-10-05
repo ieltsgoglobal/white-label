@@ -6,7 +6,7 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { userId, testPath, answers, startedAt, metadata } = body;
 
-        const result = await insertListeningSubmission({
+        await insertListeningSubmission({
             userId,
             testPath,
             answers,

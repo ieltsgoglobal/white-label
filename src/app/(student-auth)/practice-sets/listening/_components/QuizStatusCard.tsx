@@ -7,8 +7,6 @@ import { useEffect, useState } from "react"
 import { getPracticeSetAnswers, getPracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage"
 import { calculatePracticeSetScore } from "../_utils/misc"
 
-// const MAX_INDEX = MAX_LECTURES - 1
-const MAX_INDEX = 4 - 1
 const TOTAL_QUESTIONS = 40;
 
 export function QuizStatusCard({
@@ -16,11 +14,13 @@ export function QuizStatusCard({
   PrevSet,
   currentIndex,
   CheckResulsts,
+  MAX_INDEX
 }: {
   NextSet: () => void
   PrevSet: () => void
   currentIndex: number
   CheckResulsts: (data: { startedAt: Date; timeTaken: number }) => void
+  MAX_INDEX: number
 }) {
   const [startedAt] = useState<Date>(new Date())
   const [timeTaken, setTimeTaken] = useState<number>(0) // seconds
@@ -85,7 +85,7 @@ export function QuizStatusCard({
           {hasPressedCheckResults ? (
             <>
               {/* Score (only after submission) */}
-              <div className="rounded-md border p-3 border-green-600">
+              <div className="rounded-md border p-3 border-green-600 bg-green-50">
                 <Label className="text-muted-foreground text-green-600">Score</Label>
                 <div className="mt-1 font-medium tabular-nums text-green-600">
                   {userScoreAfterSubmission !== null
