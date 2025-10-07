@@ -114,3 +114,33 @@ export function calculatePracticeSetScore(
 
     return score;
 }
+
+
+
+/**
+ * Normalize flat reading answers JSON into a clean string[40].
+ *
+ * - Keeps numeric order by `question_id` (1 → 40)
+ * - Trims extra spaces and uppercases (optional)
+ * - Keeps variant options like "TRUE | T" as-is (you can split by "|" later)
+ *
+ * @param answers - Array of { question_id, correct_answer, ... }
+ * @returns string[] - Array of answers (index 0 = Q1, index 39 = Q40)
+ */
+export function sanitizeReadingAnswers(answers: any[]): string[] {
+    if (!Array.isArray(answers) || answers.length === 0) return [];
+
+    // Defensive normalization
+    const clean = answers
+        .filter((a) => a?.question_id && a?.correct_answer)
+        .map((a) => ({
+            question_id: String(a.question_id).trim(),
+            correct_answer: String(a.correct_answer).trim(),
+        }));
+
+    // Sort by numeric question_id (handles "1"..."40")
+    clean.sort((a, b) => Number(a.question_id) - Number(b.question_id));
+
+    // Return as an ordered array of strings
+    return clean.map((item) => item.correct_answer);
+}

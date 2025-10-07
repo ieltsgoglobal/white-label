@@ -1,4 +1,5 @@
 import { hashFilename } from "../../listening/_utils/hashFilename";
+import { sanitizeReadingAnswers } from "../../listening/_utils/misc";
 import { pickRandomBookAndTest } from "../../listening/_utils/pickRandomBookAndTest";
 
 /**
@@ -28,6 +29,7 @@ export async function buildReadingTest() {
 
     let questions = [];
     let passages = [];
+    let answers: string[] = [];
 
     try {
         // ---------------------------------------------
@@ -61,6 +63,19 @@ export async function buildReadingTest() {
 
         passages = dataP ?? []
 
+        // ---------------------------------------------
+        // -------- FETCH ANSWERS (LOCAL FILE) ---------
+        // ---------------------------------------------
+        const [bookId, testId] = testPath.match(/\d+/g)!.map(Number);
+        const localAnswers = await import(
+            `@/app/data/practice-questions/reading/answers/10_to_20__answers.json`
+        );
+        const raw_answers = (localAnswers.default || localAnswers).filter(
+            (a: { book_id: number; test_id: number }) =>
+                a.book_id === bookId && a.test_id === testId
+        );
+        answers = sanitizeReadingAnswers(raw_answers);
+
     } catch (err) {
         console.error("⚠️ Could not fetch reading questions:", err);
     }
@@ -70,6 +85,7 @@ export async function buildReadingTest() {
     return {
         questions,
         passages,
+        answers,
         testPath
     };
 }

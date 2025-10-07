@@ -4,10 +4,10 @@ import AudioPlayer from "./AudioPlayer";
 import QuizStatusCard from "./QuizStatusCard";
 import QuestionRenderer from "./QuestionRenderer";
 import { useEffect, useState } from "react";
-import { submitListeningAnswers } from "@/lib/postgress-aws/fetcher/user-submissions/listening";
 import { saveCurrentMockSection, setReviewMode } from "@/lib/mock-tests/indexedDb";
 import { normalizePracticeSetsAnswers, transformAnswerAttemptsToJson } from "../_utils/misc";
 import { initializePracticeSet, storePracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage";
+import { submitListeningAnswers } from "@/lib/postgress-aws/fetcher/practice-sets/user-submissions";
 
 type AttemptWithCorrectAnswers = {
     user: string;
@@ -75,6 +75,25 @@ export default function ListeningUI({
         setReviewMode(true)
         setforceRender(n => n + 1); //trick: this forces the AnswerInput.tsx to read the updated setReviewMode
     }
+
+
+
+
+
+    ///
+
+
+
+
+    //apoorv make the score card work so that it can show the score
+    ///// TODO bro
+
+
+
+    ///
+
+    ////
+
 
     async function handelSubmitScores({ startedAt, timeTaken, }: { startedAt: Date; timeTaken: number; }) {
         try {

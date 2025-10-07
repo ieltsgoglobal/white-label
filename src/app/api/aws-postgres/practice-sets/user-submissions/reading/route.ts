@@ -1,4 +1,4 @@
-import { insertListeningSubmission } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
+import { insertReadingSubmission } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -6,7 +6,7 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { userId, testPath, answers, startedAt, metadata } = body;
 
-        await insertListeningSubmission({
+        await insertReadingSubmission({
             userId,
             testPath,
             answers,

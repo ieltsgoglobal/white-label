@@ -20,11 +20,11 @@ interface AnswerInputProps {
 }
 
 export default function AnswerInput({ className, questionNumber, maxLength, placeholder }: AnswerInputProps) {
-    const [section, setSection] = useState<"listening" | "reading" | "practice-sets-listening" | null>(null)
+    const [section, setSection] = useState<"listening" | "reading" | "practice-sets-listening" | "practice-sets-reading" | null>(null)
     const [value, setValue] = useState("")
 
     const isInMockTestSection = section === "listening" || section === "reading";
-    const isInPracticeSetSection = section === "practice-sets-listening"
+    const isInPracticeSetSection = section === "practice-sets-listening" || section === "practice-sets-reading";
 
     // --------------------- MOCK TEST REVIEW CODE ----------------------
 
@@ -109,11 +109,12 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
     // -------------------- PRACTICE SETS REVIEW CODE -------------------
 
     // Load real answers using event-listening during isInMockTestSection and isReviewMode
+    // Loead real answers from sessionStorage
     useEffect(() => {
         if (!isInPracticeSetSection) return
 
-        // 1️⃣ Load immediately from sessionStorage (if ListeningUI already stored)
-        const storedCorrect = getPracticeSetCorrectAnswers("practice-sets-listening")
+        // 1️⃣ Load immediately from sessionStorage (if ListeningUI already stored or ReadingUI already stored)
+        const storedCorrect = getPracticeSetCorrectAnswers(section)
         if (storedCorrect) {
             setCorrectAnswers(storedCorrect)
             const correctAnswer = storedCorrect[questionNumber]
@@ -130,7 +131,12 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
     // check in which section we are dealing with (listening/ reading/ practice-sets-listening)
     useEffect(() => {
         loadCurrentMockSection().then((value) => {
-            if (value === "listening" || value === "reading" || value === "practice-sets-listening") {
+            if (
+                value === "listening" ||
+                value === "reading" ||
+                value === "practice-sets-listening" ||
+                value === "practice-sets-reading"
+            ) {
                 setSection(value)
             }
         })
@@ -146,6 +152,7 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
         }
 
         // isReviewMode removed cuz in ReviewMode we still fecth user answers from sessionStorage
+        // so we need to fetch user answers from sessionStorage wheter we are in ReviewMode or not
         if (isInPracticeSetSection) {
             const stored = getPracticeSetAnswer(section, questionNumber)
             setValue(stored || "")
