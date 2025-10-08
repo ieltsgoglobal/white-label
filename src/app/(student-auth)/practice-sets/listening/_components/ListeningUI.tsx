@@ -6,7 +6,7 @@ import QuestionRenderer from "./QuestionRenderer";
 import { useEffect, useState } from "react";
 import { saveCurrentMockSection, setReviewMode } from "@/lib/mock-tests/indexedDb";
 import { normalizePracticeSetsAnswers, transformAnswerAttemptsToJson } from "../_utils/misc";
-import { initializePracticeSet, storePracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage";
+import { getPracticeSetAnswers, initializePracticeSet, storePracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage";
 import { submitListeningAnswers } from "@/lib/postgress-aws/fetcher/practice-sets/user-submissions";
 
 type AttemptWithCorrectAnswers = {
@@ -60,6 +60,24 @@ export default function ListeningUI({
     }, [])
 
     // -------------------------------------------------
+    // 🔁 Live sync user answers when sessionStorage updates
+    // -------------------------------------------------
+    useEffect(() => {
+        const handleUpdate = () => {
+            const updatedAnswers = getPracticeSetAnswers("practice-sets-listening") || {};
+            setUserAttemptsWithAnswers((prev) =>
+                prev.map((item, idx) => ({
+                    ...item,
+                    user: updatedAnswers[idx + 1] || "",
+                }))
+            );
+        };
+
+        window.addEventListener("update-practice-set", handleUpdate);
+        return () => window.removeEventListener("update-practice-set", handleUpdate);
+    }, []);
+
+    // -------------------------------------------------
     // Store the correct answers (from S3) on mount
     // This ensures AnswerInput can access them immediately,
     // even before "Check Results" is pressed.
@@ -75,25 +93,6 @@ export default function ListeningUI({
         setReviewMode(true)
         setforceRender(n => n + 1); //trick: this forces the AnswerInput.tsx to read the updated setReviewMode
     }
-
-
-
-
-
-    ///
-
-
-
-
-    //apoorv make the score card work so that it can show the score
-    ///// TODO bro
-
-
-
-    ///
-
-    ////
-
 
     async function handelSubmitScores({ startedAt, timeTaken, }: { startedAt: Date; timeTaken: number; }) {
         try {
@@ -127,6 +126,7 @@ export default function ListeningUI({
                         handelSubmitScores({ startedAt, timeTaken })
                     }}
                     MAX_INDEX={MAX_LECTURES - 1}
+                    userAttemptsWithAnswers={userAttemptsWithAnswers}
                 />
             </div>
 

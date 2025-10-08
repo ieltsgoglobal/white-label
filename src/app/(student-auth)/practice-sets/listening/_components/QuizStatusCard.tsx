@@ -7,6 +7,11 @@ import { useEffect, useState } from "react"
 import { getPracticeSetAnswers, getPracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage"
 import { calculatePracticeSetScore } from "../_utils/misc"
 
+type AttemptWithCorrectAnswers = {
+  user: string;
+  correct: string;
+};
+
 const TOTAL_QUESTIONS = 40;
 
 export function QuizStatusCard({
@@ -14,13 +19,15 @@ export function QuizStatusCard({
   PrevSet,
   currentIndex,
   CheckResulsts,
-  MAX_INDEX
+  MAX_INDEX,
+  userAttemptsWithAnswers
 }: {
   NextSet: () => void
   PrevSet: () => void
   currentIndex: number
   CheckResulsts: (data: { startedAt: Date; timeTaken: number }) => void
-  MAX_INDEX: number
+  MAX_INDEX: number,
+  userAttemptsWithAnswers: AttemptWithCorrectAnswers[]
 }) {
   const [startedAt] = useState<Date>(new Date())
   const [timeTaken, setTimeTaken] = useState<number>(0) // seconds
@@ -141,15 +148,8 @@ export function QuizStatusCard({
               setHasPressedCheckResults(true);
               setIsPaused(true)
 
-              // Calculate score
-              // Logic: compare user answers vs correct answers from sessionStorage
-              // and calculate the score
-              // Note: This assumes both user answers and correct answers are already stored in sessionStorage
-              // under the keys "practice-sets-listening" and "practice-sets-listening-correct" respectively.
-              // If not, the score will be 0.
-              const userAttempt = getPracticeSetAnswers("practice-sets-listening");
-              const correctAnswer = getPracticeSetCorrectAnswers("practice-sets-listening");
-              const score = calculatePracticeSetScore(userAttempt || {}, correctAnswer || {});
+              // ----------------- CALCULATE SCORE ------------------
+              const score = calculatePracticeSetScore(userAttemptsWithAnswers);
               setUserScoreAfterSubmission(score);
             }}
             variant="outline"

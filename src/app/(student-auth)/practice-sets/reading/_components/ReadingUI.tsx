@@ -6,7 +6,7 @@ import QuizStatusCard from "../../listening/_components/QuizStatusCard";
 import PassageDisplay from "./PassageDisplay";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { saveCurrentMockSection, setReviewMode } from "@/lib/mock-tests/indexedDb";
-import { initializePracticeSet, storePracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage";
+import { getPracticeSetAnswers, initializePracticeSet, storePracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage";
 import { normalizePracticeSetsAnswers, transformAnswerAttemptsToJson } from "../../listening/_utils/misc";
 import { submitReadingAnswers } from "@/lib/postgress-aws/fetcher/practice-sets/user-submissions";
 
@@ -30,7 +30,7 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
     const currentQuestions = questions[currentIndex] || [];
     const currentPassage = passages[currentIndex] || {};
 
-    const [userAttemptsWithAnswers] = useState<AttemptWithCorrectAnswers[]>(
+    const [userAttemptsWithAnswers, setUserAttemptsWithAnswers] = useState<AttemptWithCorrectAnswers[]>(
         Array.from({ length: TOTAL_QUESTIONS }, (_, i) => ({
             user: "",
             correct: answers?.[i] || "",
@@ -54,6 +54,24 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
     useEffect(() => {
         saveCurrentMockSection("practice-sets-reading") // Save on mount
     }, [])
+
+    // -------------------------------------------------
+    // 🔁 Live sync user answers when sessionStorage updates
+    // -------------------------------------------------
+    useEffect(() => {
+        const handleUpdate = () => {
+            const updatedAnswers = getPracticeSetAnswers("practice-sets-reading") || {};
+            setUserAttemptsWithAnswers((prev) =>
+                prev.map((item, idx) => ({
+                    ...item,
+                    user: updatedAnswers[idx + 1] || "",
+                }))
+            );
+        };
+
+        window.addEventListener("update-practice-set", handleUpdate);
+        return () => window.removeEventListener("update-practice-set", handleUpdate);
+    }, []);
 
     // -------------------------------------------------
     // Store the correct answers (from S3) on mount
@@ -102,6 +120,7 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
                     handelSubmitScores({ startedAt, timeTaken })
                 }}
                 MAX_INDEX={MAX_PASSAGES - 1}
+                userAttemptsWithAnswers={userAttemptsWithAnswers}
             />
 
 
