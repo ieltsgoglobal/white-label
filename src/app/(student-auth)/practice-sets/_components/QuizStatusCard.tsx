@@ -5,7 +5,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
 import { getPracticeSetAnswers, getPracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage"
-import { calculatePracticeSetScore } from "../_utils/misc"
+import { calculatePracticeSetScore } from "../listening/_utils/misc"
 
 type AttemptWithCorrectAnswers = {
   user: string;
@@ -20,14 +20,16 @@ export function QuizStatusCard({
   currentIndex,
   CheckResulsts,
   MAX_INDEX,
-  userAttemptsWithAnswers
+  userAttemptsWithAnswers,
+  overallWritingScore
 }: {
   NextSet: () => void
   PrevSet: () => void
   currentIndex: number
-  CheckResulsts: (data: { startedAt: Date; timeTaken: number }) => void
+  CheckResulsts: (data: { startedAt: Date; timeTaken: number }) => Promise<void>
   MAX_INDEX: number,
-  userAttemptsWithAnswers: AttemptWithCorrectAnswers[]
+  userAttemptsWithAnswers?: AttemptWithCorrectAnswers[] // not present in writing and speaking
+  overallWritingScore?: number | null
 }) {
   const [startedAt] = useState<Date>(new Date())
   const [timeTaken, setTimeTaken] = useState<number>(0) // seconds
@@ -35,6 +37,12 @@ export function QuizStatusCard({
   const [hasPressedCheckResults, setHasPressedCheckResults] = useState(false)
 
   const [userScoreAfterSubmission, setUserScoreAfterSubmission] = useState<number | null>(null) // null means not submitted yet
+
+  useEffect(() => {
+    if (hasPressedCheckResults && overallWritingScore !== undefined) {
+      setUserScoreAfterSubmission(overallWritingScore ?? 0);
+    }
+  }, [overallWritingScore, hasPressedCheckResults]);
 
   // Timer updater
   useEffect(() => {
@@ -142,15 +150,21 @@ export function QuizStatusCard({
             Back
           </Button>
           <Button
-            onClick={() => {
+            onClick={async () => {
               // When "Check Results" is pressed:
-              CheckResulsts({ startedAt, timeTaken });
+              await CheckResulsts({ startedAt, timeTaken });
               setHasPressedCheckResults(true);
               setIsPaused(true)
 
               // ----------------- CALCULATE SCORE ------------------
-              const score = calculatePracticeSetScore(userAttemptsWithAnswers);
-              setUserScoreAfterSubmission(score);
+
+              // if userAttemptsWithAnswers is not null means, section is not writing nor speaking
+              if (userAttemptsWithAnswers) {
+                const score = calculatePracticeSetScore(userAttemptsWithAnswers);
+                setUserScoreAfterSubmission(score);
+              }
+
+              if (overallWritingScore !== undefined) setUserScoreAfterSubmission(overallWritingScore ?? 0)
             }}
             variant="outline"
             aria-label="Check results"

@@ -46,3 +46,25 @@ export async function insertReadingSubmission({
         [userId, testPath, answers, startedAt, metadata]
     );
 }
+
+export async function insertWritingSubmission({
+    userId,
+    testPath,
+    user_responses_with_scores,
+    startedAt,
+    metadata = {},
+}: {
+    userId: string;
+    testPath: string;
+    user_responses_with_scores: any;
+    startedAt: string;
+    metadata?: any;
+}) {
+    return await postgresQuery(
+        `INSERT INTO writing_submissions 
+         (user_id, test_path, user_responses_with_scores, started_at, metadata)
+         VALUES ($1, $2, $3, $4, $5)
+         RETURNING id`,
+        [userId, testPath, user_responses_with_scores, startedAt, metadata]
+    );
+}

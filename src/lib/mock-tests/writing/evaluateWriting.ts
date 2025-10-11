@@ -2,7 +2,11 @@
 
 import { updateWritingAnswer, updateWritingScore } from "../mockAnswersStorage"
 
-export async function evaluateWriting(writingQuestions: { id: number }[], responses: Record<number, string>) {
+export async function evaluateWriting(
+    writingQuestions: { id: number }[],
+    responses: Record<number, string>,
+    options?: { returnResults?: boolean, storeAnswersInLocalStorage?: boolean }
+) {
     let task1Score: number | null = null
     let task2Score: number | null = null
 
@@ -44,7 +48,10 @@ export async function evaluateWriting(writingQuestions: { id: number }[], respon
         overall = Math.round(((task1Score * 1 + task2Score * 2) / 3) * 2) / 2 // round to nearest 0.5
     }
 
-    updateWritingScore(task1Score, task2Score, overall)
+    if (options?.storeAnswersInLocalStorage !== false)
+        updateWritingScore(task1Score, task2Score, overall)
+
+    if (options?.returnResults) return { task1Score, task2Score, overall }
 }
 
 // get evaluation result and store it in localstorage

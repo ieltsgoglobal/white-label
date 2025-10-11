@@ -1,7 +1,7 @@
 "use client";
 
 import AudioPlayer from "./AudioPlayer";
-import QuizStatusCard from "./QuizStatusCard";
+import QuizStatusCard from "../../_components/QuizStatusCard";
 import QuestionRenderer from "./QuestionRenderer";
 import { useEffect, useState } from "react";
 import { saveCurrentMockSection, setReviewMode } from "@/lib/mock-tests/indexedDb";
@@ -121,7 +121,7 @@ export default function ListeningUI({
                     NextSet={() => setCurrentIndex((prev) => Math.min(prev + 1, MAX_LECTURES - 1))}
                     PrevSet={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}
                     currentIndex={currentIndex}
-                    CheckResulsts={({ startedAt, timeTaken }) => {
+                    CheckResulsts={async ({ startedAt, timeTaken }) => {
                         handleCheckResults();
                         handelSubmitScores({ startedAt, timeTaken })
                     }}

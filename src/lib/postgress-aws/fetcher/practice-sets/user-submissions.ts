@@ -61,3 +61,35 @@ export async function submitReadingAnswers({
 
     return res.json();
 }
+
+export async function submitWritingAnswers({
+    userId,
+    testPath,
+    user_responses_with_scores,
+    startedAt,
+    metadata = {},
+}: {
+    userId: string;
+    testPath: string;
+    user_responses_with_scores: any;
+    startedAt: string;
+    metadata?: any;
+}) {
+    const res = await fetch("/api/aws-postgres/practice-sets/user-submissions/writing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            userId,
+            testPath,
+            user_responses_with_scores,
+            startedAt,
+            metadata,
+        }),
+    });
+
+    if (!res.ok) {
+        throw new Error(`API error: ${res.status}`);
+    }
+
+    return res.json();
+}

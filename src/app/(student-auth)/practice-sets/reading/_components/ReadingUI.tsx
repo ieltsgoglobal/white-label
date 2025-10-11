@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import QuestionRenderer from "../../listening/_components/QuestionRenderer";
-import QuizStatusCard from "../../listening/_components/QuizStatusCard";
+import QuizStatusCard from "../../_components/QuizStatusCard";
 import PassageDisplay from "./PassageDisplay";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { saveCurrentMockSection, setReviewMode } from "@/lib/mock-tests/indexedDb";
@@ -115,7 +115,7 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
                 NextSet={() => { setCurrentIndex((prev) => Math.min(prev + 1, MAX_PASSAGES - 1)) }}
                 PrevSet={() => { setCurrentIndex((prev) => Math.max(prev - 1, 0)) }}
                 currentIndex={currentIndex}
-                CheckResulsts={({ startedAt, timeTaken }) => {
+                CheckResulsts={async ({ startedAt, timeTaken }) => {
                     handleCheckResults();
                     handelSubmitScores({ startedAt, timeTaken })
                 }}

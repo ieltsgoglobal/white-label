@@ -1,6 +1,6 @@
-import { hashFilename } from "../../listening/_utils/hashFilename";
+import { hashFilename } from "../../_utils/hashFilename";
 import { sanitizeReadingAnswers } from "../../listening/_utils/misc";
-import { pickRandomBookAndTest } from "../../listening/_utils/pickRandomBookAndTest";
+import { pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
 
 /**
  * Build a full IELTS-style reading test.

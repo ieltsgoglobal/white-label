@@ -1,7 +1,7 @@
 // _utils/buildListeningTest.ts
 
-import { hashFilename } from "./hashFilename";
-import { pickRandomBookAndTest } from "./pickRandomBookAndTest";
+import { hashFilename } from "../../_utils/hashFilename";
+import { pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
 import { sanitizeListeningAnswers } from "./misc";
 
 /**
