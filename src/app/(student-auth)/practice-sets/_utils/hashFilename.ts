@@ -12,22 +12,13 @@
 export async function hashFilename(
     pathStr: string,
     salt = "cb92f213-0396-4a54-a9cf-ad20a69f882e"
-): Promise<{ jsonUrl: string; mp3Url: string; answerFileUrl: string, readingQuestionsJsonUrl: string; readingPassagesJsonUrl: string, writingQuestionsWithSampleAnswersJsonUrl: string, writingQuestionsTask1ImageUrl: string }> {
+): Promise<{ ListeningQuestionsJsonUrl: string; ListeningQuestionsMP3Url: string; ListeningAnswerFileUrl: string, readingQuestionsJsonUrl: string; readingPassagesJsonUrl: string, writingQuestionsWithSampleAnswersJsonUrl: string, writingQuestionsTask1ImageUrl: string }> {
     // Encode input as Uint8Array for hashing
     // Concatenate the salt with the input filename to avoid collisions/attacks
     const encoder = new TextEncoder();
 
-
-    // ---------- LISTENING JSON ----------
-    const data = encoder.encode(salt + pathStr);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-    const lastDot = pathStr.lastIndexOf(".");
-    const ext = lastDot !== -1 ? pathStr.slice(lastDot) : "";
-    const jsonName = hashHex + ext;
-
     // ---------- MP3 ----------
+    // book_10/test_3/part_1.mp3 ------>> hash.mp3
     const mp3LogicalPath = pathStr.replace(/\.json$/, ".mp3");
     const dataMp3 = encoder.encode(salt + mp3LogicalPath);
     const hashBufferMp3 = await crypto.subtle.digest("SHA-256", dataMp3);
@@ -57,12 +48,12 @@ export async function hashFilename(
 
 
     // ---------- Listening Buckets ----------
-    const JSON_BUCKET =
-        "https://ielts-practice-sets-question-data-json-files-8edfac2b-d231-4f81.s3.ap-south-1.amazonaws.com";
-    const AUDIO_BUCKET =
-        "https://ielts-practice-sets-question-audio-mp3-files-3f06f131-15f4-8d69.s3.ap-south-1.amazonaws.com";
-    const ANSWERS_BUCKET =
-        "https://ielts-practice-sets-answer-data-json-files-225f3251-79cb-4237.s3.ap-south-1.amazonaws.com"
+    const LISTENING_JSON_BUCKET =
+        "https://ielts-practice-sets-listening-question-data-json-files-8edfac2b.s3.ap-south-1.amazonaws.com";
+    const LISTENING_AUDIO_BUCKET =
+        "https://ielts-practice-sets-listening-question-audio-mp3-files-3f06f131.s3.ap-south-1.amazonaws.com";
+    const LISTENING_ANSWERS_BUCKET =
+        "https://ielts-practice-sets-listening-answer-data-json-files-225f3251.s3.ap-south-1.amazonaws.com"
 
 
 
@@ -97,9 +88,9 @@ export async function hashFilename(
     return {
 
         // ---------- LISTENING URLs ----------
-        jsonUrl: `${JSON_BUCKET}/${jsonName}`,
-        mp3Url: `${AUDIO_BUCKET}/${mp3Name}`,
-        answerFileUrl: `${ANSWERS_BUCKET}/${answersName}`,
+        ListeningQuestionsJsonUrl: `${LISTENING_JSON_BUCKET}/${answersName}`,
+        ListeningQuestionsMP3Url: `${LISTENING_AUDIO_BUCKET}/${mp3Name}`,
+        ListeningAnswerFileUrl: `${LISTENING_ANSWERS_BUCKET}/${answersName}`,
 
         // ---------- READING URLs ----------
         readingQuestionsJsonUrl: `${READING_JSON_BUCKET}/${answersName}`,
