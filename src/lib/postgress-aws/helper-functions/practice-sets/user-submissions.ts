@@ -68,3 +68,27 @@ export async function insertWritingSubmission({
         [userId, testPath, user_responses_with_scores, startedAt, metadata]
     );
 }
+
+export async function insertSpeakingSubmission({
+    userId,
+    testPath,
+    user_responses,
+    user_scores = null,
+    startedAt,
+    metadata = {},
+}: {
+    userId: string;
+    testPath: string;
+    user_responses: any;
+    user_scores?: any;
+    startedAt: string;
+    metadata?: any;
+}) {
+    return await postgresQuery(
+        `INSERT INTO speaking_submissions 
+         (user_id, test_path, user_responses, user_scores, started_at, metadata)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         RETURNING id`,
+        [userId, testPath, user_responses, user_scores, startedAt, metadata]
+    );
+}

@@ -1,251 +1,52 @@
-"use client"
+import Link from "next/link";
 
-import { Suspense, useMemo, useState } from "react"
-import { CurrentTestStatus } from "./_components/current-test-status"
-import { PerformanceSummary } from "./_components/performance-summary"
-import { RecentSessionsTable } from "./_components/recent-sessions-table"
-import { QuestionInsights } from "./_components/question-insights"
-import { EngagementMetrics } from "./_components/engagement-metrics"
-import { FeedbackNotes } from "./_components/feedback-notes"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { ProfileSummaryCard } from "./_components/profile-summary"
+import PlaceholderContent from "@/components/demo/placeholder-content";
+import { ContentLayout } from "@/components/admin-panel/content-layout";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator
+} from "@/components/ui/breadcrumb";
+import PracticeSetsPage from "./_components/PracticeSetsPage";
 
-export default function PracticeSetsPage() {
-    const profile = {
-        name: "Aisha Khan",
-        studentId: "STU-48291",
-        level: "Intermediate",
-        totalTests: 27,
-        accuracy: 82,
-        totalStudyHours: 114,
-        streakDays: 5,
-        percentile: 78,
-    }
-
-    const inProgress = {
-        testName: "IELTS Listening Practice Set 3",
-        startedAt: new Date(Date.now() - 1000 * 60 * 12).toISOString(), // 12 mins ago
-        endsAt: new Date(Date.now() + 1000 * 60 * 33).toISOString(), // 33 mins remaining
-        currentQuestion: 5,
-        totalQuestions: 40,
-        flaggedCount: 2,
-        answered: 12,
-        unanswered: 8,
-    }
-
-    const performance = {
-        totals: {
-            questionsAttempted: 1834,
-            correct: 1504,
-            incorrect: 330,
-            accuracy: 82,
-            avgTimePerQuestionSec: 48,
-            avgTimePerTestMin: 42,
-            fastestCompletionMin: 28,
-            slowestCompletionMin: 65,
-        },
-        difficultyBreakdown: [
-            { difficulty: "Easy", accuracy: 91 },
-            { difficulty: "Medium", accuracy: 78 },
-            { difficulty: "Hard", accuracy: 63 },
-        ],
-        topicBreakdown: [
-            { topic: "Reading", accuracy: 84 },
-            { topic: "Listening", accuracy: 79 },
-            { topic: "Writing", accuracy: 68 },
-            { topic: "Speaking", accuracy: 74 },
-            { topic: "Grammar", accuracy: 88 },
-            { topic: "Vocabulary", accuracy: 81 },
-        ],
-        accuracyTrend: [
-            { date: "Aug", accuracy: 72 },
-            { date: "Sep", accuracy: 75 },
-            { date: "Oct", accuracy: 78 },
-            { date: "Nov", accuracy: 79 },
-            { date: "Dec", accuracy: 80 },
-            { date: "Jan", accuracy: 81 },
-            { date: "Feb", accuracy: 82 },
-        ],
-    }
-
-    const recentSessions = [
-        {
-            testName: "IELTS Reading Mock 6",
-            mode: "Mock",
-            dateTime: "2025-09-25 18:30",
-            durationMin: 47,
-            scoreRaw: 34,
-            scorePct: 85,
-            correct: 34,
-            total: 40,
-            answered: 40,
-            skipped: 0,
-            flagged: 3,
-            reviewLink: "#",
-        },
-        {
-            testName: "Listening Practice Set 9",
-            mode: "Practice",
-            dateTime: "2025-09-24 07:15",
-            durationMin: 32,
-            scoreRaw: 29,
-            scorePct: 73,
-            correct: 29,
-            total: 40,
-            answered: 38,
-            skipped: 2,
-            flagged: 1,
-            reviewLink: "#",
-        },
-        {
-            testName: "Reading Timed Set 2",
-            mode: "Timed",
-            dateTime: "2025-09-22 21:05",
-            durationMin: 40,
-            scoreRaw: 30,
-            scorePct: 75,
-            correct: 30,
-            total: 40,
-            answered: 37,
-            skipped: 3,
-            flagged: 2,
-            reviewLink: "#",
-        },
-    ]
-
-    const insights = {
-        avgTimePerQuestionSec: 48,
-        commonMistakes: ["True/False/Not Given confusion", "Paraphrase traps", "Map/Diagram labeling"],
-        accuracyByType: [
-            { type: "MCQ", accuracy: 86 },
-            { type: "Fill-in", accuracy: 78 },
-            { type: "Table Completion", accuracy: 72 },
-            { type: "Essay", accuracy: 65 },
-        ],
-        accuracyTrend: performance.accuracyTrend,
-        confidenceVsPerformance: [
-            { label: "Low", accuracy: 68 },
-            { label: "Medium", accuracy: 79 },
-            { label: "High", accuracy: 85 },
-        ],
-    }
-
-    const engagement = {
-        streakDays: profile.streakDays,
-        avgDailyStudyMin: 38,
-        testsPerWeek: 4,
-        preferredTime: "Evening",
-        devices: [
-            { device: "Mobile", pct: 60 },
-            { device: "Desktop", pct: 40 },
-        ],
-    }
-
-    const notes = {
-        flaggedQuestions: [
-            { id: "R-6-Q12", reason: "Ambiguous paraphrase", hintsUsed: 1, viewedExplanation: true },
-            { id: "L-3-Q27", reason: "Accent confusion", hintsUsed: 0, viewedExplanation: false },
-            { id: "W-2-T1", reason: "Structure clarity", hintsUsed: 2, viewedExplanation: true },
-        ],
-    }
-
-    const [module, setModule] = useState<"All" | "Reading" | "Listening" | "Writing" | "Speaking">("All")
-    const [timeframe, setTimeframe] = useState<"7d" | "30d" | "all">("all")
-
-    const filteredSessions = useMemo(() => {
-        const byModule =
-            module === "All"
-                ? recentSessions
-                : recentSessions.filter((s) => s.testName.toLowerCase().includes(module.toLowerCase()))
-        if (timeframe === "7d") return byModule.slice(0, 1)
-        if (timeframe === "30d") return byModule.slice(0, 2)
-        return byModule
-    }, [module, timeframe, recentSessions])
-
-    const filteredPerformance = useMemo(() => {
-        const copy = JSON.parse(JSON.stringify(performance))
-        if (timeframe === "7d") copy.accuracyTrend = performance.accuracyTrend.slice(-3)
-        if (timeframe === "30d") copy.accuracyTrend = performance.accuracyTrend.slice(-5)
-        return copy
-    }, [timeframe, performance])
-
-    const filteredInsights = useMemo(() => {
-        const copy = { ...insights }
-        return copy
-    }, []) // Removed insights from dependencies
-
-    function handleStartPractice() {
-    }
-
-    function handleBuildCustom() {
-    }
-
+export default function PracticeSetsDashboard() {
     return (
-        <main className="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 lg:px-8">
-            <header className="mb-6 flex flex-col items-start justify-between gap-3 md:mb-8 md:flex-row md:items-center">
-                <div>
-                    <h1 className="text-balance text-2xl font-semibold tracking-tight md:text-3xl">
-                        IELTS Practice Sets — Student Dashboard
-                    </h1>
-                    <p className="text-muted-foreground mt-1 text-sm">
-                        Track progress, resume tests, and review insights to improve faster.
-                    </p>
-                </div>
-                <div className="flex w-full flex-col items-stretch gap-2 md:w-auto md:flex-row md:items-center">
-                    <Tabs value={module} onValueChange={(v) => setModule(v as any)} className="w-full md:w-auto">
-                        <TabsList className="grid w-full grid-cols-5 md:w-auto">
-                            <TabsTrigger value="All">All</TabsTrigger>
-                            <TabsTrigger value="Reading">Reading</TabsTrigger>
-                            <TabsTrigger value="Listening">Listening</TabsTrigger>
-                            <TabsTrigger value="Writing">Writing</TabsTrigger>
-                            <TabsTrigger value="Speaking">Speaking</TabsTrigger>
-                        </TabsList>
-                    </Tabs>
+        <ContentLayout title="Practice Dashboard">
+            <Breadcrumb>
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink asChild>
+                            <Link href="/">Home</Link>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Pracice Sets Dashboard</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
+            <PlaceholderContent >
+                <div className="container px-4 md:px-6 py-12 relative">
 
-                    <Select value={timeframe} onValueChange={(v) => setTimeframe(v as any)}>
-                        <SelectTrigger className="w-full md:w-36">
-                            <SelectValue placeholder="Timeframe" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="7d">Last 7 days</SelectItem>
-                            <SelectItem value="30d">Last 30 days</SelectItem>
-                            <SelectItem value="all">All-time</SelectItem>
-                        </SelectContent>
-                    </Select>
-
-                    <div className="flex items-center gap-2 md:ml-2">
-                        <Button onClick={handleStartPractice}>Start Practice</Button>
-                        <Button variant="secondary" onClick={handleBuildCustom}>
-                            Build Custom
-                        </Button>
+                    <div className="text-center max-w-3xl mx-auto mb-12" >
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+                            Student Dashboard
+                        </h1>
+                        <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+                            Stay on top of your IELTS prep! Review progress, continue your practice sets,
+                            and discover insights that help you improve every day.
+                        </p>
                     </div>
+
+                    <PracticeSetsPage />
+
                 </div>
-            </header>
 
-            <section className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-3">
-                <ProfileSummaryCard {...profile} />
-                <Suspense>
-                    <CurrentTestStatus {...inProgress} />
-                </Suspense>
-                <EngagementMetrics {...engagement} />
-            </section>
 
-            <section className="mt-6 grid grid-cols-1 gap-4 md:mt-8 md:gap-6 lg:grid-cols-3">
-                <div className="lg:col-span-2">
-                    <PerformanceSummary performance={filteredPerformance} />
-                </div>
-                <QuestionInsights insights={filteredInsights} />
-            </section>
-
-            <section className="mt-6 md:mt-8">
-                <RecentSessionsTable sessions={filteredSessions} />
-            </section>
-
-            <section className="mt-6 md:mt-8">
-                <FeedbackNotes {...notes} />
-            </section>
-        </main>
-    )
+            </PlaceholderContent>
+        </ContentLayout >
+    );
 }

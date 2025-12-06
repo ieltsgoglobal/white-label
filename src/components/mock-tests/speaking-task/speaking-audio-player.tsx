@@ -5,6 +5,7 @@ import SpeakingPart2Player from "./audio-players/speaking-part2"
 import SpeakingPart3Player from "./audio-players/speaking-part3"
 import { evaluateAllSpeakingRecordings } from "@/lib/mock-tests/speaking/evaluate-speaking/process-speaking-evaluation"
 import EarthLoader from "@/components/loaders/mock-tests/speaking/EarthLoader"
+import { isPracticeSetsGoingOn } from "@/app/(student-auth)/practice-sets/_utils/misc"
 
 interface SpeakingQuestion {
     id: number
@@ -24,11 +25,19 @@ export default function SpeakingAudioPlayer({ speakingData, onNext }: { speaking
     const handlePart1Complete = () => {
         console.log("Part 1 finished. Moving to Part 2.")
         setCurrentPart(2)
+
+        // tell cuecard component to SHOW
+        // connected with <SpeakingTaskPart2CueCard/>
+        window.dispatchEvent(new CustomEvent("speaking-part2-cuecard-show", { detail: { speakingData } }))
     }
 
     const handlePart2Complete = () => {
         console.log("Part 2 finished. Moving to Part 3.")
         setCurrentPart(3)
+
+        // tell cuecard component to HIDE
+        // connected with <SpeakingTaskPart2CueCard/>
+        window.dispatchEvent(new CustomEvent("speaking-part2-cuecard-hide"))
     }
 
     const handlePart3Complete = async () => {
@@ -36,7 +45,7 @@ export default function SpeakingAudioPlayer({ speakingData, onNext }: { speaking
 
         // evaluate all s3 recordings
         setIsEvaluating(true)
-        await evaluateAllSpeakingRecordings({ speakingData })
+        await evaluateAllSpeakingRecordings({ speakingData, isPractice: isPracticeSetsGoingOn() })
         console.log("✅ All Answers Evaluated and localStorage Updated")
         setIsEvaluating(false)
         onNext()
@@ -59,6 +68,7 @@ export default function SpeakingAudioPlayer({ speakingData, onNext }: { speaking
                 <SpeakingPart1Player speakingData={speakingData} onComplete={handlePart1Complete} />
             )}
             {currentPart === 2 && part2AudioUrl && part2questionId && (
+                // [part2AudioUrl is sample dropbox Url, which will skip] --> in case its practice-sets
                 <SpeakingPart2Player audioUrl={part2AudioUrl} questionId={part2questionId} onComplete={handlePart2Complete} />
             )}
             {currentPart === 3 && (

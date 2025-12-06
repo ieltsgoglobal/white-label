@@ -122,3 +122,108 @@ export function clearPracticeSetCorrectAnswers(section: PracticeSetSection) {
     if (typeof window === "undefined") return
     sessionStorage.removeItem(`${section}-correct`)
 }
+
+
+// =================================================
+// 🎙️ SPEAKING ANSWERS (for Practice Sets)
+// =================================================
+
+interface PracticeSpeakingAnswer {
+    questionId: number
+    url: string
+}
+
+const PRACTICE_SPEAKING_KEY = "practice-sets-speaking"
+
+// Initialize empty speaking answers
+export function initializePracticeSetSpeaking() {
+    if (typeof window === "undefined") return
+
+    const existing = sessionStorage.getItem(PRACTICE_SPEAKING_KEY)
+    if (!existing) {
+        const initialData: PracticeSpeakingAnswer[] = []
+
+        // initialize with an empty array, same as mock answers
+        // question IDs will be added dynamically later as user records
+        sessionStorage.setItem(PRACTICE_SPEAKING_KEY, JSON.stringify(initialData))
+
+        console.log("🆕 Initialized practice-sets-speaking in sessionStorage")
+    }
+}
+
+// Retrieve all speaking answers
+export function getPracticeSetSpeakingAnswers(): PracticeSpeakingAnswer[] {
+    if (typeof window === "undefined") return []
+    const data = sessionStorage.getItem(PRACTICE_SPEAKING_KEY)
+    return data ? JSON.parse(data) : []
+}
+
+// Retrieve a single speaking answer by questionId
+export function getPracticeSpeakingAnswer(questionId: number): PracticeSpeakingAnswer | null {
+    if (typeof window === "undefined") return null
+    const data = getPracticeSetSpeakingAnswers()
+    return data.find((entry) => entry.questionId === questionId) || null
+}
+
+// Update (add or replace) a speaking answer
+export function updatePracticeSetsSpeakingAnswer(questionId: number, url: string) {
+    if (typeof window === "undefined") return
+
+    const existing = getPracticeSetSpeakingAnswers()
+
+    // remove any existing answer with the same questionId
+    const filtered = existing.filter((entry) => entry.questionId !== questionId)
+    const updated = [...filtered, { questionId, url }]
+
+    sessionStorage.setItem(PRACTICE_SPEAKING_KEY, JSON.stringify(updated))
+
+    // 🔁 Dispatch custom event
+    // Event that forces Reading & Listening & Writing & Speaking Pagination to re-render to show Attempted Answers
+    // Dispatches a custom 'update-pagination' event to trigger UI re-renders (e.g., to highlight attempted questions)
+    window.dispatchEvent(new Event("update-pagination"))
+}
+
+// Clear all speaking answers
+export function clearPracticeSpeakingAnswers() {
+    if (typeof window === "undefined") return
+    sessionStorage.removeItem(PRACTICE_SPEAKING_KEY)
+}
+
+// =====================================================
+// 🏆 STORE SPEAKING BAND SCORES (EXCLUSIVE FOR SPEKAING)
+// =====================================================
+
+interface PracticeSpeakingScores {
+    lexical_resource: number
+    fluency_and_coherence: number
+    pronunciation: number
+    grammatical_range_and_accuracy: number
+    overall_band: number
+}
+
+const PRACTICE_SPEAKING_SCORES_KEY = "practice-sets-speaking-scores"
+
+// Store scores only during practice sessions
+export function storePracticeSetsSpeakingScores(scores: PracticeSpeakingScores) {
+    if (typeof window === "undefined") return
+
+    sessionStorage.setItem(PRACTICE_SPEAKING_SCORES_KEY, JSON.stringify(scores))
+
+    console.log("💾 Stored practice speaking scores:", scores)
+}
+
+// Retrieve stored speaking scores
+export function getPracticeSetsSpeakingScores(): PracticeSpeakingScores | null {
+    if (typeof window === "undefined") return null
+    const data = sessionStorage.getItem(PRACTICE_SPEAKING_SCORES_KEY)
+    return data ? JSON.parse(data) : null
+}
+
+// Clear scores (when user restarts a new practice set)
+export function clearPracticeSetsSpeakingScores() {
+    if (typeof window === "undefined") return
+    sessionStorage.removeItem(PRACTICE_SPEAKING_SCORES_KEY)
+}
+
+
+

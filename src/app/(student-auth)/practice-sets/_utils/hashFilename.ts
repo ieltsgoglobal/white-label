@@ -12,7 +12,7 @@
 export async function hashFilename(
     pathStr: string,
     salt = "cb92f213-0396-4a54-a9cf-ad20a69f882e"
-): Promise<{ ListeningQuestionsJsonUrl: string; ListeningQuestionsMP3Url: string; ListeningAnswerFileUrl: string, readingQuestionsJsonUrl: string; readingPassagesJsonUrl: string, writingQuestionsWithSampleAnswersJsonUrl: string, writingQuestionsTask1ImageUrl: string }> {
+): Promise<{ ListeningQuestionsJsonUrl: string; ListeningQuestionsMP3Url: string; ListeningAnswerFileUrl: string, readingQuestionsJsonUrl: string; readingPassagesJsonUrl: string, writingQuestionsWithSampleAnswersJsonUrl: string, writingQuestionsTask1ImageUrl: string, speakingQuestionsWithAudioUrlJsonUrl: string }> {
     // Encode input as Uint8Array for hashing
     // Concatenate the salt with the input filename to avoid collisions/attacks
     const encoder = new TextEncoder();
@@ -85,6 +85,16 @@ export async function hashFilename(
 
 
 
+    // ------------------------------------------------------------------------------------------------------------
+    // --------------------------------  ADDED SUPPORT FOR SPEAKING FILES FROM HERE -------------------------------
+    // ------------------------------------------------------------------------------------------------------------
+
+    // ---------- Speaking Buckets ----------
+
+    const SPEAKING_QUESTIONS_WITH_AUDIO_URL_JSON_BUCKET =
+        "https://ielts-practice-sets-speaking-questions-data-json-files-a7621994.s3.ap-south-1.amazonaws.com";
+
+
     return {
 
         // ---------- LISTENING URLs ----------
@@ -99,6 +109,9 @@ export async function hashFilename(
         // ---------- WRITING ----------
         writingQuestionsWithSampleAnswersJsonUrl: `${WRITING_JSON_BUCKET}/${answersName}`,
         writingQuestionsTask1ImageUrl: `${WRITING_IMAGES_BUCKET}/${writingImageName}`,
+
+        // ---------- SPEAKING ----------
+        speakingQuestionsWithAudioUrlJsonUrl: `${SPEAKING_QUESTIONS_WITH_AUDIO_URL_JSON_BUCKET}/${answersName}`
 
     };
 }

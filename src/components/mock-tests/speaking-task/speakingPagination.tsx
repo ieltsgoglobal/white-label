@@ -1,6 +1,8 @@
 "use client"
 
+import { isPracticeSetsGoingOn } from "@/app/(student-auth)/practice-sets/_utils/misc"
 import { getMockAnswers } from "@/lib/mock-tests/mockAnswersStorage"
+import { getPracticeSetSpeakingAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage"
 import { useEffect, useState } from "react"
 
 interface SpeakingQuestion {
@@ -14,7 +16,13 @@ interface SpeakingPart {
     questions: SpeakingQuestion[]
 }
 
+interface PracticeSpeakingAnswer {
+    questionId: number
+    url: string
+}
+
 export default function SpeakingPagination({ speakingData }: { speakingData: SpeakingPart[] }) {
+    const [isPracticeSectionGoingOn, setIsPracticeSectionGoingOn] = useState(isPracticeSetsGoingOn())
 
     const parts = speakingData.map((part) => ({
         name: `Part ${part.part}`,
@@ -36,8 +44,16 @@ export default function SpeakingPagination({ speakingData }: { speakingData: Spe
     }, [])
 
     const renderNagivationButton = (number: number) => {
-        const data = getMockAnswers()
-        const spokenIds = data?.speaking?.map((item) => item.questionId) ?? []
+        let data: PracticeSpeakingAnswer[] = []
+
+        if (isPracticeSectionGoingOn) {
+            data = getPracticeSetSpeakingAnswers()
+        } else {
+            const mockAnswers = getMockAnswers()
+            data = mockAnswers?.speaking ?? []
+        }
+
+        const spokenIds = data.map((item) => item.questionId) ?? []
         const isAnswered = spokenIds.includes(number)
 
         return (

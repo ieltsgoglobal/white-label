@@ -4,9 +4,12 @@ import { startRecording, stopRecordingWithMeta } from "@/lib/mock-tests/speaking
 import { uploadAudioToS3 } from "@/lib/mock-tests/speaking/s3Uploader"
 import { updateSpeakingAnswer } from "@/lib/mock-tests/mockAnswersStorage"
 import DotPulseLoader from "@/components/loaders/mock-tests/speaking/DotPulseLoader"
+import { isPracticeSetsGoingOn } from "@/app/(student-auth)/practice-sets/_utils/misc"
+import { updatePracticeSetsSpeakingAnswer } from "@/lib/practice-sets/user-submissions/sessionStorage"
 
 export default function SpeakingPart2Player({ audioUrl, questionId, onComplete, }: { audioUrl: string, questionId: number, onComplete: () => void }) {
     const [isUploading, setIsUploading] = useState(false)
+    const [isPracticeSectionGoingOn, setIsPracticeSectionGoingOn] = useState(isPracticeSetsGoingOn()) // will use to play the initial introduction video in speaking practice-sets
     const hasRunRef = useRef(false) // Prevents the sequence from running multiple times
 
     useEffect(() => {
@@ -43,19 +46,19 @@ export default function SpeakingPart2Player({ audioUrl, questionId, onComplete, 
         const runPart2Flow = async () => {
             try {
                 // 1. Play static intro
-                await playAudio("/mock-tests/speaking-task/part2/intro.mp3")
+                await playAudio(isPracticeSectionGoingOn ? "/practice-sets/speaking-task/part2/intro.mp3" : "/mock-tests/speaking-task/part2/intro.mp3")
 
                 // 2. Play dynamic question (from part 2 data)
-                await playAudio(audioUrl) //from parent component
+                if (!isPracticeSectionGoingOn) await playAudio(audioUrl) // practice-sets dont have any audio for part2
 
                 // 3. Notify user that 1-minute preparation starts now
-                await playAudio("/mock-tests/speaking-task/part2/timer-starts-now.mp3")
+                await playAudio(isPracticeSectionGoingOn ? "/practice-sets/speaking-task/part2/timer-starts-now.mp3" : "/mock-tests/speaking-task/part2/timer-starts-now.mp3")
 
                 // 4. Wait 60 seconds for user preparation
                 await new Promise((res) => setTimeout(res, 60000))
 
                 // 5. Notify that preparation time is over
-                await playAudio("/mock-tests/speaking-task/part2/alr-prep-time-is-over.mp3")
+                await playAudio(isPracticeSectionGoingOn ? "/practice-sets/speaking-task/part2/alr-prep-time-is-over.mp3" : "/mock-tests/speaking-task/part2/alr-prep-time-is-over.mp3")
 
                 // ✅ Trigger the timer event (120 seconds for Part 2)
                 // check speaking-response-timer.ts
@@ -72,13 +75,19 @@ export default function SpeakingPart2Player({ audioUrl, questionId, onComplete, 
                     setIsUploading(true)
                     const url = await uploadAudioToS3(result.blob, result.filename)
                     if (url) {
-                        updateSpeakingAnswer(questionId, url)
+                        if (isPracticeSectionGoingOn) {
+                            // stores the answer in sessionStorage
+                            updatePracticeSetsSpeakingAnswer(questionId, url)
+                        } else {
+                            // stores the answers in localStorage
+                            updateSpeakingAnswer(questionId, url)
+                        }
                     }
                 }
                 setIsUploading(false)
 
                 // 8. End message to the candidate
-                await playAudio("/mock-tests/speaking-task/part2/ty-you-may-stop-speaking.mp3")
+                await playAudio(isPracticeSectionGoingOn ? "/practice-sets/speaking-task/part2/ty-you-may-stop-speaking.mp3" : "/mock-tests/speaking-task/part2/ty-you-may-stop-speaking.mp3")
 
                 onComplete()
             } catch (err) {

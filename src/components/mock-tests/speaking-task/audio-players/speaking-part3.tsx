@@ -1,8 +1,10 @@
 "use client"
+import { isPracticeSetsGoingOn } from "@/app/(student-auth)/practice-sets/_utils/misc"
 import DotPulseLoader from "@/components/loaders/mock-tests/speaking/DotPulseLoader"
 import { updateSpeakingAnswer } from "@/lib/mock-tests/mockAnswersStorage"
 import { startRecording, stopRecordingWithMeta } from "@/lib/mock-tests/speaking/recorder"
 import { uploadAudioToS3 } from "@/lib/mock-tests/speaking/s3Uploader"
+import { updatePracticeSetsSpeakingAnswer } from "@/lib/practice-sets/user-submissions/sessionStorage"
 import { useEffect, useRef, useState } from "react"
 
 interface SpeakingQuestion {
@@ -18,6 +20,7 @@ interface SpeakingPart {
 
 export default function SpeakingPart3Player({ speakingData, onComplete }: { speakingData: SpeakingPart[], onComplete: () => void }) {
     const [isUploading, setIsUploading] = useState(false)
+    const [isPracticeSectionGoingOn, setIsPracticeSectionGoingOn] = useState(isPracticeSetsGoingOn()) // will use to play the initial introduction video in speaking practice-sets
     const hasPlayed = useRef(false) // ref prevents race conditions 
 
     // Beep function
@@ -68,7 +71,13 @@ export default function SpeakingPart3Player({ speakingData, onComplete }: { spea
                                     setIsUploading(true)
                                     const url = await uploadAudioToS3(result.blob, result.filename)
                                     if (url) {
-                                        updateSpeakingAnswer(question.id, url)
+                                        if (isPracticeSectionGoingOn) {
+                                            // stores the answer in sessionStorage
+                                            updatePracticeSetsSpeakingAnswer(question.id, url)
+                                        } else {
+                                            // stores the answers in localStorage
+                                            updateSpeakingAnswer(question.id, url)
+                                        }
                                     }
                                 }
                                 setIsUploading(false)

@@ -3,6 +3,8 @@
 import { getMockAnswers, updateSpeakingScore } from "../../mockAnswersStorage"
 import { calculateBand } from "./evaluate-speaking-blob"
 import { calculateOverallSpeakingBand, PerQuestionStat, SpeakingBandBreakdown } from "./band-summary"
+import { getPracticeSetSpeakingAnswers, storePracticeSetsSpeakingScores } from "@/lib/practice-sets/user-submissions/sessionStorage"
+import { SpeakingAnswer } from "@/types/mockTestAttempt"
 
 export interface WordTimestamp {
     text: string
@@ -24,21 +26,39 @@ interface SpeakingPart {
 }
 
 
-export async function evaluateAllSpeakingRecordings({ speakingData }: { speakingData: SpeakingPart[] }) {
+export async function evaluateAllSpeakingRecordings({ speakingData, isPractice = false }: { speakingData: SpeakingPart[], isPractice?: boolean }) {
 
-    // get s3 url form localstorage
-    const data = getMockAnswers()
-    if (!data || !data.speaking || data.speaking.length === 0) {
-        console.warn("No speaking recordings found.")
+
+    // -------------------------------------------------------
+    // Choose correct data source (mock vs practice)
+    // -------------------------------------------------------
+    let userAttemptResponseAndItsS3URLInStorage: SpeakingAnswer[] = []
+
+    if (isPractice) {
+        // get s3 url  form session storeage
+        userAttemptResponseAndItsS3URLInStorage = getPracticeSetSpeakingAnswers()
+    } else {
+        // get s3 url form localstorage
+        const data = getMockAnswers()
+        if (!data || !data.speaking) {
+            console.warn("No speaking recordings found in mock answers.")
+            return
+        }
+        userAttemptResponseAndItsS3URLInStorage = data.speaking
+    }
+
+    if (!userAttemptResponseAndItsS3URLInStorage.length) {
+        console.warn("⚠️ No speaking recordings available to evaluate.")
         return
     }
+
 
     // Store individual evaluation results for each speaking response.
     // Used to calculate the overall average speaking band and store it in localStorage.
     const allStats: PerQuestionStat[] = [];
 
     // loop though all S3 urls and evaluate them seperately
-    for (const { questionId, url } of data.speaking) {
+    for (const { questionId, url } of userAttemptResponseAndItsS3URLInStorage) {
         try {
             // convert s3 url to blob
             const blob = await fetchRecordingAsBlob(url)
@@ -100,7 +120,12 @@ export async function evaluateAllSpeakingRecordings({ speakingData }: { speaking
         console.log("✅ Overall IELTS Speaking Band:", overall)
 
         // store speaking scores in localStorage
-        updateSpeakingScore(overall)
+        if (isPractice) {
+            storePracticeSetsSpeakingScores(overall)
+        }
+        else {
+            updateSpeakingScore(overall)
+        }
         return overall
     }
 }

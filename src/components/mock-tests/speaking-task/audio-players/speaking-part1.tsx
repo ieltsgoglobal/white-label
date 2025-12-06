@@ -1,9 +1,11 @@
 "use client"
+import { isPracticeSetsGoingOn } from "@/app/(student-auth)/practice-sets/_utils/misc"
 import DotPulseLoader from "@/components/loaders/mock-tests/speaking/DotPulseLoader"
 import { updateSpeakingAnswer } from "@/lib/mock-tests/mockAnswersStorage"
 import { startRecording, stopRecordingWithMeta } from "@/lib/mock-tests/speaking/recorder"
 import { uploadAudioToS3 } from "@/lib/mock-tests/speaking/s3Uploader"
-import { useEffect, useState } from "react"
+import { updatePracticeSetsSpeakingAnswer } from "@/lib/practice-sets/user-submissions/sessionStorage"
+import { useEffect, useRef, useState } from "react"
 
 interface SpeakingQuestion {
     id: number
@@ -18,6 +20,8 @@ interface SpeakingPart {
 
 export default function SpeakingPart1Player({ speakingData, onComplete }: { speakingData: SpeakingPart[], onComplete: () => void }) {
     const [isUploading, setIsUploading] = useState(false)
+    const [isPracticeSectionGoingOn, setIsPracticeSectionGoingOn] = useState(isPracticeSetsGoingOn()) // will use to play the initial introduction video in speaking practice-sets
+    const hasStartedRef = useRef(false)
 
     // Beep function
     const playBeep = () => {
@@ -35,7 +39,23 @@ export default function SpeakingPart1Player({ speakingData, onComplete }: { spea
     }
 
     useEffect(() => {
+        if (hasStartedRef.current) return
+        hasStartedRef.current = true
+
         const playAllAudios = async () => {
+            // 🟩 Step 1: Play the instruction audio if in practice section
+            if (isPracticeSectionGoingOn) {
+                await new Promise<void>((resolve) => {
+                    const introAudio = new Audio("/practice-sets/speaking-task/part1/instructions.mp3")
+                    introAudio.addEventListener("ended", () => resolve(), { once: true })
+                    introAudio.play().catch((err) => {
+                        console.error("Instruction audio failed:", err)
+                        resolve()
+                    })
+                })
+            }
+
+
             const part = speakingData[0]
             if (!part || part.questions.length === 0) return
 
@@ -60,7 +80,13 @@ export default function SpeakingPart1Player({ speakingData, onComplete }: { spea
                                     setIsUploading(true)
                                     const url = await uploadAudioToS3(result.blob, result.filename)
                                     if (url) {
-                                        updateSpeakingAnswer(question.id, url)
+                                        if (isPracticeSectionGoingOn) {
+                                            // stores the answer in sessionStorage
+                                            updatePracticeSetsSpeakingAnswer(question.id, url)
+                                        } else {
+                                            // stores the answers in localStorage
+                                            updateSpeakingAnswer(question.id, url)
+                                        }
                                     }
                                 }
                                 resolve()

@@ -14,6 +14,8 @@ import { useMockAttempts } from "@/app/(student-auth)/mock-scores/_component/Moc
 import { BandScores, SpeakingAnswer } from "@/types/mockTestAttempt"
 import { SpeakingPart } from "@/components/mock-tests/speaking-task/speaking-main"
 import AudioPlayerCard from "./AudioPlayer"
+import { isPracticeSetsGoingOn } from "@/app/(student-auth)/practice-sets/_utils/misc"
+import { getPracticeSetSpeakingAnswers, getPracticeSetsSpeakingScores } from "@/lib/practice-sets/user-submissions/sessionStorage"
 
 
 const getBandColor = (score: number) => {
@@ -32,8 +34,9 @@ const getBandLabel = (score: number) => {
     return "Extremely Limited"
 }
 
-export default function SpeakingReviewPage() {
+export default function SpeakingReviewPage({ currentSpeakingPracticeSetsQuestions }: { currentSpeakingPracticeSetsQuestions?: SpeakingPart[] }) {
 
+    const isPractice = isPracticeSetsGoingOn()
 
     // --------------------- MOCK TEST REVIEW CODE ----------------------
 
@@ -69,15 +72,20 @@ export default function SpeakingReviewPage() {
             // get test.id from attempts (so that we can load correct answers)
             setTestId(Number(matchingAttempt.testId))
         }
-        loadData()
+
+        if (!isPractice) {
+            loadData()
+        }
     }, [attempts])
 
 
     // get questionsData from .ts files
     const [questionsData, setQuestionsData] = useState<SpeakingPart[]>([])
 
+
+    // get value for questionData, basicaly get questions to display
     useEffect(() => {
-        const loadTestData = async () => {
+        const loadMockTestQuestionData = async () => {
             try {
                 const testDataModule = await import(`@/app/data/tests/test-${testId}`)
                 const { speaking_transcripts } = testDataModule.default || testDataModule
@@ -88,8 +96,51 @@ export default function SpeakingReviewPage() {
             }
         }
 
-        loadTestData()
+        if (!isPractice) {
+            loadMockTestQuestionData()
+        }
     }, [testId])
+
+    // ------------------------------------------------------------------
+
+
+
+
+
+    // ----------------------- PRACTICE SETS REVIEW CODE----------------------------
+
+    useEffect(() => {
+        const loadPracticeSetsSpeakingUserAnswers = async () => {
+
+            // Get recorded speaking answers from sessionStorage
+            const answers = getPracticeSetSpeakingAnswers()
+            setUserAttempts(answers)
+
+            // Get band scores (if already evaluated)
+            const scores = getPracticeSetsSpeakingScores()
+            setScores(scores || undefined)
+        }
+
+        if (isPractice) {
+            loadPracticeSetsSpeakingUserAnswers()
+        }
+
+    }, [isPractice, currentSpeakingPracticeSetsQuestions])
+
+    // get value for questionData, basicaly get questions to display
+    useEffect(() => {
+        const loadPracticeSetsSpeakingQuestions = async () => {
+            if (!isPractice) return
+
+            if (!currentSpeakingPracticeSetsQuestions) return
+            setQuestionsData(currentSpeakingPracticeSetsQuestions)
+        }
+
+        if (isPractice) {
+            loadPracticeSetsSpeakingQuestions()
+        }
+
+    }, [])
 
     // ------------------------------------------------------------------
 
