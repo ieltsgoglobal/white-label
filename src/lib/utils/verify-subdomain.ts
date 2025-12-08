@@ -45,6 +45,7 @@ const allowedSubdomains = [
     "iop", // testing
     "ieltsgoglobal", // keep it
     "localhost:3000", // keep it
+    "localhost:3001", // keep it
     "mj-study-abroad"
 ]
 
@@ -55,7 +56,7 @@ export function isSubdomain() {
 
     if (!subdomain) return null
 
-    if (subdomain == "ieltsgoglobal" || subdomain == "localhost:3000") return false // its main website
+    if (subdomain == "ieltsgoglobal" || subdomain == "localhost:3000" || subdomain == "localhost:3001") return false // its main website
 
     return true // if subdomain holds any rather than ieltsgoglobal and localhost:3000
 }

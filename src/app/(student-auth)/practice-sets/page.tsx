@@ -11,6 +11,7 @@ import {
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import PracticeSetsPage from "./_components/PracticeSetsPage";
+import { QueryProvider } from "@/components/providers/query-provider";
 
 export default function PracticeSetsDashboard() {
     return (
@@ -33,7 +34,7 @@ export default function PracticeSetsDashboard() {
 
                     <div className="text-center max-w-3xl mx-auto mb-12" >
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-                            Student Dashboard
+                            Practice Dashboard
                         </h1>
                         <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
                             Stay on top of your IELTS prep! Review progress, continue your practice sets,
@@ -41,7 +42,9 @@ export default function PracticeSetsDashboard() {
                         </p>
                     </div>
 
-                    <PracticeSetsPage />
+                    <QueryProvider>
+                        <PracticeSetsPage />
+                    </QueryProvider>
 
                 </div>
 

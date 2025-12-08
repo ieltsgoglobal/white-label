@@ -1,84 +1,39 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
-import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
-type PerformanceData = {
-  totals: {
-    questionsAttempted: number
-    correct: number
-    incorrect: number
-    accuracy: number
-    avgTimePerQuestionSec: number
-    avgTimePerTestMin: number
-    fastestCompletionMin: number
-    slowestCompletionMin: number
-  }
-  difficultyBreakdown: { difficulty: string; accuracy: number }[]
-  topicBreakdown: { topic: string; accuracy: number }[]
-  accuracyTrend: { date: string; accuracy: number }[]
+type StatItem = {
+  title: string
+  value: string | number
 }
 
-export function PerformanceSummary({ performance }: { performance: PerformanceData }) {
-  const { totals, topicBreakdown, accuracyTrend } = performance
+const fakeStats: StatItem[] = [
+  { title: "Total Questions", value: 1500 },
+  { title: "Questions Attempted", value: 2420 },
+  { title: "Correct", value: 1876 },
+  { title: "Accuracy", value: "78%" },
+  { title: "Avg Time / Question", value: "41s" },
+  { title: "Avg Time / Test", value: "39m" },
+  { title: "Fastest Completion", value: "26m" },
+  { title: "Slowest Completion", value: "72m" },
+]
+
+export function PerformanceSummary({ stats = fakeStats, section }: { stats: StatItem[], section: string }) {
 
   return (
     <Card className="bg-card text-card-foreground">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center justify-between">
-          <span className="text-pretty">Performance Summary</span>
+          <span className="text-pretty">{section.charAt(0).toUpperCase() + section.slice(1).toLowerCase() + " "} Performance Summary</span>
           <span className="text-muted-foreground text-xs">All-time</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          <KPI label="Questions Attempted" value={totals.questionsAttempted.toLocaleString()} />
-          <KPI label="Correct / Incorrect" value={`${totals.correct}/${totals.incorrect}`} />
-          <KPI label="Accuracy" value={`${totals.accuracy}%`} />
-          <KPI label="Avg Time/Question" value={`${totals.avgTimePerQuestionSec}s`} />
-          <KPI label="Avg Time/Test" value={`${totals.avgTimePerTestMin}m`} />
-          <KPI label="Fastest Completion" value={`${totals.fastestCompletionMin}m`} />
-          <KPI label="Slowest Completion" value={`${totals.slowestCompletionMin}m`} />
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <ChartContainer
-            config={{
-              accuracy: { label: "Accuracy", color: "var(--color-chart-1)" },
-            }}
-            className="rounded-lg border bg-background p-3"
-          >
-            <LineChart data={accuracyTrend} margin={{ left: 8, right: 8 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" tickLine={false} axisLine={false} />
-              <YAxis tickLine={false} axisLine={false} domain={[0, 100]} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Line type="monotone" dataKey="accuracy" stroke="var(--color-chart-1)" strokeWidth={2} dot={false} />
-            </LineChart>
-          </ChartContainer>
-
-          <ChartContainer
-            config={{
-              accuracy: { label: "Accuracy", color: "var(--color-chart-2)" },
-            }}
-            className="rounded-lg border bg-background p-3"
-          >
-            <BarChart data={topicBreakdown} margin={{ left: 8, right: 8 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="topic" tickLine={false} axisLine={false} />
-              <YAxis tickLine={false} axisLine={false} domain={[0, 100]} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <ChartLegend content={<ChartLegendContent hideIcon />} />
-              <Bar dataKey="accuracy" fill="var(--color-chart-2)" radius={[6, 6, 0, 0]} />
-            </BarChart>
-          </ChartContainer>
+          {stats.map((item) => (
+            <KPI key={item.title} label={item.title} value={item.value} />
+          ))}
         </div>
       </CardContent>
     </Card>

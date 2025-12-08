@@ -92,3 +92,42 @@ export async function insertSpeakingSubmission({
         [userId, testPath, user_responses, user_scores, startedAt, metadata]
     );
 }
+
+export async function getPracticeSetsSpeakingSubmissions(userId: string) {
+    const query = `
+        SELECT *
+        FROM speaking_submissions
+        WHERE user_id = $1
+        ORDER BY submitted_at DESC
+    `;
+
+    const { rows } = await postgresQuery(query, [userId]);
+    return rows;
+}
+
+export async function getPracticeSetsListeningSubmissions(userId: string) {
+    return (await postgresQuery(`
+        SELECT *
+        FROM listening_submissions
+        WHERE user_id = $1
+        ORDER BY submitted_at DESC
+    `, [userId])).rows;
+}
+
+export async function getPracticeSetsReadingSubmissions(userId: string) {
+    return (await postgresQuery(`
+        SELECT *
+        FROM reading_submissions
+        WHERE user_id = $1
+        ORDER BY submitted_at DESC
+    `, [userId])).rows;
+}
+
+export async function getPracticeSetsWritingSubmissions(userId: string) {
+    return (await postgresQuery(`
+        SELECT *
+        FROM writing_submissions
+        WHERE user_id = $1
+        ORDER BY submitted_at DESC
+    `, [userId])).rows;
+}
