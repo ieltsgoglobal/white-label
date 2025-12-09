@@ -4,6 +4,7 @@ import test from "node:test";
 import { hashFilename } from "../../_utils/hashFilename";
 import { pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
 import { sanitizeListeningAnswers } from "./misc";
+import { getPracticeSetsListeningSubmissions } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
 
 /**
  * Build a full IELTS-style listening test.
@@ -20,8 +21,10 @@ import { sanitizeListeningAnswers } from "./misc";
  */
 export async function buildListeningTest() {
 
+    const exclude_test_paths = await getPracticeSetsListeningSubmissions("10000000-0000-0000-0000-000000000001", true)
+
     // 1. Pick random logical paths for 4 parts of a listening test
-    const logicalPaths = pickRandomBookAndTest();
+    const logicalPaths = pickRandomBookAndTest(exclude_test_paths.map(r => r.test_path));
 
     // Derive testHash (assuming all 4 parts belong to the same test)
     // we be later used in storing answers given by the user

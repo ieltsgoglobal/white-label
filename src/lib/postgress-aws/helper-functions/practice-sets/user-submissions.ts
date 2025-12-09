@@ -24,7 +24,6 @@ export async function insertListeningSubmission({
     );
 }
 
-
 export async function insertReadingSubmission({
     userId,
     testPath,
@@ -93,9 +92,13 @@ export async function insertSpeakingSubmission({
     );
 }
 
-export async function getPracticeSetsSpeakingSubmissions(userId: string) {
+
+export async function getPracticeSetsSpeakingSubmissions(
+    userId: string,
+    returnOnlyTestPaths: boolean = false
+) {
     const query = `
-        SELECT *
+        SELECT ${returnOnlyTestPaths ? "test_path" : "*"}
         FROM speaking_submissions
         WHERE user_id = $1
         ORDER BY submitted_at DESC
@@ -105,27 +108,36 @@ export async function getPracticeSetsSpeakingSubmissions(userId: string) {
     return rows;
 }
 
-export async function getPracticeSetsListeningSubmissions(userId: string) {
+export async function getPracticeSetsListeningSubmissions(
+    userId: string,
+    returnOnlyTestPaths: boolean = false
+) {
     return (await postgresQuery(`
-        SELECT *
+        SELECT ${returnOnlyTestPaths ? "test_path" : "*"}
         FROM listening_submissions
         WHERE user_id = $1
         ORDER BY submitted_at DESC
     `, [userId])).rows;
 }
 
-export async function getPracticeSetsReadingSubmissions(userId: string) {
+export async function getPracticeSetsReadingSubmissions(
+    userId: string,
+    returnOnlyTestPaths: boolean = false
+) {
     return (await postgresQuery(`
-        SELECT *
+        SELECT ${returnOnlyTestPaths ? "test_path" : "*"}
         FROM reading_submissions
         WHERE user_id = $1
         ORDER BY submitted_at DESC
     `, [userId])).rows;
 }
 
-export async function getPracticeSetsWritingSubmissions(userId: string) {
+export async function getPracticeSetsWritingSubmissions(
+    userId: string,
+    returnOnlyTestPaths: boolean = false
+) {
     return (await postgresQuery(`
-        SELECT *
+        SELECT ${returnOnlyTestPaths ? "test_path" : "*"}
         FROM writing_submissions
         WHERE user_id = $1
         ORDER BY submitted_at DESC

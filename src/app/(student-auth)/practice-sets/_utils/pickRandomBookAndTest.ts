@@ -17,10 +17,10 @@
  * ]
  */
 
-export function pickRandomBookAndTest(): string[] {
+export function pickRandomBookAndTest(exludeList: string[] = []): string[] {
     const start = { book: 10, test: 1, part: 1 };
     const end = { book: 20, test: 4, part: 4 };
-    const exclude = ["book_16", "book_16/test_4/part_1", "book_17", "book_18/test_3"];
+    const exclude = [...exludeList];
 
     // helper: check if a given path should be excluded
     const isExcluded = (path: string) => {

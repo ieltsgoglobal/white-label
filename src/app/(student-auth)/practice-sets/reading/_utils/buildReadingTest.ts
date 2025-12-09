@@ -1,6 +1,7 @@
 import { hashFilename } from "../../_utils/hashFilename";
 import { sanitizeReadingAnswers } from "../../listening/_utils/misc";
 import { pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
+import { getPracticeSetsReadingSubmissions } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
 
 /**
  * Build a full IELTS-style reading test.
@@ -12,8 +13,11 @@ import { pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
  */
 export async function buildReadingTest() {
 
+    // Get all the already attempted questions by user
+    const exclude_test_paths = await getPracticeSetsReadingSubmissions("10000000-0000-0000-0000-000000000001", true)
+
     // 1️⃣ Pick a random reading test from available logical paths
-    const logicalPaths = pickRandomBookAndTest();
+    const logicalPaths = pickRandomBookAndTest(exclude_test_paths.map(r => r.test_path));
 
     // 2️⃣ Derive a canonical testPath (used for find reading questions from s3 bucket)
     // Example: "book_10/test_3"
