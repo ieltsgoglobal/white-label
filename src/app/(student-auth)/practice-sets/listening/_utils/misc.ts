@@ -144,3 +144,53 @@ export function sanitizeReadingAnswers(answers: any[]): string[] {
     // Return as an ordered array of strings
     return clean.map((item) => item.correct_answer);
 }
+
+
+
+/**
+ * Convert a positive integer into its Roman numeral representation.
+ *
+ * - Uses standard Roman numeral symbols (I, V, X, L, C, D, M)
+ * - Supports subtractive notation (e.g., IV = 4, IX = 9, XL = 40, CM = 900)
+ * - Works for typical ranges used in UI / labels (e.g., section numbering)
+ *
+ * Example:
+ *   Input:  4
+ *   Output: "IV"
+ *
+ *   Input:  19
+ *   Output: "XIX"
+ *
+ * @param num - A positive integer to convert
+ * @returns Roman numeral string
+ */
+export const normalNumberToRoman = (num: number): string => {
+    const romanNumerals: Record<string, number> = {
+        M: 1000,
+        CM: 900,
+        D: 500,
+        CD: 400,
+        C: 100,
+        XC: 90,
+        L: 50,
+        XL: 40,
+        X: 10,
+        IX: 9,
+        V: 5,
+        IV: 4,
+        I: 1
+    };
+
+    let result = "";
+
+    for (const symbol in romanNumerals) {
+        const value = romanNumerals[symbol];
+        while (num >= value) {
+            result += symbol;
+            num -= value;
+        }
+    }
+
+    return result;
+};
+

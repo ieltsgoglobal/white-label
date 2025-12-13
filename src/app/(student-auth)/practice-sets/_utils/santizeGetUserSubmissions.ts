@@ -86,7 +86,7 @@ export function convertReadingSubmissionsToPerformanceSummaryData(
     // FINAL → RETURN ONLY KPIs AS ARRAY
     // ------------------------------------
     const stats: StatItem[] = [
-        { title: "Number of Sections Attempted", value: submissions.length },
+        { title: "Number of Tests Attempted", value: submissions.length },
         { title: "Total Questions Attempted", value: submissions.length * 40 },
         { title: "Number of Correct Answers", value: correct },
         { title: "All Time Accuracy in %", value: `${((correct / (submissions.length * 40)) * 100).toFixed(3)}%` },
@@ -423,6 +423,7 @@ export function sanitizeRecentSessionsTableData(
             "date time": startedAt.toISOString().slice(0, 16).replace("T", " "),
             "duration min": timeTaken,
             // "review link": `/review/${section}/${sub.test_path}`,
+
         };
 
         // ---------- READING / LISTENING ----------

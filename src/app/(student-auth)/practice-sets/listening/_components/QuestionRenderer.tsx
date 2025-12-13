@@ -6,16 +6,18 @@ import Matching from "@/components/mock-tests/listening-task/matching";
 import ImageLabeling from "@/components/mock-tests/listening-task/image-labeling";
 import FormCompletion from "@/components/mock-tests/listening-task/form-completion";
 import Flowchart from "@/components/practice-sets/listening-task/Flowchart";
-import { transformBodyToTableQuestion, transformToFormCompletion, transformToImageLabeling, transformToMatching, transformToMatchParagraphInformation, transformToMCQ, transformToMCQMany, transformToNoteCompletion, transformToSentenceCompletion, transformToSummaryCompletion, transformToTrueFalseNotGiven, transformToYesNoNotGiven } from "../_utils/transformer";
+import { transformBodyToTableQuestion, transformToFormCompletion, transformToImageLabeling, transformToMatchHeadings, transformToMatching, transformToMatchParagraphInformation, transformToMCQ, transformToMCQMany, transformToNoteCompletion, transformToSentenceCompletion, transformToShortAnswer, transformToSummaryCompletion, transformToTrueFalseNotGiven, transformToYesNoNotGiven } from "../_utils/transformer";
 import SentenceCompletion from "@/components/mock-tests/listening-task/sentence-completion";
 import TrueFalseNotGiven from "@/components/mock-tests/reading-task/true-false-notgiven";
 import MatchSentenceEndings from "@/components/mock-tests/reading-task/match-paragraph-information";
 import SummaryCompletion from "@/components/mock-tests/listening-task/summary-completion";
 import YesNoNotGiven from "@/components/mock-tests/reading-task/yes-no-notgiven";
+import MatchHeadings from "@/components/mock-tests/reading-task/match-headings";
+import ShortAnswer from "@/components/mock-tests/listening-task/short-answer";
 
 interface QuestionRendererProps {
     questionRaw: any
-    index: number
+    index: string
 }
 
 // this file includes all the question types supported in listening test and reading test
@@ -25,7 +27,7 @@ export default function QuestionRenderer({ questionRaw, index }: QuestionRendere
         case "input-table": {
             const tableQuestion = transformBodyToTableQuestion(
                 questionRaw.body,
-                index + 1,
+                questionRaw.start,
                 questionRaw.desc?.constraint ?? "ONE WORD OR A NUMBER",
                 questionRaw.start ?? 1,
                 questionRaw.end ?? 1
@@ -71,7 +73,8 @@ export default function QuestionRenderer({ questionRaw, index }: QuestionRendere
                 questionRaw.body,
                 questionRaw.start,
                 questionRaw.end,
-                questionRaw.type
+                questionRaw.type,
+                questionRaw.desc
             )
             return <Matching key={index} {...matchingSection} />
         }
@@ -124,6 +127,17 @@ export default function QuestionRenderer({ questionRaw, index }: QuestionRendere
             return <SentenceCompletion key={index} {...sentenceSection} />
         }
 
+        case "input-answer": {
+            const shortAnswerSection = transformToShortAnswer(
+                questionRaw.body,
+                questionRaw.start,
+                questionRaw.end,
+                questionRaw.type,
+                questionRaw.desc
+            )
+            return <ShortAnswer key={index} {...shortAnswerSection} />
+        }
+
         case "option-true-false": {
             const tfngSection = transformToTrueFalseNotGiven(
                 questionRaw.body,
@@ -163,6 +177,15 @@ export default function QuestionRenderer({ questionRaw, index }: QuestionRendere
             return <YesNoNotGiven key={index} {...yesNoSection} />
         }
 
+        case "select-section-given-list": {
+            const matchingSection = transformToMatchHeadings(
+                questionRaw.body,
+                questionRaw.start,
+                questionRaw.end,
+                questionRaw.type
+            )
+            return <MatchHeadings key={index} {...matchingSection} />
+        }
 
 
 

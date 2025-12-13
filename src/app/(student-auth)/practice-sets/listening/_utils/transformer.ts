@@ -1,3 +1,5 @@
+import { normalNumberToRoman } from "./misc"
+
 // ------------------------- TABLE COMPLETION -------------------------------------
 interface RawBody {
     items: any[][]
@@ -21,10 +23,10 @@ interface TableQuestion {
 
 export function transformBodyToTableQuestion(
     raw: RawBody,
-    questionId: number,
-    constraint: string,
     start: number,
-    end: number
+    constraint: string,
+    qStart: number,
+    qEnd: number
 ): TableQuestion {
     let currentBlank = start
 
@@ -39,6 +41,12 @@ export function transformBodyToTableQuestion(
                     let content = cell
                     while (content.includes("<input>")) {
                         content = content.replace("<input>", `(${currentBlank})_______`)
+                        ids.push(currentBlank)
+                        currentBlank++
+                    }
+                    // support multiple blanks in one line
+                    while (content.includes("<input[]>")) {
+                        content = content.replace("<input[]>", `(${currentBlank})_______`)
                         ids.push(currentBlank)
                         currentBlank++
                     }
@@ -73,10 +81,13 @@ export function transformBodyToTableQuestion(
                 } else if (cell && (cell as any).prefix) {
                     // Show the prefix
                     const text = String((cell as any).prefix)
+                    const nextRow = allRows[rowIndex + 1]
 
                     // If rowspan=2 → insert "" at start of next row
-                    if ((cell as any).rowspan === 2 && allRows[rowIndex + 1]) {
-                        allRows[rowIndex + 1].unshift("")
+                    if ((cell as any).rowspan === 2 && nextRow) {
+                        if (nextRow[0] !== "") {
+                            nextRow.unshift("")
+                        }
                     }
                     return { content: text }
                 } else if (cell && (cell.type === "example" || cell.type === "input-example")) {
@@ -110,10 +121,10 @@ export function transformBodyToTableQuestion(
     // console.log("All rows:", JSON.stringify(rows, null, 2))
 
     return {
-        id: questionId,
+        id: qStart,
         type: "table-completion",
         instructions: "Complete the table below.",
-        multiWord: constraint.includes("NO MORE THAN THREE WORDS"),
+        multiWord: constraint.includes("NO MORE THAN THREE WORDS") || constraint.includes("NO MORE THAN TWO WORDS"),
         tableData: {
             headers,
             rows
@@ -215,6 +226,7 @@ interface NoteSection {
 interface NoteCompletionSection {
     type: "note-completion"
     oneWord?: boolean
+    numberAllowedInAnswer?: boolean
     topic: string
     sections: NoteSection[]
 }
@@ -274,6 +286,18 @@ export function transformToNoteCompletion(
             }
         }
 
+        // --- Case 1.5: Object with string items (support examples) ---
+        if (item.type === "example") {
+            const exampleText = item.items
+                // replace <input=Angela> → Angela
+                .replace(/<input=([^>]+)>/g, "$1")
+                .trim()
+
+            if (exampleText) {
+                bulletPoints.push({ text: exampleText })
+            }
+        }
+
         // --- Case 2: Nested object with items (e.g., a titled block or prefixed group) ---
         else if (item.items && Array.isArray(item.items)) {
 
@@ -330,7 +354,7 @@ export function transformToNoteCompletion(
             sections.push({ title: "", bulletPoints })
         } else if (Array.isArray(section)) {
             // Case: plain array of strings/atoms
-            section.forEach((item: any) => processItem(item, 1, bulletPoints))
+            section.forEach((item: any) => processItem(item, 2, bulletPoints))
             sections.push({ title: "", bulletPoints })
         } else if (section.items && Array.isArray(section.items)) {
             // Case: structured object with title + items
@@ -339,6 +363,9 @@ export function transformToNoteCompletion(
                 title: section.title ? section.title.trim() : "",
                 bulletPoints,
             })
+        } else if (section.type === "example") {
+            processItem(section, 1, bulletPoints)
+            sections.push({ title: "", bulletPoints })
         }
     })
 
@@ -355,7 +382,14 @@ export function transformToNoteCompletion(
             if (constraint.includes("TWO WORDS")) return false
             // default fallback
             return false
-        })(), sections,
+        })(),
+        numberAllowedInAnswer: (() => {
+            const constraint = desc?.constraint?.toUpperCase() || ""
+            if (constraint.includes("A NUMBER")) return true
+            // default fallback
+            return false
+        })(),
+        sections,
     }
 }
 
@@ -374,7 +408,7 @@ interface MatchingFeature {
 interface MatchingQuestion {
     questionType: "matching"
     question: {
-        question?: string
+        question_statement?: string
         statements_title?: string
         statements: MatchingStatement[]
         features_title?: string
@@ -386,7 +420,8 @@ export function transformToMatching(
     body: any,
     start: number,
     end: number,
-    type: string
+    type: string,
+    desc: any
 ): MatchingQuestion {
     if (type !== "select-given-list") {
         throw new Error(`Unsupported question type for matching: ${type}`)
@@ -406,7 +441,7 @@ export function transformToMatching(
     return {
         questionType: "matching",
         question: {
-            question: body.title ?? "",
+            question_statement: desc.text[0] ?? "",
             statements_title: body.title ?? "",
             statements,
             features_title: body.listTitle ?? "Options",
@@ -813,7 +848,8 @@ export function transformToSummaryCompletion(
     const constraint = desc?.constraint?.toUpperCase() || ""
     const multiWord =
         constraint.includes("THREE WORD") ||
-        constraint.includes("NO MORE THAN THREE WORD")
+        constraint.includes("NO MORE THAN THREE WORD") ||
+        constraint.includes("NO MORE THAN TWO WORD")
 
     // ---------- 5️⃣ Optional option list ----------
     let optionList: { letter: string; text: string }[] | undefined = undefined
@@ -879,5 +915,96 @@ export function transformToYesNoNotGiven(body: any, start: number, end: number):
     return {
         questionType: "yes-no-notgiven",
         questions,
+    }
+}
+
+
+// ------------------------- MATCH HEADINGS -------------------------------------
+
+interface MatchHeadingsData {
+    headings: { number: string; text: string }[]
+    id: number[]
+}
+
+interface MatchHeadingsSection {
+    questionType: "match-headings"
+    question: MatchHeadingsData
+}
+
+export function transformToMatchHeadings(
+    body: any,
+    start: number,
+    end: number,
+    desc?: any
+): MatchHeadingsSection {
+
+    // Convert list of headings → numbered list
+    const headings = body.list.map((text: string, idx: number) => ({
+        number: normalNumberToRoman(idx + 1).toLowerCase(),   // 1 → I, 2 → II, 3 → III ...
+        text: text.trim(),
+    }));
+
+    // Question IDs are sequential from start → end
+    const id = Array.from({ length: end - start + 1 }, (_, i) => start + i)
+
+    return {
+        questionType: "match-headings",
+        question: {
+            headings,
+            id,
+        },
+    }
+}
+
+// ------------------------- SHORT ANSWER -------------------------------------
+
+// in reading short-answer only came once
+// book16/test4 - contains short answer
+// need to verify component works in listeing also
+
+interface OneWordQuestion {
+    id: number
+    sentence: string
+}
+
+interface OneWordSection {
+    type: "short-answer"
+    topic?: string
+    instructions?: string
+    questions: OneWordQuestion[]
+}
+
+export function transformToShortAnswer(
+    body: any,
+    start: number,
+    end: number,
+    type: string,
+    desc?: any
+): OneWordSection {
+    if (type !== "input-answer") {
+        throw new Error(`Unsupported question type for short answer: ${type}`)
+    }
+
+    const constraint = desc?.constraint || ""
+    const isReading = constraint.length > 0   // reading questions specify constraints
+    const instructions = isReading
+        ? `Choose ${constraint} from the passage for each answer..`
+        : undefined
+
+    let current = start
+
+    const questions: OneWordQuestion[] = body.items.map((item: any) => {
+        const id = current++
+        return {
+            id,
+            sentence: `${item.title} \n(${id}) _______`
+        }
+    })
+
+    return {
+        type: "short-answer",
+        // ...(topic ? { topic } : {}),
+        ...(instructions ? { instructions } : {}),
+        questions
     }
 }

@@ -18,6 +18,7 @@ interface NoteSection {
 interface NoteCompletionSection {
     type: "note-completion"
     oneWord?: boolean
+    numberAllowedInAnswer?: boolean
     topic: string
     sections: NoteSection[]
 }
@@ -114,9 +115,11 @@ export default function NoteCompletion(props: NoteCompletionSection) {
                 <CardTitle className="text-xl">
                     {(() => {
                         const allIds = noteQuestions.sections
-                            .flatMap(section => section.bulletPoints)
-                            .map(bp => bp.id)
-                            .filter((id): id is number => typeof id === "number");
+                            .flatMap(section =>
+                                section.bulletPoints.flatMap(bp =>
+                                    Array.isArray(bp.id) ? bp.id : bp.id ? [bp.id] : []
+                                )
+                            );
 
                         if (allIds.length === 0) return "No Questions";
 
@@ -125,7 +128,7 @@ export default function NoteCompletion(props: NoteCompletionSection) {
                         return min === max ? `Question ${min}` : `Questions ${min}–${max}`;
                     })()}
                 </CardTitle>
-                <p className="text-sm text-muted-foreground font-medium">Complete the notes below. Write NO MORE THAN {noteQuestions.oneWord ? `ONE WORD` : `TWO WORDS`} for each answer.</p>
+                <p className="text-sm text-muted-foreground font-medium">Complete the notes below. Write NO MORE THAN {noteQuestions.oneWord ? `ONE WORD` : `TWO WORDS`} {noteQuestions.numberAllowedInAnswer && "AND/OR A NUMBER"} for each answer.</p>
             </CardHeader>
             <CardContent>
                 <div className="space-y-6">

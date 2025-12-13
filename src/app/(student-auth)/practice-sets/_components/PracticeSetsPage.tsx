@@ -34,7 +34,7 @@ export default function PracticeSetsPage() {
             <div className="flex items-center justify-center mt-8">
                 <ExpidiaButton
                     title={`Start ${activeSection.charAt(0).toUpperCase() + activeSection.slice(1)} Practice`}
-                    onClick={() => { router.push('/practice-sets/speaking') }}
+                    onClick={() => { router.push(`/practice-sets/${activeSection}`) }}
                 />
             </div>
 

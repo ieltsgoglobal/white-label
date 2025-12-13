@@ -140,7 +140,7 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
                                     // trick: this forces the AnswerInput.tsx to read the updated setReviewMode which is deep nested
                                     key={`${forceRender}-${index}`}
                                     questionRaw={questionRaw}
-                                    index={index}
+                                    index={`${currentIndex} + ${index}`}
                                 />
                             ))}
                         </div>

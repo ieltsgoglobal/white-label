@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
 import { getPracticeSetAnswers, getPracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage"
 import { calculatePracticeSetScore } from "../listening/_utils/misc"
+import Link from "next/link"
 
 type AttemptWithCorrectAnswers = {
   user: string;
@@ -178,6 +179,14 @@ export function QuizStatusCard({
           >
             Next Question
           </Button>
+        </div>
+
+        <div>
+          <Link href="/practice-sets">
+            <Button variant={"ghost"} className="text-muted-foreground/80">
+              Go Back To Dashboard
+            </Button>
+          </Link>
         </div>
       </CardFooter>
     </Card >
