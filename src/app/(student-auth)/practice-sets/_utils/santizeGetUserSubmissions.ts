@@ -1,4 +1,5 @@
 import { AttemptWithCorrectAnswers, calculatePracticeSetScore } from "../listening/_utils/misc"
+import { BROKEN_LISTENING_PRACTICE_SET_TEST_PATHS, BROKEN_READING_PRACTICE_SET_TEST_PATHS } from "./pickRandomBookAndTest"
 
 type StatItem = {
     title: string
@@ -86,6 +87,71 @@ export function convertReadingSubmissionsToPerformanceSummaryData(
     // FINAL → RETURN ONLY KPIs AS ARRAY
     // ------------------------------------
     const stats: StatItem[] = [
+        { title: "Sectional Tests Available", value: 44 - BROKEN_READING_PRACTICE_SET_TEST_PATHS.length },
+        { title: "Number of Tests Attempted", value: submissions.length },
+        { title: "Total Questions Attempted", value: submissions.length * 40 },
+        { title: "Number of Correct Answers", value: correct },
+        { title: "All Time Accuracy in %", value: `${((correct / (submissions.length * 40)) * 100).toFixed(3)}%` },
+        { title: "Avg Time per Test", value: `${avgTimePerTestInMin}min` },
+        { title: "Fastest Section Completion", value: `${fastestCompletionInMin}min` },
+        { title: "Slowest Section Completion", value: `${slowestCompletionInMin}min` },
+    ]
+
+    return stats
+}
+
+export function convertListeningSubmissionsToPerformanceSummaryData(
+    submissions: PracticeSetsReadingSubmission[]
+): StatItem[] {
+
+    let correct = 0
+    let totalTimeSec = 0
+    let fastestCompletion = Infinity
+    let slowestCompletion = -Infinity
+
+    submissions.forEach((sub) => {
+        const answers = sub.answers
+        const entries = Object.values(answers)
+
+        const attemptsForScoring: AttemptWithCorrectAnswers[] = []
+
+        entries.forEach((val) => {
+            if (typeof val !== "string") {
+                attemptsForScoring.push({
+                    user: (val.user ?? "").trim(),
+                    correct: (val.correct ?? "").trim(),
+                })
+            }
+        })
+
+        const submissionCorrect = calculatePracticeSetScore(attemptsForScoring)
+
+        correct += submissionCorrect
+
+        const timeTakenInSec =
+            typeof sub.metadata?.timeTaken === "number"
+                ? sub.metadata.timeTaken
+                : 0
+
+        totalTimeSec += timeTakenInSec
+        fastestCompletion = Math.min(fastestCompletion, timeTakenInSec)
+        slowestCompletion = Math.max(slowestCompletion, timeTakenInSec)
+    })
+
+    const avgTimePerTestInMin = submissions.length
+        ? Math.round(totalTimeSec / submissions.length / 60)
+        : 0
+
+    const fastestCompletionInMin =
+        fastestCompletion === Infinity ? 0 : Math.round(fastestCompletion / 60)
+    const slowestCompletionInMin =
+        slowestCompletion === -Infinity ? 0 : Math.round(slowestCompletion / 60)
+
+    // ------------------------------------
+    // FINAL → RETURN ONLY KPIs AS ARRAY
+    // ------------------------------------
+    const stats: StatItem[] = [
+        { title: "Sectional Tests Available", value: 44 - BROKEN_LISTENING_PRACTICE_SET_TEST_PATHS.length },
         { title: "Number of Tests Attempted", value: submissions.length },
         { title: "Total Questions Attempted", value: submissions.length * 40 },
         { title: "Number of Correct Answers", value: correct },
@@ -223,6 +289,10 @@ export function convertWritingSubmissionsToPerformanceSummaryData(
     // ------------------------------------
     const stats: StatItem[] = [
         {
+            title: "Sectional Tests Available",
+            value: 44
+        },
+        {
             title: "Number of Writing Tests Attempted",
             value: submissions.length,
         },
@@ -265,10 +335,6 @@ export function convertWritingSubmissionsToPerformanceSummaryData(
 
 // --------------------------------------------------------
 // -------------- SANITIZE SPEAKING ATTEMPTS --------------
-// --------------------------------------------------------
-
-// --------------------------------------------------------
-// -------------- SANITIZE SPEAKING ATTEMPTS ---------------
 // --------------------------------------------------------
 
 export type SpeakingScores = {
@@ -383,6 +449,7 @@ export function convertSpeakingSubmissionsToPerformanceSummaryData(
 
     // Final KPIs
     const stats: StatItem[] = [
+        { title: "Sectional Tests Available", value: 44 },
         { title: "Number of Speaking Tests Attempted", value: submissions.length },
         { title: "Average Overall Band", value: avgOverall },
         { title: "Average Pronunciation Band", value: avgPron },

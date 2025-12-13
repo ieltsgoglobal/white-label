@@ -1,6 +1,6 @@
 import { hashFilename } from "../../_utils/hashFilename";
 import { sanitizeReadingAnswers } from "../../listening/_utils/misc";
-import { pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
+import { BROKEN_READING_PRACTICE_SET_TEST_PATHS, pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
 import { getPracticeSetsReadingSubmissions } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
 
 /**
@@ -13,11 +13,20 @@ import { getPracticeSetsReadingSubmissions } from "@/lib/postgress-aws/helper-fu
  */
 export async function buildReadingTest() {
 
-    // Get all the already attempted questions by user
-    const exclude_test_paths = await getPracticeSetsReadingSubmissions("10000000-0000-0000-0000-000000000001", true)
+    // ------------------------------------------------
+    // ------------- DETERMINE TEST PATH --------------
+    // ------------------------------------------------
+
+
+    const attemptedReadingTestPaths = await getPracticeSetsReadingSubmissions("10000000-0000-0000-0000-000000000001", true)
+
+    const totalReadingTestPathsToExclude = [
+        ...attemptedReadingTestPaths.map(r => r.test_path),
+        ...BROKEN_READING_PRACTICE_SET_TEST_PATHS
+    ]
 
     // 1️⃣ Pick a random reading test from available logical paths
-    const logicalPaths = pickRandomBookAndTest(exclude_test_paths.map(r => r.test_path));
+    const logicalPaths = pickRandomBookAndTest(totalReadingTestPathsToExclude);
 
     // 2️⃣ Derive a canonical testPath (used for find reading questions from s3 bucket)
     // Example: "book_10/test_3"
@@ -25,6 +34,12 @@ export async function buildReadingTest() {
         .split("/")
         .slice(0, 2)
         .join("/");
+
+
+    // ------------------------------------------------
+    // ------------ START FETCHING STUFF --------------
+    // ------------------------------------------------
+
 
     // 3️⃣ Generate hashed URL for the reading questions JSON file
     // This ensures a deterministic path that matches the S3 reading bucket

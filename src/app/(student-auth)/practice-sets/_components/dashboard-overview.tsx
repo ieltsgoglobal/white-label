@@ -3,7 +3,7 @@
 import { PerformanceSummary } from "./performance-summary";
 import { RecentSessionsTable } from "./recent-sessions-table";
 import { useGetPracticeSetsUserSubmissions } from "@/hooks/aws-postgres/practice-sets/get-user-submissons/useGetUserSubmissions";
-import { convertReadingSubmissionsToPerformanceSummaryData, convertSpeakingSubmissionsToPerformanceSummaryData, convertWritingSubmissionsToPerformanceSummaryData, sanitizeRecentSessionsTableData } from "../_utils/santizeGetUserSubmissions";
+import { convertListeningSubmissionsToPerformanceSummaryData, convertReadingSubmissionsToPerformanceSummaryData, convertSpeakingSubmissionsToPerformanceSummaryData, convertWritingSubmissionsToPerformanceSummaryData, sanitizeRecentSessionsTableData } from "../_utils/santizeGetUserSubmissions";
 
 export default function PracticeSetsDashboardOverview({ section = 'reading' }: { section?: string }) {
 
@@ -23,7 +23,7 @@ export default function PracticeSetsDashboardOverview({ section = 'reading' }: {
 
             break
         case "listening":
-            sanitizedPerformanceSummaryStats = convertReadingSubmissionsToPerformanceSummaryData(data)
+            sanitizedPerformanceSummaryStats = convertListeningSubmissionsToPerformanceSummaryData(data)
             sanitizedRecentSessionsTableData = sanitizeRecentSessionsTableData(data, "listening")
 
             break

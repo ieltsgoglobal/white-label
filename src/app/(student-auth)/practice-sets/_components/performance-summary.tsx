@@ -31,10 +31,6 @@ export function PerformanceSummary({ stats = fakeStats, section }: { stats: Stat
       <CardContent className="space-y-4">
 
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-
-          {/* common for all sections book10/test1 till book20/test4  */}
-          <KPI key="common" label="Sectional Tests Available" value="44" />
-
           {stats.map((item) => (
             <KPI key={item.title} label={item.title} value={item.value} />
           ))}

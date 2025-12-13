@@ -20,7 +20,7 @@
 export function pickRandomBookAndTest(excludeList: string[] = []): string[] {
     const start = { book: 10, test: 1, part: 1 };
     const end = { book: 20, test: 4, part: 4 };
-    const exclude = [...excludeList, ...EXCLUDE_LISTENING_PRACTICE_TESTS, ...EXCLUDE_READING_PRACTICE_TESTS];
+    const exclude = [...excludeList];
 
     // helper: check if a given path should be excluded
     const isExcluded = (path: string) => {
@@ -72,7 +72,7 @@ export function pickRandomBookAndTest(excludeList: string[] = []): string[] {
 // question_wording - the question renders fine, just we can alter question statement so that user can understand question type
 // support_example - the audio_blob mentions the example, so we need to show the example to user
 
-export const EXCLUDE_READING_PRACTICE_TESTS = [
+export const BROKEN_READING_PRACTICE_SET_TEST_PATHS = [
     "book_10/test_1", // question 14-21 #example_match_heading
     "book_10/test_2", // question 22-25 #double_input_sentence_completion
     "book_10/test_3", // question 01-04 #example_match_heading
@@ -98,7 +98,7 @@ export const EXCLUDE_READING_PRACTICE_TESTS = [
     // "book_20/test_3", // question 34-36 #question_wording - matching
 
 ]
-export const EXCLUDE_LISTENING_PRACTICE_TESTS = [
+export const BROKEN_LISTENING_PRACTICE_SET_TEST_PATHS = [
     // "book_10/test_2", // question 15-20 #question_wording - matching
 
     // "book_10/test_3", // question 16-20 #question_wording - matching
@@ -152,5 +152,3 @@ export const EXCLUDE_LISTENING_PRACTICE_TESTS = [
 
     "book_20/test_3", // question 17-20 #image
 ]
-const EXCLUDE_WRITINGPRACTICE_TESTS = []
-const EXCLUDE_SPEAKING_PRACTICE_TESTS = []
