@@ -4,16 +4,16 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { useState } from 'react'
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
 import { simpleEncryptOtp } from './utils/encryptOtp'
 import { sendOtpRequest } from './utils/sendOtpRequest'
+import { PhoneInput } from '../../../../../components/auth/user/phone-number/phone-input'
+import { ResendOtp } from './ResendOtp'
 
 export function LoginForm() {
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
     const [otp, setOtp] = useState("")
-    const [sentOtp, setSentOtp] = useState("")
+    const [sentOtps, setSentOtps] = useState<string[]>([])
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
 
@@ -31,13 +31,14 @@ export function LoginForm() {
         const encryptedOtp = simpleEncryptOtp(generatedOtp)
 
         setError("")
-        setSentOtp(generatedOtp)
+        setSentOtps((prev) => [...prev, generatedOtp])
 
         try {
-            await sendOtpRequest(phone, encryptedOtp)
+            const normalizedPhone = phone.replace(/^\+/, "")
+            await sendOtpRequest(normalizedPhone, encryptedOtp)
         } catch (err: any) {
             setError(err.message)
-            setSentOtp("")
+            setSentOtps([])
         }
     }
 
@@ -49,7 +50,7 @@ export function LoginForm() {
             return
         }
 
-        if (otp !== sentOtp) {
+        if (!sentOtps.includes(otp)) {
             setError("Incorrect OTP. Please try again.")
             return
         }
@@ -78,9 +79,20 @@ export function LoginForm() {
     }
 
 
+    const handleResendOtp = async () => {
+        const generatedOtp = generateRandomOtp()
+        const encryptedOtp = simpleEncryptOtp(generatedOtp)
+
+        setError("")
+        setSentOtps((prev) => [...prev, generatedOtp])
+
+        const normalizedPhone = phone.replace(/\D/g, "")
+        await sendOtpRequest(normalizedPhone, encryptedOtp)
+    }
+
     return (
         <form
-            onSubmit={sentOtp ? handleVerifyOtp : (e) => {
+            onSubmit={sentOtps.length > 0 ? handleVerifyOtp : (e) => {
                 e.preventDefault()
                 handleSendOtp()
             }}
@@ -108,37 +120,32 @@ export function LoginForm() {
                 <div className="grid gap-2">
                     <Label htmlFor="phone">Phone Number</Label>
                     <PhoneInput
-                        country={'in'}
+                        id="phone"
+                        defaultCountry="IN"
+                        placeholder="Enter phone number"
                         value={phone}
                         onChange={setPhone}
-                        inputProps={{
-                            name: 'phone',
-                            required: true,
-                            autoFocus: false,
-                        }}
-                        inputStyle={{
-                            width: '100%',
-                            height: '40px',
-                            fontSize: '14px',
-                        }}
                     />
                 </div>
 
-                {sentOtp && (
-                    <div className="grid gap-2">
-                        <Label htmlFor="otp">Enter OTP</Label>
-                        <Input
-                            id="otp"
-                            type="text"
-                            maxLength={4}
-                            inputMode="numeric"
-                            pattern="\d{4}"
-                            placeholder="1234"
-                            required
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
-                        />
-                    </div>
+                {sentOtps.length > 0 && (
+                    <>
+                        <div className="grid gap-2">
+                            <Label htmlFor="otp">Enter OTP</Label>
+                            <Input
+                                id="otp"
+                                type="text"
+                                maxLength={4}
+                                inputMode="numeric"
+                                pattern="\d{4}"
+                                placeholder="1234"
+                                required
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                            />
+                        </div>
+                        <ResendOtp onResend={handleResendOtp} />
+                    </>
                 )}
 
 
@@ -146,15 +153,15 @@ export function LoginForm() {
                 <Button type="submit" className="w-full" disabled={loading}>
                     {loading
                         ? "Processing..."
-                        : sentOtp
+                        : sentOtps.length > 0
                             ? "Verify OTP"
                             : "Send OTP"}
                 </Button>
             </div>
             <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <Link href="/signup" className="underline underline-offset-4">
-                    Sign up
+                Having trouble logging in?{" "}
+                <Link href="/register-complaint" className="underline underline-offset-4">
+                    Get help
                 </Link>
             </div>
         </form>

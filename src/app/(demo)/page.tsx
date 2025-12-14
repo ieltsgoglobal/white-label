@@ -34,31 +34,25 @@ export default function UsersPage() {
               Streamline your scores and focus on what matters most.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/practice">
+              <Link href="/choose-mock-or-practice">
                 <Button size="lg" className="rounded-full h-12 px-8 text-base">
-                  Start Mock Test
+                  Start Your Practice Now
                   <ArrowRight className="ml-2 size-4" />
-                </Button>
-              </Link>
-
-              <Link href="/become-partner">
-                <Button size="lg" variant="outline" className="rounded-full h-12 px-8 text-base">
-                  Become Partner
                 </Button>
               </Link>
             </div>
             <div className="flex items-center justify-center gap-4 mt-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 <Check className="size-4 text-primary" />
-                <span>No credit card</span>
+                <span>AI Evaluation</span>
               </div>
               <div className="flex items-center gap-1">
                 <Check className="size-4 text-primary" />
-                <span>14-day trial</span>
+                <span>Real IELTS format</span>
               </div>
               <div className="flex items-center gap-1">
                 <Check className="size-4 text-primary" />
-                <span>Cancel anytime</span>
+                <span>Instant feedback</span>
               </div>
             </div>
           </div>

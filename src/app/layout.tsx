@@ -43,7 +43,6 @@ export default async function RootLayout({
 }>) {
 
   const verifiedSubdomain = await verifySubdomain();
-  console.log(verifiedSubdomain)
 
   return (
     <html lang="en" suppressHydrationWarning>
