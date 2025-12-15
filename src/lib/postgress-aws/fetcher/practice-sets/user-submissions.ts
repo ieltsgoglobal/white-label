@@ -1,11 +1,9 @@
 export async function submitListeningAnswers({
-    userId,
     testPath,
     answers,
     startedAt,
     metadata = {},
 }: {
-    userId: string;
     testPath: string;
     answers: any;
     startedAt: string;
@@ -15,7 +13,6 @@ export async function submitListeningAnswers({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            userId,
             testPath,
             answers,
             startedAt,
@@ -31,13 +28,11 @@ export async function submitListeningAnswers({
 }
 
 export async function submitReadingAnswers({
-    userId,
     testPath,
     answers,
     startedAt,
     metadata = {},
 }: {
-    userId: string;
     testPath: string;
     answers: any;
     startedAt: string;
@@ -47,7 +42,6 @@ export async function submitReadingAnswers({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            userId,
             testPath,
             answers,
             startedAt,
@@ -63,13 +57,11 @@ export async function submitReadingAnswers({
 }
 
 export async function submitWritingAnswers({
-    userId,
     testPath,
     user_responses_with_scores,
     startedAt,
     metadata = {},
 }: {
-    userId: string;
     testPath: string;
     user_responses_with_scores: any;
     startedAt: string;
@@ -79,7 +71,6 @@ export async function submitWritingAnswers({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            userId,
             testPath,
             user_responses_with_scores,
             startedAt,
@@ -95,14 +86,12 @@ export async function submitWritingAnswers({
 }
 
 export async function submitSpeakingAnswers({
-    userId,
     testPath,
     user_responses,
     user_scores = null,
     startedAt,
     metadata = {},
 }: {
-    userId: string;
     testPath: string;
     user_responses: any;
     user_scores?: any;
@@ -113,7 +102,6 @@ export async function submitSpeakingAnswers({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            userId,
             testPath,
             user_responses,
             user_scores,

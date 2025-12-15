@@ -6,7 +6,7 @@ export async function buildWritingTest() {
 
 
     // Get all the already attempted questions by user
-    const exclude_test_paths = await getPracticeSetsWritingSubmissions("10000000-0000-0000-0000-000000000001", true)
+    const exclude_test_paths = await getPracticeSetsWritingSubmissions({ returnOnlyTestPaths: true })
 
     // 1️⃣ Pick a random reading test from available logical paths
     const logicalPaths = pickRandomBookAndTest(exclude_test_paths.map(r => r.test_path));

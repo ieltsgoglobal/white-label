@@ -46,7 +46,6 @@ export default function SpeakingUI({ speakingData }: { speakingData: SpeakingPar
 
         try {
             const response = await submitSpeakingAnswers({
-                userId: "10000000-0000-0000-0000-000000000001",
                 testPath: "book_12/writing_test_1",
                 user_responses: JSON.stringify(getPracticeSetSpeakingAnswers()),
                 user_scores: JSON.stringify(getPracticeSetsSpeakingScores()),

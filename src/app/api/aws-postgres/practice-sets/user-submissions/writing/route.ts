@@ -4,10 +4,9 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { userId, testPath, user_responses_with_scores, startedAt, metadata } = body;
+        const { testPath, user_responses_with_scores, startedAt, metadata } = body;
 
         await insertWritingSubmission({
-            userId,
             testPath,
             user_responses_with_scores,
             startedAt,

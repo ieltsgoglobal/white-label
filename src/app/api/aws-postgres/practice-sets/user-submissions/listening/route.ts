@@ -4,10 +4,9 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { userId, testPath, answers, startedAt, metadata } = body;
+        const { testPath, answers, startedAt, metadata } = body;
 
         await insertListeningSubmission({
-            userId,
             testPath,
             answers,
             startedAt,

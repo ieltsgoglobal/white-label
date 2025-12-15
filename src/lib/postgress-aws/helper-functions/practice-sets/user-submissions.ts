@@ -1,20 +1,22 @@
 "use server"
 
+import { getSubmitterIdServerSide } from "@/lib/auth/session/check-auth";
 import { postgresQuery } from "../../postgres-query";
 
 export async function insertListeningSubmission({
-    userId,
     testPath,
     answers,
     startedAt,
     metadata = {},
 }: {
-    userId: string;
     testPath: string;
     answers: any;
     startedAt: string;
     metadata?: any;
 }) {
+
+    const userId = await getSubmitterIdServerSide()
+
     return await postgresQuery(
         `INSERT INTO listening_submissions 
      (user_id, test_path, answers, started_at, metadata) 
@@ -25,18 +27,19 @@ export async function insertListeningSubmission({
 }
 
 export async function insertReadingSubmission({
-    userId,
     testPath,
     answers,
     startedAt,
     metadata = {},
 }: {
-    userId: string;
     testPath: string;
     answers: any;
     startedAt: string;
     metadata?: any;
 }) {
+
+    const userId = await getSubmitterIdServerSide()
+
     return await postgresQuery(
         `INSERT INTO reading_submissions 
          (user_id, test_path, answers, started_at, metadata) 
@@ -47,18 +50,19 @@ export async function insertReadingSubmission({
 }
 
 export async function insertWritingSubmission({
-    userId,
     testPath,
     user_responses_with_scores,
     startedAt,
     metadata = {},
 }: {
-    userId: string;
     testPath: string;
     user_responses_with_scores: any;
     startedAt: string;
     metadata?: any;
 }) {
+
+    const userId = await getSubmitterIdServerSide()
+
     return await postgresQuery(
         `INSERT INTO writing_submissions 
          (user_id, test_path, user_responses_with_scores, started_at, metadata)
@@ -69,20 +73,21 @@ export async function insertWritingSubmission({
 }
 
 export async function insertSpeakingSubmission({
-    userId,
     testPath,
     user_responses,
     user_scores = null,
     startedAt,
     metadata = {},
 }: {
-    userId: string;
     testPath: string;
     user_responses: any;
     user_scores?: any;
     startedAt: string;
     metadata?: any;
 }) {
+
+    const userId = await getSubmitterIdServerSide()
+
     return await postgresQuery(
         `INSERT INTO speaking_submissions 
          (user_id, test_path, user_responses, user_scores, started_at, metadata)
@@ -93,10 +98,9 @@ export async function insertSpeakingSubmission({
 }
 
 
-export async function getPracticeSetsSpeakingSubmissions(
-    userId: string,
-    returnOnlyTestPaths: boolean = false
-) {
+export async function getPracticeSetsSpeakingSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths: boolean }) {
+    const userId = await getSubmitterIdServerSide()
+
     const query = `
         SELECT ${returnOnlyTestPaths ? "test_path" : "*"}
         FROM speaking_submissions
@@ -108,10 +112,9 @@ export async function getPracticeSetsSpeakingSubmissions(
     return rows;
 }
 
-export async function getPracticeSetsListeningSubmissions(
-    userId: string,
-    returnOnlyTestPaths: boolean = false
-) {
+export async function getPracticeSetsListeningSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths: boolean }) {
+    const userId = await getSubmitterIdServerSide()
+
     return (await postgresQuery(`
         SELECT ${returnOnlyTestPaths ? "test_path" : "*"}
         FROM listening_submissions
@@ -120,10 +123,9 @@ export async function getPracticeSetsListeningSubmissions(
     `, [userId])).rows;
 }
 
-export async function getPracticeSetsReadingSubmissions(
-    userId: string,
-    returnOnlyTestPaths: boolean = false
-) {
+export async function getPracticeSetsReadingSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths: boolean }) {
+    const userId = await getSubmitterIdServerSide()
+
     return (await postgresQuery(`
         SELECT ${returnOnlyTestPaths ? "test_path" : "*"}
         FROM reading_submissions
@@ -132,10 +134,9 @@ export async function getPracticeSetsReadingSubmissions(
     `, [userId])).rows;
 }
 
-export async function getPracticeSetsWritingSubmissions(
-    userId: string,
-    returnOnlyTestPaths: boolean = false
-) {
+export async function getPracticeSetsWritingSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths: boolean }) {
+    const userId = await getSubmitterIdServerSide()
+
     return (await postgresQuery(`
         SELECT ${returnOnlyTestPaths ? "test_path" : "*"}
         FROM writing_submissions

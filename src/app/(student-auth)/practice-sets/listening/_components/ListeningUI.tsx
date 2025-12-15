@@ -100,7 +100,6 @@ export default function ListeningUI({
             const answersJson = transformAnswerAttemptsToJson(userAttemptsWithAnswers);
 
             const response = await submitListeningAnswers({
-                userId: "10000000-0000-0000-0000-000000000001",
                 testPath: testPath,
                 answers: answersJson,
                 startedAt: startedAt.toISOString(),

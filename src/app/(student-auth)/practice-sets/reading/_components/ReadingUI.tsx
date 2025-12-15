@@ -91,7 +91,6 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
             const answersJson = transformAnswerAttemptsToJson(userAttemptsWithAnswers);
 
             const response = await submitReadingAnswers({
-                userId: "10000000-0000-0000-0000-000000000001",
                 testPath: testPath,
                 answers: answersJson,
                 startedAt: startedAt.toISOString(),

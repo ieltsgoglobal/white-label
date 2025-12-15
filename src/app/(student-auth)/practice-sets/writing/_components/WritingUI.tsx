@@ -101,7 +101,6 @@ export default function WritingUI({ writingQuestions, sampleAnswers, writingQues
 
         try {
             const response = await submitWritingAnswers({
-                userId: "10000000-0000-0000-0000-000000000001",
                 testPath: "book_12/writing_test_1",
                 user_responses_with_scores,
                 startedAt: startedAt.toISOString(),
