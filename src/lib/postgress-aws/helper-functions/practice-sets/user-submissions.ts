@@ -98,7 +98,7 @@ export async function insertSpeakingSubmission({
 }
 
 
-export async function getPracticeSetsSpeakingSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths: boolean }) {
+export async function getPracticeSetsSpeakingSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths?: boolean }) {
     const userId = await getSubmitterIdServerSide()
 
     const query = `
@@ -112,7 +112,7 @@ export async function getPracticeSetsSpeakingSubmissions({ returnOnlyTestPaths =
     return rows;
 }
 
-export async function getPracticeSetsListeningSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths: boolean }) {
+export async function getPracticeSetsListeningSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths?: boolean }) {
     const userId = await getSubmitterIdServerSide()
 
     return (await postgresQuery(`
@@ -123,7 +123,7 @@ export async function getPracticeSetsListeningSubmissions({ returnOnlyTestPaths 
     `, [userId])).rows;
 }
 
-export async function getPracticeSetsReadingSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths: boolean }) {
+export async function getPracticeSetsReadingSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths?: boolean }) {
     const userId = await getSubmitterIdServerSide()
 
     return (await postgresQuery(`
@@ -134,7 +134,7 @@ export async function getPracticeSetsReadingSubmissions({ returnOnlyTestPaths = 
     `, [userId])).rows;
 }
 
-export async function getPracticeSetsWritingSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths: boolean }) {
+export async function getPracticeSetsWritingSubmissions({ returnOnlyTestPaths = false }: { returnOnlyTestPaths?: boolean }) {
     const userId = await getSubmitterIdServerSide()
 
     return (await postgresQuery(`

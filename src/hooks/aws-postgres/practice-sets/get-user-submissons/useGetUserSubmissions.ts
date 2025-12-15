@@ -8,14 +8,14 @@ import { getPracticeSetsListeningSubmissions, getPracticeSetsReadingSubmissions,
 export async function getPracticeSetsSubmissions(userId: string, section: string) {
     switch (section) {
         case "reading":
-            return await getPracticeSetsReadingSubmissions(userId);
+            return await getPracticeSetsReadingSubmissions({});
         case "listening":
-            return await getPracticeSetsListeningSubmissions(userId);
+            return await getPracticeSetsListeningSubmissions({});
         case "writing":
-            return await getPracticeSetsWritingSubmissions(userId);
+            return await getPracticeSetsWritingSubmissions({});
         case "speaking":
         default:
-            return await getPracticeSetsSpeakingSubmissions(userId);
+            return await getPracticeSetsSpeakingSubmissions({});
     }
 }
 
