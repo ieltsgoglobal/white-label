@@ -13,7 +13,7 @@ interface ResendOtpState {
     cooldown: number
 }
 
-const RESEND_TIME_SECONDS = 30
+const RESEND_TIME_SECONDS = 35
 
 export class ResendOtp extends React.Component<
     ResendOtpProps,

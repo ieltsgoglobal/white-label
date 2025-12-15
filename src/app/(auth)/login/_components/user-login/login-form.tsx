@@ -126,6 +126,9 @@ export function LoginForm() {
                         value={phone}
                         onChange={setPhone}
                     />
+                    <p className="text-xs text-muted-foreground">
+                        You will receive the OTP on <span className="font-medium">WhatsApp</span>
+                    </p>
                 </div>
 
                 {sentOtps.length > 0 && (

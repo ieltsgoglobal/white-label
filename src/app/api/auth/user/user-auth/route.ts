@@ -5,6 +5,8 @@ import { createOrGetUser } from "@/lib/superbase/user-table"
 
 const JWT_SECRET = process.env.JWT_SECRET || "super-secret-key"
 
+const ONE_MONTH_SECONDS = 60 * 60 * 24 * 30
+
 export async function POST(req: Request) {
     const { name, phone } = await req.json()
 
@@ -24,7 +26,7 @@ export async function POST(req: Request) {
                 is_member: user.is_member
             },
             JWT_SECRET,
-            { expiresIn: "1d" }
+            { expiresIn: "30d" }
         )
 
         cookies().set({
@@ -33,7 +35,7 @@ export async function POST(req: Request) {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             path: "/",
-            maxAge: 60 * 60 * 24,
+            maxAge: ONE_MONTH_SECONDS,
         })
 
         return NextResponse.json({ success: true })

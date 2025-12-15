@@ -6,7 +6,9 @@ import {
   SquarePen,
   LayoutGrid,
   LucideIcon,
-  DollarSign
+  DollarSign,
+  PenLine,
+  Handshake
 } from "lucide-react";
 
 type Submenu = {
@@ -53,12 +55,22 @@ export function getMenuList(pathname: string): Group[] {
           href: "/mock-scores",
           label: "Assessment Scores",
           icon: Tag
+        },
+        {
+          href: "/practice-sets",
+          label: "Sectional Practice",
+          icon: PenLine
         }
       ]
     },
     {
       groupLabel: "Settings",
       menus: [
+        {
+          href: "/become-partner",
+          label: "Become Partner",
+          icon: Handshake
+        },
         {
           href: "/contact",
           label: "Contact",

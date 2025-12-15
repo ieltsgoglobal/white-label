@@ -21,11 +21,6 @@ const TOTAL_QUESTIONS = 40;
 
 
 export default function ReadingUI({ questions, passages, answers, testPath }: { questions: any[], passages: any[], answers: string[], testPath: string }) {
-
-    if (!Array.isArray(questions) || questions.length === 0) {
-        return <div className="text-muted-foreground">No reading data available.</div>;
-    }
-
     const [currentIndex, setCurrentIndex] = useState(0);
     const currentQuestions = questions[currentIndex] || [];
     const currentPassage = passages[currentIndex] || {};
@@ -48,7 +43,7 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
     // Initialize empty listening answers in session storage
     useEffect(() => {
         initializePracticeSet("practice-sets-reading")
-    })
+    }, [])
 
     // to tell child component that practice-sets-listening section is going on though indexedDB,
     useEffect(() => {
