@@ -72,7 +72,7 @@ export function LoginForm() {
                 throw new Error(result.error || "Login failed")
             }
 
-            window.location.href = "/practice"
+            window.location.href = "/practice-sets"
         } catch (err: any) {
             setError(err.message)
         }
