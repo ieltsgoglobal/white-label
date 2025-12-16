@@ -14,6 +14,7 @@ type AttemptWithCorrectAnswers = {
 };
 
 const TOTAL_QUESTIONS = 40;
+const MAX_WRITING_BAND = 9
 
 export function QuizStatusCard({
   NextSet,
@@ -105,7 +106,7 @@ export function QuizStatusCard({
                 <Label className="text-muted-foreground text-green-600">Score</Label>
                 <div className="mt-1 font-medium tabular-nums text-green-600">
                   {userScoreAfterSubmission !== null
-                    ? `${userScoreAfterSubmission}/${TOTAL_QUESTIONS}`
+                    ? `${userScoreAfterSubmission}/${overallWritingScore !== undefined && overallWritingScore !== null ? MAX_WRITING_BAND : TOTAL_QUESTIONS}`
                     : "-"}
                 </div>
               </div>
