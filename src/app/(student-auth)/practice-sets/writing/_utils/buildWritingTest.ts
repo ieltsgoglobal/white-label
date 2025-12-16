@@ -88,6 +88,7 @@ export async function buildWritingTest() {
     return {
         writingQuestions,
         sampleAnswers,
-        writingQuestionsTask1ImageUrl
+        writingQuestionsTask1ImageUrl,
+        testPath
     }
 }

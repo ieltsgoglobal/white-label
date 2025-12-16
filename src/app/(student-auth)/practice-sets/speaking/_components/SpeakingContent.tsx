@@ -15,10 +15,10 @@ export interface SpeakingPart {
 
 export default async function SpeakingContent() {
 
-    const { speakingQuestionWithAudioUrl } = await buidSpeakingTest();
+    const { speakingQuestionWithAudioUrl, testPath } = await buidSpeakingTest();
 
     try {
-        return <SpeakingUI speakingData={speakingQuestionWithAudioUrl ?? []} />
+        return <SpeakingUI speakingData={speakingQuestionWithAudioUrl ?? []} testPath={testPath} />
 
     } catch (err) {
         console.error(err);

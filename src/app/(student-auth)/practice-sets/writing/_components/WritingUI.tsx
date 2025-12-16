@@ -20,7 +20,7 @@ interface WritingQuestion {
 
 const TOTAL_WRITING_TASKS = 2
 
-export default function WritingUI({ writingQuestions, sampleAnswers, writingQuestionsTask1ImageUrl }: { writingQuestions: any, sampleAnswers: any, writingQuestionsTask1ImageUrl: string }) {
+export default function WritingUI({ writingQuestions, sampleAnswers, writingQuestionsTask1ImageUrl, testPath }: { writingQuestions: any, sampleAnswers: any, writingQuestionsTask1ImageUrl: string, testPath: string }) {
 
     // ------------------- MISC ------------------------
 
@@ -101,7 +101,7 @@ export default function WritingUI({ writingQuestions, sampleAnswers, writingQues
 
         try {
             const response = await submitWritingAnswers({
-                testPath: "book_12/writing_test_1",
+                testPath: testPath,
                 user_responses_with_scores,
                 startedAt: startedAt.toISOString(),
                 metadata: { device: "browser", timeTaken: timeTaken },

@@ -24,7 +24,7 @@ export interface SpeakingPart {
     questions: SpeakingQuestion[]
 }
 
-export default function SpeakingUI({ speakingData }: { speakingData: SpeakingPart[] }) {
+export default function SpeakingUI({ speakingData, testPath }: { speakingData: SpeakingPart[], testPath: string }) {
 
     const [stage, setStage] = React.useState<0 | 1 | 2 | 3>(0)
     const memoizedSpeakingData = React.useMemo(() => speakingData, [speakingData])
@@ -46,7 +46,7 @@ export default function SpeakingUI({ speakingData }: { speakingData: SpeakingPar
 
         try {
             const response = await submitSpeakingAnswers({
-                testPath: "book_12/writing_test_1",
+                testPath: testPath,
                 user_responses: JSON.stringify(getPracticeSetSpeakingAnswers()),
                 user_scores: JSON.stringify(getPracticeSetsSpeakingScores()),
                 startedAt: startedAt.toISOString(),

@@ -47,6 +47,7 @@ export async function buidSpeakingTest() {
 
     // returning format mentioned in convertSpeakingData()
     return {
-        speakingQuestionWithAudioUrl
+        speakingQuestionWithAudioUrl,
+        testPath
     }
 }
