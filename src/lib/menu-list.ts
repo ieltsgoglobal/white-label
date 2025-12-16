@@ -48,12 +48,12 @@ export function getMenuList(pathname: string): Group[] {
       menus: [
         {
           href: "/practice",
-          label: "Try a Mock",
+          label: "IELTS Mock Tests",
           icon: Bookmark
         },
         {
           href: "/mock-scores",
-          label: "Assessment Scores",
+          label: "Mock Tests Review",
           icon: Tag
         },
         {

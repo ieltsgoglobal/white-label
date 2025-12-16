@@ -1,3 +1,4 @@
+import AdminPanelLayout from "@/components/admin-panel/admin-panel-layout";
 import { requireRole } from "@/lib/auth/session/check-auth";
 import { isSubdomain } from "@/lib/utils/verify-subdomain";
 
@@ -12,5 +13,5 @@ export default async function DemoLayout({ children }: { children: React.ReactNo
         await requireRole("user")
     )
 
-    return <>{children}</>
+    return <AdminPanelLayout>{children}</AdminPanelLayout>;
 }
