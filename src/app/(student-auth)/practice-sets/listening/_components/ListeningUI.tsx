@@ -114,7 +114,7 @@ export default function ListeningUI({
 
     return (
         <div className="space-y-10 p-6 bg-muted-foreground/10">
-            <div className="flex gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <AudioPlayer key={currentIndex} src={currentAudioUrl} />
                 <QuizStatusCard
                     NextSet={() => setCurrentIndex((prev) => Math.min(prev + 1, MAX_LECTURES - 1))}

@@ -42,7 +42,7 @@ export default function PracticeSetsDashboardOverview({ section = 'reading' }: {
     }
 
     return (
-        <main className="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 lg:px-8">
+        <main className="mx-auto w-full mt-6 md:px-6 lg:px-8">
             <PerformanceSummary stats={sanitizedPerformanceSummaryStats} section={section} />
 
             <section className="mt-6 md:mt-8">

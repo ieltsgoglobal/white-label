@@ -114,7 +114,7 @@ export function QuizStatusCard({
           ) : (
             <>
               {/* Pause Timer */}
-              < div className="flex items-center justify-between rounded-md border p-3">
+              < div className="flex lg:flex-col items-center justify-between rounded-md border p-3">
                 <div className="flex flex-col">
                   <Label htmlFor="pause-timer" className="text-muted-foreground">
                     Pause Timer
@@ -131,7 +131,7 @@ export function QuizStatusCard({
           )}
 
           {/* Flag for review */}
-          <div className="flex items-center justify-between rounded-md border p-3">
+          <div className="flex lg:flex-col items-center justify-between rounded-md border p-3">
             <Label htmlFor="flag-review" className="text-muted-foreground">
               Report Error
             </Label>
@@ -142,7 +142,7 @@ export function QuizStatusCard({
 
       <CardFooter className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Navigation / Actions */}
-        <div className="flex w-full items-center justify-between gap-2 sm:w-auto">
+        <div className="flex w-full items-center gap-2 sm:w-auto">
           <Button
             variant="ghost"
             aria-label="Go to previous question"
@@ -151,6 +151,16 @@ export function QuizStatusCard({
           >
             Back
           </Button>
+          <Button
+            variant="outline"
+            onClick={NextSet}
+            disabled={currentIndex === MAX_INDEX}
+          >
+            Next Question
+          </Button>
+        </div>
+
+        <div className="flex flex-wrap">
           <Button
             onClick={async () => {
               // When "Check Results" is pressed:
@@ -171,18 +181,9 @@ export function QuizStatusCard({
             variant="outline"
             aria-label="Check results"
           >
-            Check Results
+            Submit & Check Results
           </Button>
-          <Button
-            variant="outline"
-            onClick={NextSet}
-            disabled={currentIndex === MAX_INDEX}
-          >
-            Next Question
-          </Button>
-        </div>
 
-        <div>
           <Link href="/practice-sets">
             <Button variant={"ghost"} className="text-muted-foreground/80">
               Go Back To Dashboard

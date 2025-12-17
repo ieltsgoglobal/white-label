@@ -118,7 +118,7 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
             />
 
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <PassageDisplay
                     title={currentPassage.title}
                     text={currentPassage.text}

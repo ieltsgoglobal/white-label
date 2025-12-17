@@ -18,7 +18,6 @@ export function PerformanceSummary({ stats, section }: { stats: StatItem[], sect
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center justify-between">
           <span className="text-pretty">{section.charAt(0).toUpperCase() + section.slice(1).toLowerCase() + " "} Performance Summary</span>
-          <span className="text-muted-foreground text-xs">All-time</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

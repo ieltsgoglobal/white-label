@@ -14,19 +14,19 @@ export default function PracticeSetsPage() {
         <>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button onClick={() => { setActiveSection("reading") }} size="lg" variant={activeSection !== "reading" ? "outline" : "default"} className="rounded-full h-12 px-8 text-base">
-                    Reading Section
+                    Reading Summary
                 </Button>
 
                 <Button onClick={() => { setActiveSection("listening") }} size="lg" variant={activeSection !== "listening" ? "outline" : "default"} className="rounded-full h-12 px-8 text-base">
-                    Listening Section
+                    Listening Summary
                 </Button>
 
                 <Button onClick={() => { setActiveSection("writing") }} size="lg" variant={activeSection !== "writing" ? "outline" : "default"} className="rounded-full h-12 px-8 text-base">
-                    Writing Section
+                    Writing Summary
                 </Button>
 
                 <Button onClick={() => { setActiveSection("speaking") }} size="lg" variant={activeSection !== "speaking" ? "outline" : "default"} className="rounded-full h-12 px-8 text-base">
-                    Speaking Section
+                    Speaking Summary
                 </Button>
             </div >
 
