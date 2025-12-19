@@ -9,6 +9,8 @@ import { useParams } from "next/navigation"
 import { useMockAttempts } from "@/app/(student-auth)/mock-scores/_component/MockAttemptContext"
 import { AnswerMap } from "@/types/mockTestAttempt"
 import { CheckCircle, XCircle } from "lucide-react"
+import { getPracticeSetAnswer, getPracticeSetCorrectAnswers, updatePracticeSetAnswer } from "@/lib/practice-sets/user-submissions/sessionStorage"
+import { checkAnswerAcceptable } from "@/lib/mock-tests/listening/checkAnswerAcceptable"
 
 interface QuestionProps {
     question: {
@@ -22,15 +24,11 @@ interface QuestionProps {
 }
 
 export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven }: QuestionProps) {
-    const [section, setSection] = useState<"listening" | "reading" | null>(null)
+    const [section, setSection] = useState<"listening" | "reading" | "practice-sets-listening" | "practice-sets-reading" | null>(null)
     const [value, setValue] = useState("")
 
-    const handleAnswerChange = (id: number, answer: string) => {
-        setValue(answer) // ✅ update local UI state immediately
-        if (section) {
-            updateMockAnswer(section, id, answer)
-        }
-    }
+    const isInMockTestSection = section === "listening" || section === "reading";
+    const isInPracticeSetSection = section === "practice-sets-listening" || section === "practice-sets-reading";
 
 
     // --------------------- MOCK TEST REVIEW CODE ------------------------
@@ -56,7 +54,7 @@ export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven
     const [testId, setTestId] = useState<number | null>(null)
 
     useEffect(() => {
-        if (!section || !isReviewMode) return
+        if (!isInMockTestSection || !isReviewMode) return
 
         const loadData = async () => {
             // find the correct test attempt using id from useParams
@@ -79,7 +77,7 @@ export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven
 
     // Load real answers from `listeing_answers` or `reading_answers`
     useEffect(() => {
-        if (!testId || !section) return
+        if (!testId || !isInMockTestSection) return
 
         const loadAnswers = async () => {
             try {
@@ -107,23 +105,75 @@ export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven
     }, [testId, section])
 
 
-    // ----------------------------------------------------------
+    // ------------------------------------------------------------------
 
-    // When section or questionNumber changes, fetch stored answer
+
+
+
+    // -------------------- PRACTICE SETS REVIEW CODE -------------------
+
+    // Load real answers using event-listening during isInMockTestSection and isReviewMode
+    // Load real answers from sessionStorage
     useEffect(() => {
-        if (!isReviewMode && section) {
-            const stored = getFieldAnswer(section, question.id)
-            setValue(stored || "")
-        }
-    }, [section, question.id])
+        if (!isInPracticeSetSection) return
 
+        // 1️⃣ Load immediately from sessionStorage (if ListeningUI already stored or ReadingUI already stored)
+        const storedCorrect = getPracticeSetCorrectAnswers(section)
+        if (storedCorrect) {
+            setCorrectAnswers(storedCorrect)
+            const correctAnswer = storedCorrect[question.id]
+            if (isReviewMode && correctAnswer && value) {
+                setIsCorrect(checkAnswerAcceptable(value, correctAnswer))
+            }
+        }
+    }, [isReviewMode, isInPracticeSetSection, question.id, value])
+
+    // ------------------------------------------------------------------
+
+
+    // check in which section we are dealing with (listening/ reading/ practice-sets-listening)
     useEffect(() => {
         loadCurrentMockSection().then((value) => {
-            if (value === "listening" || value === "reading") {
+            if (
+                value === "listening" ||
+                value === "reading" ||
+                value === "practice-sets-listening" ||
+                value === "practice-sets-reading"
+            ) {
                 setSection(value)
             }
         })
     }, [])
+
+
+    // When section or questionNumber changes, fetch stored answer
+    useEffect(() => {
+
+        // in mock tests we get the user answers from the context API `mockAttemptContext`
+        if (!isReviewMode && isInMockTestSection) {
+            const stored = getFieldAnswer(section, question.id)
+            setValue(stored || "")
+        }
+
+        // isReviewMode removed cuz in ReviewMode we still fecth user answers from sessionStorage
+        // so we need to fetch user answers from sessionStorage wheter we are in ReviewMode or not
+        if (isInPracticeSetSection) {
+            const stored = getPracticeSetAnswer(section, question.id)
+            setValue(stored || "")
+        }
+    }, [section, question.id])
+
+
+    const handleAnswerChange = (id: number, answer: string) => {
+        setValue(answer) // update local UI state immediately
+        if (isInMockTestSection) {
+            updateMockAnswer(section, id, answer)
+        }
+        if (isInPracticeSetSection) {
+            updatePracticeSetAnswer(section!, question.id, answer)
+        }
+    }
+
 
 
     return (

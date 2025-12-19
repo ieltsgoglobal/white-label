@@ -9,6 +9,7 @@ import { useParams } from "next/navigation"
 import { useMockAttempts } from "@/app/(student-auth)/mock-scores/_component/MockAttemptContext"
 import { AnswerMap } from "@/types/mockTestAttempt"
 import { CheckCircle, XCircle } from "lucide-react"
+import { getPracticeSetAnswer, getPracticeSetCorrectAnswers, updatePracticeSetAnswer } from "@/lib/practice-sets/user-submissions/sessionStorage"
 
 
 interface AnswerCheckboxProps {
@@ -19,8 +20,12 @@ interface AnswerCheckboxProps {
 }
 
 export default function AnswerCheckbox({ questionKey, options, optionLetters, maxSelectable }: AnswerCheckboxProps) {
-    const [section, setSection] = useState<"listening" | "reading" | null>(null)
+    const [section, setSection] = useState<"listening" | "reading" | "practice-sets-listening" | "practice-sets-reading" | null>(null)
     const [selected, setSelected] = useState<string[]>([])
+
+    const isInMockTestSection = section === "listening" || section === "reading";
+    const isInPracticeSetSection = section === "practice-sets-listening" || section === "practice-sets-reading";
+
 
     // --------------------- MOCK TEST REVIEW CODE ------------------------
 
@@ -45,7 +50,7 @@ export default function AnswerCheckbox({ questionKey, options, optionLetters, ma
     const [testId, setTestId] = useState<number | null>(null)
 
     useEffect(() => {
-        if (!section || !isReviewMode) return
+        if (!isInMockTestSection || !isReviewMode) return
 
         const loadData = async () => {
             // find the correct test attempt using id from useParams
@@ -67,7 +72,7 @@ export default function AnswerCheckbox({ questionKey, options, optionLetters, ma
 
     // Load real answers from `listeing_answers` or `reading_answers`
     useEffect(() => {
-        if (!testId || !section) return
+        if (!testId || !isInMockTestSection) return
 
         const loadAnswers = async () => {
             try {
@@ -87,35 +92,72 @@ export default function AnswerCheckbox({ questionKey, options, optionLetters, ma
     }, [testId, section])
 
 
-    // ----------------------------------------------------------
+    // --------------------------------------------------------------------
 
 
-    // check section
+
+
+    // -------------------- PRACTICE SETS REVIEW CODE ----------------------
+
+
+    // Load real answers using event-listening during isInMockTestSection and isReviewMode
+    // Loead real answers from sessionStorage
+    useEffect(() => {
+        if (!isInPracticeSetSection) return
+
+        // 1️⃣ Load immediately from sessionStorage (if ListeningUI already stored or ReadingUI already stored)
+        const storedCorrect = getPracticeSetCorrectAnswers(section)
+        if (storedCorrect) {
+            setCorrectAnswers(storedCorrect)
+        }
+
+    }, [isReviewMode, isInPracticeSetSection])
+
+
+    // --------------------------------------------------------------------
+
+
+
+
+    // check in which section we are dealing with (listening/ reading/ practice-sets-listening)
     useEffect(() => {
         loadCurrentMockSection().then((value) => {
-            if (value === "listening" || value === "reading") {
+            if (
+                value === "listening" ||
+                value === "reading" ||
+                value === "practice-sets-listening" ||
+                value === "practice-sets-reading"
+            ) {
                 setSection(value)
             }
         })
     }, [])
 
 
-    //get particular answer, in this case all questionKeys
+    // get particular answer, in this case all questionKeys
     useEffect(() => {
-        if (!section) return
-        if (isReviewMode) return;
 
         const collected: string[] = []
 
         questionKey.forEach((id) => {
-            const stored = getFieldAnswer(section, id)
-            if (stored) {
-                collected.push(stored.trim())
+            let stored = ""
+
+            // in mock tests we get the user answers from the context API `mockAttemptContext`
+            if (!isReviewMode && isInMockTestSection) {
+                stored = getFieldAnswer(section, id)
             }
+
+            // isReviewMode removed cuz in ReviewMode we still fecth user answers from sessionStorage
+            // so we need to fetch user answers from sessionStorage wheter we are in ReviewMode or not
+            if (isInPracticeSetSection) {
+                stored = getPracticeSetAnswer(section, id)
+            }
+
+            if (stored) collected.push(stored.trim())
         })
 
         setSelected(collected.filter(Boolean).sort())
-    }, [section, questionKey])
+    }, [section, questionKey, isReviewMode])
 
 
     // update localstorage on answer change
@@ -134,9 +176,16 @@ export default function AnswerCheckbox({ questionKey, options, optionLetters, ma
         console.log(updated)
 
         // match updated with localstorage questionKeys
-        if (section) {
+        if (isInMockTestSection) {
             questionKey.forEach((id, index) => {
                 updateMockAnswer(section, id, updated[index] || "")
+            })
+        }
+
+        // match updated with sessionStorage questionKeys
+        if (isInPracticeSetSection) {
+            questionKey.forEach((id, index) => {
+                updatePracticeSetAnswer(section, id, updated[index] || "")
             })
         }
     }
