@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { usePathname } from 'next/navigation'
-import { SCENE_REGISTRY, TOUR_FLOW_BY_ROUTE, TourSceneId } from './_lib/scene-registry'
-import { SpotlightTargetManager } from './_lib/use-spotlight-target'
+import { SpotlightTargetManager } from './_lib/background-overlay/use-spotlight-target'
 import SpotlightOverlay from './background-overlay/SpotlightOverlay'
+import { useOnboardingTourGate } from './_lib/manage-routes/use-onboarding-tour-gate'
+import { SCENE_REGISTRY, TOUR_FLOW_BY_ROUTE, TourSceneId } from './_lib/scene-map/scene-registry'
 
 type TourState = {
     index: number
@@ -24,13 +25,9 @@ export type TourSceneProps = {
 
 export default function OnboardingTourController() {
     const pathname = usePathname()
-    const [mounted, setMounted] = useState(false)
+    const { ready, allowed } = useOnboardingTourGate(pathname)
 
-    useEffect(() => {
-        setMounted(true)
-    }, [])
-
-    if (!mounted) return null
+    if (!ready || !allowed) return null
 
     const flow = TOUR_FLOW_BY_ROUTE[pathname]
     if (!flow) return null

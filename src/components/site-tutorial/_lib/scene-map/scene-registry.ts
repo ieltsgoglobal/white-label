@@ -12,9 +12,9 @@
  * - Route transitions reset the tour flow automatically.
  */
 
-import HomeIntroScene from '../scene/home-page/HomeIntroScene'
-import HomeBeginPracticeScene from '../scene/home-page/HomeBeginPracticeScene'
-import PracticeSummaryScene from '../scene/practice-tests/PracticeSummaryScene'
+import HomeIntroScene from '../../scene/home-page/HomeIntroScene'
+import HomeBeginPracticeScene from '../../scene/home-page/HomeBeginPracticeScene'
+import PracticeSummaryScene from '../../scene/practice-tests/PracticeSummaryScene'
 
 import type { ComponentType } from 'react'
 
