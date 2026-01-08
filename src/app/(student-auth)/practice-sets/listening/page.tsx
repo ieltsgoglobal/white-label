@@ -1,4 +1,6 @@
 // app/(student-auth)/practice-sets/listening/page.tsx
+export const dynamic = "force-dynamic";
+
 import { Suspense } from "react";
 import ListeningContent from "./_components/ListeningContent";
 import DotPulseLoader from "@/components/loaders/mock-tests/speaking/DotPulseLoader";

@@ -4,6 +4,7 @@ import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SITE_TOUR_HOME_TARGET_BUTTON } from "@/components/site-tutorial/scene/home-page/HomeBeginPracticeScene";
 
 export default function UsersPage() {
   return (
@@ -35,7 +36,11 @@ export default function UsersPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/practice-sets">
-                <Button size="lg" className="rounded-full h-12 px-8 text-base">
+                <Button
+                  id={SITE_TOUR_HOME_TARGET_BUTTON}
+                  size="lg"
+                  className="rounded-full h-12 px-8 text-base"
+                >
                   Begin Practice Sets
                   <ArrowRight className="ml-2 size-4" />
                 </Button>

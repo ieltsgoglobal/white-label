@@ -84,11 +84,20 @@ html {
 
 
 /*
- --------- Z SCORES ---------
 
- 0 - normal 
- 1 - to non modal component like navbars or hamburger icons / non popup modals
- 2 - to popup modals
- 3 - to priority popup modals
+---------- COMPONENTS Z SCORES --------------
+
+  0 - 
+  1 - footer | navbar | pagination accross mock-tests and practice-tests
+  2 - 
+  3 - 
+  10 - sidebar refrences | 
+  50 - shadcn default components | 
+  100 - loaders | 
+
+------------ TUTORIAL Z SCORES --------------
+
+  11 - black_overlays | 
+  12 - buttons_focus | maya_chatbox | maya
 
 */
