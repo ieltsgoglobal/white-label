@@ -6,7 +6,7 @@ import { convertSpeakingData } from "./convertSpeakingData";
 export async function buidSpeakingTest() {
 
     // Get all the already attempted questions by user
-    const exclude_test_paths = await getPracticeSetsSpeakingSubmissions({ returnOnlyTestPaths: true })
+    const exclude_test_paths = await getPracticeSetsSpeakingSubmissions({ returnOnlyTestPaths: true }) ?? []
 
     // 1️⃣ Pick a random reading test from available logical paths
     const logicalPaths = pickRandomBookAndTest(exclude_test_paths.map(r => r.test_path));
