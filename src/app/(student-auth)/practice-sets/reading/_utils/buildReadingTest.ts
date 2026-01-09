@@ -18,7 +18,7 @@ export async function buildReadingTest() {
     // ------------------------------------------------
 
 
-    const attemptedReadingTestPaths = await getPracticeSetsReadingSubmissions({ returnOnlyTestPaths: true })
+    const attemptedReadingTestPaths = await getPracticeSetsReadingSubmissions({ returnOnlyTestPaths: true }) ?? []
 
     const totalReadingTestPathsToExclude = [
         ...attemptedReadingTestPaths.map(r => r.test_path),

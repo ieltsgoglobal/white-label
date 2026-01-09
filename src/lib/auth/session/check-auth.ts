@@ -59,7 +59,7 @@ export async function getUserSession(): Promise<SessionPayload | null> {
 
 export async function getSubmitterIdServerSide() {
     const session = await getUserSession()
-    if (!session) throw new Error("Not authenticated")
+    if (!session) return null
 
     if (session.role === "student") return session.studentId!
     if (session.role === "user") return session.userId

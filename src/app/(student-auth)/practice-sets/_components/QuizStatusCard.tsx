@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
-import { getPracticeSetAnswers, getPracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage"
 import { calculatePracticeSetScore } from "../listening/_utils/misc"
 import Link from "next/link"
+import { Lock } from "lucide-react"
+import { useSubmissionAccess } from "../_utils/useSubmissionAccess"
+import { CustomLoginDialog } from "@/app/(auth)/login/_components/custom-login-dialog/CustomLoginDialog"
 
 type AttemptWithCorrectAnswers = {
   user: string;
@@ -39,6 +41,10 @@ export function QuizStatusCard({
   const [hasPressedCheckResults, setHasPressedCheckResults] = useState(false)
 
   const [userScoreAfterSubmission, setUserScoreAfterSubmission] = useState<number | null>(null) // null means not submitted yet
+
+  const { isSubmissionBlocked, checkSubmissionAccess } = useSubmissionAccess()
+
+  const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false)
 
   useEffect(() => {
     if (hasPressedCheckResults && overallWritingScore !== undefined) {
@@ -161,28 +167,55 @@ export function QuizStatusCard({
         </div>
 
         <div className="flex flex-wrap">
-          <Button
-            onClick={async () => {
-              // When "Check Results" is pressed:
-              await CheckResulsts({ startedAt, timeTaken });
-              setHasPressedCheckResults(true);
-              setIsPaused(true)
 
-              // ----------------- CALCULATE SCORE ------------------
+          {isSubmissionBlocked && (
+            <>
+              <Button
+                variant="outline"
+                className="flex items-center gap-2"
+                onClick={() => setIsLoginDialogOpen(true)}
+              >
+                Submit & Check Results
+                <Lock className="h-4 w-4 opacity-40" />
+              </Button>
 
-              // if userAttemptsWithAnswers is not null means, section is not writing nor speaking
-              if (userAttemptsWithAnswers) {
-                const score = calculatePracticeSetScore(userAttemptsWithAnswers);
-                setUserScoreAfterSubmission(score);
-              }
+              <CustomLoginDialog
+                open={isLoginDialogOpen}
+                onOpenChange={setIsLoginDialogOpen}
+                onLoginDone={async () => {
+                  await checkSubmissionAccess()
+                }}
+              />
+            </>
+          )}
 
-              if (overallWritingScore !== undefined) setUserScoreAfterSubmission(overallWritingScore ?? 0)
-            }}
-            variant="outline"
-            aria-label="Check results"
-          >
-            Submit & Check Results
-          </Button>
+          {!isSubmissionBlocked && (
+            <Button
+              disabled={hasPressedCheckResults}
+              onClick={async () => {
+                if (hasPressedCheckResults) return
+
+                // When "Check Results" is pressed:
+                await CheckResulsts({ startedAt, timeTaken });
+                setHasPressedCheckResults(true);
+                setIsPaused(true)
+
+                // ----------------- CALCULATE SCORE ------------------
+
+                // if userAttemptsWithAnswers is not null means, section is not writing nor speaking
+                if (userAttemptsWithAnswers) {
+                  const score = calculatePracticeSetScore(userAttemptsWithAnswers);
+                  setUserScoreAfterSubmission(score);
+                }
+
+                if (overallWritingScore !== undefined) setUserScoreAfterSubmission(overallWritingScore ?? 0)
+              }}
+              variant="outline"
+              aria-label="Check results"
+            >
+              Submit & Check Results
+            </Button>
+          )}
 
           <Link href="/practice-sets">
             <Button variant={"ghost"} className="text-muted-foreground/80">

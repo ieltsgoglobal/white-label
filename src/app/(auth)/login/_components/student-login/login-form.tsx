@@ -5,8 +5,15 @@ import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { useState } from 'react'
 
-export function LoginForm() {
-
+export function LoginForm({
+    defferRedirectOnSuccess,
+    onLoginSuccess,
+    hideHeader
+}: {
+    defferRedirectOnSuccess?: boolean
+    onLoginSuccess?: () => void
+    hideHeader?: boolean
+}) {
     const [username, setusername] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
@@ -29,6 +36,10 @@ export function LoginForm() {
 
             const result = await res.json()
 
+            if (defferRedirectOnSuccess) {
+                onLoginSuccess?.()
+                return
+            }
 
             if (result === true) {
                 window.location.href = '/practice';
@@ -46,12 +57,15 @@ export function LoginForm() {
 
     return (
         <form onSubmit={handleSubmit} className={"flex flex-col gap-6"}>
-            <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-2xl font-bold">Log into Student Account</h1>
-                <p className="text-balance text-sm text-muted-foreground">
-                    Enter your details below to login to your account
-                </p>
-            </div>
+
+            {!hideHeader && (
+                <div className="flex flex-col items-center gap-2 text-center">
+                    <h1 className="text-2xl font-bold">Log into Student Account</h1>
+                    <p className="text-balance text-sm text-muted-foreground">
+                        Enter your details below to login to your account
+                    </p>
+                </div>
+            )}
             <div className="grid gap-6">
                 <div className="grid gap-2">
                     <Label htmlFor="username">username</Label>

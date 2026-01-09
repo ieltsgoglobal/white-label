@@ -26,7 +26,7 @@ export async function buildListeningTest() {
     // ------------------------------------------------
 
 
-    const attemptedListeningTestPaths = await getPracticeSetsListeningSubmissions({ returnOnlyTestPaths: true })
+    const attemptedListeningTestPaths = await getPracticeSetsListeningSubmissions({ returnOnlyTestPaths: true }) ?? []
 
     const totalReadingTestPathsToExclude = [
         ...attemptedListeningTestPaths.map(r => r.test_path),

@@ -9,7 +9,15 @@ import { sendOtpRequest } from './utils/sendOtpRequest'
 import { PhoneInput } from '../../../../../components/auth/user/phone-number/phone-input'
 import { ResendOtp } from './ResendOtp'
 
-export function LoginForm() {
+export function LoginForm({
+    defferRedirectOnSuccess,
+    onLoginSuccess,
+    hideHeader
+}: {
+    defferRedirectOnSuccess?: boolean
+    onLoginSuccess?: () => void
+    hideHeader?: boolean
+}) {
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
     const [otp, setOtp] = useState("")
@@ -72,7 +80,16 @@ export function LoginForm() {
                 throw new Error(result.error || "Login failed")
             }
 
-            window.location.href = "/practice-sets"
+            if (defferRedirectOnSuccess) {
+                onLoginSuccess?.()
+                return
+            }
+
+            if (result === true) {
+                window.location.href = '/practice';
+                return;
+            }
+
         } catch (err: any) {
             setError(err.message)
         }
@@ -98,12 +115,14 @@ export function LoginForm() {
             }}
             className={"flex flex-col gap-6"}
         >
-            <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-2xl font-bold">Log into User Account</h1>
-                <p className="text-balance text-sm text-muted-foreground">
-                    Enter your details below to login to your account
-                </p>
-            </div>
+            {!hideHeader && (
+                <div className="flex flex-col items-center gap-2 text-center">
+                    <h1 className="text-2xl font-bold">Log into User Account</h1>
+                    <p className="text-balance text-sm text-muted-foreground">
+                        Enter your details below to login to your account
+                    </p>
+                </div>
+            )}
             <div className="grid gap-6">
                 <div className="grid gap-2">
                     <Label htmlFor="name">Name</Label>
