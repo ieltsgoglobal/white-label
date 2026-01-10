@@ -5,12 +5,22 @@ import { Sidebar } from "@/components/admin-panel/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+
+export function shouldHideAdminLayout(pathname: string): boolean {
+  return pathname.includes("practice-sets/speaking");
+}
 
 export default function AdminPanelLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  if (shouldHideAdminLayout(pathname)) {
+    return <>{children}</>;
+  }
+
   const sidebar = useStore(useSidebar, (x) => x);
   if (!sidebar) return null;
   const { getOpenState, settings } = sidebar;

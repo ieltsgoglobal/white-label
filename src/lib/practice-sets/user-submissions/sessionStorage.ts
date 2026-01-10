@@ -16,20 +16,19 @@
 type PracticeSetSection = "practice-sets-listening" | "practice-sets-reading"
 type AnswerMap = Record<number, string>
 
-// -------------------------------------------------
-// Initialize empty user answers (listening or reading)
-// -------------------------------------------------
+// -------------------------------------------------------------------
+// Initialize empty user answers (listening or reading) (FORCED RESET)
+// -------------------------------------------------------------------
 export function initializePracticeSet(section: PracticeSetSection, totalQuestions: number = 40) {
     if (typeof window === "undefined") return
 
-    const existing = sessionStorage.getItem(section)
-    if (!existing) {
-        const emptyAnswers: AnswerMap = {}
-        for (let i = 1; i <= totalQuestions; i++) {
-            emptyAnswers[i] = ""
-        }
-        sessionStorage.setItem(section, JSON.stringify(emptyAnswers))
+    const emptyAnswers: AnswerMap = {}
+
+    for (let i = 1; i <= totalQuestions; i++) {
+        emptyAnswers[i] = ""
     }
+
+    sessionStorage.setItem(section, JSON.stringify(emptyAnswers))
 }
 
 // -------------------------------------------------
@@ -135,20 +134,17 @@ interface PracticeSpeakingAnswer {
 
 const PRACTICE_SPEAKING_KEY = "practice-sets-speaking"
 
-// Initialize empty speaking answers
+// Initialize empty (FORCED RESET) speaking answers
 export function initializePracticeSetSpeaking() {
     if (typeof window === "undefined") return
 
-    const existing = sessionStorage.getItem(PRACTICE_SPEAKING_KEY)
-    if (!existing) {
-        const initialData: PracticeSpeakingAnswer[] = []
+    const initialData: PracticeSpeakingAnswer[] = []
 
-        // initialize with an empty array, same as mock answers
-        // question IDs will be added dynamically later as user records
-        sessionStorage.setItem(PRACTICE_SPEAKING_KEY, JSON.stringify(initialData))
+    // initialize with an empty array, same as mock answers
+    // question IDs will be added dynamically later as user records
+    sessionStorage.setItem(PRACTICE_SPEAKING_KEY, JSON.stringify(initialData))
 
-        console.log("🆕 Initialized practice-sets-speaking in sessionStorage")
-    }
+    console.log("🆕 Initialized practice-sets-speaking in sessionStorage")
 }
 
 // Retrieve all speaking answers

@@ -1,6 +1,7 @@
 "use client"
 
 import { isPracticeSetsGoingOn } from "@/app/(student-auth)/practice-sets/_utils/misc"
+import { Button } from "@/components/ui/button"
 import { getMockAnswers } from "@/lib/mock-tests/mockAnswersStorage"
 import { getPracticeSetSpeakingAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage"
 import { useEffect, useState } from "react"
@@ -75,7 +76,7 @@ export default function SpeakingPagination({ speakingData }: { speakingData: Spe
 
     return (
         <div className="fixed w-full bottom-0 bg-background border-t border-border p-4 md:p-6">
-            <div className="mx-auto w-full overflow-x-auto ">
+            <div className="flex justify-between gap-10 mx-auto w-full overflow-x-auto ">
                 <div className="flex items-center justify-start gap-4 md:gap-4">
                     {parts.map((part, partIndex) => (
                         <div key={part.name} className="flex items-center gap-1 md:gap-2">
@@ -87,6 +88,15 @@ export default function SpeakingPagination({ speakingData }: { speakingData: Spe
                         </div>
                     ))}
                 </div>
+
+                {isPracticeSectionGoingOn && (
+                    <Button
+                        variant={'outline'}
+                        onClick={() => window.location.href = "/practice-sets"}
+                    >
+                        Exit Practice
+                    </Button>
+                )}
             </div>
         </div>
     )
