@@ -85,7 +85,7 @@ export function LoginForm({
                 return
             }
 
-            if (result === true) {
+            if (result.success) {
                 window.location.href = '/practice';
                 return;
             }

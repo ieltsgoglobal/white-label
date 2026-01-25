@@ -28,7 +28,6 @@ export function LoginForm() {
 
             const result = await res.json()
 
-
             if (result === true) {
                 window.location.href = "/teacher-dashboard"
             } else {
