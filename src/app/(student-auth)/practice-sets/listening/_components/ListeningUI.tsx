@@ -52,7 +52,7 @@ export default function ListeningUI({
     // Initialize empty listening answers in session storage
     useEffect(() => {
         initializePracticeSet("practice-sets-listening")
-    })
+    }, [])
 
     // to tell child component that practice-sets-listening section is going on though indexedDB,
     useEffect(() => {
