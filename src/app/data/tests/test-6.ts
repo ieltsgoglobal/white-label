@@ -99,6 +99,7 @@ export const listening_section_2 = {
         {
             // maybe question type is wrong
             questionType: "summary-completion",
+            multiWord: true,
             question: {
                 id: [13, 14],
                 title: "Types of Food",

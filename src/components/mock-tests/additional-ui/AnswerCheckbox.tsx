@@ -156,7 +156,11 @@ export default function AnswerCheckbox({ questionKey, options, optionLetters, ma
             if (stored) collected.push(stored.trim())
         })
 
-        setSelected(collected.filter(Boolean).sort())
+        // as we are in side-effect, I put extra if-condition here.
+        // if-condition avoids overwriting `setSelected` with empty local/session storage values.
+        if ((!isReviewMode && isInMockTestSection) || isInPracticeSetSection) {
+            setSelected(collected.filter(Boolean).sort())
+        }
     }, [section, questionKey, isReviewMode])
 
 

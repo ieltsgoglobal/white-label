@@ -634,7 +634,7 @@ export const listening_answers = {
 
     11: "China",
     12: "ruling families",
-    13: "colonisation",
+    13: "colonisation / colonization",
     14: "tourism",
     15: "everyday life",
 
@@ -659,7 +659,7 @@ export const listening_answers = {
 
     31: "gardens",
     32: "one fifth",
-    33: "superstores",
+    33: "superstores / super stores",
     34: "glass",
     35: "older residents",
     36: "waste",

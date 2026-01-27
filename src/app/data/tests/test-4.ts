@@ -543,7 +543,7 @@ export const listening_answers = {
     4: "30",
     5: "echo",
     6: "credit card",
-    7: "7",
+    7: "7 / 7 days",
     8: "1000",
     9: "luggage",
     10: "pavement",

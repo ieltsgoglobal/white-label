@@ -317,6 +317,7 @@ export const listening_section_4 = {
         },
         {
             questionType: "table-completion",
+            multiWord: true,
             tableData: {
                 headers: ["Date of eclipse", "Scientists", "Observation"],
                 rows: [

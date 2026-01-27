@@ -233,6 +233,7 @@ export const listening_section_4 = {
     questions: [
         {
             questionType: "note-completion",
+            oneWord: true,
             topic: "Tree planting",
             sections: [
                 {
@@ -750,10 +751,10 @@ export const listening_answers = {
     8: "Plastic",
     9: "Ice",
     10: "Gloves",
-    11: "C/E",
-    12: "C/E",
-    13: "A/D",
-    14: "A/D",
+    11: "C",
+    12: "E",
+    13: "A",
+    14: "D",
     15: "A",
     16: "B",
     17: "C",
