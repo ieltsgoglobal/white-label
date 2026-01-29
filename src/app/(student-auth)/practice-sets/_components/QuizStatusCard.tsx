@@ -217,11 +217,13 @@ export function QuizStatusCard({
             </Button>
           )}
 
-          <Link href="/practice-sets">
-            <Button variant={"ghost"} className="text-muted-foreground/80">
-              Go Back To Dashboard
-            </Button>
-          </Link>
+          <Button
+            variant={"ghost"}
+            className="text-muted-foreground/80"
+            onClick={() => { window.location.href = "/practice-sets" }}
+          >
+            Go Back To Dashboard
+          </Button>
         </div>
       </CardFooter>
     </Card >
