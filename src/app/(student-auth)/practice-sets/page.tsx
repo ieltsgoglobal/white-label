@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 
 import PlaceholderContent from "@/components/demo/placeholder-content";
@@ -12,8 +14,18 @@ import {
 } from "@/components/ui/breadcrumb";
 import PracticeSetsPage from "./_components/PracticeSetsPage";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { useEffect } from "react";
+import { setReviewMode } from "@/lib/mock-tests/indexedDb";
 
 export default function PracticeSetsDashboard() {
+
+    // turn OFF isReviewMode on load
+    // hack to production-only race condition between AnswerInput and isReviewMode
+    useEffect(() => {
+        setReviewMode(false)
+    }, [])
+
+
     return (
         <ContentLayout title="Practice Dashboard">
             <Breadcrumb>

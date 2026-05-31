@@ -9,15 +9,7 @@ import { sendOtpRequest } from './utils/sendOtpRequest'
 import { PhoneInput } from '../../../../../components/auth/user/phone-number/phone-input'
 import { ResendOtp } from './ResendOtp'
 
-export function LoginForm({
-    defferRedirectOnSuccess,
-    onLoginSuccess,
-    hideHeader
-}: {
-    defferRedirectOnSuccess?: boolean
-    onLoginSuccess?: () => void
-    hideHeader?: boolean
-}) {
+export function LoginForm() {
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
     const [otp, setOtp] = useState("")
@@ -80,11 +72,6 @@ export function LoginForm({
                 throw new Error(result.error || "Login failed")
             }
 
-            if (defferRedirectOnSuccess) {
-                onLoginSuccess?.()
-                return
-            }
-
             if (result.success) {
                 window.location.href = '/practice';
                 return;
@@ -115,14 +102,12 @@ export function LoginForm({
             }}
             className={"flex flex-col gap-6"}
         >
-            {!hideHeader && (
-                <div className="flex flex-col items-center gap-2 text-center">
-                    <h1 className="text-2xl font-bold">Log into User Account</h1>
-                    <p className="text-balance text-sm text-muted-foreground">
-                        Enter your details below to login to your account
-                    </p>
-                </div>
-            )}
+            <div className="flex flex-col items-center gap-2 text-center">
+                <h1 className="text-2xl font-bold">Log into User Account</h1>
+                <p className="text-balance text-sm text-muted-foreground">
+                    Enter your details below to login to your account
+                </p>
+            </div>
             <div className="grid gap-6">
                 <div className="grid gap-2">
                     <Label htmlFor="name">Name</Label>

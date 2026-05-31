@@ -1,16 +1,17 @@
-"use client"
-
 import AdminPanelLayout from "@/components/admin-panel/admin-panel-layout";
-import { setReviewMode } from "@/lib/mock-tests/indexedDb";
-import { useEffect } from "react";
+import { requireRole } from "@/lib/auth/session/check-auth";
+import { isSubdomain } from "@/lib/utils/verify-subdomain";
 
-export default function DemoLayout({ children }: { children: React.ReactNode }) {
+export default async function DemoLayout({ children }: { children: React.ReactNode }) {
+    const subdomain: boolean | null = isSubdomain()
 
-    // turn OFF isReviewMode on load
-    // hack to production-only race condition between AnswerInput and isReviewMode
-    useEffect(() => {
-        setReviewMode(false)
-    }, [])
+    // ieltsgoglobal - user login
+    // org.ieltsgoglobal - student login
+    if (subdomain === true) {
+        await requireRole("student")
+    } else (
+        await requireRole("user")
+    )
 
     return <AdminPanelLayout>{children}</AdminPanelLayout>;
 }
