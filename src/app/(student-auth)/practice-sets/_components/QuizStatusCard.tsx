@@ -220,6 +220,8 @@ export function QuizStatusCard({
           <Button
             variant={"ghost"}
             className="text-muted-foreground/80"
+            // switched to window.location.href cuz we want DOM to render from scratch
+            // so that side-effects can trigger in src/app/(student-auth)/practice-sets/layout.tsx
             onClick={() => { window.location.href = "/practice-sets" }}
           >
             Go Back To Dashboard
