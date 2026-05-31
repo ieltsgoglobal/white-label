@@ -9,8 +9,6 @@ export default function PracticeSetsDashboardOverview({ section = 'reading' }: {
 
     const { data } = useGetPracticeSetsUserSubmissions(section);
 
-    console.log(data)
-
     if (!data) return
 
     let sanitizedPerformanceSummaryStats;

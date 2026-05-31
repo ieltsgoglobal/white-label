@@ -108,6 +108,7 @@ export async function getPracticeSetsSpeakingSubmissions({ returnOnlyTestPaths =
         FROM speaking_submissions
         WHERE user_id = $1
         ORDER BY submitted_at DESC
+        LIMIT 20
     `;
 
     const { rows } = await postgresQuery(query, [userId]);
@@ -124,6 +125,7 @@ export async function getPracticeSetsListeningSubmissions({ returnOnlyTestPaths 
         FROM listening_submissions
         WHERE user_id = $1
         ORDER BY submitted_at DESC
+        LIMIT 20
     `, [userId])).rows;
 }
 
@@ -137,6 +139,7 @@ export async function getPracticeSetsReadingSubmissions({ returnOnlyTestPaths = 
         FROM reading_submissions
         WHERE user_id = $1
         ORDER BY submitted_at DESC
+        LIMIT 20
     `, [userId])).rows;
 }
 
@@ -150,5 +153,6 @@ export async function getPracticeSetsWritingSubmissions({ returnOnlyTestPaths = 
         FROM writing_submissions
         WHERE user_id = $1
         ORDER BY submitted_at DESC
+        LIMIT 20
     `, [userId])).rows;
 }

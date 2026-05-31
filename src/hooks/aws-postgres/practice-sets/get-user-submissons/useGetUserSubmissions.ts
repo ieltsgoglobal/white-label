@@ -5,7 +5,7 @@ import { getSessionUser } from "@/lib/auth/session/get-user";
 import { getPracticeSetsListeningSubmissions, getPracticeSetsReadingSubmissions, getPracticeSetsSpeakingSubmissions, getPracticeSetsWritingSubmissions } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
 
 // helper function for TanStack Query
-export async function getPracticeSetsSubmissions(userId: string, section: string) {
+export async function getPracticeSetsSubmissions(section: string) {
     switch (section) {
         case "reading":
             return await getPracticeSetsReadingSubmissions({});
@@ -26,7 +26,7 @@ export const useGetPracticeSetsUserSubmissions = (section: string) =>
             const user = await getSessionUser();
             if (!user) throw new Error("Unauthorized: No session user");
 
-            return await getPracticeSetsSubmissions('10000000-0000-0000-0000-000000000001', section);
+            return await getPracticeSetsSubmissions(section);
         },
         staleTime: Infinity,
         refetchOnMount: false,
