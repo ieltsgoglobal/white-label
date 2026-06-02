@@ -25,7 +25,7 @@ export async function getStoredPhonePeAccessToken() {
     if (token && token.expiresAt > Date.now() + 60_000) return token.value;
 
     const config = getPhonePeConfig();
-    const response = await fetch(`${getPhonePeBaseUrl()}/v1/oauth/token`, {
+    const response = await fetch(getPhonePeAuthUrl(), {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
@@ -51,6 +51,12 @@ export function getPhonePeBaseUrl() {
     return process.env.NODE_ENV === "production"
         ? "https://api.phonepe.com/apis/pg"
         : "https://api-preprod.phonepe.com/apis/pg-sandbox";
+}
+
+function getPhonePeAuthUrl() {
+    return process.env.NODE_ENV === "production"
+        ? "https://api.phonepe.com/apis/identity-manager/v1/oauth/token"
+        : "https://api-preprod.phonepe.com/apis/pg-sandbox/v1/oauth/token";
 }
 
 function getPhonePeConfig() {
