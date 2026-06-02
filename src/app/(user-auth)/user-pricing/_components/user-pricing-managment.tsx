@@ -55,7 +55,7 @@ function PricingCardFixed({ planId }: { planId: B2CPlanId }) {
     )
 }
 
-const handlePayment = async (planId: string) => {
+export const handlePayment = async (planId: string) => {
 
     // get userId
     const user = await getSessionUser()

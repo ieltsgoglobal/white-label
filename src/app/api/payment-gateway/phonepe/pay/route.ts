@@ -4,12 +4,8 @@ import { randomUUID } from 'crypto';
 import { B2CPlanId, computeB2CAmountPaise, requireB2CPlan } from '@/app/data/plans/b2c-plans';
 import { B2BPlanId, computeB2BAmountPaise, requireB2BPlan } from '@/app/data/plans/b2b-plans';
 
-const clientId = process.env.PHONEPE_CLIENT_ID!;
-const clientSecret = process.env.PHONEPE_CLIENT_SECRET!;
-const clientVersion = 1;
-const env =
-    process.env.NODE_ENV === "production" ? Env.PRODUCTION : Env.SANDBOX;
 
+const { clientId, clientSecret, clientVersion, env } = getPhonePeConfig();
 const client = StandardCheckoutClient.getInstance(clientId, clientSecret, clientVersion, env);
 
 export async function POST(req: NextRequest) {
@@ -56,4 +52,23 @@ export async function POST(req: NextRequest) {
 
     const response = await client.pay(payRequest);
     return NextResponse.json({ redirectUrl: response.redirectUrl });
+}
+
+
+// MISC GET ENV VARS 
+function getPhonePeConfig() {
+    const isProd = process.env.NODE_ENV === "production";
+
+    return {
+        clientId: isProd
+            ? process.env.PHONEPE_CLIENT_ID_PROD!
+            : process.env.PHONEPE_CLIENT_ID!,
+        clientSecret: isProd
+            ? process.env.PHONEPE_CLIENT_SECRET_PROD!
+            : process.env.PHONEPE_CLIENT_SECRET!,
+        clientVersion: 1,
+        env: isProd
+            ? Env.PRODUCTION
+            : Env.SANDBOX,
+    };
 }

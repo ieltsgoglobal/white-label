@@ -29,7 +29,7 @@ export function LoginForm() {
             const result = await res.json()
 
             if (result === true) {
-                window.location.href = '/practice';
+                window.location.href = document.referrer;
                 return;
             }
 

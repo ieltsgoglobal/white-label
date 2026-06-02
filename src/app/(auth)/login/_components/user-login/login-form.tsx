@@ -73,7 +73,7 @@ export function LoginForm() {
             }
 
             if (result.success) {
-                window.location.href = '/practice';
+                window.location.href = document.referrer;
                 return;
             }
 
