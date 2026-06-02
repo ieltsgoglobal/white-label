@@ -1,29 +1,17 @@
-import { Env, StandardCheckoutClient } from "pg-sdk-node";
+import { getPhonePeBaseUrl, getStoredPhonePeAccessToken } from "./store-access-token";
 
-let phonePeClient: ReturnType<typeof StandardCheckoutClient.getInstance> | null = null;
+export async function phonePeFetch(path: string, init: RequestInit) {
+    const response = await fetch(`${getPhonePeBaseUrl()}${path}`, {
+        ...init,
+        headers: {
+            "Content-Type": "application/json",
+            ...init.headers,
+            Authorization: `O-Bearer ${await getStoredPhonePeAccessToken()}`,
+        },
+    });
+    const data = await response.json().catch(() => ({}));
 
-export function getPhonePeClient() {
-    if (phonePeClient) return phonePeClient;
+    if (!response.ok) throw new Error(data?.message || `PhonePe request failed with ${response.status}`);
 
-    const { clientId, clientSecret, clientVersion, env } = getPhonePeConfig();
-    phonePeClient = StandardCheckoutClient.getInstance(clientId, clientSecret, clientVersion, env);
-
-    return phonePeClient;
-}
-
-function getPhonePeConfig() {
-    const isProd = process.env.NODE_ENV === "production";
-
-    return {
-        clientId: isProd
-            ? process.env.PHONEPE_CLIENT_ID_PROD!
-            : process.env.PHONEPE_CLIENT_ID!,
-        clientSecret: isProd
-            ? process.env.PHONEPE_CLIENT_SECRET_PROD!
-            : process.env.PHONEPE_CLIENT_SECRET!,
-        clientVersion: 1,
-        env: isProd
-            ? Env.PRODUCTION
-            : Env.SANDBOX,
-    };
+    return data;
 }

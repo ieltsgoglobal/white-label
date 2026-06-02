@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { StandardCheckoutPayRequest, MetaInfo } from 'pg-sdk-node';
 import { randomUUID } from 'crypto';
 import { B2CPlanId, computeB2CAmountPaise, requireB2CPlan } from '@/app/data/plans/b2c-plans';
 import { B2BPlanId, computeB2BAmountPaise, requireB2BPlan } from '@/app/data/plans/b2b-plans';
-import { getPhonePeClient } from '@/lib/phonepe/client';
+import { phonePeFetch } from '@/lib/phonepe/client';
 
 export const dynamic = "force-dynamic";
 
@@ -34,21 +33,24 @@ export async function POST(req: NextRequest) {
     // Build redirect URL with query params
     // will be passed in params for payment verification display in partner-payment-verification
     const redirectUrlWithParams = `${redirectUrl}?merchantOrderId=${merchantOrderId}&users=${usersPurchased}&amount=${amount}&userId=${userId}&duration=${duration}&type=${TYPE}`;
-    const metaInfo = new MetaInfo(
-        JSON.stringify({ orgId, usersPurchased, TYPE, userId, duration }), // udf1
-        "", // udf2
-        "", // udf3
-        "", // udf4
-        ""  // udf5
-    );
+    const response = await phonePeFetch("/checkout/v2/pay", {
+        method: "POST",
+        body: JSON.stringify({
+            merchantOrderId,
+            amount,
+            metaInfo: {
+                udf1: JSON.stringify({ orgId, usersPurchased, TYPE, userId, duration }),
+                udf2: "",
+                udf3: "",
+                udf4: "",
+                udf5: "",
+            },
+            paymentFlow: {
+                type: "PG_CHECKOUT",
+                merchantUrls: { redirectUrl: redirectUrlWithParams },
+            },
+        }),
+    });
 
-    const payRequest = StandardCheckoutPayRequest.builder()
-        .merchantOrderId(merchantOrderId)
-        .amount(amount)
-        .metaInfo(metaInfo)
-        .redirectUrl(redirectUrlWithParams)
-        .build();
-
-    const response = await getPhonePeClient().pay(payRequest);
     return NextResponse.json({ redirectUrl: response.redirectUrl });
 }
