@@ -1,19 +1,9 @@
 // File: app/api/payment-gateway/phonepe/webhook/route.ts
 import { addTransactionAndCredits } from "@/lib/superbase/transaction-table";
 import { NextRequest, NextResponse } from "next/server";
-import { StandardCheckoutClient, Env } from "pg-sdk-node";
+import { getPhonePeClient } from "@/lib/phonepe/client";
 
-const clientId = process.env.PHONEPE_CLIENT_ID!;
-const clientSecret = process.env.PHONEPE_CLIENT_SECRET!;
-const clientVersion = 1;
-const env = Env.PRODUCTION; // Use Env.PRODUCTION in live , Env.SANDBOX; in dev
-
-const client = StandardCheckoutClient.getInstance(
-    clientId,
-    clientSecret,
-    clientVersion,
-    env
-);
+export const dynamic = "force-dynamic";
 
 const webhookUsername = process.env.PHONEPE_CALLBACK_USERNAME!;
 const webhookPassword = process.env.PHONEPE_CALLBACK_PASSWORD!;
@@ -28,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     try {
         // Validate webhook signature
-        const callbackResponse = client.validateCallback(
+        const callbackResponse = getPhonePeClient().validateCallback(
             webhookUsername,
             webhookPassword,
             authHeader,

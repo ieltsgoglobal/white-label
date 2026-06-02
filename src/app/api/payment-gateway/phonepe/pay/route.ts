@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { StandardCheckoutClient, Env, StandardCheckoutPayRequest, MetaInfo } from 'pg-sdk-node';
+import { StandardCheckoutPayRequest, MetaInfo } from 'pg-sdk-node';
 import { randomUUID } from 'crypto';
 import { B2CPlanId, computeB2CAmountPaise, requireB2CPlan } from '@/app/data/plans/b2c-plans';
 import { B2BPlanId, computeB2BAmountPaise, requireB2BPlan } from '@/app/data/plans/b2b-plans';
+import { getPhonePeClient } from '@/lib/phonepe/client';
 
-
-const { clientId, clientSecret, clientVersion, env } = getPhonePeConfig();
-const client = StandardCheckoutClient.getInstance(clientId, clientSecret, clientVersion, env);
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
     const { planId, redirectUrl, orgId, TYPE, userId } = await req.json();
@@ -50,25 +49,6 @@ export async function POST(req: NextRequest) {
         .redirectUrl(redirectUrlWithParams)
         .build();
 
-    const response = await client.pay(payRequest);
+    const response = await getPhonePeClient().pay(payRequest);
     return NextResponse.json({ redirectUrl: response.redirectUrl });
-}
-
-
-// MISC GET ENV VARS 
-function getPhonePeConfig() {
-    const isProd = process.env.NODE_ENV === "production";
-
-    return {
-        clientId: isProd
-            ? process.env.PHONEPE_CLIENT_ID_PROD!
-            : process.env.PHONEPE_CLIENT_ID!,
-        clientSecret: isProd
-            ? process.env.PHONEPE_CLIENT_SECRET_PROD!
-            : process.env.PHONEPE_CLIENT_SECRET!,
-        clientVersion: 1,
-        env: isProd
-            ? Env.PRODUCTION
-            : Env.SANDBOX,
-    };
 }
