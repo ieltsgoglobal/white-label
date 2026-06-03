@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
+import Script from "next/script";
 
 import "./globals.css";
 
@@ -48,6 +49,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={GeistSans.className}>
+        <GoogleAdsTag />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 
           {verifiedSubdomain === null ?
@@ -61,5 +63,25 @@ export default async function RootLayout({
         </ThemeProvider>
       </body>
     </html>
+  );
+}
+
+
+
+export function GoogleAdsTag() {
+  const id = "AW-16561207539";
+
+  return (
+    <>
+      <Script async src={`https://www.googletagmanager.com/gtag/js?id=${id}`} />
+      <Script id="google-ads-tag" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${id}');
+        `}
+      </Script>
+    </>
   );
 }
