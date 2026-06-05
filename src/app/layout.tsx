@@ -49,7 +49,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={GeistSans.className}>
-        <GoogleAdsTag />
+        <GoogleTag />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 
           {verifiedSubdomain === null ?
@@ -68,18 +68,20 @@ export default async function RootLayout({
 
 
 
-export function GoogleAdsTag() {
-  const id = "AW-16561207539";
+export function GoogleTag() {
+  const googleAdsId = "AW-16561207539"; // goolge ad
+  const ga4Id = "G-TQ59ZQHS1H"; // google analytics
 
   return (
     <>
-      <Script async src={`https://www.googletagmanager.com/gtag/js?id=${id}`} />
+      <Script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAdsId}`} />
       <Script id="google-ads-tag" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', '${id}');
+          gtag('config', '${googleAdsId}');
+          gtag('config', '${ga4Id}');
         `}
       </Script>
     </>
