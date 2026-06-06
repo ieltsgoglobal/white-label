@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { verifySubdomain } from "@/lib/utils/verify-subdomain";
 import NotFound from "./not-found";
 import OnboardingTourController from "@/components/site-tutorial/OnboardingTourController";
+import { SessionActivity } from "@/components/session-activity/_components/session-activity";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -59,7 +60,7 @@ export default async function RootLayout({
           }
 
           <OnboardingTourController />
-
+          <SessionActivity />
         </ThemeProvider>
       </body>
     </html>
