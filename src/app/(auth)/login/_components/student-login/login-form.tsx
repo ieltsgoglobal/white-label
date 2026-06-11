@@ -28,8 +28,8 @@ export function LoginForm() {
 
             const result = await res.json()
 
-            if (result === true) {
-                window.location.href = document.referrer || "/practice";
+            if (result.success) {
+                window.location.href = document.referrer?.startsWith(window.location.origin) ? document.referrer : "/practice";
                 return;
             }
 

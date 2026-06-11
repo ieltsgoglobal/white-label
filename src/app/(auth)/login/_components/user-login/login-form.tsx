@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { useState } from 'react'
-import { simpleEncryptOtp } from './utils/encryptOtp'
 import { sendOtpRequest, verifyOtpRequest } from './utils/sendOtpRequest'
 import { PhoneInput } from '../../../../../components/auth/user/phone-number/phone-input'
 import { ResendOtp } from './ResendOtp'
@@ -13,32 +12,27 @@ export function LoginForm() {
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
     const [otp, setOtp] = useState("")
-    const [sentOtps, setSentOtps] = useState<string[]>([])
+    const [otpSent, setOtpSent] = useState(false)
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
 
-    const generateRandomOtp = () => {
-        return Math.floor(1000 + Math.random() * 9000).toString(); // 4-digit string
-    }
-
     const handleSendOtp = async () => {
-        if (!name.trim() || phone.length > 15) {
+        if (!name.trim() || !phone) {
             setError("Please enter a valid name and phone number.")
             return
         }
 
-        const generatedOtp = generateRandomOtp()
-        const encryptedOtp = simpleEncryptOtp(generatedOtp)
-
         setError("")
-        setSentOtps((prev) => [...prev, generatedOtp])
+        setLoading(true)
 
         try {
-            const normalizedPhone = phone.replace(/^\+/, "")
-            await sendOtpRequest(normalizedPhone, encryptedOtp)
+            await sendOtpRequest(phone)
+            setOtpSent(true)
         } catch (err: any) {
             setError(err.message)
-            setSentOtps([])
+            setOtpSent(false)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -50,21 +44,12 @@ export function LoginForm() {
             return
         }
 
-        // Add logic for whapi
-        // if (!sentOtps.includes(otp)) {
-        //     setError("Incorrect OTP. Please try again.")
-        //     return
-        // }
-
-
-        // doesnt uses all variables we were using prev in whapi send-otp funciton
-        await verifyOtpRequest(phone, otp);
-
-
         setError("")
         setLoading(true)
 
         try {
+            await verifyOtpRequest(phone, otp)
+
             const response = await fetch("/api/auth/user/user-auth", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -78,30 +63,30 @@ export function LoginForm() {
             }
 
             if (result.success) {
-                window.location.href = document.referrer || "/practice"
+                window.location.href = document.referrer?.startsWith(window.location.origin) ? document.referrer : "/practice";
                 return;
             }
 
         } catch (err: any) {
             setError(err.message)
+        } finally {
+            setLoading(false)
         }
     }
 
 
     const handleResendOtp = async () => {
-        const generatedOtp = generateRandomOtp()
-        const encryptedOtp = simpleEncryptOtp(generatedOtp)
-
         setError("")
-        setSentOtps((prev) => [...prev, generatedOtp])
-
-        const normalizedPhone = phone.replace(/\D/g, "")
-        await sendOtpRequest(normalizedPhone, encryptedOtp)
+        try {
+            await sendOtpRequest(phone)
+        } catch (err: any) {
+            setError(err.message)
+        }
     }
 
     return (
         <form
-            onSubmit={sentOtps.length > 0 ? handleVerifyOtp : (e) => {
+            onSubmit={otpSent ? handleVerifyOtp : (e) => {
                 e.preventDefault()
                 handleSendOtp()
             }}
@@ -135,12 +120,9 @@ export function LoginForm() {
                         value={phone}
                         onChange={setPhone}
                     />
-                    {/* <p className="text-xs text-muted-foreground">
-                        You will receive the OTP on <span className="font-medium">WhatsApp</span>
-                    </p> */}
                 </div>
 
-                {sentOtps.length > 0 && (
+                {otpSent && (
                     <>
                         <div className="grid gap-2">
                             <Label htmlFor="otp">Enter OTP</Label>
@@ -165,7 +147,7 @@ export function LoginForm() {
                 <Button type="submit" className="w-full" disabled={loading}>
                     {loading
                         ? "Processing..."
-                        : sentOtps.length > 0
+                        : otpSent
                             ? "Verify OTP"
                             : "Send OTP"}
                 </Button>
