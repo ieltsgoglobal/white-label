@@ -4,8 +4,10 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { getUserById } from "@/lib/superbase/user-table";
 
 const JWT_SECRET = process.env.JWT_SECRET || "super-secret-key";
+const ONE_MONTH_SECONDS = 60 * 60 * 24 * 30;
 
 export async function POST(req: Request) {
     try {
@@ -29,16 +31,18 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Invalid token" }, { status: 401 });
         }
 
-        // Create new token with updated membership
+        const user = await getUserById(decoded.userId);
+
+        // Create new token with latest membership from Supabase
         const newToken = jwt.sign(
             {
-                userId: decoded.userId,
-                userName: decoded.userName,
+                userId: user.id,
+                userName: user.name,
                 role: decoded.role,
-                is_member: true,
+                is_member: user.is_member,
             },
             JWT_SECRET,
-            { expiresIn: "1d" }
+            { expiresIn: "30d" }
         );
 
         // Replace the cookie
@@ -48,7 +52,7 @@ export async function POST(req: Request) {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             path: "/",
-            maxAge: 60 * 60 * 24,
+            maxAge: ONE_MONTH_SECONDS,
         });
 
         return NextResponse.json({ success: true });

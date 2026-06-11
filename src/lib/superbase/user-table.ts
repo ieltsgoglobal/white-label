@@ -78,3 +78,17 @@ export async function createOrGetUser(input: CreateUserInput) {
     console.log("newUser", newUser)
     return newUser
 }
+
+export async function getUserById(userId: string) {
+    const { data: user, error } = await supabase
+        .from("user")
+        .select("*")
+        .eq("id", userId)
+        .single()
+
+    if (error) {
+        throw new Error(`Failed to fetch user: ${error.message}`)
+    }
+
+    return user
+}
