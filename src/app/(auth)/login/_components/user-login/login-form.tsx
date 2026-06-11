@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { useState } from 'react'
 import { simpleEncryptOtp } from './utils/encryptOtp'
-import { sendOtpRequest } from './utils/sendOtpRequest'
+import { sendOtpRequest, verifyOtpRequest } from './utils/sendOtpRequest'
 import { PhoneInput } from '../../../../../components/auth/user/phone-number/phone-input'
 import { ResendOtp } from './ResendOtp'
 
@@ -45,15 +45,20 @@ export function LoginForm() {
     const handleVerifyOtp = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        if (otp.length !== 4) {
-            setError("Please enter a valid 4-digit OTP.")
+        if (otp.length !== 6) {
+            setError("Please enter a valid 6-digit OTP.")
             return
         }
 
-        if (!sentOtps.includes(otp)) {
-            setError("Incorrect OTP. Please try again.")
-            return
-        }
+        // Add logic for whapi
+        // if (!sentOtps.includes(otp)) {
+        //     setError("Incorrect OTP. Please try again.")
+        //     return
+        // }
+
+
+        // doesnt uses all variables we were using prev in whapi send-otp funciton
+        await verifyOtpRequest(phone, otp);
 
 
         setError("")
@@ -130,9 +135,9 @@ export function LoginForm() {
                         value={phone}
                         onChange={setPhone}
                     />
-                    <p className="text-xs text-muted-foreground">
+                    {/* <p className="text-xs text-muted-foreground">
                         You will receive the OTP on <span className="font-medium">WhatsApp</span>
-                    </p>
+                    </p> */}
                 </div>
 
                 {sentOtps.length > 0 && (
@@ -142,10 +147,10 @@ export function LoginForm() {
                             <Input
                                 id="otp"
                                 type="text"
-                                maxLength={4}
+                                maxLength={6}
                                 inputMode="numeric"
-                                pattern="\d{4}"
-                                placeholder="1234"
+                                pattern="\d{6}"
+                                placeholder="123456"
                                 required
                                 value={otp}
                                 onChange={(e) => setOtp(e.target.value)}
