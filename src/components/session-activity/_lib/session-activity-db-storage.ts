@@ -9,7 +9,7 @@ export async function syncSessionActivity() {
         const response = await fetch(ANALYTICS_ENDPOINT, {
             method: "POST",
             headers: { "Content-Type": "application/json", },
-            body: JSON.stringify({ ...getSessionActivity(), sessionDetails: getSessionUserDetails() }),
+            body: JSON.stringify({ activityDetails: getSessionActivity(), sessionDetails: getSessionUserDetails() }),
         });
 
         console.log("analytics status", response.status);
