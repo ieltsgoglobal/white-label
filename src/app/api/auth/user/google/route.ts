@@ -5,7 +5,7 @@ import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 
 const ONE_MONTH_SECONDS = 60 * 60 * 24 * 30
-const googleClientId = process.env.GOOGLE_CLIENT_ID!
+const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!
 const JWT_SECRET = process.env.JWT_SECRET || "super-secret-key"
 
 export async function POST(request: Request) {
