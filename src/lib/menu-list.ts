@@ -8,7 +8,8 @@ import {
   LucideIcon,
   DollarSign,
   PenLine,
-  Handshake
+  Handshake,
+  Brain
 } from "lucide-react";
 
 type Submenu = {
@@ -60,7 +61,12 @@ export function getMenuList(pathname: string): Group[] {
           href: "/practice-sets",
           label: "Sectional Practice",
           icon: PenLine
-        }
+        },
+        {
+          href: "/vocab-ladder",
+          label: "Vocabulary Practice",
+          icon: Brain
+        },
       ]
     },
     {
