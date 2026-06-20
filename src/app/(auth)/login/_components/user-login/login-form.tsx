@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { sendOtpRequest, verifyOtpRequest } from './utils/sendOtpRequest'
 import { PhoneInput } from '../../../../../components/auth/user/phone-number/phone-input'
 import { ResendOtp } from './ResendOtp'
+import { GoogleOAuth } from './GoogleOAuth'
 
 export function LoginForm() {
     const [name, setName] = useState("")
@@ -98,6 +99,7 @@ export function LoginForm() {
                     Enter your details below to login to your account
                 </p>
             </div>
+            <GoogleOAuth />
             <div className="grid gap-6">
                 <div className="grid gap-2">
                     <Label htmlFor="name">Name</Label>

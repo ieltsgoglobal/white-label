@@ -7,6 +7,11 @@ const supabase = createClient(
     process.env.SUPABASE_SERVICE_ROLE_KEY! // use SERVICE ROLE key on the server
 )
 
+// =======================================
+// =============== SMS AUTH ==============
+// =======================================
+
+
 type CreateUserInput = {
     name: string
     phone: string
@@ -76,6 +81,52 @@ export async function createOrGetUser(input: CreateUserInput) {
     }
 
     console.log("newUser", newUser)
+    return newUser
+}
+
+// =======================================
+// ============= GOOGLE OAUTH ============
+// =======================================
+
+
+type CreateGoogleUserInput = {
+    googleSub: string
+    email: string
+    name: string
+}
+
+export async function createOrGetGoogleUser({ googleSub, email, name }: CreateGoogleUserInput) {
+
+    // Step 1: Check if user already exists
+    const { data: existingUser, error: findError } = await supabase
+        .from("user")
+        .select("*")
+        .eq("google_sub", googleSub)
+        .maybeSingle()
+
+    if (findError) {
+        throw new Error(`Failed to check for existing Google user: ${findError.message}`)
+    }
+
+    if (existingUser) return existingUser
+
+    // Step 2: Create new user if not exists
+    const { data: newUser, error: insertError } = await supabase
+        .from("user")
+        .insert({
+            name,
+            email,
+            google_sub: googleSub,
+            phone: null,
+            is_member: false,
+        })
+        .select("*")
+        .single()
+
+    if (insertError) {
+        throw new Error(`Failed to create Google user: ${insertError.message}`)
+    }
+
     return newUser
 }
 
