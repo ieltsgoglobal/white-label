@@ -95,7 +95,9 @@ export const getRandomVocabQuestionWhichIsNotCorrect = () => {
 
     if (availableQuestions.length === 0) { return null }
 
-    return availableQuestions[Math.floor(Math.random() * availableQuestions.length)]
+    // randomize and shuffle options while fetching the question
+    const question = availableQuestions[Math.floor(Math.random() * availableQuestions.length)]
+    return { ...question, options: [...question.options].sort(() => Math.random() - 0.5) }
 }
 
 // when use press submit for any vocab question
