@@ -71,7 +71,7 @@ Only return JSON with band scores (integers 0 to 9). Do NOT include any explanat
 `;
 
         const completion = await groq.chat.completions.create({
-            model: 'meta-llama/llama-4-maverick-17b-128e-instruct',
+            model: 'meta-llama/llama-4-scout-17b-16e-instruct',
             messages: [{ role: 'user', content: prompt }],
             temperature: 0,
             max_completion_tokens: 300,

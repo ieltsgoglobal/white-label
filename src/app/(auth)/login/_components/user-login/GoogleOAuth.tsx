@@ -1,5 +1,6 @@
 "use client"
 
+import DotPulseLoader from "@/components/loaders/mock-tests/speaking/DotPulseLoader"
 import Script from "next/script"
 import { useState } from "react"
 
@@ -22,9 +23,11 @@ declare global {
 
 export function GoogleOAuth() {
     const [error, setError] = useState("")
+    const [isRedirecting, setIsRedirecting] = useState(false)
 
     const handleGoogleLogin = async ({ credential }: GoogleCredentialResponse) => {
         setError("")
+        setIsRedirecting(true)
 
         try {
             const response = await fetch("/api/auth/user/google", {
@@ -38,6 +41,7 @@ export function GoogleOAuth() {
 
             window.location.href = document.referrer?.startsWith(window.location.origin) ? document.referrer : "/practice"
         } catch (error) {
+            setIsRedirecting(false)
             setError(error instanceof Error ? error.message : "Google login failed")
         }
     }
@@ -66,7 +70,9 @@ export function GoogleOAuth() {
                 strategy="afterInteractive"
                 onReady={initializeGoogleButton}
             />
-            <div id="google-user-login" className="flex min-h-10 justify-center" />
+            <div id="google-user-login" className="flex min-h-10 justify-center">
+                {isRedirecting && <DotPulseLoader />}
+            </div>
             {error && <div className="text-sm text-red-500">{error}</div>}
             <div className="relative text-center text-xs uppercase text-muted-foreground">
                 <span className="relative z-10 bg-background px-2">Or use phone number</span>
