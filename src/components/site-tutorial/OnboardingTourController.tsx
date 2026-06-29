@@ -104,7 +104,7 @@ class TourController extends React.PureComponent<
                     <SpotlightOverlay mode="focus" rect={rect} />
                 )}
 
-                <div className="fixed inset-0 z-[12] pointer-events-none">
+                <div className="fixed inset-0 z-[32] pointer-events-none">
                     <Scene next={this.next} setTarget={this.setTarget} endTourForRoute={this.endTourForRoute} />
                 </div>
             </>

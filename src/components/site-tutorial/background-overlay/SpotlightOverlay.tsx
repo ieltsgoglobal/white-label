@@ -10,7 +10,7 @@ export default function SpotlightOverlay(props: Props) {
     if (props.mode === 'preview') {
         return (
             <>
-                <div className="spotlight-preview fixed inset-0 z-[11] pointer-events-none" />
+                <div className="spotlight-preview fixed inset-0 z-[31] pointer-events-none" />
                 <style jsx>{`
                     .spotlight-preview {
                         background: rgba(0, 0, 0, 0.6);
@@ -38,7 +38,7 @@ export default function SpotlightOverlay(props: Props) {
     return (
         <>
             <div
-                className="spotlight-focus fixed inset-0 z-[11] pointer-events-none"
+                className="spotlight-focus fixed inset-0 z-[31] pointer-events-none"
                 style={
                     {
                         '--x': `${x}px`,

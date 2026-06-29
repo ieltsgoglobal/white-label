@@ -25,7 +25,7 @@ export default function SuccessPage() {
             {/* Decorative background */}
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_40%_at_10%_10%,rgba(16,185,129,0.15),transparent),radial-gradient(50%_35%_at_90%_20%,rgba(147,51,234,0.12),transparent),radial-gradient(60%_50%_at_50%_100%,rgba(20,184,166,0.14),transparent)]"
+                className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_40%_at_10%_10%,rgba(16,185,129,0.15),transparent),radial-gradient(50%_35%_at_90%_20%,rgba(147,51,234,0.12),transparent),radial-gradient(60%_50%_at_50%_100%,rgba(20,184,166,0.14),transparent)]"
             />
             <div className="container mx-auto max-w-6xl px-4 py-10 md:py-16">
                 <div className="mx-auto max-w-3xl text-center">

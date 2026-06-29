@@ -68,7 +68,7 @@ export function ClientAgentSession({ onEndSession }: AgentSessionProps) {
                     ) : null}
                 </div>
 
-                <div className="fixed inset-x-0 bottom-28 z-10 px-4">
+                <div className="fixed inset-x-0 bottom-28 px-4">
                     <div className="mx-auto max-w-4xl text-center">
                         <p className="mb-2 text-xs uppercase tracking-[0.25em] text-muted-foreground">
                             {speaker}
@@ -80,7 +80,7 @@ export function ClientAgentSession({ onEndSession }: AgentSessionProps) {
                     </div>
                 </div>
 
-                <div className="pointer-events-none fixed inset-x-0 bottom-0 z-10 px-4 pb-5 sm:px-6 lg:px-8">
+                <div className="z-[22] pointer-events-none fixed inset-x-0 bottom-0 px-4 pb-5 sm:px-6 lg:px-8">
                     <div className="pointer-events-auto mx-auto max-w-6xl">
                         <AgentControlBar
                             className={cn(

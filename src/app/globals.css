@@ -70,6 +70,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -88,17 +89,22 @@ html {
 ---------- COMPONENTS Z SCORES --------------
 
   0 - 
-  1 - footer | navbar | pagination accross mock-tests and practice-tests
+  1 - footer | pagination accross mock-tests and practice-tests
   2 - 
   3 - 
-  10 - sidebar refrences | 
-  20 - 
+  10 - 
+  20 - navbar | 
+  21 - sidebar refrences | 
   50 - shadcn default components | 
   100 - loaders | 
 
 ------------ TUTORIAL Z SCORES --------------
 
-  11 - black_overlays | 
-  12 - buttons_focus | maya_chatbox | maya
+  31 - black_overlays | 
+  32 - buttons_focus | maya_chatbox | maya
 
+------------ LIVEKIT AGENT Z SCORES --------------
+
+  33 - livekit agent components
+  
 */

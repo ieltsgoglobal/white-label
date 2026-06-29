@@ -24,7 +24,7 @@ export default function PracticeSummaryScene({
                     right-[40px] sm:right-[260px] 
                     max-w-xs 
                     pointer-events-auto 
-                    z-12
+                    z-[32]
                 "
             >
                 <div className="relative bg-white text-black px-6 py-4 rounded-2xl shadow-xl font-semibold text-base leading-snug">
