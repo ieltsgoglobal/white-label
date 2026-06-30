@@ -23,7 +23,6 @@ export function ClientAgentSession({ onEndSession }: AgentSessionProps) {
     const { microphoneTrack, state } = useAgent();
     const session = useSessionContext();
     const cameraTrack = session.local.cameraTrack;
-    const isDark = resolvedTheme === 'dark';
 
     // show Transcript logic
     const { messages } = useSessionMessages();
@@ -49,11 +48,11 @@ export function ClientAgentSession({ onEndSession }: AgentSessionProps) {
                             <div className="absolute h-64 w-64 rounded-full bg-primary/10 blur-3xl sm:h-80 sm:w-80" />
                             <AgentAudioVisualizerAura
                                 audioTrack={microphoneTrack}
-                                color="#F8FAFC"
+                                color={state === 'listening' ? '#2563EB' : '#F8FAFC'}// we use it so user can visually tell its thier turn to speak
                                 colorShift={0.04}
                                 size="xl"
                                 state={state}
-                                themeMode={isDark ? 'dark' : 'light'}
+                                themeMode={resolvedTheme === 'dark' ? 'dark' : 'light'}
                             />
                         </div>
                     </div>

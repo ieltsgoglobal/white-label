@@ -8,6 +8,7 @@ import DotPulseLoader from '@/components/loaders/mock-tests/speaking/DotPulseLoa
 import { useSearchParams } from 'next/navigation';
 import { createAgentTokenSource } from '../_lib/manage-session-token';
 import { ClientAgentSession } from '../_components/main-agent-session';
+import { useSidebar } from '@/hooks/use-sidebar';
 
 export type AgentType =
     | 'study-abroad-counselor'
@@ -20,6 +21,11 @@ export default function Page() {
     const tokenSource = useMemo(() => createAgentTokenSource(agentType), []);
 
     const session = useSession(tokenSource);
+
+    // closes the sidebar on load
+    useEffect(() => {
+        useSidebar.getState().setIsOpen(false);
+    }, []);
 
     useEffect(() => {
         session.start().catch(() => window.location.href = '/agent/unavailable');
