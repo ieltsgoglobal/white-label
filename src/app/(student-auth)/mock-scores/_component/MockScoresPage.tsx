@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Calendar, Clock, FileText, Headphones, BookOpen, Mic, Eye, ChevronLeft } from "lucide-react"
 import { useMockAttempts } from "./MockAttemptContext"
-import Link from "next/link"
+import Link from "@/components/demo/link"
 import { useRouter } from "next/navigation"
 
 

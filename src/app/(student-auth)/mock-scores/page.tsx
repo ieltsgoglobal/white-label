@@ -1,5 +1,5 @@
 import AdminPanelLayout from "@/components/admin-panel/admin-panel-layout";
-import Link from "next/link";
+import Link from "@/components/demo/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";

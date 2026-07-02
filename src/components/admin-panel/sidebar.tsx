@@ -6,7 +6,7 @@ import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
 import { EarthIcon } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/demo/link";
 
 export function Sidebar() {
   const sidebar = useStore(useSidebar, (x) => x);

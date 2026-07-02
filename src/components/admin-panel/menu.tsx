@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/demo/link";
 import { Ellipsis, PenBoxIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 

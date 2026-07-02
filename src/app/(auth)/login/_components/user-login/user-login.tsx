@@ -1,7 +1,7 @@
 import { GalleryVerticalEnd } from "lucide-react"
 import UserLoginHero from "./user-login.jpg"
 import Image from "next/image"
-import Link from "next/link"
+import Link from "@/components/demo/link"
 import { LoginForm } from "./login-form"
 
 export default function UserLogIn() {

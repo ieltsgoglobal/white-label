@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import Link from 'next/link'
+import Link from "@/components/demo/link"
 import { useState } from 'react'
 import { sendOtpRequest, verifyOtpRequest } from './utils/sendOtpRequest'
 import { PhoneInput } from '../../../../../components/auth/user/phone-number/phone-input'

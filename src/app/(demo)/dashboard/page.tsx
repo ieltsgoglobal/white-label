@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import Link from "@/components/demo/link";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
   Breadcrumb,

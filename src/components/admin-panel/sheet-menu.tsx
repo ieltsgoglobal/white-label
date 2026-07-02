@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/demo/link";
 import { EarthIcon, MenuIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Check, Download, Mail, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import Link from "next/link"
+import Link from "@/components/demo/link"
 
 type Props = {
     orderId: string;

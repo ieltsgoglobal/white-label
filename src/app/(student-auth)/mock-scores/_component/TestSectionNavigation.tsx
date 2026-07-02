@@ -7,7 +7,7 @@ import { useParams, useRouter } from "next/navigation"
 import { useMockAttempts } from "./MockAttemptContext"
 import { useEffect, useState } from "react"
 import { Scores } from "@/types/mockTestAttempt"
-import Link from "next/link"
+import Link from "@/components/demo/link"
 
 type SectionType = "listening" | "reading" | "writing" | "speaking"
 

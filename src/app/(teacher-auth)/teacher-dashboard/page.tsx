@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/demo/link";
 
 import PlaceholderContent from "@/components/demo/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
