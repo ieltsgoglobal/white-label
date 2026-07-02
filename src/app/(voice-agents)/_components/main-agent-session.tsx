@@ -13,6 +13,7 @@ import { AgentControlBar } from '@/components/agents-ui/agent-control-bar';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { AgentToolDisplayHelper } from './agent-tool-display-helper';
 
 type AgentSessionProps = {
     onEndSession?: () => void;
@@ -48,7 +49,7 @@ export function ClientAgentSession({ onEndSession }: AgentSessionProps) {
                             <div className="absolute h-64 w-64 rounded-full bg-primary/10 blur-3xl sm:h-80 sm:w-80" />
                             <AgentAudioVisualizerAura
                                 audioTrack={microphoneTrack}
-                                color={state === 'listening' ? '#2563EB' : '#F8FAFC'}// we use it so user can visually tell its thier turn to speak
+                                color={state === 'listening' ? '#2563EB' : '#F8FAFC'} // we use it so user can visually tell its thier turn to speak
                                 colorShift={0.04}
                                 size="xl"
                                 state={state}
@@ -99,6 +100,8 @@ export function ClientAgentSession({ onEndSession }: AgentSessionProps) {
                         />
                     </div>
                 </div>
+
+                <AgentToolDisplayHelper session={session} />
             </section>
         </main>
     );
