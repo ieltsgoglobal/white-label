@@ -49,8 +49,12 @@ export default function PracticeSetsDashboard() {
                             Practice Dashboard
                         </h1>
                         <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                            Stay on top of your IELTS prep! Review progress, continue your practice sets,
-                            and discover insights that help you improve every day.
+                            Practice with
+                            <span className="text-primary text-2xl font-semibold tracking-[-0.04em]">
+                                {"  "} 3,000+ FREE {"  "}
+                            </span>
+                            IELTS questions, track your progress, and build
+                            the skills you need for test day.
                         </p>
                     </div>
 

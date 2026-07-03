@@ -64,7 +64,7 @@ export function LoginForm() {
             }
 
             if (result.success) {
-                window.location.href = document.referrer?.startsWith(window.location.origin) ? document.referrer : "/practice";
+                window.location.href = document.referrer?.startsWith(window.location.origin) ? document.referrer : "/practice-sets";
                 return;
             }
 
