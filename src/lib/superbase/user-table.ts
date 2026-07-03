@@ -143,3 +143,16 @@ export async function getUserById(userId: string) {
 
     return user
 }
+
+
+export async function getAllUsers(offset: number = 0, limit: number = 50) {
+    const { data, error } = await supabase
+        .from("user")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .range(offset, offset + limit - 1);
+
+    if (error) throw new Error(`Failed to fetch users: ${error.message}`)
+
+    return data;
+}
