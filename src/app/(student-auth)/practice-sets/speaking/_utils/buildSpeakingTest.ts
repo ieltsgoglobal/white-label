@@ -2,11 +2,17 @@ import { getPracticeSetsSpeakingSubmissions } from "@/lib/postgress-aws/helper-f
 import { hashFilename } from "../../_utils/hashFilename";
 import { pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
 import { convertSpeakingData } from "./convertSpeakingData";
+import { userActiveAccess } from "@/lib/auth/session/has-access";
 
 export async function buidSpeakingTest() {
 
     // Get all the already attempted questions by user
     const exclude_test_paths = await getPracticeSetsSpeakingSubmissions({ returnOnlyTestPaths: true }) ?? []
+
+    // hack: makes user redirect to pricing if its his 2nd time practicing without subscription
+    if (exclude_test_paths.length > 0) {
+        await userActiveAccess();
+    }
 
     // 1️⃣ Pick a random reading test from available logical paths
     const logicalPaths = pickRandomBookAndTest(exclude_test_paths.map(r => r.test_path));
