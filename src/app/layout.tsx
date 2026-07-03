@@ -5,8 +5,6 @@ import Script from "next/script";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { verifySubdomain } from "@/lib/utils/verify-subdomain";
-import NotFound from "./not-found";
 import OnboardingTourController from "@/components/site-tutorial/OnboardingTourController";
 import { SessionActivity } from "@/components/session-activity/_components/session-activity";
 
@@ -45,7 +43,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const verifiedSubdomain = await verifySubdomain();
+  // note: can add later when b2b operations start
+  // const verifiedSubdomain = await verifySubdomain();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -53,11 +52,7 @@ export default async function RootLayout({
         <GoogleTag />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 
-          {verifiedSubdomain === null ?
-            <NotFound />
-            :
-            <>{children}</>
-          }
+          <>{children}</>
 
           <OnboardingTourController />
           <SessionActivity />

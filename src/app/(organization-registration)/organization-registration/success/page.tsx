@@ -1,23 +1,30 @@
 "use client"
 
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import Celebrate from "./_components/celebrate"
 import CopyButton from "./_components/copy-button"
 import Steps from "./_components/steps"
-import { useSearchParams } from "next/navigation"
 
+type SuccessData = {
+    org: string | null;
+    subdomain: string | null;
+    email: string | null;
+    createdAt: string | null;
+};
 
 export default function SuccessPage() {
-    const searchParams = useSearchParams()
+    const [data, setData] = useState<SuccessData>({ org: null, subdomain: null, email: null, createdAt: null });
 
-    const org = searchParams.get("org") || "Your Organization"
-    const subdomainRaw = searchParams.get("subdomain") || "your-org"
-    const email = searchParams.get("email") || "owner@example.com"
-    const createdAt = searchParams.get("createdAt")
+    // get data from url params
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        setData({ org: params.get("org"), subdomain: params.get("subdomain"), email: params.get("email"), createdAt: params.get("createdAt") });
+    }, []);
 
-    const subdomain = subdomainRaw.toLowerCase().replace(/[^a-z0-9-]/g, "")
+    const subdomain = (data.subdomain ?? "").toLowerCase().replace(/[^a-z0-9-]/g, "")
     const miniSiteUrl = `https://${subdomain}.ieltsgoglobal.com`
 
     return (
@@ -41,9 +48,9 @@ export default function SuccessPage() {
                 <div className="mt-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr]">
                     {/* Left: Steps and status */}
                     <Steps
-                        createdAt={createdAt}
+                        createdAt={data.createdAt}
                         subdomain={subdomain}
-                        email={email}
+                        email={data.email ?? ""}
                     />
 
                     {/* Right: Mini site details */}
@@ -57,7 +64,7 @@ export default function SuccessPage() {
                                 <div className="flex items-center justify-between gap-3">
                                     <div className="min-w-0">
                                         <p className="truncate font-medium">{miniSiteUrl}</p>
-                                        <p className="truncate text-sm text-muted-foreground">{org}</p>
+                                        <p className="truncate text-sm text-muted-foreground">{data.org}</p>
                                     </div>
                                     <CopyButton text={miniSiteUrl} />
                                 </div>
