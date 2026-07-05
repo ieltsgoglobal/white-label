@@ -130,6 +130,33 @@ export async function createOrGetGoogleUser({ googleSub, email, name }: CreateGo
     return newUser
 }
 
+
+
+// ===============================================
+// =============== GET USER METHODS ==============
+// ===============================================
+
+export type UserDetailsFromDB = {
+    id: string;
+    name: string | null;
+    phone: string | null;
+    email: string | null;
+    google_sub: string | null;
+
+    is_member: boolean;
+    membership_type: string | null;
+    membership_started_at: string | null;
+    membership_expires_at: string | null;
+    membership_status: string | null;
+
+    last_payment_id: string | null;
+    last_payment_amount: number | null;
+    last_payment_at: string | null;
+
+    created_at: string;
+    updated_at: string;
+};
+
 export async function getUserById(userId: string) {
     const { data: user, error } = await supabase
         .from("user")
@@ -142,4 +169,22 @@ export async function getUserById(userId: string) {
     }
 
     return user
+}
+
+
+export async function getAllUsers(offset: number = 0, hasPhoneNumber = false, isMember = false): Promise<UserDetailsFromDB[]> {
+    const limit_window = 50
+    let query = supabase
+        .from("user")
+        .select("*")
+        .order("created_at", { ascending: false })
+
+    if (hasPhoneNumber) query = query.not("phone", "is", null).neq("phone", "");
+    if (isMember) query = query.eq("is_member", true);
+
+    const { data, error } = await query.range(offset, offset + limit_window - 1);
+
+    if (error) throw new Error(`Failed to fetch users: ${error.message}`)
+
+    return data;
 }
