@@ -3,10 +3,17 @@ import Link from "@/components/demo/link";
 import PlaceholderContent from "@/components/demo/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import SuperAdminDashboard from "./_components/super-admin-dashboard.server"
+import { getSuperAdminDashboardData } from "./_lib/super-admin-server-functions";
+import { SuperAdminDashboardClient } from "./_components/super-admin-dashboard.client";
+import { unstable_noStore as noStore } from "next/cache";
 
-export default function UsersPage({ searchParams }: { searchParams?: { offset?: string } }) {
-    const offset = Number(searchParams?.offset ?? 0);
+export default async function UsersPage({ searchParams }: { searchParams?: { offset?: string; hasPhoneNumber?: boolean; isMember?: boolean; } }) {
+
+    // note: used so fresh data if fetched on-load
+    noStore();
+
+    const offset = Number(searchParams?.offset ?? 0) || 0;
+    const data = await getSuperAdminDashboardData(offset, searchParams?.hasPhoneNumber, searchParams?.isMember);
 
     return (
         <ContentLayout title="Users">
@@ -36,7 +43,7 @@ export default function UsersPage({ searchParams }: { searchParams?: { offset?: 
                     </div>
                 </div>
 
-                <SuperAdminDashboard offset={Number.isFinite(offset) && offset > 0 ? offset : 0} />
+                <SuperAdminDashboardClient {...data} />
             </PlaceholderContent>
         </ContentLayout >
     );

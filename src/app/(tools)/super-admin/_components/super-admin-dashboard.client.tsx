@@ -1,210 +1,136 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import type { SuperAdminDashboardRow } from "../_lib/super-admin-server-functions";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, CreditCard, Phone } from "lucide-react";
 
-type SuperAdminDashboardRow = {
-    id: string;
-    name: string;
-    phone: string;
-    email: string;
-    createdAt: string | null;
-    mockTestsCount: number;
-    totalPractices: number;
-    listeningCount: number;
-    readingCount: number;
-    writingCount: number;
-    speakingCount: number;
-    lastPracticedAt: string | null;
-};
-
-export function SuperAdminDashboardClient({
-    rows,
-    totalUsers,
-}: {
-    rows: SuperAdminDashboardRow[];
-    totalUsers: number;
-}) {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
-
-    const filteredRows = useMemo(
-        () => filterRows(rows, searchQuery, selectedLetter),
-        [rows, searchQuery, selectedLetter]
-    );
-
+export function SuperAdminDashboardClient({ rows, totalUsers }: { rows: SuperAdminDashboardRow[]; totalUsers: number }) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Users</CardTitle>
-                <CardDescription>
-                    Showing practice stats for {totalUsers} users.
-                </CardDescription>
+                <div className="w-full flex justify-between">
+                    <div>
+                        <CardTitle>Users</CardTitle>
+                        <CardDescription>
+                            Showing practice stats for {totalUsers} users.
+                        </CardDescription>
+                    </div>
+                    <PaginationButtons />
+                </div>
             </CardHeader>
             <CardContent>
-                <div className="flex flex-col gap-4 mb-6">
-                    <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                        <Input
-                            placeholder="Search by name, email, phone, or user ID..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10"
-                        />
-                    </div>
-
-                    <AlphabetFilter value={selectedLetter} onChange={setSelectedLetter} />
-                </div>
-
-                <div className="rounded-md border">
-                    <Table className="min-w-[900px] table-fixed">
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[120px]">Date Added</TableHead>
-                                <TableHead className="w-[220px]">User</TableHead>
-                                <TableHead className="w-[220px]">Email</TableHead>
-                                <TableHead className="w-[140px]">Phone</TableHead>
-                                <TableHead className="w-[120px]">Mock Tests</TableHead>
-                                <TableHead className="w-[140px]">Total Practices</TableHead>
-                                <TableHead className="w-[140px]">Last Practiced</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredRows.length === 0 ? (
+                <TooltipProvider>
+                    <div className="rounded-md border">
+                        <Table className="min-w-[900px] table-fixed">
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell colSpan={7} className="text-center text-sm text-muted-foreground">
-                                        No users found.
-                                    </TableCell>
+                                    <TableHead className="w-[120px]">Date Added</TableHead>
+                                    <TableHead className="w-[220px]">User</TableHead>
+                                    <TableHead className="w-[220px]">Email</TableHead>
+                                    <TableHead className="w-[140px]">Phone</TableHead>
+                                    <TableHead className="w-[120px]">Subscription</TableHead>
+                                    <TableHead className="w-[120px]">Mock Tests</TableHead>
+                                    <TableHead className="w-[140px]">Total Practices</TableHead>
+                                    <TableHead className="w-[140px]">Last Practiced</TableHead>
                                 </TableRow>
-                            ) : (
-                                filteredRows.map((row) => (
-                                    <TableRow key={row.id}>
-                                        <TableCell className="text-sm text-muted-foreground">
-                                            {formatDate(row.createdAt)}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="text-sm font-medium">{row.name}</div>
-                                        </TableCell>
-                                        <TableCell className="text-sm text-muted-foreground">
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <span className="block truncate">{row.email}</span>
-                                                    </TooltipTrigger>
-                                                    <TooltipContent>{row.email}</TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-                                        </TableCell>
-                                        <TableCell className="text-sm">
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <span className="block truncate">{row.phone}</span>
-                                                    </TooltipTrigger>
-                                                    <TooltipContent>{row.phone}</TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-                                        </TableCell>
-                                        <TableCell className="text-sm font-semibold">{row.mockTestsCount}</TableCell>
-                                        <TableCell className="text-sm font-semibold">
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <span className="cursor-help underline decoration-dotted underline-offset-4">
-                                                            {row.totalPractices}
-                                                        </span>
-                                                    </TooltipTrigger>
-                                                    <TooltipContent>
-                                                        <div className="space-y-1 text-xs">
-                                                            <div>Listening: {row.listeningCount}</div>
-                                                            <div>Reading: {row.readingCount}</div>
-                                                            <div>Writing: {row.writingCount}</div>
-                                                            <div>Speaking: {row.speakingCount}</div>
-                                                        </div>
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
-                                        </TableCell>
-                                        <TableCell className="text-sm whitespace-nowrap text-muted-foreground">
-                                            {formatRelativeDate(row.lastPracticedAt)}
-                                        </TableCell>
+                            </TableHeader>
+                            <TableBody>
+                                {rows.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={8} className="text-center text-sm text-muted-foreground">No users found.</TableCell>
                                     </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
+                                ) : rows.map((row) => (
+                                    <TableRow key={row.id}>
+                                        <TableCell className="text-sm text-muted-foreground">{formatDate(row.createdAt)}</TableCell>
+                                        <CopyableNameCell name={row.name} />
+                                        <CopyableTooltipCell value={row.email} muted />
+                                        <CopyableTooltipCell value={row.phone} />
+                                        <SubscriptionCell row={row} />
+                                        <TableCell className="text-sm font-semibold">{row.mockTestsCount}</TableCell>
+                                        <PracticeStatsCell row={row} />
+                                        <TableCell className="text-sm whitespace-nowrap text-muted-foreground">{formatRelativeDate(row.lastPracticedAt)}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </TooltipProvider>
             </CardContent>
-        </Card>
+        </Card >
     );
 }
 
-function AlphabetFilter({
-    value,
-    onChange,
-}: {
-    value: string | null;
-    onChange: (letter: string | null) => void;
-}) {
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+// MISC CODE
+
+function CopyableNameCell({ name }: { name: string }) {
+    return (
+        <TableCell onClick={() => copyToClipboard(name)}>
+            <div className="text-sm font-medium cursor-copy">{name}</div>
+        </TableCell>
+    );
+}
+
+function CopyableTooltipCell({ value, muted = false }: { value: string; muted?: boolean }) {
+    return (
+        <TableCell onClick={() => copyToClipboard(value)} className={muted ? "text-sm text-muted-foreground cursor-copy" : "text-sm cursor-copy"}>
+            <Tooltip>
+                <TooltipTrigger asChild><span className="block truncate">{value}</span></TooltipTrigger>
+                <TooltipContent>{value}</TooltipContent>
+            </Tooltip>
+        </TableCell>
+    );
+}
+
+function SubscriptionCell({ row }: { row: SuperAdminDashboardRow }) {
+    const paymentLabel = row.lastPaymentAmount ? `₹${row.lastPaymentAmount}` : "Never";
 
     return (
-        <div className="flex flex-wrap gap-2">
-            <Button
-                size="sm"
-                variant={value === null ? "default" : "outline"}
-                onClick={() => onChange(null)}
-            >
-                All
-            </Button>
-            {letters.map((letter) => (
-                <Button
-                    key={letter}
-                    size="sm"
-                    variant={value === letter ? "default" : "outline"}
-                    onClick={() => onChange(letter)}
-                    aria-pressed={value === letter}
-                >
-                    {letter}
-                </Button>
-            ))}
-        </div>
+        <TableCell>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <span className="cursor-help underline decoration-dotted underline-offset-4">{paymentLabel}</span>
+                </TooltipTrigger>
+                <TooltipContent className="space-y-1 text-xs">
+                    <div>Current Member: <strong>{row.isMember ? "Yes" : "No"}</strong></div>
+                    <div>Last Payment: <strong>{paymentLabel}</strong></div>
+                    <div>Paid On: {formatDate(row.lastPaymentAt)}</div>
+                    <div>Expires On: <strong>{formatDate(row.membershipExpiresAt)}</strong></div>
+                </TooltipContent>
+            </Tooltip>
+        </TableCell>
     );
 }
 
-function filterRows(rows: SuperAdminDashboardRow[], q: string, initial: string | null) {
-    if (!q && !initial) return rows;
-
-    const query = q.trim().toLowerCase();
-
-    return rows.filter((row) => {
-        const name = row.name.toLowerCase();
-        const email = row.email.toLowerCase();
-        const phone = row.phone.toLowerCase();
-        const id = row.id.toLowerCase();
-
-        if (initial) {
-            const i = initial.toLowerCase();
-            const startsWithInitial = name.startsWith(i) || email.startsWith(i);
-
-            if (!startsWithInitial) return false;
-        }
-
-        if (!query) return true;
-
-        return name.includes(query) || email.includes(query) || phone.includes(query) || id.includes(query);
-    });
+function PracticeStatsCell({ row }: { row: SuperAdminDashboardRow }) {
+    return (
+        <TableCell className="text-sm font-semibold">
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <span className="cursor-help underline decoration-dotted underline-offset-4">{row.totalPractices}</span>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <div className="space-y-1 text-xs">
+                        <div>Listening: {row.listeningCount}</div>
+                        <div>Reading: {row.readingCount}</div>
+                        <div>Writing: {row.writingCount}</div>
+                        <div>Speaking: {row.speakingCount}</div>
+                    </div>
+                </TooltipContent>
+            </Tooltip>
+        </TableCell>
+    );
 }
 
-function formatDate(value: string | null) {
-    if (!value) return "-";
-    return new Date(value).toLocaleDateString("en-GB");
+function copyToClipboard(text: string) {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
 }
+
+const formatDate = (value: string | null) => value ? new Date(value).toLocaleString() : "-";
 
 function formatRelativeDate(value: string | null) {
     if (!value) return "-";
@@ -217,4 +143,57 @@ function formatRelativeDate(value: string | null) {
     if (diffDays === 1) return "Yesterday";
 
     return `${diffDays} days ago`;
+}
+
+export function PaginationButtons() {
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const offset = Number(searchParams.get("offset") ?? 0) || 0;
+    const hasPhoneNumber = searchParams.get("hasPhoneNumber") === "true";
+    const isMember = searchParams.get("isMember") === "true";
+
+    function pushParams(updates: Record<string, string | null>) {
+        const params = new URLSearchParams(searchParams);
+        Object.entries(updates).forEach(([key, value]) => value === null ? params.delete(key) : params.set(key, value));
+        router.push(`${pathname}?${params.toString()}`);
+    }
+
+    function changeOffset(step: number) {
+        pushParams({ offset: String(Math.max(0, offset + step)) });
+    }
+
+    return (
+
+        <div className="flex flex-wrap gap-2">
+            <Button
+                variant={hasPhoneNumber ? "default" : "outline"}
+                onClick={() => pushParams({ hasPhoneNumber: hasPhoneNumber ? null : "true", offset: "0" })}
+            >
+                <Phone className="mr-2 h-4 w-4" /> Has phone
+            </Button>
+
+            <Button
+                variant={isMember ? "default" : "outline"}
+                onClick={() => pushParams({ isMember: isMember ? null : "true", offset: "0" })}
+            >
+                <CreditCard className="mr-2 h-4 w-4" /> Members
+            </Button>
+
+            <Button
+                variant="outline"
+                onClick={() => changeOffset(-50)}
+                disabled={offset === 0}
+            >
+                <ChevronLeft className="mr-2 h-4 w-4" /> Previous 50
+            </Button>
+
+            <Button
+                variant="outline"
+                onClick={() => changeOffset(50)}
+            >
+                Next 50 <ChevronRight className="ml-2 h-4 w-4" />
+            </Button>
+        </div>
+    );
 }
