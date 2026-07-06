@@ -3,13 +3,54 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from "@/components/demo/link"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import type { FormEvent } from 'react'
 import { sendOtpRequest, verifyOtpRequest } from './utils/sendOtpRequest'
 import { PhoneInput } from '../../../../../components/auth/user/phone-number/phone-input'
 import { ResendOtp } from './ResendOtp'
 import { GoogleOAuth } from './GoogleOAuth'
 
 export function LoginForm() {
+    const [showOtp, setShowOtp] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        fetch("https://ipapi.co/json/")
+            .then((r) => r.json())
+            .then(({ country }) => setShowOtp(country === "IN")) // show if INDIA
+            .catch(() => setShowOtp(true)) // show if IPAI fails
+    }, []);
+
+    return (
+        <div className="flex flex-col gap-6">
+            <div className="flex flex-col items-center gap-2 text-center">
+                <h1 className="text-2xl font-bold">Log into User Account</h1>
+                <p className="text-balance text-sm text-muted-foreground">
+                    Enter your details below to login to your account
+                </p>
+            </div>
+
+            <GoogleOAuth />
+
+            {showOtp && (
+                <div className="relative text-center text-xs uppercase text-muted-foreground">
+                    <span className="relative bg-background px-2">Or use phone number</span>
+                    <span className="absolute left-0 top-1/2 h-px w-full bg-border" />
+                </div>
+            )}
+
+            {showOtp && <PhoneOtpLoginForm />}
+
+            <div className="text-center text-sm">
+                Having trouble logging in?{" "}
+                <Link href="/register-complaint" className="underline underline-offset-4">
+                    Get help
+                </Link>
+            </div>
+        </div>
+    )
+}
+
+function PhoneOtpLoginForm() {
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
     const [otp, setOtp] = useState("")
@@ -37,7 +78,7 @@ export function LoginForm() {
         }
     }
 
-    const handleVerifyOtp = async (e: React.FormEvent) => {
+    const handleVerifyOtp = async (e: FormEvent) => {
         e.preventDefault()
 
         if (otp.length !== 6) {
@@ -75,7 +116,6 @@ export function LoginForm() {
         }
     }
 
-
     const handleResendOtp = async () => {
         setError("")
         try {
@@ -93,13 +133,6 @@ export function LoginForm() {
             }}
             className={"flex flex-col gap-6"}
         >
-            <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-2xl font-bold">Log into User Account</h1>
-                <p className="text-balance text-sm text-muted-foreground">
-                    Enter your details below to login to your account
-                </p>
-            </div>
-            <GoogleOAuth />
             <div className="grid gap-6">
                 <div className="grid gap-2">
                     <Label htmlFor="name">Name</Label>
@@ -144,7 +177,6 @@ export function LoginForm() {
                     </>
                 )}
 
-
                 {error && <div className="text-sm text-red-500">{error}</div>}
                 <Button type="submit" className="w-full" disabled={loading}>
                     {loading
@@ -153,12 +185,6 @@ export function LoginForm() {
                             ? "Verify OTP"
                             : "Send OTP"}
                 </Button>
-            </div>
-            <div className="text-center text-sm">
-                Having trouble logging in?{" "}
-                <Link href="/register-complaint" className="underline underline-offset-4">
-                    Get help
-                </Link>
             </div>
         </form>
     )

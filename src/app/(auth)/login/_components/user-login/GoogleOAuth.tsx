@@ -74,10 +74,6 @@ export function GoogleOAuth() {
                 {isRedirecting && <DotPulseLoader />}
             </div>
             {error && <div className="text-sm text-red-500">{error}</div>}
-            <div className="relative text-center text-xs uppercase text-muted-foreground">
-                <span className="relative bg-background px-2">Or use phone number</span>
-                <span className="absolute left-0 top-1/2 h-px w-full bg-border" />
-            </div>
         </div>
     )
 }
