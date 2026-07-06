@@ -14,9 +14,9 @@ export function LoginForm() {
     const [showOtp, setShowOtp] = useState<boolean | null>(null);
 
     useEffect(() => {
-        fetch("https://ipapi.co/json/")
+        fetch("https://ipwho.is/")
             .then((r) => r.json())
-            .then(({ country }) => setShowOtp(country === "IN")) // show if INDIA
+            .then(({ country_code }) => setShowOtp(country_code === "IN")) // show if INDIA
             .catch(() => setShowOtp(true)) // show if IPAI fails
     }, []);
 
