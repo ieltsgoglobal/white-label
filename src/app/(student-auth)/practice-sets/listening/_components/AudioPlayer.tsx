@@ -146,7 +146,7 @@ export default function AudioPlayer({ src, title = "Audio", className }: AudioPl
         <Card
             role="region"
             aria-label="Audio player"
-            className={cn("w-full max-w-2xl p-4 md:p-6 bg-card text-card-foreground border", className)}
+            className={cn("w-full p-4 md:p-6 bg-card text-card-foreground border", className)}
         >
             <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">

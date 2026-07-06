@@ -27,7 +27,14 @@ export function RecentSessionsTable({ sessions = [] }: { sessions?: Session[] })
 
 
 function SessionsTable({ sessions }: { sessions: Session[] }) {
-  const columns = Object.keys(sessions[0] || {})
+  let columns = Object.keys(sessions[0] || {})
+
+  // note: speaking-data doesn't includes duration-min
+  // so while showing speaking-history-attempts we will remove duration-min
+  // we will know that we are showing speaking-history-attempts if cols includes pronounciation
+  if (columns.some(col => col.toLowerCase().includes("pronunciation"))) {
+    columns = columns.filter(col => col !== "duration min");
+  }
 
   return (
     <Table>

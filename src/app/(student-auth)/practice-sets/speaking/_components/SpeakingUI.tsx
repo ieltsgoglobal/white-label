@@ -114,7 +114,7 @@ export default function SpeakingUI({ speakingData, testPath }: { speakingData: S
             {stage === 3 && (
                 <div>
                     <div className="w-full mt-5 mx-5">
-                        <Button>{`< `}Go Back (Dashboard)</Button>
+                        <Button onClick={() => { window.location.href = "/practice-sets" }}>{`< `}Go Back (Dashboard)</Button>
                     </div>
                     <SpeakingReviewPage currentSpeakingPracticeSetsQuestions={memoizedSpeakingData} />
                 </div>

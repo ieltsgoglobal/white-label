@@ -17,7 +17,10 @@ export default function MicCheck({ onNext }: { onNext: () => void }) {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             setMicAllowed("granted");
 
-            const mediaRecorder = new MediaRecorder(stream);
+            // note: diffrent mimeType for diffrent browsers
+            const mimeType = MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "";
+
+            const mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
             mediaRecorderRef.current = mediaRecorder;
 
             mediaRecorder.ondataavailable = (e) => {
