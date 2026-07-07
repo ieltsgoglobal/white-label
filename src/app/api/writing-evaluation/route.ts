@@ -1,6 +1,7 @@
 // src/app/api/writing-evaluation/route.ts
 import { Groq } from 'groq-sdk'
 import { NextResponse } from 'next/server'
+import { createOpenAIJsonCompletion, isRateLimitError } from '@/lib/ai/openai-fallback'
 
 if (!process.env.GROQ_API_KEY) {
     throw new Error("Missing GROQ_API_KEY in environment")
@@ -129,19 +130,31 @@ Respond in a JSON format with the following structure:
 Student Response:
 ${response}`
 
-        const chatCompletion = await groq.chat.completions.create({
-            messages: [{ role: 'user', content: prompt }],
-            model: 'meta-llama/llama-4-scout-17b-16e-instruct',
-            temperature: 1,
-            max_completion_tokens: 1024,
-            top_p: 1,
-            stream: false,
-            response_format: {
-                type: 'json_object',
-            },
-        })
+        let content: string | null | undefined
 
-        const content = chatCompletion.choices[0]?.message?.content
+        try {
+            const chatCompletion = await groq.chat.completions.create({
+                messages: [{ role: 'user', content: prompt }],
+                model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+                temperature: 1,
+                max_completion_tokens: 1024,
+                top_p: 1,
+                stream: false,
+                response_format: {
+                    type: 'json_object',
+                },
+            })
+
+            content = chatCompletion.choices[0]?.message?.content
+        } catch (err) {
+            if (!isRateLimitError(err)) throw err
+
+            content = await createOpenAIJsonCompletion({
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 1,
+                maxTokens: 1024,
+            })
+        }
 
         // just return the score band, eg.8.5
         return NextResponse.json({ result: content })
