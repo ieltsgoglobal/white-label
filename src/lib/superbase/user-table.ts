@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@supabase/supabase-js"
+import { WhatsappTemplateUserJourney } from "@/app/(tools)/whatsapp-dashboard/_lib/send-whatsapp-template"
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -79,6 +80,11 @@ export async function createOrGetUser(input: CreateUserInput) {
     if (insertError) {
         throw new Error(`Failed to create user: ${insertError.message}`)
     }
+
+    // send first whatsapp message from the whatsappTemplateUserJouney class
+    // its a non thread blocking process
+    // so if lambda gets killed before its execution the message will not fire [but those are rare cases]
+    void WhatsappTemplateUserJourney.sendPracticeReminder(phone).catch(console.error);
 
     console.log("newUser", newUser)
     return newUser
