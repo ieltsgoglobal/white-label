@@ -20,6 +20,17 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ success: true, status: verificationCheck.status });
     } catch (error: any) {
+
+        // Maybe OTP is already successfully used 
+        // Maybe user reached Max number of attempts
+        // So just tell user to like refresh the browser and start process again
+        if (error.code === 20404) {
+            return NextResponse.json(
+                { success: false, message: "OTP expired or already used. Please refresh the browser and log in again." },
+                { status: 410 }
+            );
+        }
+
         console.error("TWILIO VERIFY ERROR:", error);
 
         return NextResponse.json(

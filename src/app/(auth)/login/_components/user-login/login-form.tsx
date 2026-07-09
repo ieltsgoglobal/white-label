@@ -9,6 +9,7 @@ import { sendOtpRequest, verifyOtpRequest } from './utils/sendOtpRequest'
 import { PhoneInput } from '../../../../../components/auth/user/phone-number/phone-input'
 import { ResendOtp } from './ResendOtp'
 import { GoogleOAuth } from './GoogleOAuth'
+import { isValidPhoneNumber } from "react-phone-number-input"
 
 export function LoginForm() {
     const [showOtp, setShowOtp] = useState<boolean | null>(null);
@@ -59,7 +60,7 @@ function PhoneOtpLoginForm() {
     const [loading, setLoading] = useState(false)
 
     const handleSendOtp = async () => {
-        if (!name.trim() || !phone) {
+        if (!name.trim() || !phone || !isValidPhoneNumber(phone)) {
             setError("Please enter a valid name and phone number.")
             return
         }

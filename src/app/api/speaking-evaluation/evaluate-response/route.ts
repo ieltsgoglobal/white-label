@@ -1,10 +1,5 @@
-import { Groq } from 'groq-sdk';
 import { NextRequest } from 'next/server';
-import { createOpenAIJsonCompletion, isRateLimitError } from '@/lib/ai/openai-fallback';
-
-const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-});
+import { createJsonCompletionWithFallback } from '@/lib/utils/chat-completions-with-fallback';
 
 export async function POST(req: NextRequest) {
     try {
@@ -71,30 +66,11 @@ Only return JSON with band scores (integers 0 to 9). Do NOT include any explanat
 }
 `;
 
-        let content: string | null | undefined;
-
-        try {
-            const completion = await groq.chat.completions.create({
-                model: 'meta-llama/llama-4-scout-17b-16e-instruct',
-                messages: [{ role: 'user', content: prompt }],
-                temperature: 0,
-                max_completion_tokens: 300,
-                top_p: 1,
-                stream: false,
-                response_format: { type: 'json_object' },
-                stop: null,
-            });
-
-            content = completion.choices[0].message.content;
-        } catch (err) {
-            if (!isRateLimitError(err)) throw err;
-
-            content = await createOpenAIJsonCompletion({
-                messages: [{ role: 'user', content: prompt }],
-                temperature: 0,
-                maxTokens: 300,
-            });
-        }
+        const content = await createJsonCompletionWithFallback({
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0,
+            maxTokens: 300,
+        });
 
         const parsed = typeof content === 'string' ? JSON.parse(content) : content;
         return Response.json(parsed);
