@@ -138,6 +138,7 @@ export default function WritingUI({ writingQuestions, sampleAnswers, writingQues
                 }}
                 MAX_INDEX={TOTAL_WRITING_TASKS}
                 overallWritingScore={userWritingResults.current.overall}
+                testPath={testPath}
             />
 
             <WritingQuestionDisplay

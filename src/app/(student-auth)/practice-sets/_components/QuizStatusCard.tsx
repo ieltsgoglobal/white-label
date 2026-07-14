@@ -5,6 +5,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { useEffect, useState } from "react"
 import { calculatePracticeSetScore } from "../listening/_utils/misc"
+import ReportErrorModal from "@/components/practice-sets/report-error/ReportErrorModal"
 
 type AttemptWithCorrectAnswers = {
   user: string;
@@ -21,7 +22,8 @@ export function QuizStatusCard({
   CheckResulsts,
   MAX_INDEX,
   userAttemptsWithAnswers,
-  overallWritingScore
+  overallWritingScore,
+  testPath
 }: {
   NextSet: () => void
   PrevSet: () => void
@@ -30,6 +32,7 @@ export function QuizStatusCard({
   MAX_INDEX: number,
   userAttemptsWithAnswers?: AttemptWithCorrectAnswers[] // not present in writing and speaking
   overallWritingScore?: number | null
+  testPath: string
 }) {
   const [startedAt] = useState<Date>(new Date())
   const [timeTaken, setTimeTaken] = useState<number>(0) // seconds
@@ -37,6 +40,8 @@ export function QuizStatusCard({
   const [hasPressedCheckResults, setHasPressedCheckResults] = useState(false)
 
   const [userScoreAfterSubmission, setUserScoreAfterSubmission] = useState<number | null>(null) // null means not submitted yet
+
+  const [reportErrorOpen, setReportErrorOpen] = useState(false);
 
   useEffect(() => {
     if (hasPressedCheckResults && overallWritingScore !== undefined) {
@@ -133,7 +138,8 @@ export function QuizStatusCard({
             <Label htmlFor="flag-review" className="text-muted-foreground">
               Report Error
             </Label>
-            <Switch id="flag-review" aria-label="Flag this question for review" />
+            <Switch checked={reportErrorOpen} onCheckedChange={setReportErrorOpen} id="flag-review" aria-label="Flag this question for review" />
+            <ReportErrorModal open={reportErrorOpen} onOpenChange={setReportErrorOpen} testPath={testPath} />
           </div>
         </div>
       </CardContent >
