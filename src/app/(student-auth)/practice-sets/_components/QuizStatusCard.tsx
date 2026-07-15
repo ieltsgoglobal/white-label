@@ -138,7 +138,7 @@ export function QuizStatusCard({
             <Label htmlFor="flag-review" className="text-muted-foreground">
               Report Error
             </Label>
-            <Switch checked={reportErrorOpen} onCheckedChange={setReportErrorOpen} id="flag-review" aria-label="Flag this question for review" />
+            <Switch onCheckedChange={setReportErrorOpen} id="flag-review" aria-label="Flag this question for review" />
             <ReportErrorModal open={reportErrorOpen} onOpenChange={setReportErrorOpen} testPath={testPath} />
           </div>
         </div>

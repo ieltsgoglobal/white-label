@@ -19,6 +19,8 @@ export default function PartnerPaymentVerification() {
         const amountStr = params.get("amount") || "0";
         const type = params.get("type") as "B2B_CREDIT_PACKAGE" | "B2C_V1_FIXED" | null;
 
+        if (params.get("provider") === "dodo") return;
+
         if (!orderId) {
             statusRef.current = "failed";
             setRenderTrigger(v => v + 1);
@@ -57,6 +59,44 @@ export default function PartnerPaymentVerification() {
 
         checkStatus();
 
+    }, []);
+
+    // handle DODO payments
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const amountStr = params.get("amount") || "0";
+        const paymentId = params.get("payment_id");
+        const type = params.get("type") as "B2C_V1_FIXED" | null;
+
+        if (params.get("provider") !== "dodo") return;
+
+        if (!paymentId) {
+            statusRef.current = "failed";
+            setRenderTrigger(v => v + 1);
+            return;
+        }
+
+        setMerchantOrderId(paymentId);
+        setAmount(parseInt(amountStr));
+        setRedirectURL("/practice");
+
+        const checkStatus = async () => {
+            try {
+                const res = await fetch(`/api/payment-gateway/dodo/status?paymentId=${paymentId}`, {
+                    cache: "no-store",
+                });
+                const data = await res.json();
+                statusRef.current = data.state === "succeeded" ? "success" : "failed";
+                setRenderTrigger(v => v + 1);
+
+                await giveTempAccess(type);
+            } catch (err) {
+                statusRef.current = "failed";
+                setRenderTrigger(v => v + 1);
+            }
+        };
+
+        checkStatus();
     }, []);
 
     // make the "USER COOKEIE's is_member:true"

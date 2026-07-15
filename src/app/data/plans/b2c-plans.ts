@@ -32,3 +32,27 @@ export function requireB2CPlan(id: B2CPlanId): B2CPlan {
 export function computeB2CAmountPaise(plan: B2CPlan): number {
     return Math.round(plan.priceInr * 100);
 }
+
+
+// DODO data
+export const DODO_B2C_PRODUCT_IDS: Record<"test" | "live", Partial<Record<B2CPlanId, string>>> = {
+    // add them later as we dont need them rn
+    test: {
+        "b2c-7d": "",
+        "b2c-14d": "",
+        "b2c-30d": "",
+        "b2c-180d": "",
+        "b2c-test-7d": "pdt_0NjAz1VjCaE65NKgzrSI2",
+    },
+    live: {
+        "b2c-7d": "pdt_0NjAwbpY4PyGo6L4jc2KU",
+        "b2c-14d": "pdt_0NjAztIk0uf1uavDdCh51",
+        "b2c-30d": "pdt_0NjB0407MNq2iZ1l145LU",
+        "b2c-180d": "pdt_0NjB0GDGoi0hBmid55O5j",
+    },
+};
+
+export function getDodoB2CProductId(planId: B2CPlanId) {
+    const mode = process.env.NODE_ENV === "production" ? "live" : "test";
+    return DODO_B2C_PRODUCT_IDS[mode][planId];
+}

@@ -126,6 +126,7 @@ export default function ListeningUI({
                     }}
                     MAX_INDEX={MAX_LECTURES - 1}
                     userAttemptsWithAnswers={userAttemptsWithAnswers}
+                    testPath={testPath}
                 />
             </div>
 

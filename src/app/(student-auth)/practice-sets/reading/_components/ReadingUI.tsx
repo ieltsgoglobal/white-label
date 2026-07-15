@@ -115,6 +115,7 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
                 }}
                 MAX_INDEX={MAX_PASSAGES - 1}
                 userAttemptsWithAnswers={userAttemptsWithAnswers}
+                testPath={testPath}
             />
 
 
