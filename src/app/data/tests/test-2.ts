@@ -404,7 +404,7 @@ An important factor in trying to salvage the Mary Rose was that the remaining hu
         },
         {
             questionType: "image-labeling",
-            image_url: "https://mocktestielts.com/wp-content/uploads/2023/08/ielts-mock-test-36.jpg",
+            image_url: "https://ieltsmaterial.com/wp-content/uploads/2023/02/Diagram-2.png",
             instructions: "Choose NO MORE THAN TWO WORDS from the passage for each answer. Label the diagram below and attempt Raising the Mary Rose reading answers.",
             questions: [
                 {

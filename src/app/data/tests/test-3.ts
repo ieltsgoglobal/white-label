@@ -375,6 +375,7 @@ The baobab tree is under threat because of the increasing human population. The 
         {
             questionType: "note-completion",
             topic: "Uses of the Baobab Tree",
+            oneWord: true,
             sections: [
                 {
                     title: "Fruit",
@@ -468,11 +469,11 @@ In a rejoinder, Ericsson argues that Macnamara’s analysis actually showed the 
             questionType: "match-paragraph-information",
             question: {
                 information: [
-                    { id: 14, text: "Tipping was originally met with hostility in the US" },
-                    { id: 15, text: "Laws were created that made tipping illegal," },
-                    { id: 16, text: "Congress passed legislation in 1966 that made it legal to" },
-                    { id: 17, text: "Some restaurants force large groups of customers to" },
-                    { id: 18, text: "The main benefit of the gig economy is that it" },
+                    { id: 14, text: "a reference to when a distinction was first made between two types of practice" },
+                    { id: 15, text: "a reference to what a particular study failed to demonstrate" },
+                    { id: 16, text: "a reference to the influence of the 10,000-hour rule beyond the field of music" },
+                    { id: 17, text: "a reference to how the study compared different levels of achievement based on practice time" },
+                    { id: 18, text: "a reference to a claim that was made without sufficient evidence" },
                 ],
                 letters: [
                     "A", "B", "C", "D", "E"
@@ -711,7 +712,7 @@ export const reading_answers = {
     11: "Pots",
     12: "Shade",
     13: "Fuel",
-    14: "A",
+    14: "B",
     15: "D",
     16: "C",
     17: "B",
@@ -720,8 +721,8 @@ export const reading_answers = {
     20: "B",
     21: "C",
     22: "C",
-    23: "A/C",
-    24: "A/C",
+    23: "C/E",
+    24: "C/E",
     25: "C/E",
     26: "C/E",
     27: "B",
