@@ -65,23 +65,13 @@ export default function AnswerTextArea({ value, setResponse, activeTab }: Answer
 
     // ----------------------  EXTRA PRACTICE SETS CODE -----------------------
 
-    const [textAreaValue, setTextAreaValue] = useState(value);
-
-    useEffect(() => {
-        const isPracticeSet = typeof window !== "undefined" && window.location.href.includes("practice-sets");
-
-        if (isPracticeSet) {
-            setTextAreaValue(value);
-        } else {
-            setTextAreaValue(isReviewMode ? userAttemptedAnswer : value);
-        }
-    }, [value, isReviewMode, userAttemptedAnswer]);
+    const displayedValue = isReviewMode ? userAttemptedAnswer : value;
 
     return (
         <div className="flex flex-col h-full">
             <Textarea
                 placeholder="Write here..."
-                value={textAreaValue}
+                value={displayedValue}
                 onChange={(e) => setResponse(e.target.value)}
                 className="h-full min-h-[600px] resize-none border p-6 text-base leading-relaxed focus-visible:ring-0 focus-visible:ring-offset-0"
                 maxLength={2500}

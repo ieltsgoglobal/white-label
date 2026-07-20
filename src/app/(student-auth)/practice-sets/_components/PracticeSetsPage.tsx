@@ -12,7 +12,7 @@ export default function PracticeSetsPage() {
 
     return (
         <>
-            <div className="flex sm:flex-col xl:flex-row gap-4 justify-center">
+            <div className="flex flex-col xl:flex-row gap-4 justify-center">
                 <Button onClick={() => { setActiveSection("reading") }} size="lg" variant={activeSection !== "reading" ? "outline" : "default"} className="rounded-full h-12 px-8 text-base">
                     Reading Summary
                 </Button>

@@ -11,6 +11,7 @@ import { AnswerMap } from "@/types/mockTestAttempt"
 import { CheckCircle, XCircle } from "lucide-react"
 import { getPracticeSetAnswer, getPracticeSetCorrectAnswers, updatePracticeSetAnswer } from "@/lib/practice-sets/user-submissions/sessionStorage"
 import { checkAnswerAcceptable } from "@/lib/mock-tests/listening/checkAnswerAcceptable"
+import { customAsyncRetryWrapper } from "@/lib/utils/custom-async-retry-wrapper"
 
 interface QuestionProps {
     question: {
@@ -132,17 +133,18 @@ export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven
 
 
     // check in which section we are dealing with (listening/ reading/ practice-sets-listening)
+    // note: added a retry mechanism cuz indexedDb may not be availbe in first render
     useEffect(() => {
-        loadCurrentMockSection().then((value) => {
+        customAsyncRetryWrapper(loadCurrentMockSection).then((value) => {
             if (
                 value === "listening" ||
                 value === "reading" ||
                 value === "practice-sets-listening" ||
                 value === "practice-sets-reading"
             ) {
-                setSection(value)
+                setSection(value);
             }
-        })
+        });
     }, [])
 
 

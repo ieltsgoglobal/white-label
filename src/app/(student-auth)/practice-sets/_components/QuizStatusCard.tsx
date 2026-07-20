@@ -166,7 +166,13 @@ export function QuizStatusCard({
 
         <div className="flex flex-wrap">
           <Button
-            disabled={hasPressedCheckResults}
+            disabled={
+              hasPressedCheckResults ||
+
+              // we guess its a writing_section based on the MAX_INDEX === 2
+              // we make user only submit if he is on writing_section 2
+              (MAX_INDEX === 1 && currentIndex !== MAX_INDEX)
+            }
             onClick={async () => {
               if (hasPressedCheckResults) return
 

@@ -136,7 +136,7 @@ export default function WritingUI({ writingQuestions, sampleAnswers, writingQues
                     await handleCheckResults();
                     await handleStoreUserResponseWithScore({ startedAt, timeTaken });
                 }}
-                MAX_INDEX={TOTAL_WRITING_TASKS}
+                MAX_INDEX={TOTAL_WRITING_TASKS - 1}
                 overallWritingScore={userWritingResults.current.overall}
                 testPath={testPath}
             />

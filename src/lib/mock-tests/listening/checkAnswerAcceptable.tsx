@@ -23,9 +23,13 @@ function expandAcceptableAnswers(correctAnswer: string): Set<string> {
     const raw = correctAnswer.trim().toLowerCase()
 
     // apple/orange -> apple, orange
-    const variants = raw.includes("/")
-        ? raw.split("/").map(v => v.trim())
-        : [raw]
+    // apple / orange -> apple, orange
+    // apple|orange -> apple, orange
+    // apple | orange -> apple, orange
+    const variants =
+        raw.includes("/") || raw.includes("|")
+            ? raw.split(/[\/|]/).map(v => v.trim())
+            : [raw]
 
     for (let variant of variants) {
         const normalized = normalizeAnswer(variant)

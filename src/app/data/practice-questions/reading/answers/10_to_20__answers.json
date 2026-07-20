@@ -6478,6 +6478,13 @@
         "book_id": 15,
         "test_id": 4,
         "task_part": 1,
+        "question_id": "7",
+        "correct_answer": "bark | its bark | huarango bark | the bark"
+    },
+    {
+        "book_id": 15,
+        "test_id": 4,
+        "task_part": 1,
         "question_id": "8",
         "correct_answer": "trunk | its trunk | huarango trunk | the trunk"
     },
