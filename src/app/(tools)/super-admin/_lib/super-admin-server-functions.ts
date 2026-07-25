@@ -1,6 +1,6 @@
 import { db } from "@/lib/firebase/firebase";
 import { postgresQuery } from "@/lib/postgress-aws/postgres-query";
-import { getAllUsers } from "@/lib/superbase/user-table";
+import { getAllUsers, getUserByPhone } from "@/lib/superbase/user-table";
 import { collection, getDocs } from "firebase/firestore";
 import { UserDetailsFromDB } from "@/lib/superbase/user-table";
 
@@ -33,6 +33,22 @@ export async function getSuperAdminDashboardData(offset = 0, hasPhoneNumber = fa
 
     // GET USERS
     const users = (await getAllUsers(offset, hasPhoneNumber, isMember)) as UserDetailsFromDB[];
+    return getSuperAdminDashboardDataFromUsers(users);
+}
+
+// GET SINGLE USER DATA
+export async function getSuperAdminDashboardDataByStudentPhone(studentPhone: string) {
+    const phone = studentPhone.trim();
+    if (!phone) return { rows: [], totalUsers: 0 };
+
+    const user = await getUserByPhone(phone);
+    if (!user) return { rows: [], totalUsers: 0 };
+
+    return getSuperAdminDashboardDataFromUsers([user]);
+}
+
+// GET ALL USER DATA
+async function getSuperAdminDashboardDataFromUsers(users: UserDetailsFromDB[]) {
     const userIds = users.map((user) => user.id);
 
     // GET USERS PRACTICE AND MOCK TESTS DATA

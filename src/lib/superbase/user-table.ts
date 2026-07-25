@@ -177,6 +177,20 @@ export async function getUserById(userId: string) {
     return user
 }
 
+export async function getUserByPhone(phone: string): Promise<UserDetailsFromDB | null> {
+    const { data: user, error } = await supabase
+        .from("user")
+        .select("*")
+        .eq("phone", phone)
+        .maybeSingle()
+
+    if (error) {
+        throw new Error(`Failed to fetch user by phone: ${error.message}`)
+    }
+
+    return user
+}
+
 
 export async function getAllUsers(offset: number = 0, hasPhoneNumber = false, isMember = false): Promise<UserDetailsFromDB[]> {
     const limit_window = 50

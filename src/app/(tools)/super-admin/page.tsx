@@ -3,17 +3,22 @@ import Link from "@/components/demo/link";
 import PlaceholderContent from "@/components/demo/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { getSuperAdminDashboardData } from "./_lib/super-admin-server-functions";
+import { getSuperAdminDashboardData, getSuperAdminDashboardDataByStudentPhone } from "./_lib/super-admin-server-functions";
 import { SuperAdminDashboardClient } from "./_components/super-admin-dashboard.client";
 import { unstable_noStore as noStore } from "next/cache";
 
-export default async function UsersPage({ searchParams }: { searchParams?: { offset?: string; hasPhoneNumber?: boolean; isMember?: boolean; } }) {
+export default async function UsersPage({ searchParams }: { searchParams?: { offset?: string; hasPhoneNumber?: boolean; isMember?: boolean; student_phone?: string; } }) {
 
     // note: used so fresh data if fetched on-load
     noStore();
 
     const offset = Number(searchParams?.offset ?? 0) || 0;
-    const data = await getSuperAdminDashboardData(offset, searchParams?.hasPhoneNumber, searchParams?.isMember);
+    const studentPhone = searchParams?.student_phone;
+    const data = studentPhone
+        // SINGLE USER DATA
+        ? await getSuperAdminDashboardDataByStudentPhone(studentPhone)
+        // ALL USERS DATA
+        : await getSuperAdminDashboardData(offset, searchParams?.hasPhoneNumber, searchParams?.isMember);
 
     return (
         <ContentLayout title="Users">
