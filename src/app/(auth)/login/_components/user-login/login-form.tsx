@@ -15,6 +15,10 @@ export function LoginForm() {
     const [showOtp, setShowOtp] = useState<boolean | null>(null);
 
     useEffect(() => {
+        // we added this so existing users can login-back but new users dont sign-up
+        const params = new URLSearchParams(window.location.search)
+        if (params.get("method") !== "phone") { setShowOtp(false); return }
+
         fetch("https://ipwho.is/")
             .then((r) => r.json())
             .then(({ country_code }) => setShowOtp(country_code === "IN")) // show if INDIA
