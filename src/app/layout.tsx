@@ -4,9 +4,11 @@ import Script from "next/script";
 
 import "./globals.css";
 
+import ActiveExamTabGuard from "@/components/providers/active-exam-tab-guard";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import OnboardingTourController from "@/components/site-tutorial/OnboardingTourController";
 import { SessionActivity } from "@/components/session-activity/_components/session-activity";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -52,10 +54,11 @@ export default async function RootLayout({
         <GoogleTag />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 
-          <>{children}</>
+          <ActiveExamTabGuard>{children}</ActiveExamTabGuard>
 
           <OnboardingTourController />
           <SessionActivity />
+          <Toaster richColors />
         </ThemeProvider>
       </body>
     </html>
@@ -64,7 +67,7 @@ export default async function RootLayout({
 
 
 
-export function GoogleTag() {
+function GoogleTag() {
   const googleAdsId = "AW-16561207539"; // goolge ad
   const ga4Id = "G-TQ59ZQHS1H"; // google analytics
 
