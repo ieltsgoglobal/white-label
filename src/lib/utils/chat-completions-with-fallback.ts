@@ -5,7 +5,7 @@ type ChatMessage = {
     content: string;
 };
 
-const GROQ_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct";
+const GROQ_MODEL = "openai/gpt-oss-120b";
 const GROQ_CLIENT = new Groq({ apiKey: process.env.GROQ_API_KEY! });
 
 export async function createJsonCompletionWithFallback({ messages, temperature, maxTokens, }: { messages: ChatMessage[]; temperature: number; maxTokens: number; }) {
