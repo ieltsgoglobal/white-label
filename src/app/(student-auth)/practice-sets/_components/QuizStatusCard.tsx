@@ -160,7 +160,10 @@ export function QuizStatusCard({
             onClick={NextSet}
             disabled={currentIndex === MAX_INDEX}
           >
-            Next Question
+            {(MAX_INDEX === 1 && currentIndex !== MAX_INDEX) ?  // we guess its a writing_section based on the MAX_INDEX === 2
+              "Next Part" :
+              "Next Question"
+            }
           </Button>
         </div>
 
