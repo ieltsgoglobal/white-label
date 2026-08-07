@@ -48,6 +48,7 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
     // to tell child component that practice-sets-listening section is going on though indexedDB,
     useEffect(() => {
         saveCurrentMockSection("practice-sets-reading") // Save on mount
+            .then(() => setforceRender(n => n + 1)); // Re-render child
     }, [])
 
     // -------------------------------------------------

@@ -57,6 +57,7 @@ export default function ListeningUI({
     // to tell child component that practice-sets-listening section is going on though indexedDB,
     useEffect(() => {
         saveCurrentMockSection("practice-sets-listening") // Save on mount
+            .then(() => setforceRender(n => n + 1)); // Re-render child
     }, [])
 
     // -------------------------------------------------
