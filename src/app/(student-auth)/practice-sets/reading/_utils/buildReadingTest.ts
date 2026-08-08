@@ -1,7 +1,7 @@
 import { hashFilename } from "../../_utils/hashFilename";
 import { sanitizeReadingAnswers } from "../../listening/_utils/misc";
 import { BROKEN_READING_PRACTICE_SET_TEST_PATHS, pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
-import { getPracticeSetsReadingSubmissions } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
+import { getPracticeSetsReadingSubmissions } from "@/lib/superbase/practice-sets/user-submissions";
 
 /**
  * Build a full IELTS-style reading test.

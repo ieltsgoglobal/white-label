@@ -2,7 +2,7 @@
 
 import { PerformanceSummary } from "./performance-summary";
 import { RecentSessionsTable } from "./recent-sessions-table";
-import { useGetPracticeSetsUserSubmissions } from "@/hooks/aws-postgres/practice-sets/get-user-submissons/useGetUserSubmissions";
+import { useGetPracticeSetsUserSubmissions } from "@/hooks/supabase/practice-sets/get-user-submissons/useGetUserSubmissions";
 import { convertListeningSubmissionsToPerformanceSummaryData, convertReadingSubmissionsToPerformanceSummaryData, convertSpeakingSubmissionsToPerformanceSummaryData, convertWritingSubmissionsToPerformanceSummaryData, sanitizeRecentSessionsTableData } from "../_utils/santizeGetUserSubmissions";
 
 export default function PracticeSetsDashboardOverview({ section = 'reading' }: { section?: string }) {

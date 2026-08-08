@@ -9,7 +9,7 @@ import StartSectionConfirmationModal, { EndSectionConfirmationModel } from "./St
 import { getPracticeSetSpeakingAnswers, getPracticeSetsSpeakingScores, initializePracticeSetSpeaking } from "@/lib/practice-sets/user-submissions/sessionStorage";
 import SpeakingReviewPage from "@/components/mock-tests/additional-ui/review-components/speaking/SpeakingReviewPage";
 import { Button } from "@/components/ui/button";
-import { submitSpeakingAnswers } from "@/lib/postgress-aws/fetcher/practice-sets/user-submissions";
+import { insertSpeakingSubmission } from "@/lib/superbase/practice-sets/user-submissions";
 import SpeakingInstructionManager from "./SpeakingInstructionManager";
 
 interface SpeakingQuestion {
@@ -45,10 +45,10 @@ export default function SpeakingUI({ speakingData, testPath }: { speakingData: S
     const handleStoreUserResponseWithScore = async ({ startedAt = new Date(), timeTaken = 0, }: { startedAt?: Date; timeTaken?: number; }) => {
 
         try {
-            const response = await submitSpeakingAnswers({
+            const response = await insertSpeakingSubmission({
                 testPath: testPath,
-                user_responses: JSON.stringify(getPracticeSetSpeakingAnswers()),
-                user_scores: JSON.stringify(getPracticeSetsSpeakingScores()),
+                user_responses: getPracticeSetSpeakingAnswers(),
+                user_scores: getPracticeSetsSpeakingScores(),
                 startedAt: startedAt.toISOString(),
                 metadata: { device: "browser", timeTaken: timeTaken },
             });

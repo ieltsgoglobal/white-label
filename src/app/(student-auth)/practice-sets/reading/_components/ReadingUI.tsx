@@ -8,7 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { saveCurrentMockSection, setReviewMode } from "@/lib/mock-tests/indexedDb";
 import { getPracticeSetAnswers, initializePracticeSet, storePracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage";
 import { normalizePracticeSetsAnswers, transformAnswerAttemptsToJson } from "../../listening/_utils/misc";
-import { submitReadingAnswers } from "@/lib/postgress-aws/fetcher/practice-sets/user-submissions";
+import { insertReadingSubmission } from "@/lib/superbase/practice-sets/user-submissions";
 
 type AttemptWithCorrectAnswers = {
     user: string;
@@ -91,7 +91,7 @@ export default function ReadingUI({ questions, passages, answers, testPath }: { 
             // convert the array to json, beacuse answers coloums is a JSOB field
             const answersJson = transformAnswerAttemptsToJson(userAttemptsWithAnswers);
 
-            const response = await submitReadingAnswers({
+            const response = await insertReadingSubmission({
                 testPath: testPath,
                 answers: answersJson,
                 startedAt: startedAt.toISOString(),

@@ -1,8 +1,13 @@
 import { db } from "@/lib/firebase/firebase";
-import { postgresQuery } from "@/lib/postgress-aws/postgres-query";
 import { getAllUsers, getUserByPhone } from "@/lib/superbase/user-table";
 import { collection, getDocs } from "firebase/firestore";
 import { UserDetailsFromDB } from "@/lib/superbase/user-table";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export type UserPracticeStats = {
     totalPractices: number;
@@ -87,37 +92,42 @@ async function getSuperAdminDashboardDataFromUsers(users: UserDetailsFromDB[]) {
 }
 
 
-// POSTGRESQL
-// GET DATA FOR PRACTICE TEST ATTEMPS
+// SUPABASE
+// GET DATA FOR PRACTICE TEST ATTEMPTS
 
 async function getUsersPracticeStats(userIds: string[]): Promise<Record<string, UserPracticeStats>> {
     if (!userIds.length) return {};
 
-    const { rows } = await postgresQuery(
-        `
-       SELECT
-            user_id,
-            COUNT(*)::int AS "totalPractices",
-            SUM((section = 'listening')::int)::int AS "listeningCount",
-            SUM((section = 'reading')::int)::int AS "readingCount",
-            SUM((section = 'writing')::int)::int AS "writingCount",
-            SUM((section = 'speaking')::int)::int AS "speakingCount",
-            MAX(submitted_at) AS "lastPracticedAt"
-        FROM (
-            SELECT 'listening' section, user_id::text user_id, submitted_at FROM listening_submissions WHERE user_id::text = ANY($1)
-            UNION ALL
-            SELECT 'reading', user_id::text, submitted_at FROM reading_submissions WHERE user_id::text = ANY($1)
-            UNION ALL
-            SELECT 'writing', user_id::text, submitted_at FROM writing_submissions WHERE user_id::text = ANY($1)
-            UNION ALL
-            SELECT 'speaking', user_id::text, submitted_at FROM speaking_submissions WHERE user_id::text = ANY($1)
-        ) s
-        GROUP BY user_id
-        `,
-        [userIds]
-    );
+    type PracticeStatsRpcRow = {
+        user_id: string;
+        total_practices: number | null;
+        listening_count: number | null;
+        reading_count: number | null;
+        writing_count: number | null;
+        speaking_count: number | null;
+        last_practiced_at: string | null;
+    };
 
-    return Object.fromEntries((rows as (UserPracticeStats & { user_id: string })[]).map(({ user_id, ...stats }) => [user_id, stats]));
+    // RPC: get_practice_stats_for_users
+    // users here are students and users both
+    // reffrer src/app/(auth)/login/_components/README.md
+    const { data, error } = await supabase.rpc("get_practice_stats_for_users", { p_user_ids: userIds });
+
+    if (error) { throw new Error(`Failed to fetch practice stats: ${error.message}`) }
+
+    return Object.fromEntries(
+        ((data ?? []) as PracticeStatsRpcRow[]).map((row) => [
+            row.user_id,
+            {
+                totalPractices: row.total_practices ?? 0,
+                listeningCount: row.listening_count ?? 0,
+                readingCount: row.reading_count ?? 0,
+                writingCount: row.writing_count ?? 0,
+                speakingCount: row.speaking_count ?? 0,
+                lastPracticedAt: row.last_practiced_at ?? null,
+            },
+        ])
+    );
 }
 
 // FIREBASE

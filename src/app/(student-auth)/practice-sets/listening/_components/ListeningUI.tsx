@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { saveCurrentMockSection, setReviewMode } from "@/lib/mock-tests/indexedDb";
 import { normalizePracticeSetsAnswers, transformAnswerAttemptsToJson } from "../_utils/misc";
 import { getPracticeSetAnswers, initializePracticeSet, storePracticeSetCorrectAnswers } from "@/lib/practice-sets/user-submissions/sessionStorage";
-import { submitListeningAnswers } from "@/lib/postgress-aws/fetcher/practice-sets/user-submissions";
+import { insertListeningSubmission } from "@/lib/superbase/practice-sets/user-submissions";
 
 type AttemptWithCorrectAnswers = {
     user: string;
@@ -100,7 +100,7 @@ export default function ListeningUI({
             // convert the array to json, beacuse answers coloums is a JSOB field
             const answersJson = transformAnswerAttemptsToJson(userAttemptsWithAnswers);
 
-            const response = await submitListeningAnswers({
+            const response = await insertListeningSubmission({
                 testPath: testPath,
                 answers: answersJson,
                 startedAt: startedAt.toISOString(),

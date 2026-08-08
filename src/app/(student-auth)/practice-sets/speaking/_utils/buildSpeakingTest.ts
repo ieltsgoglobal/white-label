@@ -1,4 +1,4 @@
-import { getPracticeSetsSpeakingSubmissions } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
+import { getPracticeSetsSpeakingSubmissions } from "@/lib/superbase/practice-sets/user-submissions";
 import { hashFilename } from "../../_utils/hashFilename";
 import { pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
 import { convertSpeakingData } from "./convertSpeakingData";

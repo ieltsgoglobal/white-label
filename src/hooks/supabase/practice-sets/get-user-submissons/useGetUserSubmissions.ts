@@ -2,7 +2,12 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getSessionUser } from "@/lib/auth/session/get-user";
-import { getPracticeSetsListeningSubmissions, getPracticeSetsReadingSubmissions, getPracticeSetsSpeakingSubmissions, getPracticeSetsWritingSubmissions } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
+import {
+    getPracticeSetsListeningSubmissions,
+    getPracticeSetsReadingSubmissions,
+    getPracticeSetsSpeakingSubmissions,
+    getPracticeSetsWritingSubmissions,
+} from "@/lib/superbase/practice-sets/user-submissions";
 
 // helper function for TanStack Query
 export async function getPracticeSetsSubmissions(section: string) {

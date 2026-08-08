@@ -6,7 +6,7 @@ import QuizStatusCard from "../../_components/QuizStatusCard";
 import { evaluateWriting } from "@/lib/mock-tests/writing/evaluateWriting";
 import EvalutaingTaskLoaderModal from "@/components/loaders/mock-tests/writing/evaluating-task-modal";
 import { formatPracticeWritingQuestions } from "../_utils/formatPracticeWritingQuestions";
-import { submitWritingAnswers } from "@/lib/postgress-aws/fetcher/practice-sets/user-submissions";
+import { insertWritingSubmission } from "@/lib/superbase/practice-sets/user-submissions";
 import { setReviewMode } from "@/lib/mock-tests/indexedDb";
 import { buildUserResponsesWithScores } from "../_utils/misc";
 
@@ -100,7 +100,7 @@ export default function WritingUI({ writingQuestions, sampleAnswers, writingQues
         );
 
         try {
-            const response = await submitWritingAnswers({
+            const response = await insertWritingSubmission({
                 testPath: testPath,
                 user_responses_with_scores,
                 startedAt: startedAt.toISOString(),

@@ -4,7 +4,7 @@ import test from "node:test";
 import { hashFilename } from "../../_utils/hashFilename";
 import { BROKEN_LISTENING_PRACTICE_SET_TEST_PATHS, pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
 import { sanitizeListeningAnswers } from "./misc";
-import { getPracticeSetsListeningSubmissions } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
+import { getPracticeSetsListeningSubmissions } from "@/lib/superbase/practice-sets/user-submissions";
 
 /**
  * Build a full IELTS-style listening test.

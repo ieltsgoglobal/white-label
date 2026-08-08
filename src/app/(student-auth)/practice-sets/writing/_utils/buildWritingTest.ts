@@ -1,4 +1,4 @@
-import { getPracticeSetsWritingSubmissions } from "@/lib/postgress-aws/helper-functions/practice-sets/user-submissions";
+import { getPracticeSetsWritingSubmissions } from "@/lib/superbase/practice-sets/user-submissions";
 import { hashFilename } from "../../_utils/hashFilename";
 import { pickRandomBookAndTest } from "../../_utils/pickRandomBookAndTest";
 
