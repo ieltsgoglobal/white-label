@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import {
   Loader2,
@@ -117,12 +117,23 @@ function LobbyCard({
   onConnect: () => void
 }) {
   const isWaiting = status === "connecting" || status === "waiting"
-  const isBusy = isWaiting
+  const [isCheckingHealth, setIsCheckingHealth] = useState(false)
+  const isBusy = isWaiting || isCheckingHealth
   const isRecoverable = status === "opponent_left" || status === "error"
   const title = isWaiting ? "Finding an opponent" : "Ready for Combat?"
   const description = isWaiting
     ? "Keep this page open. The first question appears when another student joins."
     : "Sharpen your lexicon and compete in a five-question vocabulary duel."
+
+  async function startBattle() {
+    VocabMainSoundMaker.buttonPressed()
+
+    setIsCheckingHealth(true)
+    const isHealthy = await checkVocabBattleHealth()
+    setIsCheckingHealth(false)
+
+    if (isHealthy) onConnect()
+  }
 
   return (
     <Card className="overflow-hidden rounded-3xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)]">
@@ -145,11 +156,8 @@ function LobbyCard({
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Button
-              onClick={() => {
-                VocabMainSoundMaker.buttonPressed()
-                onConnect()
-              }}
-              disabled={isWaiting}
+              onClick={startBattle}
+              disabled={isBusy}
               size="lg"
               className="h-14 rounded-2xl bg-[#ff9700] px-8 text-base font-bold text-white shadow-[0_6px_0_0_#d87700] transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#ff9700] active:translate-y-1 active:shadow-[0_2px_0_0_#d87700]"
             >
@@ -166,10 +174,8 @@ function LobbyCard({
             {isRecoverable ? (
               <Button
                 variant="outline"
-                onClick={() => {
-                  VocabMainSoundMaker.buttonPressed()
-                  onConnect()
-                }}
+                onClick={startBattle}
+                disabled={isBusy}
                 size="lg"
                 className="h-14 rounded-2xl border-2 font-bold shadow-[0_5px_0_0_rgba(0,0,0,0.15)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)]"
               >
@@ -186,6 +192,25 @@ function LobbyCard({
 
 const secondaryActionClassName =
   "h-14 rounded-2xl border-2 px-5 font-bold shadow-[0_5px_0_0_rgba(0,0,0,0.15)] transition-all duration-150 hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)]"
+
+async function checkVocabBattleHealth() {
+  const wsUrl = process.env.NEXT_PUBLIC_VOCAB_BATTLE_WS_URL!
+
+  try {
+    const healthUrl = new URL(wsUrl)
+    healthUrl.protocol = healthUrl.protocol === "wss:" ? "https:" : "http:"
+    healthUrl.pathname = "/health"
+    healthUrl.search = ""
+    healthUrl.hash = ""
+
+    const response = await fetch(healthUrl, { cache: "no-store" })
+    if (response.ok) return true
+  } catch {
+    toast.error("Battle server is in maintenance. Please try again later.")
+  }
+
+  return false
+}
 
 function WaitingCard({ status }: { status: BattleStatus }) {
   const isConnecting = status === "connecting"

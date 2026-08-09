@@ -10,7 +10,8 @@ import {
   PenLine,
   Handshake,
   Brain,
-  CalendarDays
+  CalendarDays,
+  Swords
 } from "lucide-react";
 
 type Submenu = {
@@ -67,6 +68,11 @@ export function getMenuList(pathname: string): Group[] {
           href: "/vocab-ladder",
           label: "Vocabulary Practice",
           icon: Brain
+        },
+        {
+          href: "/vocab-battle",
+          label: "Vocab Battle",
+          icon: Swords
         },
         {
           href: "/coaching-batches",
