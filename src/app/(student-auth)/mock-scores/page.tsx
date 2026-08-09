@@ -3,11 +3,13 @@ import Link from "@/components/demo/link";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import FloatingWrapperErrorModal from "@/components/practice-sets/report-error/FloatingWrapperErrorModal";
 import MockScoresPage from "./_component/MockScoresPage";
 
 export default function MockScores() {
     return (
         <AdminPanelLayout>
+            <FloatingWrapperErrorModal source="mock-scores" testPath="mock-scores" />
             <ContentLayout title="Mock Scores">
                 <Breadcrumb>
                     <BreadcrumbList>

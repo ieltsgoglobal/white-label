@@ -18,10 +18,11 @@ import { Textarea } from "@/components/ui/textarea";
 type ReportErrorModalProps = {
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
-    testPath: string
+    testPath: string;
+    source?: string;
 };
 
-export function ReportErrorModal({ open, onOpenChange, testPath }: ReportErrorModalProps) {
+export function ReportErrorModal({ open, onOpenChange, testPath, source = "practice-sets" }: ReportErrorModalProps) {
     const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null);
     const [hasTriedCapture, setHasTriedCapture] = useState(false);
     const [message, setMessage] = useState("");
@@ -65,7 +66,7 @@ export function ReportErrorModal({ open, onOpenChange, testPath }: ReportErrorMo
         setIsSubmitting(true);
 
         const result = await submitReportError({
-            source: "practice-sets",
+            source,
             message,
             screenshotUrl: uploadedImageUrl,
             metadata: {

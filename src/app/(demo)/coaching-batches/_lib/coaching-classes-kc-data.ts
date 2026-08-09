@@ -290,8 +290,32 @@ export const COACHING_CLASSES_KC_DATA = [
         days: [
             { date: "30", muted: true, events: [] },
             { date: "31", muted: true, events: [] },
-            { date: "1", events: [] },
-            { date: "2", events: [] },
+            {
+                date: "1",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "10:00 AM",
+                    },
+                    {
+                        title: "PTE",
+                        time: "5:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "2",
+                events: [
+                    {
+                        title: "SAT",
+                        time: "11:00 AM",
+                    },
+                    {
+                        title: "French (A1)",
+                        time: "6:00 PM",
+                    },
+                ],
+            },
             {
                 date: "3",
                 events: [
@@ -944,8 +968,32 @@ export const COACHING_CLASSES_KC_DATA = [
                     },
                 ],
             },
-            { date: "8", events: [] },
-            { date: "9", events: [] },
+            {
+                date: "8",
+                events: [
+                    {
+                        title: "TOEFL",
+                        time: "10:00 AM",
+                    },
+                    {
+                        title: "German (A1)",
+                        time: "5:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "9",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "11:00 AM",
+                    },
+                    {
+                        title: "GRE/GMAT",
+                        time: "7:00 PM",
+                    },
+                ],
+            },
             {
                 date: "10",
                 events: [
@@ -2264,6 +2312,316 @@ export const COACHING_CLASSES_KC_DATA = [
             },
             { date: "1", muted: true, events: [] },
             { date: "2", muted: true, events: [] },
+        ],
+    },
+    {
+        id: "2026-08",
+        title: "August 2026",
+        range: "Aug 1, 2026 - Aug 31, 2026",
+        badgeMonth: "Aug",
+        days: [
+            { date: "27", muted: true, events: [] },
+            { date: "28", muted: true, events: [] },
+            { date: "29", muted: true, events: [] },
+            { date: "30", muted: true, events: [] },
+            { date: "31", muted: true, events: [] },
+            { date: "1", events: [] },
+            { date: "2", events: [] },
+            {
+                date: "3",
+                events: [
+                    {
+                        title: "SAT",
+                        time: "6:00 PM",
+                    },
+                    {
+                        title: "German (A1)",
+                        time: "8:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "4",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "8:00 PM",
+                    },
+                    {
+                        title: "French (A1)",
+                        time: "8:00 AM",
+                    },
+                ],
+            },
+            {
+                date: "5",
+                events: [
+                    {
+                        title: "PTE",
+                        time: "8:00 AM",
+                    },
+                    {
+                        title: "GRE/GMAT",
+                        time: "7:30 AM",
+                    },
+                ],
+            },
+            {
+                date: "6",
+                events: [
+                    {
+                        title: "French (A2)",
+                        time: "10:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "7",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "8:00 PM",
+                    },
+                    {
+                        title: "TOEFL",
+                        time: "5:00 PM",
+                    },
+                    {
+                        title: "DET",
+                        time: "7:00 AM",
+                    },
+                    {
+                        title: "German (B1)",
+                        time: "4:00 PM",
+                    },
+                ],
+            },
+            { date: "8", events: [] },
+            { date: "9", events: [] },
+            {
+                date: "10",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "2:30 PM",
+                    },
+                    {
+                        title: "German (A1)",
+                        time: "10:00 PM",
+                    },
+                ],
+            },
+            { date: "11", events: [] },
+            {
+                date: "12",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "10:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "13",
+                events: [
+                    {
+                        title: "French (A1)",
+                        time: "7:30 AM",
+                    },
+                ],
+            },
+            {
+                date: "14",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "6:00 PM",
+                    },
+                    {
+                        title: "SAT",
+                        time: "8:00 PM",
+                    },
+                    {
+                        title: "German (A2)",
+                        time: "8:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "15",
+                events: [
+                    {
+                        title: "DET",
+                        time: "10:00 AM",
+                    },
+                    {
+                        title: "PTE",
+                        time: "6:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "16",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "10:00 AM",
+                    },
+                    {
+                        title: "French (A2)",
+                        time: "5:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "17",
+                events: [
+                    {
+                        title: "PTE",
+                        time: "8:30 PM",
+                    },
+                    {
+                        title: "DET",
+                        time: "10:00 PM",
+                    },
+                    {
+                        title: "GRE/GMAT",
+                        time: "8:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "18",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "8:00 AM",
+                    },
+                ],
+            },
+            {
+                date: "19",
+                events: [
+                    {
+                        title: "French (B1)",
+                        time: "6:30 PM",
+                    },
+                ],
+            },
+            {
+                date: "20",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "10:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "21",
+                events: [
+                    {
+                        title: "German (A1)",
+                        time: "8:00 AM",
+                    },
+                ],
+            },
+            {
+                date: "22",
+                events: [
+                    {
+                        title: "SAT",
+                        time: "10:30 AM",
+                    },
+                    {
+                        title: "German (B1)",
+                        time: "6:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "23",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "11:00 AM",
+                    },
+                    {
+                        title: "TOEFL",
+                        time: "5:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "24",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "8:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "25",
+                events: [
+                    {
+                        title: "PTE",
+                        time: "6:00 PM",
+                    },
+                ],
+            },
+            { date: "26", events: [] },
+            {
+                date: "27",
+                events: [
+                    {
+                        title: "French (A1)",
+                        time: "10:00 PM",
+                    },
+                ],
+            },
+            { date: "28", events: [] },
+            {
+                date: "29",
+                events: [
+                    {
+                        title: "PTE",
+                        time: "10:00 AM",
+                    },
+                    {
+                        title: "GRE/GMAT",
+                        time: "6:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "30",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "10:30 AM",
+                    },
+                    {
+                        title: "French (B1)",
+                        time: "5:00 PM",
+                    },
+                ],
+            },
+            {
+                date: "31",
+                events: [
+                    {
+                        title: "IELTS",
+                        time: "10:00 PM",
+                    },
+                ],
+            },
+            { date: "1", muted: true, events: [] },
+            { date: "2", muted: true, events: [] },
+            { date: "3", muted: true, events: [] },
+            { date: "4", muted: true, events: [] },
+            { date: "5", muted: true, events: [] },
+            { date: "6", muted: true, events: [] },
         ],
     },
 ];

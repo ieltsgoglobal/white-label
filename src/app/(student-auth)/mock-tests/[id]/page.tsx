@@ -12,6 +12,7 @@ import SpeakingMain from "@/components/mock-tests/speaking-task/speaking-main";
 import { initializeMockAnswers } from "@/lib/mock-tests/mockAnswersStorage";
 import TestEndScreen from "@/components/mock-tests/instructions/TestEndScreen";
 import { setReviewMode } from "@/lib/mock-tests/indexedDb";
+import FloatingWrapperErrorModal from "@/components/practice-sets/report-error/FloatingWrapperErrorModal";
 
 export default function MockTestPage({ params }: { params: { id: string } }) {
     const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
@@ -48,6 +49,8 @@ export default function MockTestPage({ params }: { params: { id: string } }) {
 
     return (
         <div className="p-5 bg-gray-200 dark:bg-black">
+            <FloatingWrapperErrorModal source="mock-tests" testPath={`mock-tests/${testId}`} />
+
             <Card className="min-h-[95vh] flex items-center justify-center bg-transparent border-none shadow-none">
                 {phases[currentPhaseIndex].component()}
             </Card>

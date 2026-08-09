@@ -9,6 +9,7 @@ import ListeningMain from "@/components/mock-tests/listening-task/listening-main
 import ReadingMain from "@/components/mock-tests/reading-task/reading-main"
 import WritingMain from "@/components/mock-tests/writing-task/writing-main"
 import SpeakingReviewPage from "../../../../../components/mock-tests/additional-ui/review-components/speaking/SpeakingReviewPage"
+import FloatingWrapperErrorModal from "@/components/practice-sets/report-error/FloatingWrapperErrorModal"
 
 export default function ReviewPage() {
     // pathname-id is basically the firebase collection id
@@ -34,6 +35,7 @@ export default function ReviewPage() {
 
     return (
         <div>
+            <FloatingWrapperErrorModal source="mock-scores-review" testPath={`mock-scores/review/${id}`} />
             <TestSectionNavigation onSectionClick={setSection} activeSection={section} />
             <div className="bg-background flex items-center justify-center pb-10">
 

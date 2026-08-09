@@ -5,6 +5,7 @@ import { VocabBattleUi } from "./_components/vocab-battle-ui"
 import { useVocabBattleSocket } from "./_lib/socket"
 import Link from "@/components/demo/link";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import FloatingWrapperErrorModal from "@/components/practice-sets/report-error/FloatingWrapperErrorModal";
 
 
 export default function VocabBattlePage() {
@@ -12,6 +13,7 @@ export default function VocabBattlePage() {
 
   return (
     <ContentLayout title="Users">
+      <FloatingWrapperErrorModal source="vocab-battle" testPath="vocab-battle" />
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
