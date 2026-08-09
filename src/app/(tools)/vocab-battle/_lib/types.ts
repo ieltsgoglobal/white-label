@@ -1,6 +1,6 @@
 import type { VocabBattleProfile } from "./store-data"
 
-export const TOTAL_QUESTIONS = 5
+export const TOTAL_QUESTIONS = 7
 
 export type BattleStatus = "idle" | "connecting" | "waiting" | "playing" | "finished" | "opponent_left" | "error"
 

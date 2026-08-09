@@ -27,21 +27,21 @@ export function RulesDialog({ triggerClassName }: { triggerClassName?: string })
           Rules
         </Button>
       </DialogTrigger>
-      <DialogContent className="rounded-3xl border-2 bg-white p-6 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)] sm:max-w-xl">
+      <DialogContent className="max-h-[calc(100svh-2rem)] overflow-y-auto rounded-2xl border-2 bg-white p-4 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)] sm:max-w-xl sm:rounded-3xl sm:p-6">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-extrabold">Battle Rules</DialogTitle>
+          <DialogTitle className="text-xl font-extrabold sm:text-2xl">Battle Rules</DialogTitle>
         </DialogHeader>
 
-        <div className="rounded-3xl border-2 bg-[#fff7e6] p-5 shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
+        <div className="rounded-2xl border-2 bg-[#fff7e6] p-4 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl sm:p-5 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
           <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full border-[5px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_7px_0_#d87700]">
-              <Zap className="h-8 w-8" />
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-[5px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_6px_0_#d87700] sm:h-16 sm:w-16 sm:shadow-[0_7px_0_#d87700]">
+              <Zap className="h-7 w-7 sm:h-8 sm:w-8" />
             </div>
-            <div>
+            <div className="min-w-0">
               <p className="text-xs font-bold uppercase tracking-wider text-[#ff8a00]">
                 Five-word duel
               </p>
-              <p className="mt-1 text-xl font-extrabold">
+              <p className="mt-1 text-lg font-extrabold sm:text-xl">
                 Fast answers. Simple scoring.
               </p>
             </div>
@@ -68,11 +68,11 @@ function RuleItem({
   text: string
 }) {
   return (
-    <div className="flex gap-4 rounded-2xl border-2 bg-white p-4 shadow-[0_5px_0_0_rgba(0,0,0,0.12)]">
+    <div className="flex gap-3 rounded-2xl border-2 bg-white p-3 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:gap-4 sm:p-4">
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#fff7e6] text-[#ff8a00]">
         <Icon className="h-5 w-5" />
       </div>
-      <div>
+      <div className="min-w-0">
         <p className="font-bold">{title}</p>
         <p className="mt-1 text-sm text-muted-foreground">{text}</p>
       </div>

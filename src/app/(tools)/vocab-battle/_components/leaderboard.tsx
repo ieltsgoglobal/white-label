@@ -33,18 +33,18 @@ export function LeaderboardDialog({
           Leaderboard
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[calc(100svh-2rem)] overflow-y-auto rounded-2xl border-2 bg-white p-4 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)] sm:rounded-3xl sm:p-6">
         <DialogHeader>
-          <DialogTitle>Leaderboard</DialogTitle>
+          <DialogTitle className="text-xl font-extrabold sm:text-2xl">Leaderboard</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-3">
           {rows.length ? rows.map((row) => (
             <div
               key={row.name}
-              className="flex items-center justify-between rounded-2xl border-2 bg-white p-4 shadow-[0_4px_0_0_rgba(0,0,0,0.12)]"
+              className="flex items-center justify-between gap-3 rounded-2xl border-2 bg-white p-3 shadow-[0_4px_0_0_rgba(0,0,0,0.12)] sm:p-4"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex min-w-0 items-center gap-3">
                 <span
                   className={cn(
                     "flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold",
@@ -53,9 +53,9 @@ export function LeaderboardDialog({
                 >
                   {row.rank}
                 </span>
-                <span className="font-semibold">{row.name}</span>
+                <span className="min-w-0 break-words font-semibold">{row.name}</span>
               </div>
-              <span className="font-bold">{row.points} pts</span>
+              <span className="shrink-0 font-bold">{row.points} pts</span>
             </div>
           )) : (
             <div className="rounded-2xl border-2 bg-white p-4 text-sm text-muted-foreground shadow-[0_4px_0_0_rgba(0,0,0,0.12)]">

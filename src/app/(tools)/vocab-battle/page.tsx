@@ -4,7 +4,6 @@ import { ContentLayout } from "@/components/admin-panel/content-layout"
 import { VocabBattleUi } from "./_components/vocab-battle-ui"
 import { useVocabBattleSocket } from "./_lib/socket"
 import Link from "@/components/demo/link";
-import PlaceholderContent from "@/components/demo/placeholder-content";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
 
@@ -26,9 +25,9 @@ export default function VocabBattlePage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <PlaceholderContent >
+      <div className="mt-4 w-full sm:mt-6">
         <VocabBattleUi {...battle} />
-      </PlaceholderContent>
+      </div>
     </ContentLayout >
   )
 }

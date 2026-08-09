@@ -136,30 +136,30 @@ function LobbyCard({
   }
 
   return (
-    <Card className="overflow-hidden rounded-3xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)]">
-      <CardContent className="p-6 md:p-10">
-        <div className="relative flex min-h-[420px] flex-col items-center justify-center overflow-hidden rounded-3xl border-2 bg-white px-6 py-14 text-center shadow-[0_8px_0_0_rgba(0,0,0,0.12)]">
+    <Card className="overflow-hidden rounded-2xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
+      <CardContent className="p-3 sm:p-6 md:p-10">
+        <div className="relative flex min-h-[calc(100svh-220px)] flex-col items-center justify-center overflow-hidden rounded-2xl border-2 bg-white px-4 py-10 text-center shadow-[0_6px_0_0_rgba(0,0,0,0.12)] sm:min-h-[420px] sm:rounded-3xl sm:px-6 sm:py-14 sm:shadow-[0_8px_0_0_rgba(0,0,0,0.12)]">
           <div className="absolute right-10 top-10 hidden text-muted md:block">
             <Swords className="h-28 w-28 opacity-10" />
           </div>
 
-          <div className="flex h-24 w-24 items-center justify-center rounded-full border-[7px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_10px_0_#d87700]">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full border-[6px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_8px_0_#d87700] sm:h-24 sm:w-24 sm:border-[7px] sm:shadow-[0_10px_0_#d87700]">
             <NodeIcon icon="star" />
           </div>
 
-          <h2 className="mt-6 text-3xl font-bold tracking-normal sm:text-4xl">
+          <h2 className="mt-6 text-balance text-2xl font-bold tracking-normal sm:text-4xl">
             {title}
           </h2>
           <p className="mt-3 max-w-md text-sm text-muted-foreground">
             {description}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-8 grid w-full max-w-sm grid-cols-1 gap-3 sm:max-w-none sm:flex sm:flex-wrap sm:items-center sm:justify-center">
             <Button
               onClick={startBattle}
               disabled={isBusy}
               size="lg"
-              className="h-14 rounded-2xl bg-[#ff9700] px-8 text-base font-bold text-white shadow-[0_6px_0_0_#d87700] transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#ff9700] active:translate-y-1 active:shadow-[0_2px_0_0_#d87700]"
+              className="h-12 w-full rounded-2xl bg-[#ff9700] px-6 text-base font-bold text-white shadow-[0_5px_0_0_#d87700] transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#ff9700] active:translate-y-1 active:shadow-[0_2px_0_0_#d87700] sm:h-14 sm:w-auto sm:px-8 sm:shadow-[0_6px_0_0_#d87700]"
             >
               {isBusy ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -177,7 +177,7 @@ function LobbyCard({
                 onClick={startBattle}
                 disabled={isBusy}
                 size="lg"
-                className="h-14 rounded-2xl border-2 font-bold shadow-[0_5px_0_0_rgba(0,0,0,0.15)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)]"
+                className="h-12 w-full rounded-2xl border-2 font-bold shadow-[0_5px_0_0_rgba(0,0,0,0.15)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)] sm:h-14 sm:w-auto"
               >
                 <RotateCcw className="mr-2 h-4 w-4" />
                 Try again
@@ -191,7 +191,7 @@ function LobbyCard({
 }
 
 const secondaryActionClassName =
-  "h-14 rounded-2xl border-2 px-5 font-bold shadow-[0_5px_0_0_rgba(0,0,0,0.15)] transition-all duration-150 hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)]"
+  "h-12 w-full rounded-2xl border-2 px-5 font-bold shadow-[0_5px_0_0_rgba(0,0,0,0.15)] transition-all duration-150 hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)] sm:h-14 sm:w-auto"
 
 async function checkVocabBattleHealth() {
   const wsUrl = process.env.NEXT_PUBLIC_VOCAB_BATTLE_WS_URL!
@@ -216,14 +216,14 @@ function WaitingCard({ status }: { status: BattleStatus }) {
   const isConnecting = status === "connecting"
 
   return (
-    <Card className="overflow-hidden rounded-3xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)]">
-      <CardContent className="p-6 md:p-10">
-        <div className="flex min-h-[520px] flex-col items-center justify-center rounded-3xl border-2 bg-white px-6 py-14 text-center shadow-[0_8px_0_0_rgba(0,0,0,0.12)]">
-          <div className="relative flex h-24 w-24 items-center justify-center rounded-full border-[7px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_10px_0_#d87700]">
-            <Loader2 className="h-12 w-12 animate-spin" />
+    <Card className="overflow-hidden rounded-2xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
+      <CardContent className="p-3 sm:p-6 md:p-10">
+        <div className="flex min-h-[calc(100svh-220px)] flex-col items-center justify-center rounded-2xl border-2 bg-white px-4 py-10 text-center shadow-[0_6px_0_0_rgba(0,0,0,0.12)] sm:min-h-[520px] sm:rounded-3xl sm:px-6 sm:py-14 sm:shadow-[0_8px_0_0_rgba(0,0,0,0.12)]">
+          <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-[6px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_8px_0_#d87700] sm:h-24 sm:w-24 sm:border-[7px] sm:shadow-[0_10px_0_#d87700]">
+            <Loader2 className="h-10 w-10 animate-spin sm:h-12 sm:w-12" />
           </div>
 
-          <h2 className="mt-8 text-3xl font-bold tracking-normal">
+          <h2 className="mt-8 text-balance text-2xl font-bold tracking-normal sm:text-3xl">
             {isConnecting ? "Connecting to battle server" : "Finding an opponent"}
           </h2>
         </div>
@@ -244,13 +244,13 @@ function BattleQuestionCard({
   onAnswer: (answer: string) => void
 }) {
   return (
-    <Card className="overflow-hidden rounded-3xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)]">
-      <CardHeader className="space-y-4">
+    <Card className="overflow-hidden rounded-2xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
+      <CardHeader className="space-y-4 p-4 sm:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <CardTitle>Question {questionNumber} of {TOTAL_QUESTIONS}</CardTitle>
+            <CardTitle className="text-xl sm:text-2xl">Question {questionNumber} of {TOTAL_QUESTIONS}</CardTitle>
           </div>
-          <Badge className="bg-[#ff9700] text-white hover:bg-[#ff9700]">Live session</Badge>
+          <Badge className="w-fit bg-[#ff9700] text-white hover:bg-[#ff9700]">Live session</Badge>
         </div>
         <Progress
           value={(questionNumber / TOTAL_QUESTIONS) * 100}
@@ -258,12 +258,12 @@ function BattleQuestionCard({
         />
       </CardHeader>
 
-      <CardContent className="space-y-6">
-        <div className="rounded-3xl border-2 bg-white p-8 text-center shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
+      <CardContent className="space-y-5 p-4 pt-0 sm:space-y-6 sm:p-6 sm:pt-0">
+        <div className="rounded-2xl border-2 bg-white p-4 text-center shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl sm:p-8 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
           <p className="text-xs font-semibold uppercase tracking-wider text-[#ff8a00]">Target word</p>
-          <div className="mt-4 flex items-center justify-center gap-3">
+          <div className="mt-4 flex min-w-0 flex-col items-center justify-center gap-3 sm:flex-row">
             <VocabQuizSpeakWordButton word={question.word} />
-            <h2 className="text-3xl font-bold tracking-normal sm:text-4xl">
+            <h2 className="max-w-full text-3xl font-bold tracking-normal [overflow-wrap:anywhere] sm:text-4xl">
               {question.word}
             </h2>
           </div>
@@ -272,7 +272,7 @@ function BattleQuestionCard({
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {question.options.map((option, index) => {
             const isSelected = selectedAnswer === option
 
@@ -288,18 +288,18 @@ function BattleQuestionCard({
                   })
                 }}
                 className={cn(
-                  "cursor-pointer rounded-3xl border-2 p-5 transition-all duration-150 shadow-[0_6px_0_0_rgba(0,0,0,0.15)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)]",
+                  "cursor-pointer rounded-2xl border-2 p-4 transition-all duration-150 shadow-[0_5px_0_0_rgba(0,0,0,0.15)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)] sm:rounded-3xl sm:p-5 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.15)]",
                   selectedAnswer && "cursor-default hover:translate-y-0 active:translate-y-0",
                   isSelected
                     ? "border-blue-500 bg-blue-50 shadow-[0_6px_0_0_rgb(59_130_246)]"
                     : "border-border"
                 )}
               >
-                <div className="flex items-center gap-4">
+                <div className="flex min-w-0 items-start gap-3 sm:items-center sm:gap-4">
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border bg-background text-sm font-semibold">
                     {String.fromCharCode(65 + index)}
                   </span>
-                  <span className="text-lg font-medium">{option}</span>
+                  <span className="min-w-0 flex-1 break-words text-left text-base font-medium leading-snug sm:text-lg">{option}</span>
                 </div>
               </Card>
             )
@@ -319,19 +319,19 @@ function ResultCard({
   onConnect: () => void
 }) {
   return (
-    <Card className="overflow-hidden rounded-3xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)]">
-      <CardContent className="flex min-h-[520px] flex-col items-center justify-center p-8 text-center">
-        <div className="flex h-24 w-24 items-center justify-center rounded-full border-[7px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_10px_0_#d87700]">
-          <Trophy className="h-11 w-11" />
+    <Card className="overflow-hidden rounded-2xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
+      <CardContent className="flex min-h-[calc(100svh-220px)] flex-col items-center justify-center p-4 py-10 text-center sm:min-h-[520px] sm:p-8">
+        <div className="flex h-20 w-20 items-center justify-center rounded-full border-[6px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_8px_0_#d87700] sm:h-24 sm:w-24 sm:border-[7px] sm:shadow-[0_10px_0_#d87700]">
+          <Trophy className="h-10 w-10 sm:h-11 sm:w-11" />
         </div>
 
-        <h2 className="mt-8 text-3xl font-bold tracking-normal">{getResultText(finalScore)}</h2>
+        <h2 className="mt-8 text-2xl font-bold tracking-normal sm:text-3xl">{getResultText(finalScore)}</h2>
         <p className="mt-2 text-sm text-muted-foreground">The five-question battle is complete.</p>
         <p className={cn("mt-2 text-sm font-bold text-[#ff8a00]", finalScore.saveStatus === "error" && "text-destructive")}>
           {getSaveStatusText(finalScore)}
         </p>
 
-        <div className="mt-8 w-full max-w-sm rounded-3xl border-2 bg-white p-6 shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
+        <div className="mt-8 w-full max-w-sm rounded-2xl border-2 bg-white p-5 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl sm:p-6 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
           <p className="text-xs font-bold uppercase tracking-wider text-[#ff8a00]">Final score</p>
           <div className="mt-4 flex items-center justify-center gap-8">
             <div>
@@ -346,18 +346,18 @@ function ResultCard({
           </div>
         </div>
 
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <div className="mt-8 grid w-full max-w-sm grid-cols-1 gap-3 sm:max-w-none sm:flex sm:flex-wrap sm:justify-center">
           <Button
             onClick={() => {
               VocabMainSoundMaker.buttonPressed()
               onConnect()
             }}
-            className="h-14 rounded-2xl bg-[#ff9700] px-8 text-base font-bold text-white shadow-[0_6px_0_0_#d87700] transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#ff9700] active:translate-y-1 active:shadow-[0_2px_0_0_#d87700]"
+            className="h-12 w-full rounded-2xl bg-[#ff9700] px-6 text-base font-bold text-white shadow-[0_5px_0_0_#d87700] transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#ff9700] active:translate-y-1 active:shadow-[0_2px_0_0_#d87700] sm:h-14 sm:w-auto sm:px-8 sm:shadow-[0_6px_0_0_#d87700]"
           >
             <RotateCcw className="mr-2 h-4 w-4" />
             Play again
           </Button>
-          <Button onClick={() => { VocabMainSoundMaker.buttonPressed(); window.location.href = "/vocab-battle"; }} asChild variant="outline" className="h-14 rounded-2xl border-2 px-8 text-base font-bold shadow-[0_5px_0_0_rgba(0,0,0,0.15)] transition-all duration-150 hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)]">
+          <Button onClick={() => { VocabMainSoundMaker.buttonPressed(); window.location.href = "/vocab-battle"; }} asChild variant="outline" className="h-12 w-full rounded-2xl border-2 px-6 text-base font-bold shadow-[0_5px_0_0_rgba(0,0,0,0.15)] transition-all duration-150 hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)] sm:h-14 sm:w-auto sm:px-8">
             <Link href="/vocab-battle#" onClick={() => VocabMainSoundMaker.buttonPressed()}>
               Go to dashboard
             </Link>

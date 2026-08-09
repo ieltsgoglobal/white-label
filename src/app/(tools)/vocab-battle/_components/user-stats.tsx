@@ -48,29 +48,29 @@ export function UserStatsDialog({
           Stats
         </Button>
       </DialogTrigger>
-      <DialogContent className="rounded-3xl border-2 bg-white p-6 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)] sm:max-w-xl">
+      <DialogContent className="max-h-[calc(100svh-2rem)] overflow-y-auto rounded-2xl border-2 bg-white p-4 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)] sm:max-w-xl sm:rounded-3xl sm:p-6">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-extrabold">Your Stats</DialogTitle>
+          <DialogTitle className="text-xl font-extrabold sm:text-2xl">Your Stats</DialogTitle>
         </DialogHeader>
 
-        <div className="rounded-3xl border-2 bg-[#fff7e6] p-5 shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
+        <div className="rounded-2xl border-2 bg-[#fff7e6] p-4 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl sm:p-5 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
           <div className="flex items-center justify-between gap-4">
-            <div>
+            <div className="min-w-0">
               <p className="text-xs font-bold uppercase tracking-wider text-[#ff8a00]">
                 Battle level
               </p>
-              <p className="mt-1 text-3xl font-extrabold">
+              <p className="mt-1 text-2xl font-extrabold sm:text-3xl">
                 Level {stats ? stats.level : "-"}
               </p>
             </div>
-            <div className="flex h-16 w-16 items-center justify-center rounded-full border-[5px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_7px_0_#d87700]">
-              <Trophy className="h-8 w-8" />
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-[5px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_6px_0_#d87700] sm:h-16 sm:w-16 sm:shadow-[0_7px_0_#d87700]">
+              <Trophy className="h-7 w-7 sm:h-8 sm:w-8" />
             </div>
           </div>
           <Progress value={xpProgress} className="mt-5 h-3 bg-[#ffe2b8] [&>div]:bg-[#ff9700]" />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
           {statItems.map((item) => (
             <StatTile key={item.label} {...item} />
           ))}
@@ -97,12 +97,12 @@ function StatTile({
   value: string
 }) {
   return (
-    <div className="rounded-2xl border-2 bg-white p-4 shadow-[0_5px_0_0_rgba(0,0,0,0.12)]">
+    <div className="min-w-0 rounded-2xl border-2 bg-white p-3 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:p-4">
       <Icon className="h-5 w-5 text-[#ff8a00]" />
       <div className="mt-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
         {label}
       </div>
-      <div className="mt-1 text-2xl font-extrabold">{value}</div>
+      <div className="mt-1 break-words text-xl font-extrabold sm:text-2xl">{value}</div>
     </div>
   )
 }
@@ -117,12 +117,12 @@ function InfoRow({
   value: string
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl border bg-white px-4 py-3">
-      <span className="flex items-center gap-2 text-muted-foreground">
+    <div className="flex items-center justify-between gap-3 rounded-2xl border bg-white px-3 py-3 sm:px-4">
+      <span className="flex min-w-0 items-center gap-2 text-muted-foreground">
         <Icon className="h-4 w-4 text-[#ff8a00]" />
-        {label}
+        <span className="break-words">{label}</span>
       </span>
-      <span className="font-medium">{value}</span>
+      <span className="shrink-0 font-medium">{value}</span>
     </div>
   )
 }
