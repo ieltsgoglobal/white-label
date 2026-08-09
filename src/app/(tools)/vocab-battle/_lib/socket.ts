@@ -11,7 +11,6 @@ import type { VocabBattleProfile } from "./store-data"
 
 export const TOTAL_QUESTIONS = 5
 
-const DEFAULT_WS_URL = "ws://127.0.0.1:3335/ws"
 const FINISHED_STATUSES = ["finished", "opponent_left", "error", "idle"]
 
 export type BattleStatus =
@@ -71,7 +70,7 @@ export function useVocabBattleSocket() {
   const socketRef = useRef<WebSocket | null>(null)
   const resultSavedRef = useRef(false)
   const [battle, setBattle] = useState(initialState)
-  const wsUrl = process.env.NEXT_PUBLIC_VOCAB_BATTLE_WS_URL || DEFAULT_WS_URL
+  const wsUrl = process.env.NEXT_PUBLIC_VOCAB_BATTLE_WS_URL || ""
 
   const updateBattle = useCallback((next: Partial<BattleState>) => {
     setBattle((current) => ({ ...current, ...next }))
@@ -205,6 +204,15 @@ export function useVocabBattleSocket() {
   const connect = useCallback(() => {
     closeSocket()
     resetMatch()
+
+    if (!wsUrl) {
+      updateBattle({
+        status: "error",
+        notice: "Vocab battle server URL is not configured.",
+      })
+      return
+    }
+
     updateBattle({
       status: "connecting",
       notice: "Connecting to vocab battle server.",
