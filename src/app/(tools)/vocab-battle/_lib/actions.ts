@@ -10,10 +10,8 @@ import {
 } from "./store-data"
 
 export async function getCurrentVocabBattleProfileAction() {
-  const session = await getUserSession()
-  if (!isUserSession(session)) return null
-
-  return getVocabBattleProfile(session.userId)
+  const session = await getCurrentUser()
+  return session ? getVocabBattleProfile(session.userId) : null
 }
 
 export async function getVocabBattleLeaderboardAction() {
@@ -31,13 +29,8 @@ export async function recordCurrentVocabBattleResultAction({
   score: number
   opponentScore: number
 }) {
-  const session = await getUserSession()
-  console.log("[vocab-battle] save requested", { score, opponentScore, session })
-
-  if (!isUserSession(session)) {
-    console.log("[vocab-battle] result not saved: no user session")
-    return null
-  }
+  const session = await getCurrentUser()
+  if (!session) return null
 
   try {
     return await recordVocabBattlePlayerResult({
@@ -50,6 +43,11 @@ export async function recordCurrentVocabBattleResultAction({
     console.error("[vocab-battle] result save failed", error)
     return null
   }
+}
+
+async function getCurrentUser() {
+  const session = await getUserSession()
+  return isUserSession(session) ? session : null
 }
 
 function isUserSession(session: SessionPayload | null): session is SessionPayload & { role: "user" } {

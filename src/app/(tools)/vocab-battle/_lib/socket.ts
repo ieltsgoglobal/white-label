@@ -7,51 +7,31 @@ import {
   getVocabBattleLeaderboardAction,
   recordCurrentVocabBattleResultAction,
 } from "./actions"
-import type { VocabBattleProfile } from "./store-data"
+import {
+  FINISHED_STATUSES,
+  toLeaderboardRow,
+  toStats,
+} from "./types"
+import type {
+  BattleQuestion,
+  BattleStatus,
+  FinalScore,
+  LeaderboardRow,
+  ServerMessage,
+  VocabBattleStats,
+} from "./types"
 
-export const TOTAL_QUESTIONS = 5
-
-const FINISHED_STATUSES = ["finished", "opponent_left", "error", "idle"]
-
-export type BattleStatus =
-  | "idle"
-  | "connecting"
-  | "waiting"
-  | "playing"
-  | "finished"
-  | "opponent_left"
-  | "error"
-
-export type BattleQuestion = {
-  word: string
-  options: string[]
-}
-
-export type FinalScore = {
-  score: number
-  opponentScore: number
-  xpEarned?: number
-  saveStatus?: "saving" | "saved" | "error"
-}
-
-type ServerMessage =
-  | { type: "waiting" }
-  | { type: "matched" | "question"; number: number; question: BattleQuestion }
-  | { type: "game_over"; score: number; opponent_score: number }
-  | { type: "opponent_left" }
-  | { type: "error"; message: string }
+export type { BattleQuestion, BattleStatus, FinalScore } from "./types"
+export { TOTAL_QUESTIONS } from "./types"
 
 type BattleState = {
   finalScore: FinalScore | null
-  leaderboard: { name: string; points: string; rank: number }[]
+  leaderboard: LeaderboardRow[]
   notice: string
   question: BattleQuestion | null
   questionNumber: number
   selectedAnswer: string | null
-  stats: Pick<
-    VocabBattleProfile,
-    "xp" | "level" | "wins" | "losses" | "draws" | "totalDuels" | "currentStreak" | "bestStreak"
-  > | null
+  stats: VocabBattleStats | null
   status: BattleStatus
 }
 
@@ -64,6 +44,21 @@ const initialState: BattleState = {
   selectedAnswer: null,
   stats: null,
   status: "idle",
+}
+
+const clearedMatchState = {
+  finalScore: null,
+  question: null,
+  questionNumber: 0,
+  selectedAnswer: null,
+} satisfies Partial<BattleState>
+
+const toErrorState = (notice: string): Partial<BattleState> => {
+  return { status: "error", notice }
+}
+
+const toScore = (score: number, opponentScore: number, saveStatus: FinalScore["saveStatus"]) => {
+  return { score, opponentScore, saveStatus }
 }
 
 export function useVocabBattleSocket() {
@@ -83,12 +78,7 @@ export function useVocabBattleSocket() {
 
   const resetMatch = useCallback(() => {
     resultSavedRef.current = false
-    updateBattle({
-      finalScore: null,
-      question: null,
-      questionNumber: 0,
-      selectedAnswer: null,
-    })
+    updateBattle(clearedMatchState)
   }, [updateBattle])
 
   const refreshStats = useCallback(async () => {
@@ -114,7 +104,7 @@ export function useVocabBattleSocket() {
       if (resultSavedRef.current) return
       resultSavedRef.current = true
 
-      updateBattle({ finalScore: { score, opponentScore, saveStatus: "saving" } })
+      updateBattle({ finalScore: toScore(score, opponentScore, "saving") })
 
       const savedResult = await recordCurrentVocabBattleResultAction({
         score,
@@ -122,12 +112,10 @@ export function useVocabBattleSocket() {
       })
 
       if (!savedResult) {
-        console.log("[vocab-battle] result save returned null", { score, opponentScore })
-        updateBattle({ finalScore: { score, opponentScore, saveStatus: "error" } })
+        updateBattle({ finalScore: toScore(score, opponentScore, "error") })
         return
       }
 
-      console.log("[vocab-battle] result save succeeded", savedResult)
       updateBattle({
         finalScore: {
           score,
@@ -174,11 +162,7 @@ export function useVocabBattleSocket() {
             status: "finished",
             question: null,
             selectedAnswer: null,
-            finalScore: {
-              score: message.score,
-              opponentScore: message.opponent_score,
-              saveStatus: "saving",
-            },
+            finalScore: toScore(message.score, message.opponent_score, "saving"),
             notice: "Battle complete.",
           })
           void saveResult(message.score, message.opponent_score)
@@ -206,10 +190,7 @@ export function useVocabBattleSocket() {
     resetMatch()
 
     if (!wsUrl) {
-      updateBattle({
-        status: "error",
-        notice: "Vocab battle server URL is not configured.",
-      })
+      updateBattle(toErrorState("Vocab battle server URL is not configured."))
       return
     }
 
@@ -225,18 +206,12 @@ export function useVocabBattleSocket() {
       try {
         handleServerMessage(JSON.parse(event.data) as ServerMessage)
       } catch {
-        updateBattle({
-          status: "error",
-          notice: "Received an unreadable server message.",
-        })
+        updateBattle(toErrorState("Received an unreadable server message."))
       }
     }
 
     socket.onerror = () => {
-      updateBattle({
-        status: "error",
-        notice: "Could not connect to the battle server.",
-      })
+      updateBattle(toErrorState("Could not connect to the battle server."))
     }
 
     socket.onclose = () => {
@@ -276,25 +251,4 @@ export function useVocabBattleSocket() {
   useEffect(() => closeSocket, [closeSocket])
 
   return { ...battle, connect, submitAnswer, wsUrl }
-}
-
-function toLeaderboardRow(profile: VocabBattleProfile, index: number) {
-  return {
-    name: profile.displayName || `Player ${index + 1}`,
-    points: profile.xp.toLocaleString(),
-    rank: index + 1,
-  }
-}
-
-function toStats({
-  xp,
-  level,
-  wins,
-  losses,
-  draws,
-  totalDuels,
-  currentStreak,
-  bestStreak,
-}: VocabBattleProfile) {
-  return { xp, level, wins, losses, draws, totalDuels, currentStreak, bestStreak }
 }

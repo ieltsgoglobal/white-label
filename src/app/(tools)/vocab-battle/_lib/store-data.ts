@@ -21,6 +21,14 @@ type ProfileRow = {
   best_streak: number
 }
 
+type BattleResultUpdateParams = {
+  previous: VocabBattleProfile | null
+  userId: string
+  displayName: string | null
+  score: number
+  opponentScore: number
+}
+
 export type VocabBattleProfile = {
   userId: string
   displayName: string | null
@@ -56,33 +64,18 @@ export async function recordVocabBattlePlayerResult({
   score: number
   opponentScore: number
 }) {
-  console.log("[vocab-battle] recording result", { userId, displayName, score, opponentScore })
-
   const previous = await getVocabBattleProfile(userId)
-  const didWin = score > opponentScore
-  const didDraw = score === opponentScore
-  const xpEarned = 25 + score * 20 + (didWin ? 50 : 0) + (didDraw ? 15 : 0)
-  const currentStreak = didWin ? (previous?.currentStreak ?? 0) + 1 : 0
-
-  const nextProfile = {
-    user_id: userId,
-    display_name: displayName ?? previous?.displayName,
-    xp: (previous?.xp ?? 0) + xpEarned,
-    wins: (previous?.wins ?? 0) + (didWin ? 1 : 0),
-    losses: (previous?.losses ?? 0) + (!didWin && !didDraw ? 1 : 0),
-    draws: (previous?.draws ?? 0) + (didDraw ? 1 : 0),
-    total_duels: (previous?.totalDuels ?? 0) + 1,
-    current_streak: currentStreak,
-    best_streak: Math.max(previous?.bestStreak ?? 0, currentStreak),
-    updated_at: new Date().toISOString(),
-  }
+  const { nextProfile, xpEarned } = getBattleResultUpdate({
+    previous,
+    userId,
+    displayName,
+    score,
+    opponentScore,
+  })
 
   const { data, error } = await supabase
     .from(TABLE)
-    .upsert({
-      ...nextProfile,
-      level: Math.floor(nextProfile.xp / XP_PER_LEVEL) + 1,
-    })
+    .upsert(nextProfile)
     .select("*")
     .single<ProfileRow>()
 
@@ -91,7 +84,6 @@ export async function recordVocabBattlePlayerResult({
     throw new Error(error.message)
   }
 
-  console.log("[vocab-battle] result saved", { userId, xpEarned, totalXp: nextProfile.xp })
   return { profile: toProfile(data), xpEarned }
 }
 
@@ -106,6 +98,37 @@ export async function getVocabBattleLeaderboard(limit = 25) {
 
   if (error) throw new Error(error.message)
   return data.map(toProfile)
+}
+
+function getBattleResultUpdate({
+  previous: profile,
+  userId,
+  displayName,
+  score,
+  opponentScore,
+}: BattleResultUpdateParams) {
+  const didWin = score > opponentScore
+  const didDraw = score === opponentScore
+  const xpEarned = 25 + score * 20 + (didWin ? 50 : 0) + (didDraw ? 15 : 0)
+  const currentStreak = didWin ? (profile?.currentStreak ?? 0) + 1 : 0
+  const xp = (profile?.xp ?? 0) + xpEarned
+
+  return {
+    xpEarned,
+    nextProfile: {
+      user_id: userId,
+      display_name: displayName ?? profile?.displayName,
+      xp,
+      level: Math.floor(xp / XP_PER_LEVEL) + 1,
+      wins: (profile?.wins ?? 0) + (didWin ? 1 : 0),
+      losses: (profile?.losses ?? 0) + (!didWin && !didDraw ? 1 : 0),
+      draws: (profile?.draws ?? 0) + (didDraw ? 1 : 0),
+      total_duels: (profile?.totalDuels ?? 0) + 1,
+      current_streak: currentStreak,
+      best_streak: Math.max(profile?.bestStreak ?? 0, currentStreak),
+      updated_at: new Date().toISOString(),
+    },
+  }
 }
 
 function toProfile(row: ProfileRow): VocabBattleProfile {
