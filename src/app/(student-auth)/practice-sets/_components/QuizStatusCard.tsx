@@ -44,6 +44,9 @@ export function QuizStatusCard({
   const [userScoreAfterSubmission, setUserScoreAfterSubmission] = useState<number | null>(null) // null means not submitted yet
 
   const [reportErrorOpen, setReportErrorOpen] = useState(false);
+
+  // we guess its a writing_section based on the MAX_INDEX === 2
+  // we make user only submit if he is on writing_section 2
   const isWritingSection = MAX_INDEX === 1
   const isWritingPartOne = isWritingSection && currentIndex !== MAX_INDEX
 
@@ -164,23 +167,14 @@ export function QuizStatusCard({
             onClick={NextSet}
             disabled={currentIndex === MAX_INDEX}
           >
-            {(MAX_INDEX === 1 && currentIndex !== MAX_INDEX) ?  // we guess its a writing_section based on the MAX_INDEX === 2
-              "Next Part" :
-              "Next Section"
-            }
+            Next Section
           </Button>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           {isWritingPartOne && <WritingInstructions />}
           <Button
-            disabled={
-              hasPressedCheckResults ||
-
-              // we guess its a writing_section based on the MAX_INDEX === 2
-              // we make user only submit if he is on writing_section 2
-              isWritingPartOne
-            }
+            disabled={hasPressedCheckResults || isWritingPartOne}
             onClick={async () => {
               if (hasPressedCheckResults) return
 
