@@ -63,6 +63,7 @@ export function transformAnswerAttemptsToJson(
 
 
 
+import { checkAnswerAcceptable } from "@/lib/mock-tests/listening/checkAnswerAcceptable";
 import { AnswerMap } from "@/types/mockTestAttempt"
 /**
  * -------------------------------------------------
@@ -88,10 +89,6 @@ export function normalizePracticeSetsAnswers(arr: string[]): AnswerMap {
 
 /**
  * Compare user answers with correct answers and calculate score.
- *
- * - Case insensitive
- * - Ignores surrounding whitespace
- * - Supports multiple variants with " | "
  */
 export function calculatePracticeSetScore(
     userAttemptsWithAnswers: AttemptWithCorrectAnswers[]
@@ -99,15 +96,7 @@ export function calculatePracticeSetScore(
     let score = 0;
 
     userAttemptsWithAnswers.forEach((attempt) => {
-        const user = (attempt.user || "").trim().toLowerCase();
-        const correctRaw = (attempt.correct || "").trim().toLowerCase();
-
-        if (!user || !correctRaw) return; // skip empty
-
-        // split variants by "|" and trim
-        const correctVariants = correctRaw.split("|").map(v => v.trim());
-
-        if (correctVariants.includes(user)) {
+        if (checkAnswerAcceptable(attempt.user, attempt.correct)) {
             score++;
         }
     });

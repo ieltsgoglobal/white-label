@@ -3,9 +3,11 @@ import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { useEffect, useState } from "react"
 import { calculatePracticeSetScore } from "../listening/_utils/misc"
 import ReportErrorModal from "@/components/practice-sets/report-error/ReportErrorModal"
+import { Info } from "lucide-react"
 
 type AttemptWithCorrectAnswers = {
   user: string;
@@ -42,6 +44,8 @@ export function QuizStatusCard({
   const [userScoreAfterSubmission, setUserScoreAfterSubmission] = useState<number | null>(null) // null means not submitted yet
 
   const [reportErrorOpen, setReportErrorOpen] = useState(false);
+  const isWritingSection = MAX_INDEX === 1
+  const isWritingPartOne = isWritingSection && currentIndex !== MAX_INDEX
 
   useEffect(() => {
     if (hasPressedCheckResults && overallWritingScore !== undefined) {
@@ -162,19 +166,20 @@ export function QuizStatusCard({
           >
             {(MAX_INDEX === 1 && currentIndex !== MAX_INDEX) ?  // we guess its a writing_section based on the MAX_INDEX === 2
               "Next Part" :
-              "Next Question"
+              "Next Section"
             }
           </Button>
         </div>
 
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap items-center gap-2">
+          {isWritingPartOne && <WritingInstructions />}
           <Button
             disabled={
               hasPressedCheckResults ||
 
               // we guess its a writing_section based on the MAX_INDEX === 2
               // we make user only submit if he is on writing_section 2
-              (MAX_INDEX === 1 && currentIndex !== MAX_INDEX)
+              isWritingPartOne
             }
             onClick={async () => {
               if (hasPressedCheckResults) return
@@ -201,13 +206,13 @@ export function QuizStatusCard({
           </Button>
 
           <Button
-            variant={"ghost"}
+            variant={"outline"}
             className="text-muted-foreground/80"
             // switched to window.location.href cuz we want DOM to render from scratch
             // so that side-effects can trigger in src/app/(student-auth)/practice-sets/layout.tsx
             onClick={() => { window.location.href = "/practice-sets" }}
           >
-            Go Back To Dashboard
+            Dashboard / New Test
           </Button>
         </div>
       </CardFooter>
@@ -216,3 +221,25 @@ export function QuizStatusCard({
 }
 
 export default QuizStatusCard
+
+
+function WritingInstructions() {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="h-9 w-9 text-muted-foreground"
+          aria-label="Writing submission information"
+        >
+          <Info className="h-4 w-4" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-72 text-sm" align="end">
+        Submit is available in Part 2 because writing is evaluated once for both tasks together.
+      </PopoverContent>
+    </Popover>
+  )
+}

@@ -74,7 +74,7 @@ export default function Flowchart({ body, start, end, desc }: FlowchartProps) {
                         : `Questions ${start}–${end}`}
                 </CardTitle>
                 <p className="text-sm text-muted-foreground font-medium">
-                    {desc?.text?.[0] ?? "Complete the flowchart below."}
+                    {desc?.text?.[0] ?? "Complete the flowchart below. Write A, B, C, D as answers."}
                 </p>
             </CardHeader>
             <CardContent className="mx-auto max-w-3xl">

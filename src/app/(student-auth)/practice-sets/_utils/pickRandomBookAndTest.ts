@@ -71,6 +71,7 @@ export function pickRandomBookAndTest(excludeList: string[] = []): string[] {
 // everything_almost_fine - question does render, but the question misses some pieces of puzzle
 // question_wording - the question renders fine, just we can alter question statement so that user can understand question type
 // support_example - the audio_blob mentions the example, so we need to show the example to user
+// passage_mismatch - the questions show lower number of passage then mentioned in the passages
 
 export const BROKEN_READING_PRACTICE_SET_TEST_PATHS = [
     "book_10/test_1", // question 14-21 #example_match_heading
@@ -79,6 +80,7 @@ export const BROKEN_READING_PRACTICE_SET_TEST_PATHS = [
 
     "book_11/test_1", // question 20-26 #image
     "book_11/test_2", // question 09-13 #image
+    "book_11/test_3", // question 27-34 #passage_mismatch
 
     "book_13/test_3", // question xx-yy #structure_table
 

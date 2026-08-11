@@ -45,6 +45,8 @@ export async function evaluateWriting(
     // calculate overall score (task1 20mins & task2 40mins)
     let overall: number | undefined
     if (task1Score != null && task2Score != null) {
+        task1Score = boostScore(task1Score)
+        task2Score = boostScore(task2Score)
         overall = Math.round(((task1Score * 1 + task2Score * 2) / 3) * 2) / 2 // round to nearest 0.5
     }
 
@@ -86,4 +88,17 @@ const submitTask = async (questionId: number, response: string) => {
     } catch (err) {
         console.error(`Failed to evaluate task ${questionId}:`, err)
     }
+}
+
+// MISC CODE
+
+// note: same logic used in src/lib/mock-tests/speaking/evaluate-speaking/evaluate-speaking-blob.ts also
+// IMPORTANT : boost score by 15% and round it to nearest .5
+// we do calculate for nearest .5 again later on in speaking
+const boostScore = (score: number | null) => {
+    if (score == null) return 0
+
+    const boosted = score * 1.15
+    const clamped = Math.min(boosted, 9)
+    return Math.round(clamped * 2) / 2
 }

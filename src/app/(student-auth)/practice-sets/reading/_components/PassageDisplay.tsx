@@ -2,6 +2,8 @@
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { ReadingPassagegetHighlightedWords, ReadingPassagetoggleHighlightedWord } from "../_utils/highlight-passage-text"
+import { useState } from "react"
 
 interface PassageDisplayProps {
     title: string
@@ -98,7 +100,7 @@ export default function PassageDisplay({
                                     {getParagraphLabel(i)}
                                 </span>
                                 {/* Paragraph text */}
-                                <p className="flex-1">{para}</p>
+                                <p className="flex-1"><HighlightedPara text={para} title={title} /></p>
                             </div>
                         ))}
                     </div>
@@ -106,4 +108,31 @@ export default function PassageDisplay({
             </ScrollArea>
         </Card >
     )
+}
+
+function HighlightedPara({ text, title }: { text: string, title: string }) {
+    const [, rerender] = useState(0);
+    const highlighted = ReadingPassagegetHighlightedWords();
+    let pos = 0;
+
+    return (
+        <p>
+            {text.split(/(\b[\w'-]+\b)/g).map((word) => {
+                const key = `${title.slice(0, 6)}-${pos}-${pos += word.length}`;
+
+                return (
+                    <span
+                        key={key}
+                        onDoubleClick={() => {
+                            ReadingPassagetoggleHighlightedWord(key, word);
+                            rerender(n => n + 1);
+                        }}
+                        className={highlighted[key] ? "bg-yellow-200 text-foreground rounded px-1" : ""}
+                    >
+                        {word}
+                    </span>
+                );
+            })}
+        </p>
+    );
 }
