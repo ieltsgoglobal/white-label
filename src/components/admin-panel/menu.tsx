@@ -165,7 +165,7 @@ function DiscordMenuItem({ isOpen }: MenuProps) {
         <Tooltip delayDuration={100}>
           <TooltipTrigger asChild>
             <a
-              href="https://discord.gg/8FgYQUYTF"
+              href="https://discord.gg/xVurBndPE"
               target="_blank"
               rel="noopener noreferrer"
               className={cn("group flex h-12 w-full items-center rounded-xl border border-indigo-500/20 bg-gradient-to-r from-indigo-500/10 via-indigo-500/5 to-transparent transition-all duration-200 hover:border-indigo-500/40 hover:bg-indigo-500/15 hover:shadow-md hover:shadow-indigo-500/10", isOpen ? "px-3" : "px-2")}
