@@ -7,11 +7,11 @@ export default async function DemoLayout({ children }: { children: React.ReactNo
 
     // ieltsgoglobal - user login
     // org.ieltsgoglobal - student login
-    if (subdomain === true) {
-        await requireRole("student")
-    } else (
-        await userActiveAccess()
-    )
+    // if (subdomain === true) {
+    //     await requireRole("student")
+    // } else (
+    //     await userActiveAccess()
+    // )
 
     return <>{children}</>
 }

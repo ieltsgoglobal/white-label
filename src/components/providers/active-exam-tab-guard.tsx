@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { usePathname } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 
-const LOCK_KEY = "ielts-active-exam-tab"
-const TAB_ID_KEY = "ielts-active-exam-tab-id"
+const LOCK_KEY = "ielts-active-exam-tab-v2"
+const TAB_ID_KEY = "ielts-active-exam-tab-id-v2"
 const EXPIRE_AFTER_MS = 3 * 60 * 60 * 1000
 
 type ExamLock = {
@@ -124,7 +124,7 @@ function BlockedExamTab() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-muted-foreground">
-          Another practice set or mock test is already open in this browser. Continue there, or close that tab and refresh this page.
+            Another practice set or mock test is already open in this browser. Continue there, or close that tab and refresh this page.
           </p>
           <Button variant="outline" onClick={() => window.location.reload()}>
             Refresh

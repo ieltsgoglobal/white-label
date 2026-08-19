@@ -18,7 +18,7 @@ export default function ReviewPage() {
     // match the pathname-id with attempts we have to get the details of test we want to review
     const mockAttemptContext = useMockAttempts(true) // use Context API to get test attempts done by user
     const attempts = mockAttemptContext?.attempts || []
-
+    console.log(attempts)
     // navigate through sections
     const [section, setSection] = useState<"listening" | "reading" | "writing" | "speaking">("listening")
 

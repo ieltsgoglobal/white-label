@@ -29,7 +29,7 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
                 }
             }
 
-            const data = await getAllMockTestAttempts(studentId)
+            const data = await getAllMockTestAttempts("ed60c9c2-a243-40b1-886c-7f3c2c094d57")
             if (data) {
                 setAttempts(data)
             }
