@@ -72,6 +72,12 @@ function claimLock(tabId: string, path: string) {
   return allowed
 }
 
+// when users confirms no more tabs are open
+function clearExamLockAndReload() {
+  localStorage.removeItem(LOCK_KEY)
+  window.location.reload()
+}
+
 export default function ActiveExamTabGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isGuardedRoute = useMemo(() => isGuardedPath(pathname), [pathname])
@@ -126,9 +132,14 @@ function BlockedExamTab() {
           <p className="text-sm text-muted-foreground">
             Another practice set or mock test is already open in this browser. Continue there, or close that tab and refresh this page.
           </p>
-          <Button variant="outline" onClick={() => window.location.reload()}>
-            Refresh
-          </Button>
+          <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
+            <Button variant="outline" onClick={() => window.location.reload()}>
+              Refresh
+            </Button>
+            <Button onClick={clearExamLockAndReload}>
+              I closed all test tabs
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </main>
