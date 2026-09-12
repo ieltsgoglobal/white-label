@@ -1,8 +1,11 @@
 "use client"
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ReadingPassagegetHighlightedWords, ReadingPassagetoggleHighlightedWord } from "../_utils/highlight-passage-text"
+import { Info } from "lucide-react"
 import { useState } from "react"
 
 interface PassageDisplayProps {
@@ -65,7 +68,8 @@ export default function PassageDisplay({
     const qRange = getQuestionRange(answer_key_range)
 
     return (
-        <Card className="max-h-[100vh] rounded-3xl shadow-md border bg-background/90 backdrop-blur-sm flex flex-col">
+        <Card className="relative max-h-[100vh] rounded-3xl shadow-md border bg-background/90 backdrop-blur-sm flex flex-col">
+            <Instructions />
             {/* === Scroll Entire Card === */}
             <ScrollArea className="h-full w-full px-6 pb-6 rounded-3xl overflow-hidden">
                 {/* === Header Section === */}
@@ -135,4 +139,39 @@ function HighlightedPara({ text, title }: { text: string, title: string }) {
             })}
         </p>
     );
+}
+
+function Instructions() {
+    const highlightInstructions = getTextHighlightInstructions()
+
+    /** Returns the copy displayed in the text-highlighting help popover. */
+    function getTextHighlightInstructions(): string[] {
+        return [
+            "Double-click a word to highlight it.",
+            "Double-click a highlighted word again to remove the highlight.",
+        ]
+    }
+    return (
+        <>
+            <Popover>
+                <PopoverTrigger asChild>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-3 top-3 z-10 h-8 w-8 rounded-full"
+                        aria-label="Text highlighting instructions"
+                    >
+                        <Info className="h-4 w-4" />
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent align="end" className="w-72 text-sm">
+                    <p className="mb-2 font-semibold text-foreground">Highlight text</p>
+                    <ul className="space-y-1 text-muted-foreground">
+                        {highlightInstructions.map((instruction) => (
+                            <li key={instruction}>{instruction}</li>
+                        ))}
+                    </ul>
+                </PopoverContent>
+            </Popover></>
+    )
 }
