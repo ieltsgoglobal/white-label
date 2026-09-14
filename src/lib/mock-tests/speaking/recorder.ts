@@ -50,4 +50,4 @@ export const stopRecordingWithMeta = async (questionId: number): Promise<{ blob:
 
         mediaRecorder.stop()
     })
-}   
+}
