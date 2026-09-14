@@ -41,6 +41,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: true })
     } catch (error) {
         console.error("Google login failed:", error)
+
+        const message = error instanceof Error ? error.message : ""
+        const isGatewayTimeout = message.toLowerCase().includes("gateway timeout")
+        if (isGatewayTimeout) { return NextResponse.json({ error: "Google login timed out. Please try again." }, { status: 503 }) }
+
         return NextResponse.json({ error: "Google login failed." }, { status: 401 })
     }
 }

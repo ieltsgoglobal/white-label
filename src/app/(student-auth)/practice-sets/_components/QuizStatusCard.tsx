@@ -45,11 +45,6 @@ export function QuizStatusCard({
 
   const [reportErrorOpen, setReportErrorOpen] = useState(false);
 
-  // we guess its a writing_section based on the MAX_INDEX === 2
-  // we make user only submit if he is on writing_section 2
-  const isWritingSection = MAX_INDEX === 1
-  const isWritingPartOne = isWritingSection && currentIndex !== MAX_INDEX
-
   useEffect(() => {
     if (hasPressedCheckResults && overallWritingScore !== undefined) {
       setUserScoreAfterSubmission(overallWritingScore ?? 0);
@@ -172,9 +167,10 @@ export function QuizStatusCard({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {isWritingPartOne && <WritingInstructions />}
+          {currentIndex !== MAX_INDEX && <SubmissionInstructions />}
           <Button
-            disabled={hasPressedCheckResults || isWritingPartOne}
+            // disabled so user can only submit on last section of test
+            disabled={hasPressedCheckResults || currentIndex !== MAX_INDEX}
             onClick={async () => {
               if (hasPressedCheckResults) return
 
@@ -196,7 +192,7 @@ export function QuizStatusCard({
             variant="outline"
             aria-label="Check results"
           >
-            Submit & Check Results
+            End & Check Results
           </Button>
 
           <Button
@@ -216,8 +212,7 @@ export function QuizStatusCard({
 
 export default QuizStatusCard
 
-
-function WritingInstructions() {
+function SubmissionInstructions() {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -226,13 +221,13 @@ function WritingInstructions() {
           variant="ghost"
           size="icon"
           className="h-9 w-9 text-muted-foreground"
-          aria-label="Writing submission information"
+          aria-label="Submission information"
         >
           <Info className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-72 text-sm" align="end">
-        Submit is available in Part 2 because writing is evaluated once for both tasks together.
+        You can submit only after reaching the final section. Use Next Section to continue.
       </PopoverContent>
     </Popover>
   )

@@ -122,7 +122,7 @@ export default function WritingUI({ writingQuestions, sampleAnswers, writingQues
 
             <QuizStatusCard
                 NextSet={() => {
-                    if (currentIndex < TOTAL_WRITING_TASKS) {
+                    if (currentIndex < TOTAL_WRITING_TASKS - 1) {
                         setCurrentIndex((prev) => prev + 1);
                     }
                 }}

@@ -193,10 +193,14 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
                 maxLength={maxLength ? maxLength : 30}
                 className={clsx(
                     className,
+                    "dark:bg-transparent dark:focus:bg-transparent",
                     isReviewMode && (isCorrect
                         ? "border-green-500 text-green-700 bg-green-50"
                         : "border-red-500 text-red-700 bg-red-50")
                 )}
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck={false}
             />
             {isReviewMode && isCorrect !== true && (
                 <div
