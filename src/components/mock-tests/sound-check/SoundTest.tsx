@@ -47,8 +47,8 @@ export default function SoundTest({ onNext }: { onNext: () => void }) {
                     />
 
                     <div className="w-full flex flex-col space-y-4">
-                        <Button onClick={playSound} className="rounded-2xl" variant="secondary">
-                            {soundPlayed ? "Play Sound Again" : "Play Sound"}
+                        <Button onClick={playSound} className="rounded-2xl" variant="secondary" disabled={soundPlayed && !nextEnabled}>
+                            {soundPlayed && !nextEnabled ? "🔊 Sound is playing..." : soundPlayed ? "Play Sound Again" : "Play Sound"}
                         </Button>
                         {nextEnabled && <SoundConfirmation onConfirm={onNext} onRetry={playSound} />}
 

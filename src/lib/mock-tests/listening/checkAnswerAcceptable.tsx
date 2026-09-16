@@ -16,6 +16,7 @@ function normalizeAnswer(value: string): string {
         .trim()
         .toLowerCase()
         .replace(/\s+/g, " ") // normalize whitespace
+        .replace(/[.,]+$/g, "") // ignore trailing . and ,
 }
 
 function expandAcceptableAnswers(correctAnswer: string): Set<string> {

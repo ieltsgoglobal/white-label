@@ -46,11 +46,12 @@ export default function ImageLabeling(props: MapSection) {
                     {/* Map Section */}
                     <div className="space-y-4">
                         {/* Map Image */}
-                        <div className="border-2 border-border p-4 bg-background">
+                        <div className="max-h-[500px] overflow-y-auto border-2 border-border p-4 bg-background">
                             <img
                                 src={mapQuestions.image_url}
-                                alt="Inverness Aquarium Floor Plan"
-                                className="w-full h-auto max-w-full max-h-[500px]"
+                                alt="Loading image..."
+                                className="w-full h-auto max-w-full"
+                                onError={retryImageOnErrorCustomLogic}
                             />
                         </div>
                     </div>
@@ -73,3 +74,38 @@ export default function ImageLabeling(props: MapSection) {
         </Card>
     )
 }
+
+// logic to directly use in a <img/> tag
+// makes the <img/> component more robust
+// single dropbox fails | single s3 fails | client network request fails
+export function retryImageOnErrorCustomLogic(e: React.SyntheticEvent<HTMLImageElement>) {
+    const img = e.currentTarget
+    const retry = Number(img.dataset.retry || 0)
+
+    // after 5 retry ask the user to check connection and reload image
+    if (retry >= 5) {
+        img.alt = "Image could not be loaded. Check your internet connection and click here to try again."
+        img.style.cursor = "pointer"
+        img.onclick = () => {
+            img.dataset.retry = "0"
+            img.style.cursor = ""
+            img.onclick = null
+            const url = new URL(img.src)
+            url.searchParams.set("retry", Date.now().toString())
+            img.src = url.toString()
+        }
+        return
+    }
+
+    // retry 5 times and display UI
+    img.alt = `Loading image... Retrying (${retry + 1}/5)`
+    img.dataset.retry = String(retry + 1)
+
+    setTimeout(() => {
+        const url = new URL(img.src);
+        url.searchParams.set("retry", String(retry + 1));
+        img.src = url.toString();
+    }, 1000)
+}
+
+
