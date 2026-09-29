@@ -104,7 +104,7 @@ export default function ListeningMain({ test_id, onNext }: { test_id: string, on
     return (
         <div>
             {/* 30 MIN TIMER */}
-            {!isReviewMode && <NavigationBar onSubmit={handleSubmitListening} initialMinutes={30} />}
+            {!isReviewMode && <NavigationBar onSubmit={handleSubmitListening} initialMinutes={30} actionLabel="NEXT: READING" />}
 
             {isReviewMode && <ReviewSectionNavigation onSelect={setCurrentSectionIndex} />}
 

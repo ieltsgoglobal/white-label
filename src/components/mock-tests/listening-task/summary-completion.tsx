@@ -15,6 +15,7 @@ interface SummaryQuestion {
         }[]
     }
     multiWord?: boolean
+    twoWords?: boolean
 }
 
 export default function SummaryCompletion(props: SummaryQuestion) {
@@ -81,9 +82,13 @@ export default function SummaryCompletion(props: SummaryQuestion) {
                     Questions {summaryQuestion.question.id[0]} - {summaryQuestion.question.id.at(-1)}
                 </CardTitle>
                 <p className="text-sm font-medium text-muted-foreground">
-                    {summaryQuestion.question.optionList ?
-                        `Complete the summary using the list of words or phrases below. Choose the correct letter from the list on your answer sheet.` :
-                        `Complete the summary below. Write NO MORE THAN ${summaryQuestion.multiWord ? `THREE WORDS` : `ONE WORD`} ${" "} from the text in each box.`
+                    {summaryQuestion.question.optionList
+                        ? "Complete the summary using the list of words or phrases below. Choose the correct letter from the list on your answer sheet."
+                        : summaryQuestion.twoWords
+                            ? "Complete the summary below. Write NO MORE THAN TWO WORDS in each box."
+                            : summaryQuestion.multiWord
+                                ? "Complete the summary below. Write NO MORE THAN THREE WORDS in each box."
+                                : "Complete the summary below. Write NO MORE THAN ONE WORD in each box."
                     }
                 </p>
 

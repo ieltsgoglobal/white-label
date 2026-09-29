@@ -36,7 +36,7 @@ export default function SpeakingMain({ test_id, onNext }: { test_id: string, onN
 
     return (
         <>
-            <NavigationBar onSubmit={onNext} hideTimer />
+            <NavigationBar onSubmit={onNext} hideTimer actionLabel="END TEST" />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-screen w-full pt-16">
                 {speakingData.length > 1 && (

@@ -93,7 +93,7 @@ export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven
                 // check if answers is correct or not
                 const correctAnswer = correct[question.id.toString()]
                 if (isReviewMode && correctAnswer && value) {
-                    setIsCorrect(correctAnswer.trim().toLowerCase() === value.trim().toLowerCase())
+                    setIsCorrect(checkAnswerAcceptable(value, correctAnswer))
                 } else {
                     setIsCorrect(null)
                 }
@@ -103,7 +103,7 @@ export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven
         }
 
         loadAnswers()
-    }, [testId, section])
+    }, [testId, section, question.id, isReviewMode, value])
 
 
     // ------------------------------------------------------------------
@@ -192,7 +192,7 @@ export default function AnswerRadio({ question, optionLetters, trueFalseNotGiven
                 // review variables
                 const isSelected = value === letter
                 const correctLetter = correctAnswers?.[question.id.toString()]
-                const isCorrectChoice = letter === correctLetter
+                const isCorrectChoice = Boolean(correctLetter) && checkAnswerAcceptable(letter, correctLetter)
 
                 const showGreenTick = isReviewMode && isSelected && isCorrect
                 const showRedCross = isReviewMode && isSelected && isCorrect === false

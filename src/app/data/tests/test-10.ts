@@ -36,7 +36,7 @@ export const listening_section_1 = {
         },
         {
             questionType: "short-answer",
-            instructions: "Complete the sentences below. Write ON MORE THAN TWO WORDS for each answer.",
+            instructions: "Complete the sentences below. Write NO MORE THAN TWO WORDS for each answer.",
             questions: [
                 {
                     id: 4,

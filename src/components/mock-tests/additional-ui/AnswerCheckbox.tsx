@@ -11,6 +11,7 @@ import { AnswerMap } from "@/types/mockTestAttempt"
 import { CheckCircle, XCircle } from "lucide-react"
 import { getPracticeSetAnswer, getPracticeSetCorrectAnswers, updatePracticeSetAnswer } from "@/lib/practice-sets/user-submissions/sessionStorage"
 import { customAsyncRetryWrapper } from "@/lib/utils/custom-async-retry-wrapper"
+import { checkAnswerAcceptable } from "@/lib/mock-tests/listening/checkAnswerAcceptable"
 
 
 interface AnswerCheckboxProps {
@@ -204,7 +205,7 @@ export default function AnswerCheckbox({ questionKey, options, optionLetters, ma
 
                 // review variables
                 const correctLetters = questionKey.map((k) => correctAnswers?.[k.toString()]?.trim()).filter(Boolean).sort()
-                const isCorrectChoice = correctLetters.includes(letter)
+                const isCorrectChoice = correctLetters.some((correctLetter) => checkAnswerAcceptable(letter, correctLetter))
                 const isSelected = selected.includes(letter)
 
                 const showCorrectHighlight =

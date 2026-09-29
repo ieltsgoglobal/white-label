@@ -7,11 +7,19 @@ interface NavigationBarProps {
     onSubmit: () => void
     initialMinutes?: number // defaults to 30
     hideTimer?: boolean
+    actionLabel?: string
 }
 
-export default function NavigationBar({ onSubmit, initialMinutes = 30, hideTimer }: NavigationBarProps) {
+export default function NavigationBar({ onSubmit, initialMinutes = 30, hideTimer, actionLabel = "SUBMIT" }: NavigationBarProps) {
     const [timeLeft, setTimeLeft] = useState(initialMinutes * 60)
     const hasSubmittedRef = useRef(false)
+
+    // Timer starts once at the beginning.
+    // Student answers can change while writing.
+    // Keep the latest submit function here.
+    // So time finish checks latest answers.
+    const onSubmitRef = useRef(onSubmit)
+    onSubmitRef.current = onSubmit
 
     useEffect(() => {
         if (initialMinutes <= 0) return
@@ -42,16 +50,16 @@ export default function NavigationBar({ onSubmit, initialMinutes = 30, hideTimer
     }
 
     // prevents from double submit
-    const safeSubmit = () => {
+    const safeSubmit = async () => {
         if (hasSubmittedRef.current) return
         hasSubmittedRef.current = true
-        onSubmit()
+        await onSubmitRef.current()
     }
 
     return (
         <div className="fixed top-0 left-0 right-0 z-1 bg-gray-800 dark:bg-black dark:border-b text-white">
             <div className="flex items-center justify-between h-16 px-6 py-3">
-                <button className="flex items-center gap-2 text-white hover:text-gray-300">
+                <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
                     <ArrowLeft className="w-4 h-4" />
                     <span>EXIT</span>
                 </button>
@@ -63,8 +71,8 @@ export default function NavigationBar({ onSubmit, initialMinutes = 30, hideTimer
                     </div>
                 }
 
-                <button onClick={safeSubmit} className="flex items-center gap-2 text-white hover:text-gray-300">
-                    <span>SUBMIT</span>
+                <button onClick={safeSubmit} className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
+                    <span>{actionLabel}</span>
                     <Check className="w-4 h-4" />
                 </button>
             </div>

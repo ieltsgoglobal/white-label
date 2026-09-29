@@ -206,6 +206,7 @@ export const listening_section_3 = {
         {
             questionType: "table-completion",
             blanksCount: 5,
+            twoWords: true,
             tableData: {
                 headers: ["Possible strategy", "Benefits", "Problems"],
                 rows: [
@@ -405,7 +406,7 @@ An important factor in trying to salvage the Mary Rose was that the remaining hu
         {
             questionType: "image-labeling",
             image_url: "https://www.dropbox.com/scl/fi/e3ketalwapy1fsxsq3wy7/test2-q9-13.png?rlkey=tqmykf43evetqlengfzmaws6y&st=w86y8ez9&raw=1",
-            instructions: "Choose NO MORE THAN TWO WORDS from the passage for each answer. Label the diagram below and attempt Raising the Mary Rose reading answers.",
+            instructions: "Label the diagram below. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
             questions: [
                 {
                     id: 9,

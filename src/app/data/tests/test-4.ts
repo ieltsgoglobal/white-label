@@ -180,6 +180,7 @@ export const listening_section_4 = {
         {
             //question 31-36 is same set of questions
             questionType: "summary-completion",
+            twoWords: true,
             question: {
                 id: [31, 32, 33],
                 title: "The Argus System",

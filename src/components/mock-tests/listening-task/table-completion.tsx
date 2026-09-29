@@ -7,8 +7,8 @@ import AnswerInput from "../additional-ui/AnswerInput"
 interface TableQuestion {
     id: number
     type: "table-completion"
-    instructions: string
     multiWord: boolean
+    twoWords?: boolean
     tableData: {
         headers: string[]
         rows: Array<{
@@ -110,7 +110,14 @@ export default function TableCompletion(props: TableQuestion) {
                         return minId === maxId ? `Question ${minId}` : `Questions ${minId}–${maxId}`
                     })()}
                 </CardTitle>
-                <p className="text-sm text-muted-foreground font-medium">Complete the table below. Write {tableQuestion.multiWord ? "NO MORE THAN THREE WORDS." : "ONE WORD OR A NUMBER."}</p>
+                <p className="text-sm text-muted-foreground font-medium">
+                    {tableQuestion.twoWords
+                        ? "Complete the table below. Write NO MORE THAN TWO WORDS in each box."
+                        : tableQuestion.multiWord
+                            ? "Complete the table below. Write NO MORE THAN THREE WORDS in each box."
+                            : "Complete the table below. Write ONE WORD OR A NUMBER in each box."
+                    }
+                </p>
             </CardHeader>
 
             <CardContent className="mx-8 mb-8">

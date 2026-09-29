@@ -44,7 +44,7 @@ export default function Matching(props: MatchingFeaturesQuestion) {
                     Questions {statementsWithId[0].id} - {statementsWithId[statementsWithId.length - 1].id}
                 </CardTitle>
                 <p className="text-sm font-medium text-muted-foreground">
-                    Choose {statements.length} answers from the box and write correct letters <span className="font-bold">A – {features[features.length - 1].letter}</span> next to questions <span className="font-bold">{statementsWithId[0].id} - {statementsWithId[statementsWithId.length - 1].id}</span>.
+                    Choose {statementsWithId.length} answers from the box and write correct letters <span className="font-bold">A – {features[features.length - 1].letter}</span> next to questions <span className="font-bold">{statementsWithId[0].id} - {statementsWithId[statementsWithId.length - 1].id}</span>.
                 </p>
                 {question_statement && <div className="mt-4 text-base text-foreground">{question_statement}</div>}
             </CardHeader>

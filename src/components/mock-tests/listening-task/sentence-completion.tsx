@@ -45,7 +45,7 @@ export default function SentenceCompletion(props: SentenceCompletionSection) {
                     Questions {section.questions[0].id} - {section.questions[section.questions.length - 1].id}
                 </CardTitle>
                 <p className="text-muted-foreground text-sm font-medium leading-relaxed">
-                    Complete the sentences. Write <span className="font-bold">NO MORE THAN {section.oneWord ? `ONE WORD` : `THREE WORDS`}</span> from the text in each box.
+                    Complete the sentences. Write <span className="font-bold">NO MORE THAN {section.oneWord ? `ONE WORD` : `THREE WORDS`}</span> in each box.
                 </p>
             </CardHeader>
 

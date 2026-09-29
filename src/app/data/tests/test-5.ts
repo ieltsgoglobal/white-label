@@ -556,6 +556,7 @@ The bottom line is that the future is almost definitely going to be electric. Th
     questions: [
         {
             questionType: "table-completion",
+            twoWords: true,
             tableData: {
                 headers: ["Engine type", "Advantages", "Disadvantages", "Comments"],
                 rows: [

@@ -564,6 +564,7 @@ Jefferson is remembered as a statesman, philosopher, educationalist, and archite
         },
         {
             questionType: "table-completion",
+            twoWords: true,
             tableData: {
                 headers: ["Time or period", "Important event(s)"],
                 rows: [

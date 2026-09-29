@@ -100,7 +100,7 @@ export default function AnswerInput({ className, questionNumber, maxLength, plac
         }
 
         loadAnswers()
-    }, [testId, section])
+    }, [testId, section, questionNumber, isReviewMode, value])
 
 
     // ------------------------------------------------------------------
