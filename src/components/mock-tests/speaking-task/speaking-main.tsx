@@ -3,6 +3,7 @@ import SpeakingPagination from "./speakingPagination";
 import Image from "next/image";
 import SpeakingAudioPlayer from "./speaking-audio-player";
 import SpeakingResponseTimer from "../additional-ui/speaking-response-timer";
+import NavigationBar from "../additional-ui/navigation-bar";
 
 interface SpeakingQuestion {
     id: number
@@ -35,11 +36,13 @@ export default function SpeakingMain({ test_id, onNext }: { test_id: string, onN
 
     return (
         <>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-screen w-full">
+            <NavigationBar onSubmit={onNext} hideTimer />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-screen w-full pt-16">
                 {speakingData.length > 1 && (
                     <SpeakingAudioPlayer speakingData={speakingData} onNext={() => onNext()} />
                 )}
-                <div className="justify-center bg-white rounded-3xl border border-gray-100 min-w-full p-8">
+                <div className="justify-center bg-card rounded-3xl border border-border min-w-full p-8">
                     <Image
                         src="/mock-tests/speaking-task/ielts-test-taker.png"
                         alt="IELTS Test Taker"
@@ -49,7 +52,7 @@ export default function SpeakingMain({ test_id, onNext }: { test_id: string, onN
                     />
                     <div className="w-full text-center mt-8">Speak after the Beep Sound!</div>
                 </div>
-                <div className="justify-center bg-white rounded-3xl border border-gray-100 min-w-full p-8">
+                <div className="justify-center bg-card rounded-3xl border border-border min-w-full p-8">
                     <Image
                         src="/mock-tests/speaking-task/user-microphone.jpg"
                         alt="User Microphone"

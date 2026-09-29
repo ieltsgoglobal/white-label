@@ -53,6 +53,12 @@ function expandAcceptableAnswers(correctAnswer: string): Set<string> {
             continue
         }
 
+        // ✅ Case 3: "grain" — also accept simple plural "grains"
+        // note: added because users were complaining
+        if (/^[a-z]+$/.test(normalized)) {
+            set.add(normalized + "s") // "grain" -> "grains"
+        }
+
         // allow % to be optional: "60%" → "60"
         const percentMatch = normalized.match(/^(\d+)%$/)
         if (percentMatch) {

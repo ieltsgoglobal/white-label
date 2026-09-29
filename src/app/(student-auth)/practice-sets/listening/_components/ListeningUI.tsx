@@ -3,6 +3,7 @@
 import AudioPlayer from "./AudioPlayer";
 import QuizStatusCard from "../../_components/QuizStatusCard";
 import QuestionRenderer from "./QuestionRenderer";
+import SoundTest from "@/components/mock-tests/sound-check/SoundTest";
 import { useEffect, useState } from "react";
 import { saveCurrentMockSection, setReviewMode } from "@/lib/mock-tests/indexedDb";
 import { normalizePracticeSetsAnswers, transformAnswerAttemptsToJson } from "../_utils/misc";
@@ -29,6 +30,8 @@ export default function ListeningUI({
     testPath: string
     answers: string[]
 }) {
+    const [hasCompletedSoundCheck, setHasCompletedSoundCheck] = useState(false);
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const currentAudioUrl = audioUrls[currentIndex];
     const currentQuestion = questions[currentIndex];
@@ -111,6 +114,10 @@ export default function ListeningUI({
         } catch (err) {
             console.error("❌ Error submitting:", err);
         }
+    }
+
+    if (!hasCompletedSoundCheck) {
+        return <div className="p-4 "><SoundTest onNext={() => setHasCompletedSoundCheck(true)} /></div>
     }
 
     return (

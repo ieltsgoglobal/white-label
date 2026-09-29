@@ -91,6 +91,8 @@ export const BROKEN_READING_PRACTICE_SET_TEST_PATHS = [
 
     "book_17/test_4", // question 7-13 #structure_table
 
+    "book_18/test_1", // question 27-31 #passage_mismatch
+
     // "book_18/test_2" // question 01-08 #everything_almost_fine
     // "book_18/test_3" // question 24-26 #everything_almost_fine
 
