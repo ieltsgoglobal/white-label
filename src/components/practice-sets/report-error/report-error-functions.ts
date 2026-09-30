@@ -20,6 +20,7 @@ export async function submitReportError(input: {
     source: string;
     message: string;
     screenshotUrl: string | null;
+    reportedPhone?: string;
     metadata?: Record<string, unknown>;
 }) {
     return createReportError(input);

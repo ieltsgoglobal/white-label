@@ -13,7 +13,9 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { PhoneInput } from "@/components/auth/user/phone-number/phone-input";
 
 type ReportErrorModalProps = {
     open?: boolean;
@@ -24,8 +26,8 @@ type ReportErrorModalProps = {
 
 export function ReportErrorModal({ open, onOpenChange, testPath, source = "practice-sets" }: ReportErrorModalProps) {
     const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null);
-    const [hasTriedCapture, setHasTriedCapture] = useState(false);
     const [message, setMessage] = useState("");
+    const [reportedPhone, setReportedPhone] = useState("");
     const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -33,7 +35,6 @@ export function ReportErrorModal({ open, onOpenChange, testPath, source = "pract
     useEffect(() => {
         if (!open) {
             setScreenshotUrl(null);
-            setHasTriedCapture(false);
             return;
         }
 
@@ -48,9 +49,8 @@ export function ReportErrorModal({ open, onOpenChange, testPath, source = "pract
             windowHeight: page.scrollHeight,
             windowWidth: page.scrollWidth
         })
-            .then((canvas) => setScreenshotUrl(canvas.toDataURL("image/png")))
-            .catch(() => setScreenshotUrl(null))
-            .finally(() => setHasTriedCapture(true));
+            .then((canvas) => setScreenshotUrl(canvas.toDataURL("image/jpeg", 0.75)))
+            .catch(() => setScreenshotUrl(null));
     }, [open]);
 
     // upload image to freeimage.host
@@ -69,6 +69,7 @@ export function ReportErrorModal({ open, onOpenChange, testPath, source = "pract
             source,
             message,
             screenshotUrl: uploadedImageUrl,
+            reportedPhone,
             metadata: {
                 testPath,
                 pageUrl: window.location.href
@@ -79,6 +80,7 @@ export function ReportErrorModal({ open, onOpenChange, testPath, source = "pract
 
         if ("success" in result) {
             setMessage("");
+            setReportedPhone("");
             onOpenChange?.(false);
         } else {
             console.error(result.error);
@@ -87,7 +89,7 @@ export function ReportErrorModal({ open, onOpenChange, testPath, source = "pract
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            {(!open || hasTriedCapture) && (
+            {open && (
                 <DialogContent className="max-w-xl gap-5 overflow-hidden p-0">
                     <div className="relative aspect-[16/9] w-full bg-muted">
 
@@ -112,6 +114,17 @@ export function ReportErrorModal({ open, onOpenChange, testPath, source = "pract
                             onChange={(e) => setMessage(e.target.value)}
                             rows={4}
                         />
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="report-error-phone">Phone number (optional)</Label>
+                            <PhoneInput
+                                id="report-error-phone"
+                                defaultCountry="IN"
+                                placeholder="Enter phone number"
+                                value={reportedPhone}
+                                onChange={setReportedPhone}
+                            />
+                        </div>
 
                         <DialogFooter>
                             <DialogClose asChild>
