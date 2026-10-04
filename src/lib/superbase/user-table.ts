@@ -200,7 +200,9 @@ export async function getAllUsers(offset: number = 0, hasPhoneNumber = false, is
         .order("created_at", { ascending: false })
 
     if (hasPhoneNumber) query = query.not("phone", "is", null).neq("phone", "");
-    if (isMember) query = query.eq("is_member", true);
+
+    // A recorded payment identifies both current and previous members.
+    if (isMember) query = query.not("last_payment_amount", "is", null);
 
     const { data, error } = await query.range(offset, offset + limit_window - 1);
 
