@@ -48,12 +48,12 @@ export function UserStatsDialog({
           Stats
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[calc(100svh-2rem)] overflow-y-auto rounded-2xl border-2 bg-white p-4 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)] sm:max-w-xl sm:rounded-3xl sm:p-6">
+      <DialogContent className="max-h-[calc(100svh-2rem)] overflow-y-auto rounded-2xl border-2 bg-card p-4 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)] sm:max-w-xl sm:rounded-3xl sm:p-6">
         <DialogHeader>
           <DialogTitle className="text-xl font-extrabold sm:text-2xl">Your Stats</DialogTitle>
         </DialogHeader>
 
-        <div className="rounded-2xl border-2 bg-[#fff7e6] p-4 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl sm:p-5 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
+        <div className="rounded-2xl border-2 bg-[#fff7e6] p-4 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] dark:bg-[#3a2a16] sm:rounded-3xl sm:p-5 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
           <div className="flex items-center justify-between gap-4">
             <div className="min-w-0">
               <p className="text-xs font-bold uppercase tracking-wider text-[#ff8a00]">
@@ -67,7 +67,7 @@ export function UserStatsDialog({
               <Trophy className="h-7 w-7 sm:h-8 sm:w-8" />
             </div>
           </div>
-          <Progress value={xpProgress} className="mt-5 h-3 bg-[#ffe2b8] [&>div]:bg-[#ff9700]" />
+          <Progress value={xpProgress} className="mt-5 h-3 bg-[#ffe2b8] dark:bg-[#4a3211] [&>div]:bg-[#ff9700]" />
         </div>
 
         <div className="grid grid-cols-2 gap-2 sm:gap-3">
@@ -97,7 +97,7 @@ function StatTile({
   value: string
 }) {
   return (
-    <div className="min-w-0 rounded-2xl border-2 bg-white p-3 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:p-4">
+    <div className="min-w-0 rounded-2xl border-2 bg-card p-3 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:p-4">
       <Icon className="h-5 w-5 text-[#ff8a00]" />
       <div className="mt-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
         {label}
@@ -117,7 +117,7 @@ function InfoRow({
   value: string
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl border bg-white px-3 py-3 sm:px-4">
+    <div className="flex items-center justify-between gap-3 rounded-2xl border bg-card px-3 py-3 sm:px-4">
       <span className="flex min-w-0 items-center gap-2 text-muted-foreground">
         <Icon className="h-4 w-4 text-[#ff8a00]" />
         <span className="break-words">{label}</span>

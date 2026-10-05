@@ -136,9 +136,9 @@ function LobbyCard({
   }
 
   return (
-    <Card className="overflow-hidden rounded-2xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
+    <Card className="overflow-hidden rounded-2xl border-2 bg-card shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
       <CardContent className="p-3 sm:p-6 md:p-10">
-        <div className="relative flex min-h-[calc(100svh-220px)] flex-col items-center justify-center overflow-hidden rounded-2xl border-2 bg-white px-4 py-10 text-center shadow-[0_6px_0_0_rgba(0,0,0,0.12)] sm:min-h-[420px] sm:rounded-3xl sm:px-6 sm:py-14 sm:shadow-[0_8px_0_0_rgba(0,0,0,0.12)]">
+        <div className="relative flex min-h-[calc(100svh-220px)] flex-col items-center justify-center overflow-hidden rounded-2xl border-2 bg-card px-4 py-10 text-center shadow-[0_6px_0_0_rgba(0,0,0,0.12)] sm:min-h-[420px] sm:rounded-3xl sm:px-6 sm:py-14 sm:shadow-[0_8px_0_0_rgba(0,0,0,0.12)]">
           <div className="absolute right-10 top-10 hidden text-muted md:block">
             <Swords className="h-28 w-28 opacity-10" />
           </div>
@@ -216,9 +216,9 @@ function WaitingCard({ status }: { status: BattleStatus }) {
   const isConnecting = status === "connecting"
 
   return (
-    <Card className="overflow-hidden rounded-2xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
+    <Card className="overflow-hidden rounded-2xl border-2 bg-card shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
       <CardContent className="p-3 sm:p-6 md:p-10">
-        <div className="flex min-h-[calc(100svh-220px)] flex-col items-center justify-center rounded-2xl border-2 bg-white px-4 py-10 text-center shadow-[0_6px_0_0_rgba(0,0,0,0.12)] sm:min-h-[520px] sm:rounded-3xl sm:px-6 sm:py-14 sm:shadow-[0_8px_0_0_rgba(0,0,0,0.12)]">
+        <div className="flex min-h-[calc(100svh-220px)] flex-col items-center justify-center rounded-2xl border-2 bg-card px-4 py-10 text-center shadow-[0_6px_0_0_rgba(0,0,0,0.12)] sm:min-h-[520px] sm:rounded-3xl sm:px-6 sm:py-14 sm:shadow-[0_8px_0_0_rgba(0,0,0,0.12)]">
           <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-[6px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_8px_0_#d87700] sm:h-24 sm:w-24 sm:border-[7px] sm:shadow-[0_10px_0_#d87700]">
             <Loader2 className="h-10 w-10 animate-spin sm:h-12 sm:w-12" />
           </div>
@@ -244,7 +244,7 @@ function BattleQuestionCard({
   onAnswer: (answer: string) => void
 }) {
   return (
-    <Card className="overflow-hidden rounded-2xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
+    <Card className="overflow-hidden rounded-2xl border-2 bg-card shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
       <CardHeader className="space-y-4 p-4 sm:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -254,12 +254,12 @@ function BattleQuestionCard({
         </div>
         <Progress
           value={(questionNumber / TOTAL_QUESTIONS) * 100}
-          className="h-3 bg-[#ffe2b8] [&>div]:bg-[#ff9700]"
+          className="h-3 bg-[#ffe2b8] dark:bg-[#4a3211] [&>div]:bg-[#ff9700]"
         />
       </CardHeader>
 
       <CardContent className="space-y-5 p-4 pt-0 sm:space-y-6 sm:p-6 sm:pt-0">
-        <div className="rounded-2xl border-2 bg-white p-4 text-center shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl sm:p-8 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
+        <div className="rounded-2xl border-2 bg-card p-4 text-center shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl sm:p-8 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
           <p className="text-xs font-semibold uppercase tracking-wider text-[#ff8a00]">Target word</p>
           <div className="mt-4 flex min-w-0 flex-col items-center justify-center gap-3 sm:flex-row">
             <VocabQuizSpeakWordButton word={question.word} />
@@ -291,7 +291,7 @@ function BattleQuestionCard({
                   "cursor-pointer rounded-2xl border-2 p-4 transition-all duration-150 shadow-[0_5px_0_0_rgba(0,0,0,0.15)] hover:-translate-y-0.5 active:translate-y-1 active:shadow-[0_2px_0_0_rgba(0,0,0,0.15)] sm:rounded-3xl sm:p-5 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.15)]",
                   selectedAnswer && "cursor-default hover:translate-y-0 active:translate-y-0",
                   isSelected
-                    ? "border-blue-500 bg-blue-50 shadow-[0_6px_0_0_rgb(59_130_246)]"
+                    ? "border-blue-500 bg-blue-50 shadow-[0_6px_0_0_rgb(59_130_246)] dark:border-blue-400 dark:bg-blue-950/50"
                     : "border-border"
                 )}
               >
@@ -319,7 +319,7 @@ function ResultCard({
   onConnect: () => void
 }) {
   return (
-    <Card className="overflow-hidden rounded-2xl border-2 bg-white shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
+    <Card className="overflow-hidden rounded-2xl border-2 bg-card shadow-[3px_6px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl">
       <CardContent className="flex min-h-[calc(100svh-220px)] flex-col items-center justify-center p-4 py-10 text-center sm:min-h-[520px] sm:p-8">
         <div className="flex h-20 w-20 items-center justify-center rounded-full border-[6px] border-[#ffad15] bg-[#ff9700] text-white shadow-[0_8px_0_#d87700] sm:h-24 sm:w-24 sm:border-[7px] sm:shadow-[0_10px_0_#d87700]">
           <Trophy className="h-10 w-10 sm:h-11 sm:w-11" />
@@ -331,7 +331,7 @@ function ResultCard({
           {getSaveStatusText(finalScore)}
         </p>
 
-        <div className="mt-8 w-full max-w-sm rounded-2xl border-2 bg-white p-5 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl sm:p-6 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
+        <div className="mt-8 w-full max-w-sm rounded-2xl border-2 bg-card p-5 shadow-[0_5px_0_0_rgba(0,0,0,0.12)] sm:rounded-3xl sm:p-6 sm:shadow-[0_6px_0_0_rgba(0,0,0,0.12)]">
           <p className="text-xs font-bold uppercase tracking-wider text-[#ff8a00]">Final score</p>
           <div className="mt-4 flex items-center justify-center gap-8">
             <div>
