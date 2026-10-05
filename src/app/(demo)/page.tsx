@@ -5,8 +5,14 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbS
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE_TOUR_HOME_TARGET_BUTTON } from "@/components/site-tutorial/scene/home-page/HomeBeginPracticeScene";
+import { getUserSession } from "@/lib/auth/session/check-auth";
+import { isSubdomain } from "@/lib/utils/verify-subdomain";
 
-export default function UsersPage() {
+export default async function UsersPage() {
+
+  const subdomain: boolean | null = isSubdomain()
+  const practiceHref = await getUserSession() ? "/practice-sets" : subdomain ? "/login/student" : "/login/user"
+
   return (
     <ContentLayout title="IELTS GO GLOBAL">
       <Breadcrumb>
@@ -35,7 +41,7 @@ export default function UsersPage() {
               Streamline your scores and focus on what matters most.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/practice-sets">
+              <Link href={practiceHref}>
                 <Button
                   id={SITE_TOUR_HOME_TARGET_BUTTON}
                   size="lg"

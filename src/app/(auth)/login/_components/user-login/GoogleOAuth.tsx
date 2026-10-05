@@ -39,7 +39,7 @@ export function GoogleOAuth() {
 
             if (!response.ok) { throw new Error(result.error || "Google login failed") }
 
-            window.location.href = document.referrer?.startsWith(window.location.origin) ? document.referrer : "/practice"
+            window.location.href = document.referrer?.startsWith(window.location.origin) ? document.referrer : "/practice-sets"
         } catch (error) {
             setIsRedirecting(false)
             setError(error instanceof Error ? error.message : "Google login failed")

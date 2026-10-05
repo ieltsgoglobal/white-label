@@ -15,6 +15,9 @@
 import HomeIntroScene from '../../scene/home-page/HomeIntroScene'
 import HomeBeginPracticeScene from '../../scene/home-page/HomeBeginPracticeScene'
 import PracticeSummaryScene from '../../scene/practice-tests/PracticeSummaryScene'
+import ReadingPracticeScene from '../../scene/practice-tests/ReadingPracticeScene'
+import ListeningPracticeScene from '../../scene/practice-tests/ListeningPracticeScene'
+import WritingPracticeScene from '../../scene/practice-tests/WritingPracticeScene'
 
 import type { ComponentType } from 'react'
 
@@ -44,6 +47,21 @@ const SCENES = [
         id: 'practice.summary',
         route: '/practice-sets',
         component: PracticeSummaryScene,
+    },
+    {
+        id: 'practice.reading',
+        route: '/practice-sets/reading',
+        component: ReadingPracticeScene,
+    },
+    {
+        id: 'practice.listening',
+        route: '/practice-sets/listening',
+        component: ListeningPracticeScene,
+    },
+    {
+        id: 'practice.writing',
+        route: '/practice-sets/writing',
+        component: WritingPracticeScene,
     },
 ] as const
 
