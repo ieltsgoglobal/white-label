@@ -30,7 +30,7 @@ export function Menu({ isOpen }: MenuProps) {
         <ul className="flex flex-col min-h-[calc(100vh-48px-36px-16px-32px)] lg:min-h-[calc(100vh-32px-40px-32px)] items-start space-y-1 px-2">
           <div className="w-full h-full space-y-2">
             <DiscordMenuItem isOpen={isOpen} />
-            <RedditMenuItem isOpen={isOpen} />
+            {/* <RedditMenuItem isOpen={isOpen} /> */}
             <WhatsAppMenuItem isOpen={isOpen} />
           </div>
           {menuList.map(({ groupLabel, menus }, index) => (

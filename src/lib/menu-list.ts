@@ -1,7 +1,6 @@
 import {
   Tag,
   Users,
-  Settings,
   Bookmark,
   SquarePen,
   LayoutGrid,
@@ -9,9 +8,8 @@ import {
   DollarSign,
   PenLine,
   Handshake,
-  Brain,
   CalendarDays,
-  Swords
+  Keyboard
 } from "lucide-react";
 
 type Submenu = {
@@ -65,20 +63,34 @@ export function getMenuList(pathname: string): Group[] {
           icon: PenLine
         },
         {
-          href: "/vocab-ladder",
-          label: "Vocabulary Practice",
-          icon: Brain
-        },
-        {
-          href: "/vocab-battle",
-          label: "Vocab Battle",
-          icon: Swords
-        },
-        {
           href: "/coaching-batches",
           label: "Coaching Batches",
           icon: CalendarDays
         },
+      ]
+    },
+    {
+      groupLabel: "Tools",
+      menus: [
+        {
+          href: "",
+          label: "IELTS Tools",
+          icon: Keyboard,
+          submenus: [
+            {
+              href: "/ielts-typing-practice",
+              label: "IELTS Typing Tool"
+            },
+            {
+              href: "/vocab-battle",
+              label: "Vocab Battle"
+            },
+            {
+              href: "/vocab-ladder",
+              label: "Vocabulary Practice"
+            }
+          ]
+        }
       ]
     },
     {
