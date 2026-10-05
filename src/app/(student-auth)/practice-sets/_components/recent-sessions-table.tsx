@@ -8,7 +8,7 @@ type Session = Record<string, any>
 export function RecentSessionsTable({ sessions = [] }: { sessions?: Session[] }) {
 
   return (
-    <Card className="bg-card text-card-foreground">
+    <Card className="rounded-3xl bg-card text-card-foreground">
       <CardHeader className="pb-3">
         <CardTitle className="text-pretty">Recent Practice Sessions</CardTitle>
       </CardHeader>

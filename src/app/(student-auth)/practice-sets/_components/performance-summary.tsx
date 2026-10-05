@@ -14,7 +14,7 @@ export function PerformanceSummary({ stats, section }: { stats: StatItem[], sect
   )
 
   return (
-    <Card className="bg-card text-card-foreground">
+    <Card className="rounded-3xl bg-card text-card-foreground">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center justify-between">
           <span className="text-pretty">{section.charAt(0).toUpperCase() + section.slice(1).toLowerCase() + " "} Performance Summary</span>
@@ -31,7 +31,7 @@ export function PerformanceSummary({ stats, section }: { stats: StatItem[], sect
 
 function KPI({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-lg border bg-background p-3">
+    <div className="rounded-xl border bg-background p-3">
       <div className="text-muted-foreground text-xs">{label}</div>
       <div className="mt-1 font-medium">{value}</div>
     </div>
@@ -50,7 +50,7 @@ function StatsGrid({ stats }: { stats: StatItem[] }) {
 
 function EmptyPerformanceState() {
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-10 text-center">
+    <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed py-10 text-center">
       <p className="text-sm font-medium text-muted-foreground">
         No performance data available yet
       </p>
