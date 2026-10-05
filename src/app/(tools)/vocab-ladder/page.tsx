@@ -28,7 +28,7 @@ export default function VocabLadderPage() {
 
 function LadderSection({ nodes }: { nodes: LadderNode[] }) {
     return (
-        <section className="flex-1 mx-auto max-w-md overflow-hidden rounded-[2rem] bg-white shadow-sm">
+        <section className="flex-1 mx-auto max-w-md overflow-hidden rounded-[2rem] bg-card shadow-sm">
             <div className="relative mx-auto h-[1100px] w-full max-w-sm">
                 <CurvedLine />
                 {nodes.map((node) => <LevelNode key={node.id} node={node} />)}

@@ -44,7 +44,7 @@ export function LevelNode({ node }: { node: LadderNode }) {
             className={`
                 relative grid size-24 place-items-center rounded-full border-[7px] transition-transform hover:-translate-y-1 active:translate-y-1 
                 ${locked
-                    ? "border-[#e2e2e2] bg-[#d4d4d4] text-[#aaa] shadow-[0_10px_0_#aaa]"
+                    ? "border-[#e2e2e2] bg-[#d4d4d4] text-[#aaa] shadow-[0_10px_0_#aaa] dark:border-muted dark:bg-muted dark:text-muted-foreground dark:shadow-[0_10px_0_hsl(var(--muted))]"
                     : "border-[#ffad15] bg-[#ff9700] text-white shadow-[0_10px_0_#d87700]"
                 }`}
         >
@@ -55,7 +55,7 @@ export function LevelNode({ node }: { node: LadderNode }) {
     const start = (
         <div >
             <div className="absolute -top-[3.5rem] left-1/2 -translate-x-1/2">
-                <div className="animate-bounce rounded-xl border-2 border-[#dedede] bg-white px-5 py-3 text-xl font-extrabold tracking-wide text-[#ff8a00] shadow-sm after:absolute after:-bottom-2 after:left-1/2 after:size-4 after:-translate-x-1/2 after:rotate-45 after:border-b-2 after:border-r-2 after:border-[#dedede] after:bg-white">
+                <div className="animate-bounce rounded-xl border-2 border-border bg-card px-5 py-3 text-xl font-extrabold tracking-wide text-[#ff8a00] shadow-sm after:absolute after:-bottom-2 after:left-1/2 after:size-4 after:-translate-x-1/2 after:rotate-45 after:border-b-2 after:border-r-2 after:border-border after:bg-card">
                     START
                 </div>
             </div>
@@ -85,7 +85,7 @@ export function CurvedLine() {
                 <path
                     d="M50 5 C50 12 30 13 30 20 S60 28 60 35 S38 43 38 50 S66 58 66 65 S36 73 36 80 S62 88 62 95"
                     fill="none"
-                    stroke="#eeeeee"
+                    className="stroke-muted"
                     strokeWidth="2"
                     strokeDasharray="1 2"
                     vectorEffect="non-scaling-stroke"
@@ -99,7 +99,7 @@ export function CurvedLine() {
                 <path
                     d="M50 5 C50 12 30 13 30 20 S60 28 60 35 S38 43 38 50 S66 58 66 65 S36 73 36 80 S62 88 62 95"
                     fill="none"
-                    stroke="#eeeeee"
+                    className="stroke-muted"
                     strokeWidth="2"
                     strokeDasharray="1 2"
                     vectorEffect="non-scaling-stroke"
@@ -115,8 +115,8 @@ export function CurvedLine() {
 
 export function PremiumCard() {
     return (
-        <div className="rounded-3xl border bg-white p-6 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)]">
-            <div className="mb-4 inline-block rounded-full bg-purple-100 px-3 py-1 text-sm font-bold text-purple-700">
+        <div className="rounded-3xl border bg-card p-6 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)]">
+            <div className="mb-4 inline-block rounded-full bg-purple-100 px-3 py-1 text-sm font-bold text-purple-700 dark:bg-purple-950 dark:text-purple-200">
                 SUPER
             </div>
 
@@ -124,7 +124,7 @@ export function PremiumCard() {
                 Try Premium
             </h3>
 
-            <p className="mt-2 text-sm text-zinc-500">
+            <p className="mt-2 text-sm text-muted-foreground">
                 Unlimited vocabulary practice, no ads and detailed analytics.
             </p>
 
@@ -148,7 +148,7 @@ export function PremiumCard() {
 
 export function MockTestsCard() {
     return (
-        <div className="rounded-3xl border bg-white p-6 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)]">
+        <div className="rounded-3xl border bg-card p-6 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)]">
             <div className="mb-3 text-4xl">
                 📝
             </div>
@@ -157,7 +157,7 @@ export function MockTestsCard() {
                 10+ IELTS Mock Tests
             </h3>
 
-            <p className="mt-2 text-sm text-zinc-500">
+            <p className="mt-2 text-sm text-muted-foreground">
                 Practice full-length IELTS exams with AI evaluation and detailed feedback.
             </p>
 
@@ -174,7 +174,7 @@ export function MockTestsCard() {
 
 export function PracticeQuestionsCard() {
     return (
-        <div className="rounded-3xl border bg-white p-6 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)]">
+        <div className="rounded-3xl border bg-card p-6 shadow-[3px_6px_0_0_rgba(0,0,0,0.15)]">
             <div className="mb-3 text-4xl">
                 📚
             </div>
@@ -183,7 +183,7 @@ export function PracticeQuestionsCard() {
                 3000+ Practice Questions
             </h3>
 
-            <p className="mt-2 text-sm text-zinc-500">
+            <p className="mt-2 text-sm text-muted-foreground">
                 Reading, Listening, Writing and Speaking questions with instant feedback.
             </p>
 

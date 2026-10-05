@@ -19,14 +19,15 @@ export function VocabQuizDisplayQuestion() {
 
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
 
-    function onSubmit() {
-        if (!question || !selectedAnswer) return
+    function submitAnswer(answer: string) {
+        if (!question) return
 
-        const result = submitVocabQuizQuestionAnswer(question.id, selectedAnswer)
+        const result = submitVocabQuizQuestionAnswer(question.id, answer)
         if (!result) return
 
         playResultSound(result)
 
+        setSelectedAnswer(answer)
         setResult(result)
     }
 
@@ -73,7 +74,7 @@ export function VocabQuizDisplayQuestion() {
                                     onClick={() => {
                                         if (result) return
                                         VocabMainSoundMaker.optionSelected()
-                                        setSelectedAnswer(option)
+                                        submitAnswer(option)
                                     }}
                                     className={`
                                         cursor-pointer p-5 rounded-3xl border-2
@@ -98,8 +99,8 @@ export function VocabQuizDisplayQuestion() {
             <div className="sticky bottom-0 border-t bg-background">
                 <div className="max-w-2xl mx-auto p-4">
                     <Button
-                        onClick={result ? onContinue : onSubmit}
-                        disabled={!selectedAnswer && !result}
+                        onClick={onContinue}
+                        disabled={!result}
                         className={`
                             w-full h-14 text-lg rounded-2xl
                             shadow-[0_6px_0_0_rgba(0,0,0,0.2)]
@@ -110,7 +111,7 @@ export function VocabQuizDisplayQuestion() {
                             ${result ? "scale-[1.02]" : ""}
                         `}
                     >
-                        {result ? "Continue →" : "Check Answer"}
+                        {result ? "Continue →" : "Choose an answer"}
                     </Button>
                 </div>
             </div>
@@ -135,16 +136,16 @@ function getOptionClassName({
 }) {
     if (!result) {
         return selectedAnswer === option
-            ? "border-blue-500 bg-blue-50 shadow-[0_6px_0_0_rgb(59_130_246)]"
+            ? "border-blue-500 bg-blue-50 shadow-[0_6px_0_0_rgb(59_130_246)] dark:border-blue-400 dark:bg-blue-950/50"
             : "border-border shadow-[0_6px_0_0_rgba(0,0,0,0.15)]"
     }
 
     if (option === result.correctAnswer) {
-        return "border-green-500 bg-green-50 shadow-[0_6px_0_0_rgb(34_197_94)]"
+        return "border-green-500 bg-green-50 shadow-[0_6px_0_0_rgb(34_197_94)] dark:border-green-400 dark:bg-green-950/50"
     }
 
     if (selectedAnswer === option && option !== result.correctAnswer) {
-        return "border-red-500 bg-red-50 shadow-[0_6px_0_0_rgb(239_68_68)]"
+        return "border-red-500 bg-red-50 shadow-[0_6px_0_0_rgb(239_68_68)] dark:border-red-400 dark:bg-red-950/50"
     }
 
     return "border-border shadow-[0_6px_0_0_rgba(0,0,0,0.15)]"
