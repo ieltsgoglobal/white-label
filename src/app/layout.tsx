@@ -5,6 +5,7 @@ import Script from "next/script";
 import "./globals.css";
 
 import ActiveExamTabGuard from "@/components/providers/active-exam-tab-guard";
+import { CrispChat } from "@/components/providers/crisp-chat";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import OnboardingTourController from "@/components/site-tutorial/OnboardingTourController";
 import { SessionActivity } from "@/components/session-activity/_components/session-activity";
@@ -52,6 +53,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={GeistSans.className}>
         <GoogleTag />
+        <CrispChat />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 
           <ActiveExamTabGuard>{children}</ActiveExamTabGuard>
