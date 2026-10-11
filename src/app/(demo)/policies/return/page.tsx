@@ -11,6 +11,9 @@ import {
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("Return Policy", "Review the IELTS Go Global return policy for digital services.", "/policies/return");
 
 export default function TagsPage() {
     return (

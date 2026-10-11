@@ -11,6 +11,9 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("Terms and Conditions", "Read the terms and conditions for using IELTS Go Global.", "/terms-conditions");
 
 export default function AccountPage() {
   return (

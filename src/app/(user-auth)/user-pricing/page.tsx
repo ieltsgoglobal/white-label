@@ -2,9 +2,10 @@ import Link from "@/components/demo/link";
 import PlaceholderContent from "@/components/demo/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { ArrowRight, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import UserPricingManagment from "./_components/user-pricing-managment";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("IELTS Practice Plans & Pricing", "Choose an IELTS Go Global plan to unlock full access to IELTS practice tests and evaluations.", "/user-pricing");
 
 export default function UsersPage() {
     return (

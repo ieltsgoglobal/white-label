@@ -15,6 +15,9 @@ import { ArrowRight } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("Register a Complaint", "Contact IELTS Go Global support to register a complaint.", "/register-complaint");
 
 export default function RegisterComplaintPage() {
     return (

@@ -3,6 +3,9 @@ import PlaceholderContent from "@/components/demo/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { CoachingClassesCalander } from "./_components/coaching-classes-calander";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("IELTS Coaching Batches", "Join live IELTS coaching batches led by experienced trainers and attend a free demo class before enrolling.", "/coaching-batches");
 
 export default function UsersPage() {
 

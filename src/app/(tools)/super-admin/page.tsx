@@ -6,6 +6,9 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { getSuperAdminDashboardData, getSuperAdminDashboardDataByStudentPhone } from "./_lib/super-admin-server-functions";
 import { SuperAdminDashboardClient } from "./_components/super-admin-dashboard.client";
 import { unstable_noStore as noStore } from "next/cache";
+import { noIndexMetadata } from "@/lib/utils/seo";
+
+export const metadata = noIndexMetadata;
 
 export default async function UsersPage({ searchParams }: { searchParams?: { offset?: string; hasPhoneNumber?: boolean; isMember?: boolean; student_phone?: string; } }) {
 

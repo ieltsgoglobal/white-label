@@ -10,12 +10,10 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Check } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { TypingPractice } from "./_components/typing-practice";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("IELTS Typing Practice", "Improve typing speed and accuracy for the IELTS computer-delivered test with focused practice.", "/ielts-typing-practice");
 
 export default function UsersPage() {
     return (

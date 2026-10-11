@@ -13,6 +13,9 @@ import {
 
 import { unstable_noStore as noStore } from "next/cache";
 import { SuperDashboardOverview } from "./_components/super-dashboard-overview";
+import { noIndexMetadata } from "@/lib/utils/seo";
+
+export const metadata = noIndexMetadata;
 
 export default async function UsersPage({ searchParams }: { searchParams?: { month?: string } }) {
     noStore();

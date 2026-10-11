@@ -15,6 +15,9 @@ import { ArrowRight, Check } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("Become an IELTS Channel Partner", "Partner with IELTS Go Global to offer students realistic IELTS practice, evaluation, and progress tracking.", "/become-partner");
 
 export default function UsersPage() {
     return (

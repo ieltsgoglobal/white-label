@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { SITE_TOUR_HOME_TARGET_BUTTON } from "@/components/site-tutorial/scene/home-page/HomeBeginPracticeScene";
 import { getUserSession } from "@/lib/auth/session/check-auth";
 import { isSubdomain } from "@/lib/utils/verify-subdomain";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("IELTS Practice Tests & Expert Evaluation", "Prepare for IELTS with realistic mock tests, expert evaluation, and progress tracking for every module.", "/");
 
 export default async function UsersPage() {
 

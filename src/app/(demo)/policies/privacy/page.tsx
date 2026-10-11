@@ -11,6 +11,9 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("Privacy Policy", "Learn how IELTS Go Global collects, uses, and protects personal information.", "/policies/privacy");
 
 export default function NewPostPage() {
   return (

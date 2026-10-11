@@ -10,33 +10,30 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import OnboardingTourController from "@/components/site-tutorial/OnboardingTourController";
 import { SessionActivity } from "@/components/session-activity/_components/session-activity";
 import { Toaster } from "@/components/ui/sonner";
+import { siteUrl } from "@/lib/utils/seo";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.APP_URL
-      ? `${process.env.APP_URL}`
-      : process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : `http://localhost:${process.env.PORT || 3000}`
-  ),
-  title: "IELTS Go Global | Practice & Evaluate for IELTS Success",
+  metadataBase: siteUrl,
+  title: {
+    default: "IELTS Go Global | Practice & Evaluate for IELTS Success",
+    template: "%s | IELTS Go Global"
+  },
   description:
     "IELTS Go Global is your trusted platform for realistic IELTS practice tests, expert evaluations, and detailed performance analytics—helping students and educators succeed worldwide.",
-  alternates: {
-    canonical: "/"
-  },
   openGraph: {
-    url: "/",
     title: "IELTS Go Global | Practice & Evaluate for IELTS Success",
     description:
       "Take full-length IELTS mock tests, receive professional feedback, and track your progress. Trusted by students and teachers around the world.",
-    type: "website"
+    type: "website",
+    siteName: "IELTS Go Global",
+    images: [{ url: "/twitter-image.png" }]
   },
   twitter: {
     card: "summary_large_image",
     title: "IELTS Go Global | Your Trusted IELTS Practice Platform",
     description:
       "Get real IELTS practice tests, AI + expert feedback, and grow your IELTS band score.",
+    images: ["/twitter-image.png"]
   }
 };
 
@@ -52,6 +49,15 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={GeistSans.className}>
+        <Script id="website-schema" type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "IELTS Go Global",
+            url: siteUrl.toString(),
+            description: "IELTS practice tests, evaluations, and performance analytics."
+          })}
+        </Script>
         <GoogleTag />
         <CrispChat />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>

@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check } from "lucide-react";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("IELTS Mock Test Practice", "Explore IELTS mock tests for Academic and General Training preparation across all IELTS modules.", "/practice");
 
 export default function CategoriesPage() {
   return (

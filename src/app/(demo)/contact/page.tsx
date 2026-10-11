@@ -15,6 +15,13 @@ import { ArrowRight, Check } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata(
+  "Contact IELTS Go Global",
+  "Contact IELTS Go Global for help with IELTS practice, coaching, platform access, or partnerships.",
+  "/contact"
+);
 
 export default function UsersPage() {
   return (

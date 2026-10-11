@@ -4,6 +4,13 @@ import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata(
+    "AI Study Abroad Counselor",
+    "Get guidance for your study abroad journey with the IELTS Go Global AI counselor.",
+    "/study-abroad-counselor"
+);
 
 export default function UsersPage() {
     return (

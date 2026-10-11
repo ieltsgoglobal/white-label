@@ -4,6 +4,13 @@ import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata(
+    "AI IELTS Speaking Partner",
+    "Practice IELTS Speaking with an AI examiner and improve fluency, pronunciation, vocabulary, and confidence.",
+    "/ielts-speaking-partner"
+);
 
 export default function UsersPage() {
     return (

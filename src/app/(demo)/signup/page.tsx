@@ -11,6 +11,9 @@ import {
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("Account Access", "Account access information for IELTS Go Global students and consultants.", "/signup", { noIndex: true });
 
 export default function AccountPage() {
     return (

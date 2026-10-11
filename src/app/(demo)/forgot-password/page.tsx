@@ -10,6 +10,9 @@ import {
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { pageMetadata } from "@/lib/utils/seo";
+
+export const metadata = pageMetadata("Forgot Password", "Account recovery information for IELTS Go Global users.", "/forgot-password", { noIndex: true });
 
 export default function ForgotPasswordPage() {
     return (
