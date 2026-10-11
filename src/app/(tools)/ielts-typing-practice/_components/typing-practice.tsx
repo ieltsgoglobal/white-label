@@ -15,7 +15,6 @@ export function TypingPractice() {
         currentCharacterWrong={typingTest.currentCharacterWrong}
         currentIndex={typingTest.currentIndex}
         inputRef={typingTest.inputRef}
-        isTransitioning={typingTest.isTransitioning}
         onFocus={typingTest.focusInput}
         onKeyDown={typingTest.handleKeyDown}
         passage={typingTest.passage}

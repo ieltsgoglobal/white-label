@@ -2,9 +2,8 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "re
 import { getRandomTypingPassage, typingPassages } from "./typing-passages";
 
 const TEST_DURATION = 60;
-const PASSAGE_TRANSITION_DELAY = 2000;
 
-type TestStatus = "idle" | "running" | "transitioning" | "finished";
+type TestStatus = "idle" | "running" | "finished";
 
 const createTest = (passage: string) => ({
   passage,
@@ -22,8 +21,7 @@ export function useTypingTest() {
   const typingAudioRef = useRef<HTMLAudioElement>();
   const wrongTypingAudioRef = useRef<HTMLAudioElement>();
   const { passage, index: currentIndex, remainingSeconds, correctCharacters, attemptedCharacters, currentCharacterWrong, status } = test;
-  const isTransitioning = status === "transitioning";
-  const isLocked = isTransitioning || status === "finished";
+  const isLocked = status === "finished";
   const elapsedSeconds = TEST_DURATION - remainingSeconds;
   const wpm = elapsedSeconds ? Math.round((correctCharacters / 5) * (60 / elapsedSeconds)) : 0;
   const cpm = elapsedSeconds ? Math.round(correctCharacters * (60 / elapsedSeconds)) : 0;
@@ -58,7 +56,7 @@ export function useTypingTest() {
       correctCharacters: current.correctCharacters + Number(isCorrect),
       currentCharacterWrong: !isCorrect,
       index: current.index + Number(isCorrect),
-      status: isLastCharacter ? "transitioning" : current.status === "idle" ? "running" : current.status,
+      status: isLastCharacter ? "finished" : current.status === "idle" ? "running" : current.status,
     }));
   }, [currentIndex, isLocked, passage, remainingSeconds]);
 
@@ -69,22 +67,7 @@ export function useTypingTest() {
   }, []);
 
   useEffect(() => {
-    if (status !== "transitioning") return;
-
-    const timeout = window.setTimeout(() => {
-      setTest((current) => ({
-        ...current,
-        passage: getRandomTypingPassage(current.passage),
-        index: 0,
-        status: "running",
-      }));
-    }, PASSAGE_TRANSITION_DELAY);
-
-    return () => window.clearTimeout(timeout);
-  }, [status]);
-
-  useEffect(() => {
-    if (status !== "running" && status !== "transitioning") return;
+    if (status !== "running") return;
 
     const interval = window.setInterval(() => {
       setTest((current) => ({
@@ -109,7 +92,6 @@ export function useTypingTest() {
     focusInput,
     handleKeyDown,
     inputRef,
-    isTransitioning,
     openResults: status === "finished",
     passage,
     remainingSeconds,

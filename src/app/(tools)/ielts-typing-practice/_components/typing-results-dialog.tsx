@@ -47,7 +47,7 @@ export function TypingResultsDialog({
           <Trophy className="mx-auto h-10 w-10 text-primary" />
           <DialogTitle className="mt-3 text-3xl">{feedback.title}</DialogTitle>
           <DialogDescription className="mt-2 text-base">
-            Your 60-second typing test is complete.
+            Your typing test is complete.
           </DialogDescription>
         </div>
 
