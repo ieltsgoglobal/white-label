@@ -22,6 +22,8 @@ export function SuperDashboardFilters({ month }: { month: string }) {
     const [year, m] = month.split("-")
 
     const update = (newYear = year, newMonth = m) => {
+        if (`${newYear}-${newMonth}` < "2026-10") return
+
         const params = new URLSearchParams(searchParams)
         params.set("month", `${newYear}-${newMonth}`)
         router.push(`${pathname}?${params}`)
@@ -34,14 +36,19 @@ export function SuperDashboardFilters({ month }: { month: string }) {
                     <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                    {months.map((name, i) => (
-                        <SelectItem
-                            key={name}
-                            value={String(i + 1).padStart(2, "0")}
-                        >
-                            {name}
-                        </SelectItem>
-                    ))}
+                    {months.map((name, i) => {
+                        const value = String(i + 1).padStart(2, "0")
+
+                        return (
+                            <SelectItem
+                                key={name}
+                                value={value}
+                                disabled={`${year}-${value}` < "2026-10"}
+                            >
+                                {name}
+                            </SelectItem>
+                        )
+                    })}
                 </SelectContent>
             </Select>
 

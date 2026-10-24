@@ -91,16 +91,18 @@ async function getTotalPracticeTests(monthRange: MonthRange) {
 
 export async function getSuperDashboardData(month: string) {
     const monthRange = getMonthRange(month);
-    const [totalUsers, totalMembers, totalPracticeTests] = await Promise.all([
+    const [totalUsers, totalMembers, totalPracticeTests, subscriptions] = await Promise.all([
         getTotalUsers(monthRange),
         getTotalMembers(monthRange),
         getTotalPracticeTests(monthRange),
+        getAllSubscriptions(monthRange)
     ]);
 
     return {
         totalUsers,
         totalMembers,
-        totalPracticeTests
+        totalPracticeTests,
+        subscriptions
     };
 }
 
@@ -113,4 +115,19 @@ export async function getSuperDashboardData(month: string) {
 function getMonthRange(month: string): MonthRange {
     const [year, monthNumber] = month.split("-").map(Number);
     return { startDate: new Date(Date.UTC(year, monthNumber - 1, 1)).toISOString(), endDate: new Date(Date.UTC(year, monthNumber, 1)).toISOString(), };
+}
+
+async function getAllSubscriptions(monthRange: MonthRange) {
+    const startDate = monthRange.startDate.startsWith("2026-10") ? "2026-10-06T00:00:00.000Z" : monthRange.startDate
+
+    const { data, error } = await supabase
+        .from("user")
+        .select("id, membership_status, b2c_transaction_history_details")
+        .not("b2c_transaction_history_details", "eq", "[]")
+        .gte("last_payment_at", startDate)
+        .lt("last_payment_at", monthRange.endDate)
+
+    if (error) throw error
+
+    return data ?? []
 }

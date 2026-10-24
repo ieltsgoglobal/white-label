@@ -14,6 +14,9 @@ import {
 import { unstable_noStore as noStore } from "next/cache";
 import { SuperDashboardOverview } from "./_components/super-dashboard-overview";
 import { noIndexMetadata } from "@/lib/utils/seo";
+import { SuperDashboardDailySalesChart } from "./_components/super-dashboard-daily-sales-chart";
+import { getSuperDashboardData } from "./_lib/super-dashboard-server-functions";
+import { SuperDashboardDailyUserList } from "./_components/super-dashboard-user-list";
 
 export const metadata = noIndexMetadata;
 
@@ -22,6 +25,8 @@ export default async function UsersPage({ searchParams }: { searchParams?: { mon
 
     // note: no month means current month
     const month = searchParams?.month ?? new Date().toISOString().slice(0, 7)
+
+    const { subscriptions } = await getSuperDashboardData(month)
 
     return (
         <ContentLayout title="Super Dashboard">
@@ -41,6 +46,8 @@ export default async function UsersPage({ searchParams }: { searchParams?: { mon
             <PlaceholderContent>
                 <div className="container px-4 md:px-6 py-12 relative">
                     <SuperDashboardOverview month={month} />
+                    <SuperDashboardDailySalesChart subscriptions={subscriptions} month={month} />
+                    <SuperDashboardDailyUserList subscriptions={subscriptions} />
                 </div>
             </PlaceholderContent>
         </ContentLayout >
