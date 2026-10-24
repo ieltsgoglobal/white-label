@@ -9,7 +9,8 @@ import {
   PenLine,
   Handshake,
   CalendarDays,
-  Keyboard
+  Keyboard,
+  Home
 } from "lucide-react";
 
 type Submenu = {
@@ -37,11 +38,10 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "",
       menus: [
         {
-          href: "/",
-          label: "Dashboard",
-          icon: LayoutGrid,
-          submenus: []
-        }
+          href: "/accomodations",
+          label: "Accommodations",
+          icon: Home
+        },
       ]
     },
     {
