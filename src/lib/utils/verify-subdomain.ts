@@ -43,6 +43,7 @@ export function getCurrentSubdomain(): string {
 const allowedSubdomains = [
     "", // keep it
     "iop", // testing
+    "demo340", // demo subdomain
     "ieltsgoglobal", // keep it
     "localhost:3000", // keep it
     "localhost:3001", // keep it
@@ -60,3 +61,20 @@ export function isSubdomain() {
 
     return true // if subdomain holds any rather than ieltsgoglobal and localhost:3000
 }
+
+
+
+// // DEMO USER DETAILS
+// https://demo340.ieltsgoglobal.com/
+
+// // admin
+// email - demo340@gmail.com
+// password - demo340@gmail.com
+
+// // student
+// usernmae: demo340student1
+// password: demo340student1
+
+// // teacher
+// username: demo340teacher1
+// password: demo340teacher1

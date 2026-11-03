@@ -17,6 +17,7 @@ type Submenu = {
   href: string;
   label: string;
   active?: boolean;
+  important?: boolean;
 };
 
 type Menu = {
@@ -25,6 +26,7 @@ type Menu = {
   active?: boolean;
   icon: LucideIcon;
   submenus?: Submenu[];
+  important?: boolean;
 };
 
 type Group = {
@@ -50,17 +52,20 @@ export function getMenuList(pathname: string): Group[] {
         {
           href: "/practice",
           label: "IELTS Mock Tests",
-          icon: Bookmark
+          icon: Bookmark,
+          important: true,
         },
         {
           href: "/mock-scores",
           label: "Mock Tests Review",
-          icon: Tag
+          icon: Tag,
+          important: true,
         },
         {
           href: "/practice-sets",
           label: "Sectional Practice",
-          icon: PenLine
+          icon: PenLine,
+          important: true,
         },
         {
           href: "/coaching-batches",
@@ -79,15 +84,18 @@ export function getMenuList(pathname: string): Group[] {
           submenus: [
             {
               href: "/ielts-typing-practice",
-              label: "IELTS Typing Tool"
+              label: "IELTS Typing Tool",
+              important: true,
             },
             {
               href: "/vocab-battle",
-              label: "Vocab Battle"
+              label: "Vocab Battle",
+              important: true,
             },
             {
               href: "/vocab-ladder",
-              label: "Vocabulary Practice"
+              label: "Vocabulary Practice",
+              important: true,
             }
           ]
         }

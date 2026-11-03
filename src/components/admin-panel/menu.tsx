@@ -15,24 +15,32 @@ import {
   TooltipContent,
   TooltipProvider
 } from "@/components/ui/tooltip";
+import { getClientSubdomain } from "@/lib/utils/isSubdomain.client";
 
 interface MenuProps {
   isOpen: boolean | undefined;
 }
 
 export function Menu({ isOpen }: MenuProps) {
+
   const pathname = usePathname();
-  const menuList = getMenuList(pathname);
+  const subdomain = getClientSubdomain();
+
+  const menuList = getMenuList(pathname)
+    .map(g => ({ ...g, menus: g.menus.filter(m => !subdomain || m.important || m.submenus?.some(s => s.important)).map(m => ({ ...m, submenus: subdomain ? m.submenus?.filter(s => s.important) : m.submenus })) }))
+    .filter(g => g.menus.length);
 
   return (
     <ScrollArea className="[&>div>div[style]]:!block">
       <nav className="mt-8 h-full w-full">
         <ul className="flex flex-col min-h-[calc(100vh-48px-36px-16px-32px)] lg:min-h-[calc(100vh-32px-40px-32px)] items-start space-y-1 px-2">
-          <div className="w-full h-full space-y-2">
-            <DiscordMenuItem isOpen={isOpen} />
-            {/* <RedditMenuItem isOpen={isOpen} /> */}
-            <WhatsAppMenuItem isOpen={isOpen} />
-          </div>
+          {!subdomain && (
+            <div className="w-full h-full space-y-2">
+              <DiscordMenuItem isOpen={isOpen} />
+              <RedditMenuItem isOpen={isOpen} />
+              <WhatsAppMenuItem isOpen={isOpen} />
+            </div>
+          )}
           {menuList.map(({ groupLabel, menus }, index) => (
             <li className={cn("w-full", groupLabel ? "pt-5" : "")} key={index}>
               {(isOpen && groupLabel) || isOpen === undefined ? (
