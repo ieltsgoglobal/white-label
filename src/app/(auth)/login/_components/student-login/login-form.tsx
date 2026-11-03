@@ -28,12 +28,12 @@ export function LoginForm() {
 
             const result = await res.json()
 
-            if (result.success) {
+            if (res.ok && result.success) {
                 window.location.href = document.referrer?.startsWith(window.location.origin) ? document.referrer : "/practice";
                 return;
             }
 
-            setError("Login failed.")
+            setError(result.error || "Login failed.")
         } catch (err) {
             setError("Something went wrong.")
         } finally {

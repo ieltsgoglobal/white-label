@@ -36,5 +36,5 @@ export async function POST(req: Request) {
         maxAge: 60 * 60 * 24,
     })
 
-    return NextResponse.json(true)
+    return NextResponse.json({ success: true })
 }
