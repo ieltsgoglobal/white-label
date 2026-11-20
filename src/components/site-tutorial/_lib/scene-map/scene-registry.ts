@@ -19,6 +19,7 @@ import ReadingPracticeScene from '../../scene/practice-tests/ReadingPracticeScen
 import ListeningPracticeScene from '../../scene/practice-tests/ListeningPracticeScene'
 import WritingPracticeScene from '../../scene/practice-tests/WritingPracticeScene'
 import AccommodationsScene from '../../scene/accommodations/AccommodationsScene'
+import PricingIntroScene from '../../scene/user-pricing/PricingIntroScene'
 
 import type { ComponentType } from 'react'
 
@@ -34,6 +35,11 @@ import type { ComponentType } from 'react'
  * Scenes are executed in the order they appear for a given route.
  */
 const SCENES = [
+    {
+        id: 'pricing.intro',
+        route: '/user-pricing',
+        component: PricingIntroScene,
+    },
     {
         id: 'accommodations.intro',
         route: '/accomodations',
