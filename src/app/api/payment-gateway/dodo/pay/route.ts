@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
                 planId: plan.id,
                 userId,
                 duration: plan.durationDays,
+                priceInr: String(plan.priceInr),
                 TYPE
             }
         })
