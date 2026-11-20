@@ -4,6 +4,7 @@ import Script from "next/script";
 
 import "./globals.css";
 
+import InstaSwitchProvider from "@/components/providers/insta-switch-provider";
 import ActiveExamTabGuard from "@/components/providers/active-exam-tab-guard";
 import { CrispChat } from "@/components/providers/crisp-chat";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -62,6 +63,7 @@ export default async function RootLayout({
         <CrispChat />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
 
+          <InstaSwitchProvider />
           <ActiveExamTabGuard>{children}</ActiveExamTabGuard>
 
           <OnboardingTourController />
