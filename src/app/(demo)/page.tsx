@@ -8,6 +8,7 @@ import { SITE_TOUR_HOME_TARGET_BUTTON } from "@/components/site-tutorial/scene/h
 import { getUserSession } from "@/lib/auth/session/check-auth";
 import { isSubdomain } from "@/lib/utils/verify-subdomain";
 import { pageMetadata } from "@/lib/utils/seo";
+import { Ugc_creatots_CaptureCreatorReferral } from "@/components/ugc-creators/ugc_creatots_capture-creator-referral";
 
 export const metadata = pageMetadata("IELTS Practice Tests & Expert Evaluation", "Prepare for IELTS with realistic mock tests, expert evaluation, and progress tracking for every module.", "/");
 
@@ -15,9 +16,9 @@ export default async function UsersPage() {
 
   const subdomain: boolean | null = isSubdomain()
   const practiceHref = await getUserSession() ? "/practice-sets" : subdomain ? "/login/student" : "/login/user"
-
   return (
     <ContentLayout title="IELTS GO GLOBAL">
+      <Ugc_creatots_CaptureCreatorReferral />
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

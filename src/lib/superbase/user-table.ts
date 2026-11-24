@@ -2,6 +2,7 @@
 
 import { createClient } from "@supabase/supabase-js"
 import { WhatsappTemplateUserJourney } from "@/app/(tools)/whatsapp-dashboard/_lib/send-whatsapp-template"
+import { ugc_creatots_server_actions_getCreatorReferral } from "@/components/ugc-creators/ugc-creatots-server-actions"
 
 const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -64,6 +65,7 @@ export async function createOrGetUser(input: CreateUserInput) {
             {
                 name,
                 phone,
+                ugc_creator_id: await ugc_creatots_server_actions_getCreatorReferral(),
                 is_member,
                 membership_type,
                 membership_started_at,
@@ -124,6 +126,7 @@ export async function createOrGetGoogleUser({ googleSub, email, name }: CreateGo
             email,
             google_sub: googleSub,
             phone: null,
+            ugc_creator_id: await ugc_creatots_server_actions_getCreatorReferral(),
             is_member: false,
         })
         .select("*")
